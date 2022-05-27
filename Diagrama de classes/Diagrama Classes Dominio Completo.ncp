@@ -1,0 +1,250 @@
+<Project>
+  <Name>diagrama classes</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>diagrama de classe</Name>
+    <Language>Java</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>AnoLetivo</Name>
+        <Access>Public</Access>
+        <Location left="1892" top="936" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String sigla</Member>
+        <Member type="Constructor">public AnoLetivo(String sigla)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UnidadeCurricular</Name>
+        <Access>Public</Access>
+        <Location left="2177" top="936" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String sigla</Member>
+        <Member type="Field">private String denominacao</Member>
+        <Member type="Constructor">public UnidadeCurricular(String sigla, String den)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Empresa</Name>
+        <Access>Public</Access>
+        <Location left="1584" top="10" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String denominacao</Member>
+        <Member type="Field">private long nif</Member>
+        <Member type="Constructor">public Empresa(String den, long nif)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>EdicaoUnidadeCurricular</Name>
+        <Access>Public</Access>
+        <Location left="2008" top="576" />
+        <Size width="220" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private long unidadeCurricularID</Member>
+        <Member type="Field">private long anoLetivoId</Member>
+        <Member type="Field">private long id</Member>
+        <Member type="Constructor">public EdicaoUnidadeCurricular(long ucId, long anoLetivoId)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Utilizador</Name>
+        <Access>Public</Access>
+        <Location left="420" top="356" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private long id</Member>
+        <Member type="Field">private String nome</Member>
+        <Member type="Field">private String sobrenome</Member>
+        <Member type="Field">private String email</Member>
+        <Member type="Field">private final TipoUtilizador tipoUtilizador</Member>
+        <Member type="Constructor">public Utilizador(long id, String nome, String sobre, String email)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Projeto</Name>
+        <Access>Public</Access>
+        <Location left="1380" top="542" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private long propostaId</Member>
+        <Member type="Field">private long estudanteId</Member>
+        <Member type="Field">private long orientadorId</Member>
+        <Member type="Constructor">public Projeto(long pid, long eid, long oid)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Proposta</Name>
+        <Access>Public</Access>
+        <Location left="846" top="242" />
+        <Size width="162" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private long utilizadorId</Member>
+        <Member type="Field">private long organizacaoId</Member>
+        <Member type="Field">private String titulo</Member>
+        <Member type="Field">private String problema</Member>
+        <Member type="Field">private String objetivo</Member>
+        <Member type="Field">private long edicaoUcId</Member>
+        <Member type="Field">private PropostaEstado estadoAtual</Member>
+        <Member type="Method">public void aprovarProposta()</Member>
+        <Member type="Method">public void reprovarProposta()</Member>
+        <Member type="Constructor">public Proposta(long uid, long oid, String t, String p, String o, long eid)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Estudante</Name>
+        <Access>Public</Access>
+        <Location left="343" top="1276" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Estudante()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Orientador</Name>
+        <Access>Public</Access>
+        <Location left="1026" top="712" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Orientador()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Docente</Name>
+        <Access>Public</Access>
+        <Location left="621" top="677" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Docente()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>PropostaEstado</Name>
+        <Access>Public</Access>
+        <Location left="1183" top="105" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>aprovado</Value>
+        <Value>reprovado</Value>
+        <Value>candidatura</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>TipoUtilizador</Name>
+        <Access>Public</Access>
+        <Location left="85" top="196" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>Orientador</Value>
+        <Value>Docente</Value>
+        <Value>Estudante</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>Organizacao</Name>
+        <Access>Public</Access>
+        <Location left="1584" top="297" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="7" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="9" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="8" second="9">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="6" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="12" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="3" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
