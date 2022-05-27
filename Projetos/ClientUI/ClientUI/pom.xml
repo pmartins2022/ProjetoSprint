@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
+        <version>2.5.13</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -88,6 +88,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.13</version>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -98,7 +99,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.grupo2.clientui/com.grupo2.clientui.HelloApplication</mainClass>
+                            <mainClass>com.grupo2.clientui/com.grupo2.clientui.Application</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

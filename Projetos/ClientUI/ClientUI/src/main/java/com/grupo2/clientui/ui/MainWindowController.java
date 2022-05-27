@@ -1,9 +1,9 @@
-package com.grupo2.clientui;
+package com.grupo2.clientui.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController
+public class MainWindowController
 {
   @FXML
   private Label welcomeText;
