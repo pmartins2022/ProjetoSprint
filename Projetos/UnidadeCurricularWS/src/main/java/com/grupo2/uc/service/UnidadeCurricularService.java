@@ -8,6 +8,7 @@ import com.grupo2.uc.repository.UnidadeCurricularRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,5 +42,14 @@ public class UnidadeCurricularService
         UnidadeCurricular savedUnidadeCurricular = repository.saveUnidadeCurricular(unidadeCurricular);
 
         return mapper.toDTO(savedUnidadeCurricular);
+    }
+
+    public List<UnidadeCurricularDTO> getAll()
+    {
+        List<UnidadeCurricular> lista = repository.findAll();
+
+        List<UnidadeCurricularDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
+
+        return listaDTOS;
     }
 }

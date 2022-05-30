@@ -4,12 +4,15 @@ import com.grupo2.uc.dto.UnidadeCurricularDTO;
 import com.grupo2.uc.exception.ErroGeralException;
 import com.grupo2.uc.exception.OptionalVazioException;
 import com.grupo2.uc.exception.ValidacaoInvalidaException;
+import com.grupo2.uc.jpa.UnidadeCurricularJPA;
+import com.grupo2.uc.model.UnidadeCurricular;
 import com.grupo2.uc.service.UnidadeCurricularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -48,5 +51,18 @@ public class UnidadeCurricularController
         {
             throw new ErroGeralException(e.getMessage());
         }
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<Object> listAll()
+    {
+        List<UnidadeCurricularDTO> lista = service.getAll();
+
+        if (lista.isEmpty())
+        {
+            return new ResponseEntity<>("Nao existem unidades curriculares.",HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 }
