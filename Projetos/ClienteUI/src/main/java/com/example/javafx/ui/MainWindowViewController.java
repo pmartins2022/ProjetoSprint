@@ -2,6 +2,7 @@ package com.example.javafx.ui;
 
 import com.example.javafx.controller.AnoLetivoController;
 import com.example.javafx.controller.MainWindowController;
+import com.example.javafx.controller.PropostaController;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.ui.utils.AlertBuilder;
@@ -31,6 +32,9 @@ public class MainWindowViewController
 
     @Autowired
     private AnoLetivoController anoLetivoController;
+
+    @Autowired
+    private PropostaController propostaController;
 
     @FXML
     public void initialize()
@@ -63,4 +67,20 @@ public class MainWindowViewController
 
         stage.show();
     }
+
+    public void createPropostaWindow(ActionEvent actionEvent) throws IOException
+    {
+
+        Stage stage = new Stage();
+        stage.setTitle("Create Proposta");
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createProposta-window-view.fxml"));
+        stage.setScene(new Scene(fxmlLoader.load()));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+
+        fxmlLoader.<CreatePropostaViewController>getController().setController(propostaController);
+
+        stage.show();
+    }
+
 }
