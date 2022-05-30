@@ -4,9 +4,10 @@ import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.model.factory.UtilizadorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class UtilizadorDTOMapper
 {
     @Autowired
