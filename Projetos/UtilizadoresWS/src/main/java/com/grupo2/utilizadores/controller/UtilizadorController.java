@@ -25,6 +25,10 @@ public class UtilizadorController
     {
         Optional<UtilizadorDTO> optionalUtilizadorDTO = service.findByID(id);
 
+        if (optionalUtilizadorDTO.isEmpty())
+        {
+            return new ResponseEntity<>("Id não existe", HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(optionalUtilizadorDTO, HttpStatus.OK);
     }
 }
