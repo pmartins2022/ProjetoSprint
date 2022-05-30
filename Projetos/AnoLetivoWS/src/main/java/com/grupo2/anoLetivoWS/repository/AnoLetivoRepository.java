@@ -16,13 +16,12 @@ import java.util.Optional;
 public class AnoLetivoRepository
 {
     @Autowired
-
     private AnoLetivoJPARepository repository;
 
     @Autowired
     private AnoLetivoJPAMapper mapper;
 
-    public AnoLetivo saveAnoLetivo(AnoLetivo anoLetivo)
+    public AnoLetivo createAndSaveAnoLetivo(AnoLetivo anoLetivo)
     {
         if (findById(anoLetivo.getSigla()).isPresent())
         {
