@@ -1,14 +1,16 @@
 package com.grupo2.utilizadores.model.factory;
 
 import com.grupo2.utilizadores.jpa.UtilizadorJPA;
+import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class UtilizadorFactory
 {
     public Utilizador createUtilizador(long id, String nome, String sobrenome, String email,
-                                       Utilizador.TipoUtilizador tipoUtilizador)
+                                       TipoUtilizador tipoUtilizador)
     {
         Utilizador utilizador = new Utilizador(id, nome, sobrenome, email, tipoUtilizador);
 

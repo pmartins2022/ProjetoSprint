@@ -1,5 +1,6 @@
 package com.grupo2.utilizadores.jpa;
 
+import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
 
 import javax.persistence.*;
@@ -14,13 +15,13 @@ public class UtilizadorJPA
     private String sobrenome;
     @Column(unique = true)
     private String email;
-    private Utilizador.TipoUtilizador tipoUtilizador;
+    private TipoUtilizador tipoUtilizador;
 
     public UtilizadorJPA()
     {
     }
 
-    public UtilizadorJPA(Long id, String nome, String sobrenome, String email, Utilizador.TipoUtilizador tipoUtilizador)
+    public UtilizadorJPA(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
     {
         this.id = id;
         this.nome = nome;
@@ -69,12 +70,12 @@ public class UtilizadorJPA
         this.email = email;
     }
 
-    public Utilizador.TipoUtilizador getTipoUtilizador()
+    public TipoUtilizador getTipoUtilizador()
     {
         return tipoUtilizador;
     }
 
-    public void setTipoUtilizador(Utilizador.TipoUtilizador tipoUtilizador)
+    public void setTipoUtilizador(TipoUtilizador tipoUtilizador)
     {
         this.tipoUtilizador = tipoUtilizador;
     }

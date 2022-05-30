@@ -10,13 +10,6 @@ public class Utilizador
     private String email;
     private TipoUtilizador tipoUtilizador;
 
-    public enum TipoUtilizador
-    {
-        ORIENTADOR,
-        DOCENTE,
-        ALUNO
-    }
-
     public Utilizador()
     {
     }

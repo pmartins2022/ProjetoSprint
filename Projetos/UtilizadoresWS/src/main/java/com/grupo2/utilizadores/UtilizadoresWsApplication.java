@@ -2,6 +2,7 @@ package com.grupo2.utilizadores;
 
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.jpa.UtilizadorJPA;
+import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.service.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class UtilizadoresWsApplication
     {
         return (args) ->
         {
-            service.createAndSave(new UtilizadorDTO(1, "Michael", "Jordan", "mjDOCENTE@hotmail.com", Utilizador.TipoUtilizador.DOCENTE));
-            service.createAndSave(new UtilizadorDTO(2, "Michael", "Jordan", "mjALUNO@hotmail.com", Utilizador.TipoUtilizador.ALUNO));
-            service.createAndSave(new UtilizadorDTO(3, "Michael", "Jordan", "mjORIENTADOR@hotmail.com", Utilizador.TipoUtilizador.ORIENTADOR));
+            service.createAndSave(new UtilizadorDTO(1, "Michael", "Jordan", "mjDOCENTE@hotmail.com", TipoUtilizador.DOCENTE));
+            service.createAndSave(new UtilizadorDTO(2, "Michael", "Jordan", "mjALUNO@hotmail.com", TipoUtilizador.ALUNO));
+            service.createAndSave(new UtilizadorDTO(3, "Michael", "Jordan", "mjORIENTADOR@hotmail.com", TipoUtilizador.ORIENTADOR));
         };
     }
 

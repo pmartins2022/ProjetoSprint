@@ -8,6 +8,8 @@ import com.grupo2.uc.repository.jpa.UnidadeCurricularJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class UnidadeCurricularRepository
 {
@@ -16,6 +18,21 @@ public class UnidadeCurricularRepository
 
     @Autowired
     private UnidadeCurricularJPAMapper mapper;
+
+    public Optional<UnidadeCurricular> findByID(String sigla)
+    {
+        Optional<UnidadeCurricularJPA> jpa = jpaRepository.findBySigla(sigla);
+
+        if (jpa.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        UnidadeCurricular unidadeCurricular = mapper.toModel(jpa.get());
+
+
+        return Optional.of(unidadeCurricular);
+    }
 
     public UnidadeCurricular saveUnidadeCurricular(UnidadeCurricular unidadeCurricular)
     {
@@ -30,6 +47,4 @@ public class UnidadeCurricularRepository
 
         return mapper.toModel(saved);
     }
-
-    //TODO: criar os variados casos de uso no repositorio
 }
