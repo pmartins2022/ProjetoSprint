@@ -9,6 +9,6 @@ public class UnidadeCurricularFactory
 {
     public UnidadeCurricular createUnidadeCurricular(String sigla, String denominacao) throws ValidacaoInvalidaException
     {
-        return new UnidadeCurricular(sigla,denominacao);
+        return new UnidadeCurricular(sigla, denominacao);
     }
 }
