@@ -53,9 +53,7 @@ public class UnidadeCurricular
             throw new ValidacaoInvalidaException("O tamanho nao deve ser inferior a "+minSize+" catacteres.");
         }
 
-        final char[] chars = str.toCharArray();
-
-        for(char c : chars)
+        for(char c : str.toCharArray())
         {
             if (Character.isDigit(c))
             {
