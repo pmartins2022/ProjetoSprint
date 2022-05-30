@@ -10,6 +10,10 @@ public class UnidadeCurricular
     public UnidadeCurricular(String sigla, String denominacao) throws ValidacaoInvalidaException
     {
         validateSigla(sigla);
+        validateDenominacao(denominacao);
+
+        this.sigla = sigla;
+        this.denominacao = denominacao;
     }
 
     public String getSigla()
@@ -36,14 +40,13 @@ public class UnidadeCurricular
     {
         validateString(sigla,3);
 
-        this.sigla = sigla;
+
     }
 
     private void validateDenominacao(String denominacao)
     {
         validateString(denominacao,10);
 
-        this.denominacao = denominacao;
     }
 
     private void validateString(String str, int minSize) throws ValidacaoInvalidaException

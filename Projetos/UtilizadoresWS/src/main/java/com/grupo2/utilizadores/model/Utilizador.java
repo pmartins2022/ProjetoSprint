@@ -1,6 +1,6 @@
 package com.grupo2.utilizadores.model;
 
-import com.grupo2.utilizadores.exception.ValidacaoInvalidaException;
+import com.grupo2.utilizadores.exception.OptionalVazioException;
 
 public class Utilizador
 {
@@ -9,13 +9,6 @@ public class Utilizador
     private String sobrenome;
     private String email;
     private TipoUtilizador tipoUtilizador;
-
-    public enum TipoUtilizador
-    {
-        ORIENTADOR,
-        DOCENTE,
-        ALUNO
-    }
 
     public Utilizador()
     {
@@ -42,7 +35,7 @@ public class Utilizador
 
         if (!email.matches(regexPattern))
         {
-            throw new ValidacaoInvalidaException("Email Inválido");
+            throw new OptionalVazioException("Email Inválido");
         }
     }
 
@@ -51,7 +44,7 @@ public class Utilizador
     {
         if (sobrenome.trim().length() < 2)
         {
-            throw new ValidacaoInvalidaException("Sobrenome tem que ter no mínimo 3 caracteres");
+            throw new OptionalVazioException("Sobrenome tem que ter no mínimo 3 caracteres");
         }
         char x = ' ';
         for (int i = 0; i < sobrenome.length(); i++)
@@ -59,15 +52,15 @@ public class Utilizador
             x = sobrenome.charAt(i);
             if (!(Character.isAlphabetic(x)))
             {
-                throw new ValidacaoInvalidaException("Sobrenome só pode ter caracteres alfabéticos");
+                throw new OptionalVazioException("Sobrenome só pode ter caracteres alfabéticos");
             }
             if (Character.isDigit(x))
             {
-                throw new ValidacaoInvalidaException("Sobrenome não pode ter números");
+                throw new OptionalVazioException("Sobrenome não pode ter números");
             }
             if (Character.isSpaceChar(x))
             {
-                throw new ValidacaoInvalidaException("Sobrenome não pode conter espaços em branco");
+                throw new OptionalVazioException("Sobrenome não pode conter espaços em branco");
             }
 
         }
@@ -77,7 +70,7 @@ public class Utilizador
     {
         if (nome.trim().length() < 3)
         {
-            throw new ValidacaoInvalidaException("Nome tem que ter no mínimo 3 caracteres");
+            throw new OptionalVazioException("Nome tem que ter no mínimo 3 caracteres");
         }
         char x = ' ';
         for (int i = 0; i < nome.length(); i++)
@@ -85,15 +78,15 @@ public class Utilizador
             x = nome.charAt(i);
             if (!(Character.isAlphabetic(x)))
             {
-                throw new ValidacaoInvalidaException("Nome só pode ter caracteres alfabéticos");
+                throw new OptionalVazioException("Nome só pode ter caracteres alfabéticos");
             }
             if (Character.isDigit(x))
             {
-                throw new ValidacaoInvalidaException("Nome não pode ter números");
+                throw new OptionalVazioException("Nome não pode ter números");
             }
             if (Character.isSpaceChar(x))
             {
-                throw new ValidacaoInvalidaException("Nome não pode conter espaços em branco");
+                throw new OptionalVazioException("Nome não pode conter espaços em branco");
             }
 
         }

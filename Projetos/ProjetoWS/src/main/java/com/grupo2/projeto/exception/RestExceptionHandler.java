@@ -1,4 +1,4 @@
-package com.grupo2.uc.exception;
+package com.grupo2.projeto.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +18,11 @@ public class RestExceptionHandler
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(OptionalVazioException.class)
-    public ResponseEntity<?> handleOptionalVazioException(OptionalVazioException ex)
+    @ExceptionHandler(ErroGeralException.class)
+    public ResponseEntity<?> handleErroGeralException(ErroGeralException ex)
     {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTitle("Optional vazio");
+        errorDetail.setTitle("Erro geral");
         errorDetail.setDetail(ex.getMessage());
         errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);

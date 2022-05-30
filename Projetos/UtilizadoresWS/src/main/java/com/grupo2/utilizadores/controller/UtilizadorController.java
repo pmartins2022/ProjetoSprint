@@ -1,6 +1,7 @@
 package com.grupo2.utilizadores.controller;
 
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
+import com.grupo2.utilizadores.exception.OptionalVazioException;
 import com.grupo2.utilizadores.service.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,10 @@ public class UtilizadorController
     {
         Optional<UtilizadorDTO> optionalUtilizadorDTO = service.findByID(id);
 
+        if (optionalUtilizadorDTO.isEmpty())
+        {
+            throw new OptionalVazioException("Não existe Utilizador com esse ID");
+        }
         return new ResponseEntity<>(optionalUtilizadorDTO, HttpStatus.OK);
     }
 }

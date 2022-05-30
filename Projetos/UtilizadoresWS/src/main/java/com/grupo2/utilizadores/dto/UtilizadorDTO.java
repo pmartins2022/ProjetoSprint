@@ -1,5 +1,6 @@
 package com.grupo2.utilizadores.dto;
 
+import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
 
 public class UtilizadorDTO
@@ -8,13 +9,13 @@ public class UtilizadorDTO
     private String nome;
     private String sobrenome;
     private String email;
-    private Utilizador.TipoUtilizador tipoUtilizador;
+    private TipoUtilizador tipoUtilizador;
 
     public UtilizadorDTO()
     {
     }
 
-    public UtilizadorDTO(long id, String nome, String sobrenome, String email, Utilizador.TipoUtilizador tipoUtilizador)
+    public UtilizadorDTO(long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
     {
         this.id = id;
         this.nome = nome;
@@ -63,12 +64,12 @@ public class UtilizadorDTO
         this.email = email;
     }
 
-    public Utilizador.TipoUtilizador getTipoUtilizador()
+    public TipoUtilizador getTipoUtilizador()
     {
         return tipoUtilizador;
     }
 
-    public void setTipoUtilizador(Utilizador.TipoUtilizador tipoUtilizador)
+    public void setTipoUtilizador(TipoUtilizador tipoUtilizador)
     {
         this.tipoUtilizador = tipoUtilizador;
     }

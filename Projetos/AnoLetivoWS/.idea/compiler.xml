@@ -9,9 +9,13 @@
         <module name="anoletivows" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AnoLetivoWS" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AnoLetivoWS" options="-parameters" />
       <module name="anoletivows" options="-parameters" />
     </option>
   </component>
