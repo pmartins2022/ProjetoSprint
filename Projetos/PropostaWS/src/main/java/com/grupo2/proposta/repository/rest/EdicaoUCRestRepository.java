@@ -1,5 +1,6 @@
 package com.grupo2.proposta.repository.rest;
 
+import com.grupo2.proposta.dto.EdicaoUCDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -7,12 +8,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Optional;
 
 @Repository
-public class UtilizadorRestRepository
+public class EdicaoUCRestRepository
 {
-    public Optional<UtilizadorDTO> findById(Long id)
+    public Optional<EdicaoUCDTO> findById(Long id)
     {
-        UtilizadorDTO dto = WebClient.create("http://localhost:8087/utilizador/{"+id+"}").get().
-                retrieve().bodyToMono(UtilizadorDTO.class).block();
+        EdicaoUCDTO dto = WebClient.create("http://localhost:8082/edicao/{"+id+"}").get().
+                retrieve().bodyToMono(EdicaoUCDTO.class).block();
 
         if (dto == null)
         {
