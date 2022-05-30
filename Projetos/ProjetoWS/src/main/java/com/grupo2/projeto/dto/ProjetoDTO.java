@@ -1,0 +1,71 @@
+package com.grupo2.projeto.dto;
+
+public class ProjetoDTO
+{
+    private long id;
+    private long propostaId;
+    private long estudanteId;
+    private long orientadorId;
+
+    public ProjetoDTO()
+    {}
+
+    public ProjetoDTO(Long id, Long propostaId, Long estudanteId, Long orientadorId)
+    {
+        this.id = id;
+        this.propostaId = propostaId;
+        this.estudanteId = estudanteId;
+        this.orientadorId = orientadorId;
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public Long getPropostaId()
+    {
+        return propostaId;
+    }
+
+    public Long getEstudanteId()
+    {
+        return estudanteId;
+    }
+
+    public Long getOrientadorId()
+    {
+        return orientadorId;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public void setPropostaId(Long propostaId)
+    {
+        this.propostaId = propostaId;
+    }
+
+    public void setEstudanteId(Long estudanteId)
+    {
+        this.estudanteId = estudanteId;
+    }
+
+    public void setOrientadorId(Long orientadorId)
+    {
+        this.orientadorId = orientadorId;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ProjetoDTO{" +
+                "id=" + id +
+                ", propostaId=" + propostaId +
+                ", estudanteId=" + estudanteId +
+                ", orientadorId=" + orientadorId +
+                '}';
+    }
+}
