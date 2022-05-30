@@ -36,7 +36,7 @@ public class UnidadeCurricularRepository
 
     public UnidadeCurricular saveUnidadeCurricular(UnidadeCurricular unidadeCurricular)
     {
-        if (findById(unidadeCurricular.getSigla()).isPresent())
+        if (jpaRepository.findById(unidadeCurricular.getSigla()).isPresent())
         {
             throw new ErroGeralException("Ano Letivo já existente.");
         }

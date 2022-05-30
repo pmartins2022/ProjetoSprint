@@ -2,6 +2,7 @@ package com.grupo2.uc.controller;
 
 import com.grupo2.uc.dto.UnidadeCurricularDTO;
 import com.grupo2.uc.exception.ErroGeralException;
+import com.grupo2.uc.exception.OptionalVazioException;
 import com.grupo2.uc.exception.ValidacaoInvalidaException;
 import com.grupo2.uc.service.UnidadeCurricularService;
 import org.springframework.beans.factory.annotation.Autowired;
