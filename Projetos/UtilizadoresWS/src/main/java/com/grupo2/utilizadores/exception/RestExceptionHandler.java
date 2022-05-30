@@ -13,7 +13,7 @@ public class RestExceptionHandler
     public ResponseEntity<?> handleOptionalVazioException(OptionalVazioException ex)
     {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTitle("Optional vazio");
+        errorDetail.setTitle("Problema!");
         errorDetail.setDetail(ex.getMessage());
         errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);

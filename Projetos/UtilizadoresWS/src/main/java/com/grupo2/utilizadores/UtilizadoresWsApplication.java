@@ -25,8 +25,8 @@ public class UtilizadoresWsApplication
         return (args) ->
         {
             service.createAndSave(new UtilizadorDTO(1, "Michael", "Jordan", "mjDOCENTE@hotmail.com", TipoUtilizador.DOCENTE));
-            service.createAndSave(new UtilizadorDTO(2, "Michael", "Jordan", "mjALUNO@hotmail.com", TipoUtilizador.ALUNO));
-            service.createAndSave(new UtilizadorDTO(3, "Michael", "Jordan", "mjORIENTADOR@hotmail.com", TipoUtilizador.ORIENTADOR));
+            service.createAndSave(new UtilizadorDTO(2, "Scottie", "Pippen", "spALUNO@hotmail.com", TipoUtilizador.ALUNO));
+            service.createAndSave(new UtilizadorDTO(3, "Dennis", "Rodman", "drORIENTADOR@hotmail.com", TipoUtilizador.ORIENTADOR));
         };
     }
 

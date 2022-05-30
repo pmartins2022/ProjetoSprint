@@ -20,7 +20,7 @@ public class UnidadeCurricularWsApplication {
 	{
 		return (args) ->
 		{
-			jpaRepo.save(new UnidadeCurricularJPA("asdasdasdf", "asdasdasdasfa"));
+			jpaRepo.save(new UnidadeCurricularJPA("MatematicaAvancada", "Matemática"));
 		};
 	}
 }

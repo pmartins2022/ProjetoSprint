@@ -2,6 +2,7 @@ package com.grupo2.uc.service;
 
 import com.grupo2.uc.dto.UnidadeCurricularDTO;
 import com.grupo2.uc.dto.mapper.UnidadeCurricularDTOMapper;
+import com.grupo2.uc.exception.OptionalVazioException;
 import com.grupo2.uc.exception.ValidacaoInvalidaException;
 import com.grupo2.uc.model.UnidadeCurricular;
 import com.grupo2.uc.repository.UnidadeCurricularRepository;
@@ -41,5 +42,22 @@ public class UnidadeCurricularService
         UnidadeCurricular savedUnidadeCurricular = repository.saveUnidadeCurricular(unidadeCurricular);
 
         return mapper.toDTO(savedUnidadeCurricular);
+    }
+
+    public Optional<UnidadeCurricularDTO> update(String sigla, String denominacao) throws ValidacaoInvalidaException
+    {
+        Optional<UnidadeCurricular> ucRequested = repository.findByID(sigla);
+
+        if (ucRequested.isEmpty())
+        {
+            throw new OptionalVazioException("Não existe Unidade Curricular com essa sigla");
+        }
+        ucRequested.get().setDenominacao(denominacao);
+
+        UnidadeCurricular ucUpdated = repository.updateUnidadeCurricular(sigla, ucRequested.get().getDenominacao());
+
+        UnidadeCurricularDTO dtoUpdated = mapper.toDTO(ucUpdated);
+
+        return Optional.of(dtoUpdated);
     }
 }

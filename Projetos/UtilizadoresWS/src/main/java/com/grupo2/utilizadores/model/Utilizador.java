@@ -10,6 +10,11 @@ public class Utilizador
     private String email;
     private TipoUtilizador tipoUtilizador;
 
+    private static final int NOME_MIN_NUM_CHARACTERS = 3;
+    private static final int SOBRENOME_MIN_NUM_CHARACTERS = 2;
+    private static final String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
     public Utilizador()
     {
     }
@@ -29,10 +34,6 @@ public class Utilizador
 
     private void validateEmail(String email)
     {
-
-        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-
         if (!email.matches(regexPattern))
         {
             throw new OptionalVazioException("Email Inválido");
@@ -42,11 +43,11 @@ public class Utilizador
 
     private void validateSobrenome(String sobrenome)
     {
-        if (sobrenome.trim().length() < 2)
+        if (sobrenome.trim().isEmpty() || sobrenome.length() < SOBRENOME_MIN_NUM_CHARACTERS)
         {
             throw new OptionalVazioException("Sobrenome tem que ter no mínimo 3 caracteres");
         }
-        char x = ' ';
+        char x;
         for (int i = 0; i < sobrenome.length(); i++)
         {
             x = sobrenome.charAt(i);
@@ -68,11 +69,11 @@ public class Utilizador
 
     private void validateNome(String nome)
     {
-        if (nome.trim().length() < 3)
+        if (nome.trim().isEmpty() || nome.length() < NOME_MIN_NUM_CHARACTERS)
         {
             throw new OptionalVazioException("Nome tem que ter no mínimo 3 caracteres");
         }
-        char x = ' ';
+        char x;
         for (int i = 0; i < nome.length(); i++)
         {
             x = nome.charAt(i);
@@ -109,6 +110,7 @@ public class Utilizador
 
     public void setNome(String nome)
     {
+        validateNome(nome);
         this.nome = nome;
     }
 
@@ -119,6 +121,7 @@ public class Utilizador
 
     public void setSobrenome(String sobrenome)
     {
+        validateSobrenome(sobrenome);
         this.sobrenome = sobrenome;
     }
 
@@ -129,6 +132,7 @@ public class Utilizador
 
     public void setEmail(String email)
     {
+        validateEmail(email);
         this.email = email;
     }
 

@@ -39,8 +39,6 @@ public class UnidadeCurricular
     private void validateSigla(String sigla)
     {
         validateString(sigla,3);
-
-
     }
 
     private void validateDenominacao(String denominacao)
@@ -53,7 +51,7 @@ public class UnidadeCurricular
     {
         if (str.length() < minSize)
         {
-            throw new ValidacaoInvalidaException("O tamanho nao deve ser inferior a "+minSize+" catacteres.");
+            throw new ValidacaoInvalidaException("O tamanho nao deve ser inferior a " + minSize + " catacteres.");
         }
 
         for(char c : str.toCharArray())

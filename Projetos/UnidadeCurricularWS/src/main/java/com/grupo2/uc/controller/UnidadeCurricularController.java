@@ -39,14 +39,24 @@ public class UnidadeCurricularController
             UnidadeCurricularDTO dto = service.createUnidadeCurricular(unidadeCurricularDTO);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        catch (ValidacaoInvalidaException e)
+        } catch (ValidacaoInvalidaException e)
         {
             throw new ValidacaoInvalidaException(e.getMessage());
-        }
-        catch (ErroGeralException e)
+        } catch (ErroGeralException e)
         {
             throw new ErroGeralException(e.getMessage());
         }
+    }
+
+    @PutMapping("/{sigla}")
+    public ResponseEntity<Object> updateDenominacao(@PathVariable("sigla") String sigla, @RequestParam String denominacao)
+    {
+        Optional<UnidadeCurricularDTO> dto = service.update(sigla, denominacao);
+
+        if (dto.isEmpty())
+        {
+            throw new OptionalVazioException("Ocorreu um erro ao guardar Unidade Curricular");
+        }
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

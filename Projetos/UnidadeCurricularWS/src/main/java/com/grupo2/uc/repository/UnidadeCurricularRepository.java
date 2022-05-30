@@ -47,4 +47,14 @@ public class UnidadeCurricularRepository
 
         return mapper.toModel(saved);
     }
+
+    public UnidadeCurricular updateUnidadeCurricular(String sigla, String denominacao)
+    {
+        UnidadeCurricularJPA jpa = new UnidadeCurricularJPA(sigla, denominacao);
+
+        UnidadeCurricularJPA saved = jpaRepository.save(jpa);
+
+        UnidadeCurricular ucSaved = mapper.toModel(saved);
+        return ucSaved;
+    }
 }
