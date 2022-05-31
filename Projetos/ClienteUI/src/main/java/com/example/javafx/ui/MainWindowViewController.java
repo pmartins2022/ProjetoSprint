@@ -1,9 +1,6 @@
 package com.example.javafx.ui;
 
-import com.example.javafx.controller.AnoLetivoController;
-import com.example.javafx.controller.EdicaoUCController;
-import com.example.javafx.controller.MainWindowController;
-import com.example.javafx.controller.PropostaController;
+import com.example.javafx.controller.*;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.exception.ErrorDetail;
