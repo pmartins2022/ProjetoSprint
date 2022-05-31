@@ -8,6 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.WindowEvent;
+import org.springframework.stereotype.Controller;
+
+@Controller
 
 public class CreateUnidadeCurricularViewController
 {

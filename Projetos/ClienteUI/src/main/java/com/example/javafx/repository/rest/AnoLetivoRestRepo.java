@@ -54,7 +54,7 @@ public class AnoLetivoRestRepo
     {
         try
         {
-            final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/all").get()
+            final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/listar").get()
                     .retrieve();
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
