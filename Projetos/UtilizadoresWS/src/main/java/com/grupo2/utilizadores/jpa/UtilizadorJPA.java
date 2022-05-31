@@ -35,24 +35,20 @@ public class UtilizadorJPA
         return id;
     }
 
-
     public String getNome()
     {
         return nome;
     }
-
 
     public String getSobrenome()
     {
         return sobrenome;
     }
 
-
     public String getEmail()
     {
         return email;
     }
-
 
     public TipoUtilizador getTipoUtilizador()
     {

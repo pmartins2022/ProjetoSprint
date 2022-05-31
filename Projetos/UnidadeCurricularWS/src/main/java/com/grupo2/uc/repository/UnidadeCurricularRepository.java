@@ -8,6 +8,7 @@ import com.grupo2.uc.repository.jpa.UnidadeCurricularJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,7 +20,7 @@ public class UnidadeCurricularRepository
     @Autowired
     private UnidadeCurricularJPAMapper mapper;
 
-    public Optional<UnidadeCurricular> findByID(String sigla)
+    public Optional<UnidadeCurricular> findBySigla(String sigla)
     {
         Optional<UnidadeCurricularJPA> jpa = jpaRepository.findBySigla(sigla);
 
@@ -56,5 +57,14 @@ public class UnidadeCurricularRepository
 
         UnidadeCurricular ucSaved = mapper.toModel(saved);
         return ucSaved;
+    }
+
+    public List<UnidadeCurricular> findAll()
+    {
+        List<UnidadeCurricularJPA> lista = jpaRepository.findAll();
+
+        List<UnidadeCurricular> listaModel = lista.stream().map(mapper::toModel).toList();
+
+        return listaModel;
     }
 }

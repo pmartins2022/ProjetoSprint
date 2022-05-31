@@ -2,6 +2,7 @@ package com.grupo2.anoLetivoWS.controller;
 
 import com.grupo2.anoLetivoWS.dto.AnoLetivoDTO;
 import com.grupo2.anoLetivoWS.exception.ErroGeralException;
+import com.grupo2.anoLetivoWS.exception.ListaVaziaException;
 import com.grupo2.anoLetivoWS.exception.ValidacaoInvalidaException;
 import com.grupo2.anoLetivoWS.service.AnoLetivoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,11 @@ public class AnoLetivoController
     private AnoLetivoService service;
 
     @PostMapping("/criar")
-    public ResponseEntity<AnoLetivoDTO> createAnoLetivo(@RequestBody AnoLetivoDTO anoLetivoDTO)
+    public ResponseEntity<AnoLetivoDTO> createAndSaveAnoLetivo(@RequestBody AnoLetivoDTO anoLetivoDTO)
     {
         try
         {
-            AnoLetivoDTO dto = service.createAnoLetivo(anoLetivoDTO);
+            AnoLetivoDTO dto = service.createAndSaveAnoLetivo(anoLetivoDTO);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
@@ -38,13 +39,13 @@ public class AnoLetivoController
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<Object> listAll()
+    public ResponseEntity<Object> listAllAnoLetivo()
     {
-        List<AnoLetivoDTO> lista = service.getAll();
+        List<AnoLetivoDTO> lista = service.findAll();
 
         if (lista.isEmpty())
         {
-            return new ResponseEntity<>("Nao existem anos letivos.",HttpStatus.NOT_FOUND);
+            throw new ListaVaziaException("Não existem Anos Letivos");
         }
 
         return new ResponseEntity<>(lista,HttpStatus.OK);

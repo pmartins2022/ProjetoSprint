@@ -1,7 +1,5 @@
 package com.grupo2.anoLetivoWS.dto;
 
-import com.grupo2.anoLetivoWS.model.AnoLetivo;
-
 public class AnoLetivoDTO
 {
     private String sigla;

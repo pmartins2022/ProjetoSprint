@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,7 +23,7 @@ public class UnidadeCurricularController
     @GetMapping("/{sigla}")
     public ResponseEntity<Object> findByID(@PathVariable("sigla") String sigla)
     {
-        Optional<UnidadeCurricularDTO> dto = service.findByID(sigla);
+        Optional<UnidadeCurricularDTO> dto = service.findBySigla(sigla);
 
         if (dto.isEmpty())
         {
@@ -58,5 +59,19 @@ public class UnidadeCurricularController
             throw new OptionalVazioException("Ocorreu um erro ao guardar Unidade Curricular");
         }
         return new ResponseEntity<>(dto, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<Object> listAll()
+    {
+        List<UnidadeCurricularDTO> lista = service.findAll();
+
+        if (lista.isEmpty())
+        {
+            return new ResponseEntity<>("Nao existem unidades curriculares.",HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 }

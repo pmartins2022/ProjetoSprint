@@ -9,6 +9,7 @@ import com.grupo2.uc.repository.UnidadeCurricularRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,9 +22,9 @@ public class UnidadeCurricularService
     private UnidadeCurricularDTOMapper mapper;
 
 
-    public Optional<UnidadeCurricularDTO> findByID(String sigla)
+    public Optional<UnidadeCurricularDTO> findBySigla(String sigla)
     {
-        Optional<UnidadeCurricular> uc = repository.findByID(sigla);
+        Optional<UnidadeCurricular> uc = repository.findBySigla(sigla);
 
         if (uc.isEmpty())
         {
@@ -44,9 +45,10 @@ public class UnidadeCurricularService
         return mapper.toDTO(savedUnidadeCurricular);
     }
 
+
     public Optional<UnidadeCurricularDTO> update(String sigla, String denominacao) throws ValidacaoInvalidaException
     {
-        Optional<UnidadeCurricular> ucRequested = repository.findByID(sigla);
+        Optional<UnidadeCurricular> ucRequested = repository.findBySigla(sigla);
 
         if (ucRequested.isEmpty())
         {
@@ -58,6 +60,13 @@ public class UnidadeCurricularService
 
         UnidadeCurricularDTO dtoUpdated = mapper.toDTO(ucUpdated);
 
-        return Optional.of(dtoUpdated);
+        return Optional.of(dtoUpdated);}
+    public List<UnidadeCurricularDTO> findAll()
+    {
+        List<UnidadeCurricular> lista = repository.findAll();
+
+        List<UnidadeCurricularDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
+
+        return listaDTOS;
     }
 }
