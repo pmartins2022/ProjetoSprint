@@ -2,6 +2,7 @@ package com.grupo2.uc.controller;
 
 import com.grupo2.uc.dto.UnidadeCurricularDTO;
 import com.grupo2.uc.exception.ErroGeralException;
+import com.grupo2.uc.exception.ListaVaziaException;
 import com.grupo2.uc.exception.OptionalVazioException;
 import com.grupo2.uc.exception.ValidacaoInvalidaException;
 import com.grupo2.uc.service.UnidadeCurricularService;
@@ -34,11 +35,11 @@ public class UnidadeCurricularController
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<UnidadeCurricularDTO> createUnidadeCurricular(@RequestBody UnidadeCurricularDTO unidadeCurricularDTO)
+    public ResponseEntity<UnidadeCurricularDTO> createAndSaveUnidadeCurricular(@RequestBody UnidadeCurricularDTO unidadeCurricularDTO)
     {
         try
         {
-            UnidadeCurricularDTO dto = service.createUnidadeCurricular(unidadeCurricularDTO);
+            UnidadeCurricularDTO dto = service.createAndSaveUnidadeCurricular(unidadeCurricularDTO);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
@@ -72,7 +73,7 @@ public class UnidadeCurricularController
 
         if (lista.isEmpty())
         {
-            return new ResponseEntity<>("Nao existem unidades curriculares.",HttpStatus.NOT_FOUND);
+            throw new ListaVaziaException("A lista de Unidades Curriculares encontrasse vazia");
         }
 
         return new ResponseEntity<>(lista,HttpStatus.OK);

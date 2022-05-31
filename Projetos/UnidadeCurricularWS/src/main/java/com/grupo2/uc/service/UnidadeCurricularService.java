@@ -36,7 +36,7 @@ public class UnidadeCurricularService
         return Optional.of(dto);
     }
 
-    public UnidadeCurricularDTO createUnidadeCurricular(UnidadeCurricularDTO unidadeCurricularDTO) throws ValidacaoInvalidaException
+    public UnidadeCurricularDTO createAndSaveUnidadeCurricular(UnidadeCurricularDTO unidadeCurricularDTO) throws ValidacaoInvalidaException
     {
         UnidadeCurricular unidadeCurricular = mapper.toModel(unidadeCurricularDTO);
 
