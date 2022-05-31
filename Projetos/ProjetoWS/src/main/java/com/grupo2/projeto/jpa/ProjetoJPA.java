@@ -1,6 +1,7 @@
 package com.grupo2.projeto.jpa;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,6 +10,7 @@ import javax.persistence.Table;
 public class ProjetoJPA
 {
     @Id
+    @GeneratedValue
     private Long id;
     private Long propostaId;
     private Long estudanteId;
@@ -43,25 +45,5 @@ public class ProjetoJPA
     public Long getOrientadorId()
     {
         return orientadorId;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
-    public void setPropostaId(Long propostaId)
-    {
-        this.propostaId = propostaId;
-    }
-
-    public void setEstudanteId(Long estudanteId)
-    {
-        this.estudanteId = estudanteId;
-    }
-
-    public void setOrientadorId(Long orientadorId)
-    {
-        this.orientadorId = orientadorId;
     }
 }

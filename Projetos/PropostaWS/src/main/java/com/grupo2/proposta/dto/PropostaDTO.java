@@ -4,20 +4,20 @@ import com.grupo2.proposta.model.PropostaEstado;
 
 public class PropostaDTO
 {
-    private long id;
-    private long utilizadorId;
-    private long organizacaoId;
+    private Long id;
+    private Long utilizadorId;
+    private Long organizacaoId;
     private String titulo;
     private String problema;
     private String objetivo;
-    private long edicaoUCId;
+    private Long edicaoUCId;
     private PropostaEstado estadoAtual;
 
     public PropostaDTO()
     {
     }
 
-    public PropostaDTO(long id, long utilizadorId, long organizacaoId, String titulo, String problema, String objetivo, long edicaoUCId, PropostaEstado estadoAtual)
+    public PropostaDTO(Long id, Long utilizadorId, Long organizacaoId, String titulo, String problema, String objetivo, Long edicaoUCId, PropostaEstado estadoAtual)
     {
         this.id = id;
         this.utilizadorId = utilizadorId;
@@ -29,32 +29,32 @@ public class PropostaDTO
         this.estadoAtual = estadoAtual;
     }
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public long getUtilizadorId()
+    public Long getUtilizadorId()
     {
         return utilizadorId;
     }
 
-    public void setUtilizadorId(long utilizadorId)
+    public void setUtilizadorId(Long utilizadorId)
     {
         this.utilizadorId = utilizadorId;
     }
 
-    public long getOrganizacaoId()
+    public Long getOrganizacaoId()
     {
         return organizacaoId;
     }
 
-    public void setOrganizacaoId(long organizacaoId)
+    public void setOrganizacaoId(Long organizacaoId)
     {
         this.organizacaoId = organizacaoId;
     }
@@ -89,12 +89,12 @@ public class PropostaDTO
         this.objetivo = objetivo;
     }
 
-    public long getEdicaoUCId()
+    public Long getEdicaoUCId()
     {
         return edicaoUCId;
     }
 
-    public void setEdicaoUCId(long edicaoUCId)
+    public void setEdicaoUCId(Long edicaoUCId)
     {
         this.edicaoUCId = edicaoUCId;
     }

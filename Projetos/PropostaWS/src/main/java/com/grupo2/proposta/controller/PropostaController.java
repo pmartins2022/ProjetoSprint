@@ -29,4 +29,11 @@ public class PropostaController
             throw new BaseDadosException(e.getMessage());
         }
     }
+
+    @GetMapping("/rejeitar/{id}")
+    public ResponseEntity<Object> rejeitarProposta(@PathVariable(name = "id") Long id)
+    {
+        return null;
+    }
+
 }

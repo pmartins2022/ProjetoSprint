@@ -14,13 +14,11 @@ public class ProjetoJPAMapper
 
     public Projeto toModel(ProjetoJPA jpa)
     {
-        Projeto projeto = factory.createProjeto(jpa.getId(),jpa.getPropostaId(),jpa.getEstudanteId(),jpa.getOrientadorId());
-        return projeto;
+        return factory.createProjeto(jpa.getId(),jpa.getPropostaId(),jpa.getEstudanteId(),jpa.getOrientadorId());
     }
 
     public ProjetoJPA toJpa(Projeto projeto)
     {
-        ProjetoJPA projetoJPA = new ProjetoJPA(projeto.getId(), projeto.getPropostaId(), projeto.getEstudanteId(), projeto.getOrientadorId());
-        return projetoJPA;
+        return new ProjetoJPA(projeto.getId(), projeto.getPropostaId(), projeto.getEstudanteId(), projeto.getOrientadorId());
     }
 }

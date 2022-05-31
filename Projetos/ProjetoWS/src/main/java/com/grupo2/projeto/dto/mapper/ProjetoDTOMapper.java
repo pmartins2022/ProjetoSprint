@@ -14,13 +14,11 @@ public class ProjetoDTOMapper
 
     public Projeto toModel(ProjetoDTO dto)
     {
-        Projeto projeto = projetoFactory.createProjeto(dto.getId(),dto.getPropostaId(),dto.getEstudanteId(),dto.getOrientadorId());
-        return projeto;
+        return projetoFactory.createProjeto(dto.getId(),dto.getPropostaId(),dto.getEstudanteId(),dto.getOrientadorId());
     }
 
     public ProjetoDTO toDTO(Projeto projeto)
     {
-        ProjetoDTO projetoDTO = new ProjetoDTO(projeto.getId(), projeto.getPropostaId(), projeto.getEstudanteId(), projeto.getOrientadorId());
-        return projetoDTO;
+        return new ProjetoDTO(projeto.getId(), projeto.getPropostaId(), projeto.getEstudanteId(), projeto.getOrientadorId());
     }
 }
