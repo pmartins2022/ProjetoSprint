@@ -25,6 +25,7 @@ public class UnidadeCurricularController
     {
         Optional<UnidadeCurricularDTO> dto = service.findBySigla(sigla);
 
+
         if (dto.isEmpty())
         {
             throw new OptionalVazioException("Não existe Unidade Curricular com essa Sigla");
@@ -40,10 +41,12 @@ public class UnidadeCurricularController
             UnidadeCurricularDTO dto = service.createUnidadeCurricular(unidadeCurricularDTO);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        } catch (ValidacaoInvalidaException e)
+        }
+        catch (ValidacaoInvalidaException e)
         {
             throw new ValidacaoInvalidaException(e.getMessage());
-        } catch (ErroGeralException e)
+        }
+        catch (ErroGeralException e)
         {
             throw new ErroGeralException(e.getMessage());
         }

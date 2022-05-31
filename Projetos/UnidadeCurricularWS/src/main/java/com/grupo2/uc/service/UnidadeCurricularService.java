@@ -60,7 +60,8 @@ public class UnidadeCurricularService
 
         UnidadeCurricularDTO dtoUpdated = mapper.toDTO(ucUpdated);
 
-        return Optional.of(dtoUpdated);}
+        return Optional.of(dtoUpdated);
+    }
     public List<UnidadeCurricularDTO> findAll()
     {
         List<UnidadeCurricular> lista = repository.findAll();

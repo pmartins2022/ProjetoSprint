@@ -17,6 +17,11 @@
               <MenuItem mnemonicParsing="false" onAction="#createAnoLetivoWindow" text="Criar" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Proposta">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#createPropostaWindow" text="Criar" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem fx:id="aboutItem" mnemonicParsing="false" text="About" />
