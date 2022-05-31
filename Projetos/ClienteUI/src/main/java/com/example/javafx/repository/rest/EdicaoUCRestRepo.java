@@ -1,10 +1,8 @@
 package com.example.javafx.repository.rest;
 
-import com.example.javafx.controller.EdicaoUCController;
-import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.exception.ErrorDetail;
-import com.example.javafx.exception.RestPostException;
+import com.example.javafx.exception.RestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -13,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Repository
 public class EdicaoUCRestRepo
 {
-    public EdicaoUCDTO createEdicaoUC(EdicaoUCDTO edicaoUCDTO) throws RestPostException
+    public EdicaoUCDTO createEdicaoUC(EdicaoUCDTO edicaoUCDTO) throws RestException
     {
         try
         {
@@ -26,9 +24,9 @@ public class EdicaoUCRestRepo
 
             return responseSpec.bodyToMono(EdicaoUCDTO.class).block();
         }
-        catch (RestPostException e)
+        catch (RestException e)
         {
-            throw new RestPostException("Problema no servidor: "+ e.getMessage());
+            throw new RestException("Problema no servidor: "+ e.getMessage());
         }
     }
 }
