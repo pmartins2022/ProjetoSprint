@@ -18,6 +18,13 @@ public class Projeto
         this.orientadorId = orientadorId;
     }
 
+    public Projeto(Long propostaId, Long estudanteId, Long orientadorId)
+    {
+        this.propostaId = propostaId;
+        this.estudanteId = estudanteId;
+        this.orientadorId = orientadorId;
+    }
+
     public Long getId()
     {
         return id;

@@ -2,10 +2,10 @@ package com.grupo2.projeto.dto;
 
 public class ProjetoDTO
 {
-    private long id;
-    private long propostaId;
-    private long estudanteId;
-    private long orientadorId;
+    private Long id;
+    private Long propostaId;
+    private Long estudanteId;
+    private Long orientadorId;
 
     public ProjetoDTO()
     {}
@@ -13,6 +13,13 @@ public class ProjetoDTO
     public ProjetoDTO(Long id, Long propostaId, Long estudanteId, Long orientadorId)
     {
         this.id = id;
+        this.propostaId = propostaId;
+        this.estudanteId = estudanteId;
+        this.orientadorId = orientadorId;
+    }
+
+    public ProjetoDTO(Long propostaId, Long estudanteId, Long orientadorId)
+    {
         this.propostaId = propostaId;
         this.estudanteId = estudanteId;
         this.orientadorId = orientadorId;

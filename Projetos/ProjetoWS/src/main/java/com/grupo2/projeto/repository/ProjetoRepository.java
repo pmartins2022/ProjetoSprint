@@ -36,11 +36,6 @@ public class ProjetoRepository
 
     public Projeto saveProjeto(Projeto projeto)
     {
-        if (findById(projeto.getId()).isPresent())
-        {
-            throw new ErroGeralException("Projeto já existente.");
-        }
-
         ProjetoJPA jpa = mapper.toJpa(projeto);
 
         ProjetoJPA saved = repository.save(jpa);

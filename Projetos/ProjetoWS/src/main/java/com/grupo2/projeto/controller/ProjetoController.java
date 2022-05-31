@@ -18,22 +18,17 @@ public class ProjetoController
     private ProjetoService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjetoDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<ProjetoDTO> findById(@PathVariable Long id)
+    {
+        Optional<ProjetoDTO> optionalProjetoDTO = service.findById(id);
 
-        try
+        if (optionalProjetoDTO.isPresent())
         {
-            Optional<ProjetoDTO> optionalProjetoDTO = service.getProjeto( id );
-
-            if( optionalProjetoDTO.isPresent() ) {
-                ProjetoDTO projetoDTO = optionalProjetoDTO.get();
-                return new ResponseEntity<>(projetoDTO, HttpStatus.OK);
-            }
-            else
-                return ResponseEntity.notFound().build();
-        }
-        catch (ErroGeralException e)
+            ProjetoDTO projetoDTO = optionalProjetoDTO.get();
+            return new ResponseEntity<>(projetoDTO, HttpStatus.OK);
+        } else
         {
-            throw new ErroGeralException(e.getMessage());
+            throw new ErroGeralException("Nao existe nenhum projeto com esse ID");
         }
     }
 }

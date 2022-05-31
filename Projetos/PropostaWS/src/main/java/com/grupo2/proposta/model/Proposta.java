@@ -1,21 +1,24 @@
 package com.grupo2.proposta.model;
 
+import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.ValidacaoInvalidaException;
 
 public class Proposta
 {
-    private long id;
-    private long utilizadorId;
-    private long organizacaoId;
+    private Long id;
+    private Long utilizadorId;
+    private Long organizacaoId;
     private String titulo;
     private String problema;
     private String objetivo;
-    private long edicaoUCId;
+    private Long edicaoUCId;
     private PropostaEstado estadoAtual;
 
-    public Proposta(long id, long utilizadorId, long organizacaoId, String titulo,
+    private static final int MIN_TAMANHO = 10;
+
+    public Proposta(Long id, Long utilizadorId, Long organizacaoId, String titulo,
                     String problema, String objetivo,
-                    long edicaoUCId, PropostaEstado estadoAtual) throws ValidacaoInvalidaException
+                    Long edicaoUCId, PropostaEstado estadoAtual) throws ValidacaoInvalidaException
     {
         this.id = id;
         validate(titulo, problema, objetivo);
@@ -25,32 +28,32 @@ public class Proposta
         this.estadoAtual = estadoAtual;
     }
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public long getUtilizadorId()
+    public Long getUtilizadorId()
     {
         return utilizadorId;
     }
 
-    public void setUtilizadorId(long utilizadorId)
+    public void setUtilizadorId(Long utilizadorId)
     {
         this.utilizadorId = utilizadorId;
     }
 
-    public long getOrganizacaoId()
+    public Long getOrganizacaoId()
     {
         return organizacaoId;
     }
 
-    public void setOrganizacaoId(long organizacaoId)
+    public void setOrganizacaoId(Long organizacaoId)
     {
         this.organizacaoId = organizacaoId;
     }
@@ -85,12 +88,12 @@ public class Proposta
         this.objetivo = objetivo;
     }
 
-    public long getEdicaoUCId()
+    public Long getEdicaoUCId()
     {
         return edicaoUCId;
     }
 
-    public void setEdicaoUCId(long edicaoUCId)
+    public void setEdicaoUCId(Long edicaoUCId)
     {
         this.edicaoUCId = edicaoUCId;
     }
@@ -102,11 +105,19 @@ public class Proposta
 
     public void aprovarProposta()
     {
+        if (estadoAtual != PropostaEstado.CANDIDATURA)
+        {
+            throw new AtualizacaoInvalidaException("Nao e possivel mudar o estado da proposta. Ja se encontra "+this.estadoAtual.name());
+        }
         this.estadoAtual = PropostaEstado.APROVADO;
     }
 
     public void reprovarProposta()
     {
+        if (estadoAtual != PropostaEstado.CANDIDATURA)
+        {
+            throw new AtualizacaoInvalidaException("Nao e possivel mudar o estado da proposta. Ja se encontra "+this.estadoAtual.name());
+        }
         this.estadoAtual = PropostaEstado.REPROVADO;
     }
 
@@ -119,19 +130,19 @@ public class Proposta
 
     private void validateTitulo(String titulo)
     {
-        validateString(titulo,10);
+        validateString(titulo,MIN_TAMANHO);
         this.titulo = titulo;
     }
 
     private void validateProblema(String problema)
     {
-        validateString(problema,10);
+        validateString(problema,MIN_TAMANHO);
         this.problema = problema;
     }
 
     private void validateObjetivo(String objetivo)
     {
-        validateString(objetivo,10);
+        validateString(objetivo,MIN_TAMANHO);
         this.objetivo = objetivo;
     }
 

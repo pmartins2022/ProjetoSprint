@@ -32,4 +32,13 @@ public class UnidadeCurricularDTO
     {
         this.denominacao = denominacao;
     }
+
+    @Override
+    public String toString()
+    {
+        return "UnidadeCurricularDTO{" +
+                "sigla='" + sigla + '\'' +
+                ", denominacao='" + denominacao + '\'' +
+                '}';
+    }
 }

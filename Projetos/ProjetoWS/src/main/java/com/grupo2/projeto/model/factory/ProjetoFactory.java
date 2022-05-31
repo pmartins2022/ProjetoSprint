@@ -8,7 +8,6 @@ public class ProjetoFactory
 {
     public Projeto createProjeto(Long id, Long propostaId, Long estudanteId, Long orientadorId)
     {
-        Projeto projeto = new Projeto(id,propostaId,estudanteId,orientadorId);
-        return projeto;
+        return new Projeto(id,propostaId,estudanteId,orientadorId);
     }
 }

@@ -9,7 +9,6 @@ import java.awt.*;
 
 public class CreatePropostaViewController
 {
-
     private PropostaController controller;
 
     public TextField userIdText;
