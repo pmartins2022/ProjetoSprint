@@ -1,10 +1,15 @@
 package com.example.javafx.service;
 
 import com.example.javafx.dto.AnoLetivoDTO;
+import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.repository.rest.AnoLetivoRestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
 
 @Service
 public class AnoLetivoService
@@ -26,4 +31,6 @@ public class AnoLetivoService
     {
         return restRepo.updateTest(dto, pathVar, id);
     }
+
+
 }

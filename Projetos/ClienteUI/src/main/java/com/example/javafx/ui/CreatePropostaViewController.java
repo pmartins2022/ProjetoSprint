@@ -5,6 +5,8 @@ import com.example.javafx.controller.PropostaController;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
+import java.awt.*;
+
 public class CreatePropostaViewController
 {
 

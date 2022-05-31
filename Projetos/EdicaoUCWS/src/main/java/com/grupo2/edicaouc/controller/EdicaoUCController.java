@@ -22,10 +22,8 @@ public class EdicaoUCController
     @PostMapping("/criar")
     public ResponseEntity<Object> createEdicao(@RequestBody EdicaoUCDTO edicaoUCDTO)
     {
-        System.out.println("Cheguei");
         try
         {
-
             EdicaoUCDTO edicaoUC = service.createEdicaoUC(edicaoUCDTO.getUcCode(), edicaoUCDTO.getAnoLetivoCode());
             return new ResponseEntity<>(edicaoUC, HttpStatus.CREATED);
 
@@ -44,6 +42,7 @@ public class EdicaoUCController
         List<EdicaoUCDTO> opEdicaoUC = service.findAllEdicaoByUCCode(UCCode);
         return new ResponseEntity<>(opEdicaoUC, HttpStatus.OK);
     }
+
 }
 
 

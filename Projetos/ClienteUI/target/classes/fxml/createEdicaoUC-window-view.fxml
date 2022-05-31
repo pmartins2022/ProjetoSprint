@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="283.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.ui.CreateEdicaoUCViewController">
+    <top>
+        <FlowPane alignment="CENTER" prefHeight="62.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Criar Edição de Unidade Curricular" textAlignment="CENTER">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </FlowPane>
+    </top>
+    <bottom>
+        <FlowPane alignment="CENTER" hgap="130.0" prefHeight="50.0" prefWidth="478.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#createEdicaoUC" prefHeight="25.0" prefWidth="100.0" text="Criar " />
+                <Button mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="100.0" text="Cancelar" />
+            </children>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </FlowPane>
+    </bottom>
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <Label text="Unidade Curricular">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                            <FlowPane.margin>
+                                <Insets right="110.0" />
+                            </FlowPane.margin>
+                        </Label>
+                        <Label text="Ano Letivo">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                            <FlowPane.margin>
+                                <Insets right="25.0" />
+                            </FlowPane.margin>
+                        </Label>
+                    </children>
+                </FlowPane>
+                <FlowPane alignment="TOP_CENTER" prefHeight="280.0" prefWidth="478.0">
+                    <children>
+                        <ChoiceBox fx:id="txtChoiceBoxUC" prefWidth="150.0">
+                            <FlowPane.margin>
+                                <Insets right="30.0" />
+                            </FlowPane.margin>
+                        </ChoiceBox>
+                        <ChoiceBox fx:id="txtChoiceBoxAnoLetivo" prefWidth="150.0">
+                            <FlowPane.margin>
+                                <Insets left="30.0" />
+                            </FlowPane.margin>
+                        </ChoiceBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </FlowPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

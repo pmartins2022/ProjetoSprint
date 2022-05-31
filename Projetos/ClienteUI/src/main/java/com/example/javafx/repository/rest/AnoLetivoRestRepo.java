@@ -10,6 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Repository
 public class AnoLetivoRestRepo
 {
@@ -47,5 +49,16 @@ public class AnoLetivoRestRepo
                         clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
         return responseSpec.bodyToMono(String.class).block();
+    }
+
+    public List<AnoLetivoDTO> findAll()
+    {
+        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/all").get()
+                .retrieve();
+
+        responseSpec.onStatus(HttpStatus::is4xxClientError,
+                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+        return responseSpec.bodyToMono(List.class).block();
     }
 }

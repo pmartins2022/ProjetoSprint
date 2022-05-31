@@ -1,9 +1,11 @@
 package com.example.javafx.ui;
 
 import com.example.javafx.controller.AnoLetivoController;
+import com.example.javafx.controller.EdicaoUCController;
 import com.example.javafx.controller.MainWindowController;
 import com.example.javafx.controller.PropostaController;
 import com.example.javafx.dto.AnoLetivoDTO;
+import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.application.Platform;
@@ -35,6 +37,8 @@ public class MainWindowViewController
 
     @Autowired
     private PropostaController propostaController;
+    @Autowired
+    private EdicaoUCController edicaoUCController;
 
     @FXML
     public void initialize()
@@ -79,6 +83,20 @@ public class MainWindowViewController
         stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
 
         fxmlLoader.<CreatePropostaViewController>getController().setController(propostaController);
+
+        stage.show();
+    }
+
+    public void createEdicaoUCWindow(ActionEvent actionEvent) throws IOException
+    {
+        Stage stage = new Stage();
+        stage.setTitle("Create Edicao UC");
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createEdicaoUC-window-view.fxml"));
+        stage.setScene(new Scene(fxmlLoader.load()));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+
+        fxmlLoader.<CreateEdicaoUCViewController>getController().setController(edicaoUCController);
 
         stage.show();
     }
