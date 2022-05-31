@@ -7,16 +7,31 @@ import com.grupo2.anoLetivoWS.model.factory.AnoLetivoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Classe para fazer a conversao entre objetos AnoLetivo de DTO para classe de dominio.
+ */
 @Component
 public class AnoLetivoDTOMapper
 {
     @Autowired
     private AnoLetivoFactory anoLetivoFactory;
 
+    /**
+     * Fazer a conversao para classe de dominio.
+     * @param dto o objeto dto com os dados
+     * @return o objeto convertido
+     * @throws ValidacaoInvalidaException erro de validacao
+     */
     public AnoLetivo toModel(AnoLetivoDTO dto) throws ValidacaoInvalidaException
     {
         return anoLetivoFactory.createAnoLetivo(dto.getSigla());
     }
+
+    /**
+     * Fazer a conversao para classe DTO
+     * @param ano o objeto de dominio com os dados
+     * @return o objeto convertido
+     */
 
     public AnoLetivoDTO toDTO(AnoLetivo ano)
     {

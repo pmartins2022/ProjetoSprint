@@ -12,13 +12,25 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Classe REST Controller de ano letivo. Possui endpoints para createAnoLetivo e listAnoLetivo.
+ */
 @RestController
 @RequestMapping("/anoLetivo")
 public class AnoLetivoController
 {
+
+    /**
+     * O serviço a ser utilizado por este REST Controller.
+     */
     @Autowired
     private AnoLetivoService service;
 
+    /**
+     * Endpoint que possibilita a criaçao de um ano letivo.
+     * @param anoLetivoDTO um objeto com os dados do ano letivo
+     * @return um ano letivo, ou um erro se os dados estiverem invalidos.
+     */
     @PostMapping("/criar")
     public ResponseEntity<AnoLetivoDTO> createAndSaveAnoLetivo(@RequestBody AnoLetivoDTO anoLetivoDTO)
     {
@@ -38,6 +50,10 @@ public class AnoLetivoController
         }
     }
 
+    /**
+     * Endpoint que possibilita a listagem dos anos letivos existentes no serviço.
+     * @return a lista atual de anos letivos, ou um erro se nao existir nenhum.
+     */
     @GetMapping("/listar")
     public ResponseEntity<Object> listAllAnoLetivo()
     {
