@@ -3,8 +3,10 @@ package com.example.javafx.ui;
 import com.example.javafx.controller.AnoLetivoController;
 import com.example.javafx.controller.MainWindowController;
 import com.example.javafx.controller.PropostaController;
+import com.example.javafx.controller.UnidadeCurricularController;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.exception.ErrorDetail;
+import com.example.javafx.service.UnidadeCurricularService;
 import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -35,6 +37,9 @@ public class MainWindowViewController
 
     @Autowired
     private PropostaController propostaController;
+
+    @Autowired
+    private UnidadeCurricularController unidadeCurricularController;
 
     @FXML
     public void initialize()
@@ -79,6 +84,21 @@ public class MainWindowViewController
         stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
 
         fxmlLoader.<CreatePropostaViewController>getController().setController(propostaController);
+
+        stage.show();
+    }
+
+    public void createUnidadeCurricularWindow(ActionEvent actionEvent) throws IOException
+    {
+
+        Stage stage = new Stage();
+        stage.setTitle("Create Unidade Curricular");
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createUnidadeCurricular-window-view.fxml"));
+        stage.setScene(new Scene(fxmlLoader.load()));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+
+        fxmlLoader.<CreateUnidadeCurricularViewController>getController().setController(unidadeCurricularController);
 
         stage.show();
     }

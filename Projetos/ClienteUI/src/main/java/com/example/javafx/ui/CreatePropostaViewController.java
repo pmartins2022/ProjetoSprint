@@ -7,7 +7,6 @@ import javafx.scene.input.KeyEvent;
 
 public class CreatePropostaViewController
 {
-
     private PropostaController controller;
 
     public TextField userIdText;
