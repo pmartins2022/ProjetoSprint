@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class BaseDadosException extends RuntimeException
+public class AtualizacaoInvalidaException extends RuntimeException
 {
-    public BaseDadosException(){}
+    public AtualizacaoInvalidaException(){}
 
-    public BaseDadosException(String message)
+    public AtualizacaoInvalidaException(String message)
     {
         super(message);
     }

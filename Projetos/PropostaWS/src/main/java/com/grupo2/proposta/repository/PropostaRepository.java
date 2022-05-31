@@ -2,8 +2,10 @@ package com.grupo2.proposta.repository;
 
 import com.grupo2.proposta.dto.EdicaoUCDTO;
 import com.grupo2.proposta.dto.OrganizacaoDTO;
+import com.grupo2.proposta.dto.PropostaDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.BaseDadosException;
+import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.jpa.PropostaJPA;
 import com.grupo2.proposta.jpa.mapper.PropostaJPAMapper;
 import com.grupo2.proposta.model.Proposta;
@@ -56,6 +58,29 @@ public class PropostaRepository
         {
             throw new BaseDadosException("Id de edicao unidade curricular "+proposta.getEdicaoUCId()+" nao existe.");
         }
+
+        PropostaJPA jpa = mapper.toJPA(proposta);
+
+        PropostaJPA saved = jpaRepository.save(jpa);
+
+        return mapper.toModel(saved);
+    }
+
+    public Proposta findById(Long id) throws IdInvalidoException
+    {
+        Optional<PropostaJPA> jpa = jpaRepository.findById(id);
+
+        if (jpa.isEmpty())
+        {
+            throw new IdInvalidoException("Id de proposta "+id+" nao existe.");
+        }
+
+        return mapper.toModel(jpa.get());
+    }
+
+    public Proposta atualizarProposta(Proposta proposta)
+    {
+        jpaRepository.deleteById(proposta.getId());
 
         PropostaJPA jpa = mapper.toJPA(proposta);
 

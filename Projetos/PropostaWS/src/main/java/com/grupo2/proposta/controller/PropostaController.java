@@ -1,7 +1,9 @@
 package com.grupo2.proposta.controller;
 
 import com.grupo2.proposta.dto.PropostaDTO;
+import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
+import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,9 +33,20 @@ public class PropostaController
     }
 
     @GetMapping("/rejeitar/{id}")
-    public ResponseEntity<Object> rejeitarProposta(@PathVariable(name = "id") Long id)
+    public ResponseEntity<PropostaDTO> rejeitarProposta(@PathVariable(name = "id") Long id)
     {
-        return null;
+        try
+        {
+            PropostaDTO dto = service.rejeitarProposta(id);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        catch (IdInvalidoException e)
+        {
+            throw new IdInvalidoException(e.getMessage());
+        }
+        catch (AtualizacaoInvalidaException e)
+        {
+            throw new AtualizacaoInvalidaException(e.getMessage());
+        }
     }
-
 }

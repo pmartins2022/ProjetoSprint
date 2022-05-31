@@ -1,5 +1,6 @@
 package com.grupo2.proposta.model;
 
+import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.ValidacaoInvalidaException;
 
 public class Proposta
@@ -104,11 +105,19 @@ public class Proposta
 
     public void aprovarProposta()
     {
+        if (estadoAtual != PropostaEstado.CANDIDATURA)
+        {
+            throw new AtualizacaoInvalidaException("Nao e possivel mudar o estado da proposta. Ja se encontra "+this.estadoAtual.name());
+        }
         this.estadoAtual = PropostaEstado.APROVADO;
     }
 
     public void reprovarProposta()
     {
+        if (estadoAtual != PropostaEstado.CANDIDATURA)
+        {
+            throw new AtualizacaoInvalidaException("Nao e possivel mudar o estado da proposta. Ja se encontra "+this.estadoAtual.name());
+        }
         this.estadoAtual = PropostaEstado.REPROVADO;
     }
 
