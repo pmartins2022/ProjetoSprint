@@ -96,9 +96,9 @@ public class MainWindowViewController
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
 
-        fxmlLoader.<CreateEdicaoUCViewController>getController().setController(edicaoUCController);
-
         stage.show();
+
+        fxmlLoader.<CreateEdicaoUCViewController>getController().setController(edicaoUCController);
     }
 
     public void createUnidadeCurricularWindow(ActionEvent actionEvent) throws IOException

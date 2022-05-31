@@ -2,13 +2,12 @@ package com.example.javafx.repository.rest;
 
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.exception.ErrorDetail;
-import com.example.javafx.exception.RestPostException;
+import com.example.javafx.exception.RestException;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class AnoLetivoRestRepo
                 retrieve().bodyToMono(String.class).onErrorReturn("Nao deu :(").block();
     }
 
-    public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestPostException
+    public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestException
     {
         try
         {
@@ -34,9 +33,9 @@ public class AnoLetivoRestRepo
 
             return responseSpec.bodyToMono(AnoLetivoDTO.class).block();
         }
-        catch (RestPostException e)
+        catch (RestException e)
         {
-            throw new RestPostException("Problema no servidor: "+e.getMessage());
+            throw new RestException("Problema no servidor: "+e.getMessage());
         }
     }
 
@@ -51,14 +50,23 @@ public class AnoLetivoRestRepo
         return responseSpec.bodyToMono(String.class).block();
     }
 
-    public List<AnoLetivoDTO> findAll()
+    public List<AnoLetivoDTO> findAll() throws RestException
     {
-        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/all").get()
-                .retrieve();
+        try
+        {
+            final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/all").get()
+                    .retrieve();
 
-        responseSpec.onStatus(HttpStatus::is4xxClientError,
-                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-        return responseSpec.bodyToMono(List.class).block();
+            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<AnoLetivoDTO>>()
+            {
+            }).block();
+        }
+        catch (RestException e)
+        {
+            throw new RestException(e.getMessage());
+        }
     }
 }
