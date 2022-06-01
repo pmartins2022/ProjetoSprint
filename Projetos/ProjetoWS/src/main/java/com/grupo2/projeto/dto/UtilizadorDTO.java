@@ -1,6 +1,6 @@
-package com.grupo2.proposta.dto;
+package com.grupo2.projeto.dto;
 
-import com.grupo2.proposta.model.TipoUtilizador;
+import com.grupo2.projeto.model.TipoUtilizador;
 
 public class UtilizadorDTO
 {

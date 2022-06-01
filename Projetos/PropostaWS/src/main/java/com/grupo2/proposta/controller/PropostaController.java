@@ -1,30 +1,23 @@
 package com.grupo2.proposta.controller;
 
-<<<<<<< HEAD
-import com.grupo2.proposta.dto.OrganizacaoDTO;
-=======
+
 import com.grupo2.proposta.dto.ProjetoDTO;
->>>>>>> 8498491f3c0309626721882a21ce238b2f264e97
 import com.grupo2.proposta.dto.PropostaDTO;
 import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
 import com.grupo2.proposta.exception.IdInvalidoException;
-<<<<<<< HEAD
 import com.grupo2.proposta.exception.ListaVaziaException;
-=======
 import com.grupo2.proposta.exception.ValidacaoInvalidaException;
->>>>>>> 8498491f3c0309626721882a21ce238b2f264e97
 import com.grupo2.proposta.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
+
 import java.util.List;
-=======
 import java.util.Optional;
->>>>>>> 8498491f3c0309626721882a21ce238b2f264e97
+
 
 @RestController
 @RequestMapping("/proposta")

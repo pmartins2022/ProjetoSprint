@@ -1,4 +1,4 @@
-package com.grupo2.proposta.dto;
+package com.grupo2.projeto.model;
 
 public enum TipoUtilizador
 {

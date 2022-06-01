@@ -1,12 +1,8 @@
 package com.grupo2.proposta.service;
 
-<<<<<<< HEAD
-import com.grupo2.proposta.dto.OrganizacaoDTO;
-=======
 import com.grupo2.proposta.dto.ProjetoDTO;
->>>>>>> 8498491f3c0309626721882a21ce238b2f264e97
 import com.grupo2.proposta.dto.PropostaDTO;
-import com.grupo2.proposta.dto.TipoUtilizador;
+import com.grupo2.proposta.model.TipoUtilizador;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
 import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
@@ -73,8 +69,6 @@ public class PropostaService
         return mapper.toDTO(propostaSaved);
     }
 
-<<<<<<< HEAD
-
     public List<PropostaDTO> findByNif(Integer nif)
     {
         List<Proposta> lista = repository.findByNif(nif);
@@ -91,7 +85,8 @@ public class PropostaService
         List<PropostaDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
 
         return listaDTOS;
-=======
+    }
+
     public ProjetoDTO acceptProposta(Long propostaID, Long orientadorID, Long alunoID) throws AtualizacaoInvalidaException, IdInvalidoException
     {
         Optional<Proposta> proposta = repository.findById(propostaID);
@@ -142,6 +137,5 @@ public class PropostaService
         ProjetoDTO saved = projetoRestRepository.create(projetoDTO);
 
         return saved;
->>>>>>> 8498491f3c0309626721882a21ce238b2f264e97
     }
 }

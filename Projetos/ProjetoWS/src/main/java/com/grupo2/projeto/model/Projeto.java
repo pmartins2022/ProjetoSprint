@@ -1,5 +1,7 @@
 package com.grupo2.projeto.model;
 
+import java.util.Objects;
+
 public class Projeto
 {
     private Long id;
@@ -63,5 +65,14 @@ public class Projeto
     public void setOrientadorId(Long orientadorId)
     {
         this.orientadorId = orientadorId;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Projeto)) return false;
+        Projeto projeto = (Projeto) o;
+        return Objects.equals(getId(), projeto.getId()) && Objects.equals(getPropostaId(), projeto.getPropostaId()) && Objects.equals(getEstudanteId(), projeto.getEstudanteId()) && Objects.equals(getOrientadorId(), projeto.getOrientadorId());
     }
 }
