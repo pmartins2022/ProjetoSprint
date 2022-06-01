@@ -2,7 +2,6 @@ package com.grupo2.proposta.repository;
 
 import com.grupo2.proposta.dto.EdicaoUCDTO;
 import com.grupo2.proposta.dto.OrganizacaoDTO;
-import com.grupo2.proposta.dto.PropostaDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.BaseDadosException;
 import com.grupo2.proposta.exception.IdInvalidoException;
@@ -16,6 +15,7 @@ import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -87,5 +87,30 @@ public class PropostaRepository
         PropostaJPA saved = jpaRepository.save(jpa);
 
         return mapper.toModel(saved);
+    }
+
+    public List<Proposta> findByIdUtilizador(Long id)
+    {
+        List<PropostaJPA> lista = jpaRepository.findAllByutilizadorId();
+
+        List<Proposta> listaModel = lista.stream().map(mapper::toModel).toList();
+
+        return listaModel;
+    }
+
+    public List<Proposta> findByNif(Integer nif)
+    {
+        Optional<OrganizacaoDTO> dto = organizacaoRestRepository.findByNIF(nif);
+
+        if (dto.isEmpty())
+        {
+            return List.of();
+        }
+
+        List<PropostaJPA> lista = jpaRepository.findByorganizacaoId(dto.get().getId());
+
+        List<Proposta> listaModel = lista.stream().map(mapper::toModel).toList();
+
+        return listaModel;
     }
 }

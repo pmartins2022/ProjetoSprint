@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Classe que inclui metodo que comunicam com o repositorio atual. Possui metodo para criar anos letivos e
+ * listagem dos anos letivos existentes.
+ */
 @Service
 public class AnoLetivoService
 {
@@ -19,6 +23,12 @@ public class AnoLetivoService
     @Autowired
     private AnoLetivoDTOMapper mapper;
 
+    /**
+     *
+     * @param anoLetivoDTO
+     * @return
+     * @throws ValidacaoInvalidaException
+     */
     public AnoLetivoDTO createAndSaveAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws ValidacaoInvalidaException
     {
         AnoLetivo anoLetivo = mapper.toModel(anoLetivoDTO);

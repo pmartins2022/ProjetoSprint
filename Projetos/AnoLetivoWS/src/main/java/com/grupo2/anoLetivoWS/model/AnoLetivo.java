@@ -2,6 +2,8 @@ package com.grupo2.anoLetivoWS.model;
 
 import com.grupo2.anoLetivoWS.exception.ValidacaoInvalidaException;
 
+import java.util.Objects;
+
 public class AnoLetivo
 {
     private String sigla;
@@ -32,5 +34,14 @@ public class AnoLetivo
     public void setSigla(String sigla)
     {
         validate(sigla);
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnoLetivo anoLetivo = (AnoLetivo) o;
+        return Objects.equals(sigla, anoLetivo.sigla);
     }
 }

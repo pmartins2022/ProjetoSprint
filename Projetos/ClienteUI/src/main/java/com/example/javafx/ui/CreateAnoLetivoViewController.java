@@ -3,14 +3,12 @@ package com.example.javafx.ui;
 import com.example.javafx.controller.AnoLetivoController;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.exception.ErrorDetail;
-import com.example.javafx.exception.RestPostException;
 import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.WindowEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller

@@ -36,8 +36,8 @@ public class EdicaoUCController
         }
     }
 
-    @GetMapping("/listar")
-    public ResponseEntity<List<EdicaoUCDTO>> listEdicaoByUCCode(@RequestParam() String UCCode)
+    @GetMapping("/listar/{UCCode}")
+    public ResponseEntity<List<EdicaoUCDTO>> listEdicaoByUCCode(@PathVariable(name = "UCCode") String UCCode)
     {
         List<EdicaoUCDTO> opEdicaoUC = service.findAllEdicaoByUCCode(UCCode);
         return new ResponseEntity<>(opEdicaoUC, HttpStatus.OK);

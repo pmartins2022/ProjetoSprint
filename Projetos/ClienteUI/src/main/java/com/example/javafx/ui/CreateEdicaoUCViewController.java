@@ -25,6 +25,7 @@ public class CreateEdicaoUCViewController
 
     public void setController(EdicaoUCController controller)
     {
+        System.out.println("set");
         this.controller = controller;
 
         try
@@ -32,15 +33,15 @@ public class CreateEdicaoUCViewController
             txtChoiceBoxUC.getItems().addAll(controller.findAllUC());
 
             txtChoiceBoxAnoLetivo.getItems().addAll(controller.findAllAnoLetivo());
+
+            txtChoiceBoxUC.getSelectionModel().selectFirst();
+            txtChoiceBoxAnoLetivo.getSelectionModel().selectFirst();
         }
-        catch(ListaVaziaException e)
+        catch(ErrorDetail e)
         {
-            AlertBuilder.showAlert(Alert.AlertType.WARNING,"Atenção","Atenção", e.getMessage());
+            AlertBuilder.showAlert(Alert.AlertType.ERROR,"Erro "+e.getStatus(),e.getTitle(), e.getDetail());
             closeWindow(null);
         }
-
-        txtChoiceBoxUC.getSelectionModel().selectFirst();
-        txtChoiceBoxAnoLetivo.getSelectionModel().selectFirst();
     }
 
     public void createEdicaoUC(ActionEvent actionEvent)

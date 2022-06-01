@@ -1,5 +1,8 @@
 package com.grupo2.anoLetivoWS.exception;
 
+/**
+ * Classe especial que constrói mensagens de erro para serem transportadas para o ClienteUI.
+ */
 public class ErrorDetail
 {
     private String title;

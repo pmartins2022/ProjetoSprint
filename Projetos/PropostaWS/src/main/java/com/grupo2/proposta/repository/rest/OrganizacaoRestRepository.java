@@ -22,4 +22,17 @@ public class OrganizacaoRestRepository
 
         return Optional.of(dto);
     }
+
+    public Optional<OrganizacaoDTO> findByNIF(Integer nif)
+    {
+        OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao?nif="+nif).get().
+                retrieve().bodyToMono(OrganizacaoDTO.class).block();
+
+        if (dto == null)
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(dto);
+    }
 }
