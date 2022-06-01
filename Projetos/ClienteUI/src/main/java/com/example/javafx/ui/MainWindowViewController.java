@@ -34,6 +34,7 @@ public class MainWindowViewController
 
     @Autowired
     private PropostaController propostaController;
+
     @Autowired
     private EdicaoUCController edicaoUCController;
 

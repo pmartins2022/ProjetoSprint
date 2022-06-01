@@ -2,7 +2,7 @@ package com.example.javafx.controller;
 
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;
-import com.example.javafx.exception.RestException;
+import com.example.javafx.exception.RestPostException;
 import com.example.javafx.service.EdicaoUCService;
 import com.example.javafx.dto.UnidadeCurricularDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class EdicaoUCController
         return listAnoLetivoDTO;
     }
 
-    public EdicaoUCDTO createEdicaoUC(UnidadeCurricularDTO ucDTO, AnoLetivoDTO anoLetivoDTO) throws RestException
+    public EdicaoUCDTO createEdicaoUC(UnidadeCurricularDTO ucDTO, AnoLetivoDTO anoLetivoDTO) throws RestPostException
     {
         EdicaoUCDTO edicaoUCDTO = service.createAndSave(ucDTO, anoLetivoDTO);
 

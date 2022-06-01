@@ -1,7 +1,7 @@
 package com.example.javafx.service;
 
 import com.example.javafx.dto.AnoLetivoDTO;
-import com.example.javafx.exception.RestException;
+import com.example.javafx.exception.RestPostException;
 import com.example.javafx.repository.rest.AnoLetivoRestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class AnoLetivoService
         return restRepo.getString();
     }
 
-    public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestException
+    public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestPostException
     {
         return restRepo.createAnoLetivo(anoLetivoDTO);
     }

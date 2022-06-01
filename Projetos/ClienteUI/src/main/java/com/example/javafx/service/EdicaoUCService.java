@@ -3,7 +3,7 @@ package com.example.javafx.service;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.dto.UnidadeCurricularDTO;
-import com.example.javafx.exception.RestException;
+import com.example.javafx.exception.RestPostException;
 import com.example.javafx.repository.rest.AnoLetivoRestRepo;
 import com.example.javafx.repository.rest.EdicaoUCRestRepo;
 import com.example.javafx.repository.rest.UnidadeCurricularRestRepo;
@@ -38,7 +38,7 @@ public class EdicaoUCService
         return listAnoLetivoDTO;
     }
 
-    public EdicaoUCDTO createAndSave(UnidadeCurricularDTO ucDTO, AnoLetivoDTO anoLetivoDTO) throws RestException
+    public EdicaoUCDTO createAndSave(UnidadeCurricularDTO ucDTO, AnoLetivoDTO anoLetivoDTO) throws RestPostException
     {
         EdicaoUCDTO edicaoUCDTO = new EdicaoUCDTO(ucDTO.getSigla(), anoLetivoDTO.getSigla());
 

@@ -2,7 +2,7 @@ package com.example.javafx.repository.rest;
 
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.exception.ErrorDetail;
-import com.example.javafx.exception.RestException;
+import com.example.javafx.exception.RestPostException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -20,7 +20,7 @@ public class AnoLetivoRestRepo
                 retrieve().bodyToMono(String.class).onErrorReturn("Nao deu :(").block();
     }
 
-    public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestException
+    public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestPostException
     {
         try
         {
@@ -33,9 +33,9 @@ public class AnoLetivoRestRepo
 
             return responseSpec.bodyToMono(AnoLetivoDTO.class).block();
         }
-        catch (RestException e)
+        catch (RestPostException e)
         {
-            throw new RestException("Problema no servidor: "+e.getMessage());
+            throw new RestPostException("Problema no servidor: "+e.getMessage());
         }
     }
 
@@ -50,7 +50,7 @@ public class AnoLetivoRestRepo
         return responseSpec.bodyToMono(String.class).block();
     }
 
-    public List<AnoLetivoDTO> findAll() throws RestException
+    public List<AnoLetivoDTO> findAll() throws RestPostException
     {
         try
         {
@@ -64,9 +64,9 @@ public class AnoLetivoRestRepo
             {
             }).block();
         }
-        catch (RestException e)
+        catch (RestPostException e)
         {
-            throw new RestException(e.getMessage());
+            throw new RestPostException(e.getMessage());
         }
     }
 }
