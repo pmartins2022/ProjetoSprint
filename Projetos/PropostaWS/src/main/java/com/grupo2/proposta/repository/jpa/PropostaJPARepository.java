@@ -8,7 +8,7 @@ import java.util.List;
 public interface PropostaJPARepository extends JpaRepository<PropostaJPA,Long>
 {
 
-    List<PropostaJPA> findAllByutilizadorId();
+    List<PropostaJPA> findAllByutilizadorId(Long id);
 
     List<PropostaJPA> findByorganizacaoId(Long id);
 }
