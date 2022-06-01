@@ -36,9 +36,6 @@ public class UnidadeCurricularDTO
     @Override
     public String toString()
     {
-        return "UnidadeCurricularDTO{" +
-                "sigla='" + sigla + '\'' +
-                ", denominacao='" + denominacao + '\'' +
-                '}';
+        return String.format("Sigla: %s; Denominação: %s", sigla, denominacao);
     }
 }

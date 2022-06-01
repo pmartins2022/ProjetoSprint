@@ -26,8 +26,6 @@ public class AnoLetivoDTO
     @Override
     public String toString()
     {
-        return "AnoLetivoDTO{" +
-                "sigla='" + sigla + '\'' +
-                '}';
+        return String.format("Sigla: %s", sigla);
     }
 }

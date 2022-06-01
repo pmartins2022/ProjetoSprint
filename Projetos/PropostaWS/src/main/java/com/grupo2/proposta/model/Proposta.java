@@ -103,7 +103,7 @@ public class Proposta
         return estadoAtual;
     }
 
-    public void aprovarProposta()
+    public void aprovarProposta() throws AtualizacaoInvalidaException
     {
         if (estadoAtual != PropostaEstado.CANDIDATURA)
         {
@@ -112,7 +112,7 @@ public class Proposta
         this.estadoAtual = PropostaEstado.APROVADO;
     }
 
-    public void reprovarProposta()
+    public void reprovarProposta() throws AtualizacaoInvalidaException
     {
         if (estadoAtual != PropostaEstado.CANDIDATURA)
         {

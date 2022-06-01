@@ -26,7 +26,7 @@ public class EdicaoUCRestRepo
         }
         catch (RestException e)
         {
-            throw new RestException("Problema no servidor: "+ e.getMessage());
+            throw new RestException("Problema no servidor: " + e.getMessage());
         }
     }
 }

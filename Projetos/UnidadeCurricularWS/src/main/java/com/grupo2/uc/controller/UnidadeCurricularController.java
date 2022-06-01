@@ -73,7 +73,7 @@ public class UnidadeCurricularController
 
         if (lista.isEmpty())
         {
-            throw new ListaVaziaException("A lista de Unidades Curriculares encontrasse vazia");
+            throw new ListaVaziaException("A lista de Unidades Curriculares encontra-se vazia");
         }
 
         return new ResponseEntity<>(lista,HttpStatus.OK);

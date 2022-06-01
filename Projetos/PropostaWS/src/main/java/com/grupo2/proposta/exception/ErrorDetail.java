@@ -1,6 +1,6 @@
 package com.grupo2.proposta.exception;
 
-public class ErrorDetail
+public class ErrorDetail extends RuntimeException
 {
     private String title;
     private int status;
