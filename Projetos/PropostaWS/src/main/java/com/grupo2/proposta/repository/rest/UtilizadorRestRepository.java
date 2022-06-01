@@ -11,7 +11,7 @@ public class UtilizadorRestRepository
 {
     public Optional<UtilizadorDTO> findById(Long id)
     {
-        UtilizadorDTO dto = WebClient.create("http://localhost:8087/utilizador/{"+id+"}").get().
+         UtilizadorDTO dto = WebClient.create("http://localhost:8087/utilizador/"+id).get().
                 retrieve().bodyToMono(UtilizadorDTO.class).block();
 
         if (dto == null)

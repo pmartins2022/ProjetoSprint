@@ -31,4 +31,12 @@ public class ProjetoController
             throw new ErroGeralException("Nao existe nenhum projeto com esse ID");
         }
     }
+
+    @PostMapping("/criar")
+    public ResponseEntity<ProjetoDTO> create(@RequestBody ProjetoDTO projetoDTO)
+    {
+        ProjetoDTO projetoDTOSaved = service.createAndSave(projetoDTO);
+
+        return new ResponseEntity<>(projetoDTOSaved, HttpStatus.OK);
+    }
 }

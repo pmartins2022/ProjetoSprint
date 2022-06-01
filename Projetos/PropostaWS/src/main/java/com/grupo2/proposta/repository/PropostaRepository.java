@@ -38,6 +38,7 @@ public class PropostaRepository
 
     public Proposta createProposta(Proposta proposta) throws BaseDadosException
     {
+        System.out.println("Find by id "+proposta.getUtilizadorId());
         Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId());
 
         if (utilizadorId.isEmpty())

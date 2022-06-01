@@ -29,6 +29,17 @@ public class PropostaDTO
         this.estadoAtual = estadoAtual;
     }
 
+    public PropostaDTO(Long utilizadorId, Long organizacaoId, String titulo, String problema, String objetivo, Long edicaoUCId, PropostaEstado estadoAtual)
+    {
+        this.utilizadorId = utilizadorId;
+        this.organizacaoId = organizacaoId;
+        this.titulo = titulo;
+        this.problema = problema;
+        this.objetivo = objetivo;
+        this.edicaoUCId = edicaoUCId;
+        this.estadoAtual = estadoAtual;
+    }
+
     public Long getId()
     {
         return id;
@@ -108,4 +119,6 @@ public class PropostaDTO
     {
         this.estadoAtual = estadoAtual;
     }
+
+
 }

@@ -12,7 +12,7 @@ public class OrganizacaoRestRepository
 {
     public Optional<OrganizacaoDTO> findById(Long id)
     {
-        OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao/{"+id+"}").get().
+        OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao/"+id).get().
                 retrieve().bodyToMono(OrganizacaoDTO.class).block();
 
         if (dto == null)

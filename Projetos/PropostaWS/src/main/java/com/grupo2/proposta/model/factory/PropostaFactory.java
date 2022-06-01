@@ -11,4 +11,9 @@ public class PropostaFactory
     {
         return new Proposta(id, utilizadorId,organizacaoId,titulo,problema,objetivo,edicaoUcId,estadoAtual);
     }
+
+    public Proposta createProposta(long utilizadorId, long organizacaoId, String titulo, String problema, String objetivo, long edicaoUcId, PropostaEstado estadoAtual)
+    {
+        return new Proposta(utilizadorId,organizacaoId,titulo,problema,objetivo,edicaoUcId,estadoAtual);
+    }
 }

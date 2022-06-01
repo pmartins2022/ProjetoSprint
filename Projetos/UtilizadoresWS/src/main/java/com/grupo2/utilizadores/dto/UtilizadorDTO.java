@@ -5,7 +5,7 @@ import com.grupo2.utilizadores.model.Utilizador;
 
 public class UtilizadorDTO
 {
-    private long id;
+    private Long id;
     private String nome;
     private String sobrenome;
     private String email;
@@ -15,7 +15,7 @@ public class UtilizadorDTO
     {
     }
 
-    public UtilizadorDTO(long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
+    public UtilizadorDTO(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
     {
         this.id = id;
         this.nome = nome;
@@ -24,12 +24,12 @@ public class UtilizadorDTO
         this.tipoUtilizador = tipoUtilizador;
     }
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }

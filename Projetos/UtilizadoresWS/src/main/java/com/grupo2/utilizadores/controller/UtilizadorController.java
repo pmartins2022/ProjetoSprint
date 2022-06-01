@@ -24,6 +24,7 @@ public class UtilizadorController
     @GetMapping("/{id}")
     public ResponseEntity<Object> findByID(@PathVariable("id") Long id)
     {
+        System.out.println("Find by id "+id);
         Optional<UtilizadorDTO> optionalUtilizadorDTO = service.findByID(id);
 
         if (optionalUtilizadorDTO.isEmpty())

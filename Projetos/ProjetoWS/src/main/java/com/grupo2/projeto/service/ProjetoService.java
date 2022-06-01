@@ -38,6 +38,6 @@ public class ProjetoService
 
         Projeto savedProjeto = repository.saveProjeto(projeto);
 
-        return mapper.toDTO(projeto);
+        return mapper.toDTO(savedProjeto);
     }
 }

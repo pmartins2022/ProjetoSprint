@@ -44,6 +44,11 @@ public class CreateEdicaoUCViewController
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
             closeWindow(null);
         }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro fatal", "Erro fatal", e.getMessage());
+            closeWindow(null);
+        }
     }
 
     public void createEdicaoUC(ActionEvent actionEvent)

@@ -4,7 +4,7 @@ import com.grupo2.utilizadores.exception.OptionalVazioException;
 
 public class Utilizador
 {
-    private long id;
+    private Long id;
     private String nome;
     private String sobrenome;
     private String email;
@@ -19,7 +19,7 @@ public class Utilizador
     {
     }
 
-    public Utilizador(long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
+    public Utilizador(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
     {
         validateNome(nome);
         validateSobrenome(sobrenome);
@@ -93,12 +93,12 @@ public class Utilizador
         }
     }
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }

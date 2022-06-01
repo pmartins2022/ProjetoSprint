@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/edicaoUC")
@@ -43,6 +44,18 @@ public class EdicaoUCController
         return new ResponseEntity<>(opEdicaoUC, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable(name = "id") Long id)
+    {
+        Optional<EdicaoUCDTO> dto = service.findById(id);
+
+        if (dto.isPresent())
+        {
+            return new ResponseEntity<>(dto,HttpStatus.OK);
+        }
+
+        throw new ErroGeralException("Nao encontrou edicao UC com id "+id);
+    }
 }
 
 

@@ -12,7 +12,7 @@ public class EdicaoUCRestRepository
 {
     public Optional<EdicaoUCDTO> findById(Long id)
     {
-        EdicaoUCDTO dto = WebClient.create("http://localhost:8082/edicao/{"+id+"}").get().
+        EdicaoUCDTO dto = WebClient.create("http://localhost:8082/edicaoUC/"+id).get().
                 retrieve().bodyToMono(EdicaoUCDTO.class).block();
 
         if (dto == null)

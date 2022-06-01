@@ -48,4 +48,17 @@ public class EdicaoUCRepository
             return Optional.empty();
         }
     }
+
+    public Optional<EdicaoUC> findById(Long id)
+    {
+        Optional<EdicaoUCJPA> jpa = jpaRepository.findById(id);
+
+        if (jpa.isPresent())
+        {
+            return Optional.of(mapper.toModel(jpa.get()));
+        }
+
+        return Optional.empty();
+
+    }
 }

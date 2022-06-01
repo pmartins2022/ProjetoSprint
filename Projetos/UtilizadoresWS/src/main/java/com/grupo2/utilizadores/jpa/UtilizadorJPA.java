@@ -30,7 +30,7 @@ public class UtilizadorJPA
         this.tipoUtilizador = tipoUtilizador;
     }
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
