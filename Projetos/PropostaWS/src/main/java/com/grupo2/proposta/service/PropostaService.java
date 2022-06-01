@@ -1,11 +1,17 @@
 package com.grupo2.proposta.service;
 
+import com.grupo2.proposta.dto.ProjetoDTO;
 import com.grupo2.proposta.dto.PropostaDTO;
+import com.grupo2.proposta.dto.TipoUtilizador;
+import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
+import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
 import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.model.Proposta;
 import com.grupo2.proposta.repository.PropostaRepository;
+import com.grupo2.proposta.repository.rest.ProjetoRestRepository;
+import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +22,10 @@ public class PropostaService
 {
     @Autowired
     private PropostaRepository repository;
+    @Autowired
+    private UtilizadorRestRepository utilizadorRestRepository;
+    @Autowired
+    private ProjetoRestRepository projetoRestRepository;
 
     @Autowired
     private PropostaDTOMapper mapper;
@@ -29,15 +39,26 @@ public class PropostaService
         return mapper.toDTO(proposta);
     }
 
-    public PropostaDTO rejeitarProposta(Long id) throws IdInvalidoException
+    public Optional<PropostaDTO> rejeitarProposta(Long id)
     {
-        Proposta prop = repository.findById(id);
+        Optional<Proposta> prop = repository.findById(id);
 
-        prop.reprovarProposta();
+        if (prop.isEmpty())
+        {
+            return Optional.empty();
+        }
 
-        PropostaDTO propostaDTOSaved = atualizarProposta(prop);
+        try
+        {
+            prop.get().reprovarProposta();
+        } catch (AtualizacaoInvalidaException e)
+        {
+            throw new AtualizacaoInvalidaException(e.getMessage());
+        }
 
-        return propostaDTOSaved;
+        PropostaDTO propostaDTOSaved = atualizarProposta(prop.get());
+
+        return Optional.of(propostaDTOSaved);
     }
 
     private PropostaDTO atualizarProposta(Proposta proposta)
@@ -47,4 +68,55 @@ public class PropostaService
         return mapper.toDTO(propostaSaved);
     }
 
+    public ProjetoDTO acceptProposta(Long propostaID, Long orientadorID, Long alunoID) throws AtualizacaoInvalidaException, IdInvalidoException
+    {
+        Optional<Proposta> proposta = repository.findById(propostaID);
+        if (proposta.isEmpty())
+        {
+            throw new IdInvalidoException("Id de proposta " + propostaID + " nao existe.");
+        }
+
+        try
+        {
+            proposta.get().aprovarProposta();
+        } catch (AtualizacaoInvalidaException e)
+        {
+            throw new AtualizacaoInvalidaException(e.getMessage());
+        }
+
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
+        Optional<UtilizadorDTO> estudanteDTO = utilizadorRestRepository.findById(alunoID);
+
+        if (orientadorDTO.isEmpty())
+        {
+            throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
+        }
+        else if ( orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR)
+        {
+            throw new IdInvalidoException("O ID introduzido nao é um orientador.");
+        }
+        if (estudanteDTO.isEmpty())
+        {
+            throw new IdInvalidoException("Id de Estudante " + alunoID + " nao existe.");
+        }
+        else if (estudanteDTO.get().getTipoUtilizador() != TipoUtilizador.ALUNO)
+        {
+            throw new IdInvalidoException("O ID introduzido nao é um aluno.");
+        }
+
+        ProjetoDTO projetoDTO = createProject(propostaID, orientadorID, alunoID);
+
+        atualizarProposta(proposta.get());
+
+        return projetoDTO;
+    }
+
+    public ProjetoDTO createProject(Long propostaID, Long orientadorID, Long estudanteID)
+    {
+        ProjetoDTO projetoDTO = new ProjetoDTO(propostaID, orientadorID, estudanteID);
+
+        ProjetoDTO saved = projetoRestRepository.create(projetoDTO);
+
+        return saved;
+    }
 }

@@ -25,21 +25,23 @@ public class CreateEdicaoUCViewController
 
     public void setController(EdicaoUCController controller)
     {
-        System.out.println("set");
         this.controller = controller;
 
+        initializeChoiceBoxs();
+    }
+
+    public void initializeChoiceBoxs()
+    {
         try
         {
             txtChoiceBoxUC.getItems().addAll(controller.findAllUC());
-
             txtChoiceBoxAnoLetivo.getItems().addAll(controller.findAllAnoLetivo());
 
             txtChoiceBoxUC.getSelectionModel().selectFirst();
             txtChoiceBoxAnoLetivo.getSelectionModel().selectFirst();
-        }
-        catch(ErrorDetail e)
+        } catch (ErrorDetail e)
         {
-            AlertBuilder.showAlert(Alert.AlertType.ERROR,"Erro "+e.getStatus(),e.getTitle(), e.getDetail());
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
             closeWindow(null);
         }
     }
@@ -53,12 +55,10 @@ public class CreateEdicaoUCViewController
 
             final EdicaoUCDTO edicaoUCDTO = controller.createEdicaoUC(ucDTO, anoLetivoDTO);
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Edição de Unidade Curricular criada com sucesso. " + edicaoUCDTO.toString());
-        }
-        catch (ErrorDetail e)
+        } catch (ErrorDetail e)
         {
-            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+ e.getStatus(), e.getTitle(), e.getDetail());
-        }
-        catch (Exception e)
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
         }

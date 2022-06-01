@@ -56,9 +56,6 @@ public class EdicaoUCDTO
     @Override
     public String toString()
     {
-        return "EdicaoUCDTO{" +
-                "UCCode='" + ucCode + '\'' +
-                "anoLetivoCode='" + anoLetivoCode + '\'' +
-                '}';
+        return String.format("Unidade Curricular: %s; Ano Letivo: %s", ucCode, anoLetivoCode);
     }
 }

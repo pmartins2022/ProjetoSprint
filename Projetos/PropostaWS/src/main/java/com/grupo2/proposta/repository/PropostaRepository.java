@@ -66,16 +66,13 @@ public class PropostaRepository
         return mapper.toModel(saved);
     }
 
-    public Proposta findById(Long id) throws IdInvalidoException
+    public Optional<Proposta> findById(Long id)
     {
         Optional<PropostaJPA> jpa = jpaRepository.findById(id);
 
-        if (jpa.isEmpty())
-        {
-            throw new IdInvalidoException("Id de proposta "+id+" nao existe.");
-        }
+        if (jpa.isEmpty()) return Optional.empty();
 
-        return mapper.toModel(jpa.get());
+        return Optional.of(mapper.toModel(jpa.get()));
     }
 
     public Proposta atualizarProposta(Proposta proposta)

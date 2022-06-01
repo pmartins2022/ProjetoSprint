@@ -39,7 +39,7 @@ public class CreateAnoLetivoViewController
         }
         catch (ErrorDetail e)
         {
-            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
         }
         catch (Exception e)
         {
