@@ -5,9 +5,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Classe RestExceptionHandler
+ */
 @ControllerAdvice
 public class RestExceptionHandler
 {
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informacao do erro.
+     * @param ex objeto do tipo ErroGeralException
+     * @return ResponseEnntity erroDetail e um BAD_REQUEST
+     */
     @ExceptionHandler(ErroGeralException.class)
     public ResponseEntity<?> handleErroGeralException(ErroGeralException ex)
     {
