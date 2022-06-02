@@ -3,6 +3,8 @@ package com.grupo2.utilizadores.dto;
 import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
 
+import java.util.Objects;
+
 public class UtilizadorDTO
 {
     private Long id;
@@ -18,6 +20,14 @@ public class UtilizadorDTO
     public UtilizadorDTO(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
     {
         this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.tipoUtilizador = tipoUtilizador;
+    }
+
+    public UtilizadorDTO(String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
+    {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
@@ -72,5 +82,32 @@ public class UtilizadorDTO
     public void setTipoUtilizador(TipoUtilizador tipoUtilizador)
     {
         this.tipoUtilizador = tipoUtilizador;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UtilizadorDTO that = (UtilizadorDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(sobrenome, that.sobrenome) && Objects.equals(email, that.email) && tipoUtilizador == that.tipoUtilizador;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, nome, sobrenome, email, tipoUtilizador);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "UtilizadorDTO{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", email='" + email + '\'' +
+                ", tipoUtilizador=" + tipoUtilizador +
+                '}';
     }
 }
