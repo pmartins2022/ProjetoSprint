@@ -117,11 +117,10 @@ public class Projeto
         this.orientadorId = orientadorId;
     }
 
-
     /**
-     *Conpara dois objetos
-     * @param o
-     * @return
+     * Verifica se dois objetos são iguias
+     * @param o objeto a ser conparado
+     * @return true ou false, conforma os objetos comparados são iguais ou não
      */
     @Override
     public boolean equals(Object o)
