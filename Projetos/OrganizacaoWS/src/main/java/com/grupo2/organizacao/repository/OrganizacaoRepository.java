@@ -7,6 +7,7 @@ import com.grupo2.organizacao.repository.jpa.OrganizacaoJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -47,5 +48,12 @@ public class OrganizacaoRepository
         }
         Organizacao organizacao = mapper.toModel(organizacaoJPA.get());
         return Optional.of(organizacao);
+    }
+
+    public List<Organizacao> findAll()
+    {
+        List<OrganizacaoJPA> list =jpaRepository.findAll();
+
+        return list.stream().map(mapper::toModel).toList();
     }
 }

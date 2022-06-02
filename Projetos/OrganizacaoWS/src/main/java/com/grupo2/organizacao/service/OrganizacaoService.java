@@ -10,6 +10,7 @@ import com.grupo2.organizacao.repository.rest.NifRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,5 +62,12 @@ public class OrganizacaoService
             return Optional.of(dto);
         }
         return Optional.empty();
+    }
+
+    public List<OrganizacaoDTO> findAll()
+    {
+        List<Organizacao> list = repository.findAll();
+
+        return list.stream().map(mapper::toDTO).toList();
     }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.ui.CreatePropostaViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.ui.CreatePropostaViewController">
    <top>
       <Label text="Criar Proposta" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
@@ -19,12 +19,12 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Criar Proposta">
+            <Button mnemonicParsing="false" onAction="#createProposta" prefWidth="150.0" text="Criar Proposta">
                <HBox.margin>
                   <Insets left="20.0" right="20.0" />
                </HBox.margin>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefWidth="150.0" text="Fechar">
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#closeWindow" prefWidth="150.0" text="Fechar">
                <HBox.margin>
                   <Insets left="20.0" right="20.0" />
                </HBox.margin>
@@ -60,7 +60,7 @@
                   <Insets right="20.0" />
                </GridPane.margin>
             </Label>
-            <Label layoutX="193.0" layoutY="43.0" text="ID da Organização" textAlignment="CENTER" GridPane.rowIndex="1">
+            <Label layoutX="193.0" layoutY="43.0" text="Organizacao" textAlignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="14.0" />
                </font>
@@ -68,7 +68,7 @@
                   <Insets right="20.0" />
                </padding>
             </Label>
-            <Label layoutX="176.0" layoutY="64.0" text="ID da Edição UC" textAlignment="CENTER" GridPane.rowIndex="2">
+            <Label layoutX="176.0" layoutY="64.0" text="Edicao UC" textAlignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
@@ -100,31 +100,31 @@
                   <Insets right="20.0" />
                </padding>
             </Label>
-            <TextField fx:id="orgIdText" layoutX="330.0" layoutY="19.0" onKeyTyped="#validateNumberField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="tituloText" layoutX="330.0" layoutY="104.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="edicaoIdText" layoutX="330.0" layoutY="62.0" onKeyTyped="#validateNumberField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="problemaText" layoutX="330.0" layoutY="146.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="330.0" layoutY="104.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="objetivoText" layoutX="330.0" layoutY="188.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="330.0" layoutY="146.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <ChoiceBox fx:id="organizacaoChoice" prefWidth="500.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
-            </TextField>
-            <TextField layoutX="330.0" layoutY="188.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            </ChoiceBox>
+            <ChoiceBox fx:id="edicaoChoice" layoutX="330.0" layoutY="62.0" prefWidth="500.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
-            </TextField>
+            </ChoiceBox>
          </children>
       </GridPane>
    </center>
