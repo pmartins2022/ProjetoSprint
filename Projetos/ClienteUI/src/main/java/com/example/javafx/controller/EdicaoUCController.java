@@ -8,6 +8,7 @@ import com.example.javafx.dto.UnidadeCurricularDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -16,28 +17,52 @@ public class EdicaoUCController
     @Autowired
     private EdicaoUCService service;
 
+    private final List<UnidadeCurricularDTO> listaUC;
+    private final List<AnoLetivoDTO> listaAL;
+
+    public EdicaoUCController()
+    {
+        listaUC = new ArrayList<>();
+        listaAL = new ArrayList<>();
+    }
+
     /*
     Primeiro vou bscar a lista
     Depois tento criar  (no seu WS de EdicaoUC ele a verifica se existe)
      */
-    public List<UnidadeCurricularDTO> findAllUC()
+    public List<String> findAllUC()
     {
-        List<UnidadeCurricularDTO> listUCDTO = service.findAllUC();
-
-        return listUCDTO;
+        if (listaUC.isEmpty())
+        {
+            listaUC.addAll(service.findAllUC());
+        }
+        return listaUC.stream().map(UnidadeCurricularDTO::getSigla).toList();
     }
 
-    public List<AnoLetivoDTO> findAllAnoLetivo()
+    public List<String> findAllAnoLetivo()
     {
-        List<AnoLetivoDTO> listAnoLetivoDTO = service.findAllAnoLetivo();
-
-        return listAnoLetivoDTO;
+        if (listaAL.isEmpty())
+        {
+            listaAL.addAll(service.findAllAnoLetivo());
+        }
+        return listaAL.stream().map(AnoLetivoDTO::getSigla).toList();
     }
 
-    public EdicaoUCDTO createEdicaoUC(UnidadeCurricularDTO ucDTO, AnoLetivoDTO anoLetivoDTO) throws RestPostException
+    public UnidadeCurricularDTO getFromListUC(int index)
     {
-        EdicaoUCDTO edicaoUCDTO = service.createAndSave(ucDTO, anoLetivoDTO);
+        return listaUC.get(index);
+    }
 
-        return edicaoUCDTO;
+    public AnoLetivoDTO getFromListAL(int index)
+    {
+        return listaAL.get(index);
+    }
+
+    public EdicaoUCDTO createEdicaoUC(int uc, int anoLetivo)
+    {
+        UnidadeCurricularDTO ucDTO = listaUC.get(uc);
+        AnoLetivoDTO anoLetivoDTO = listaAL.get(anoLetivo);
+
+        return service.createAndSave(ucDTO, anoLetivoDTO);
     }
 }

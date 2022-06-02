@@ -4,9 +4,11 @@ import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Repository
 public class PropostaRestRepo
 {
     public PropostaDTO createProposta(PropostaDTO anoLetivoDTO) throws RestPostException

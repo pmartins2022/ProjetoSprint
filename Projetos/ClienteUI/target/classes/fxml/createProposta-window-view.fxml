@@ -100,17 +100,17 @@
                   <Insets right="20.0" />
                </padding>
             </Label>
-            <TextField layoutX="330.0" layoutY="104.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="tituloText" layoutX="330.0" layoutY="104.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="330.0" layoutY="146.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <TextField fx:id="problemaText" layoutX="330.0" layoutY="146.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="330.0" layoutY="188.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <TextField fx:id="objetivoText" layoutX="330.0" layoutY="188.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
