@@ -31,7 +31,6 @@ public class UnidadeCurricularRepository
 
         UnidadeCurricular unidadeCurricular = mapper.toModel(jpa.get());
 
-
         return Optional.of(unidadeCurricular);
     }
 
@@ -39,7 +38,7 @@ public class UnidadeCurricularRepository
     {
         if (jpaRepository.findById(unidadeCurricular.getSigla()).isPresent())
         {
-            throw new ErroGeralException("Ano Letivo já existente.");
+            throw new ErroGeralException("Unidade Curricular já existente.");
         }
 
         UnidadeCurricularJPA jpa = mapper.toJPA(unidadeCurricular);
