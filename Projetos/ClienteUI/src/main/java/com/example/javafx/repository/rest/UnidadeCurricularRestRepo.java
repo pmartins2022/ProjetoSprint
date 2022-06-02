@@ -16,7 +16,6 @@ public class UnidadeCurricularRestRepo
 {
     public List<UnidadeCurricularDTO> findAll()
     {
-
         final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8086/uc/listar").get()
                 .retrieve();
 
@@ -26,14 +25,13 @@ public class UnidadeCurricularRestRepo
         return responseSpec.bodyToMono(new ParameterizedTypeReference<List<UnidadeCurricularDTO>>()
         {
         }).block();
-
     }
 
     public UnidadeCurricularDTO createUnidadeCurricular(UnidadeCurricularDTO unidadeCurricularDTO) throws RestPostException
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8086/unidadeCurricular/criar").post().
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8086/uc/criar").post().
                     body(BodyInserters.fromValue(unidadeCurricularDTO)).retrieve();
 
 

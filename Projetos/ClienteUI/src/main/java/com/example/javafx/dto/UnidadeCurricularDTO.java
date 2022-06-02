@@ -38,4 +38,9 @@ public class UnidadeCurricularDTO
     {
         return String.format("Sigla: %s; Denominação: %s", sigla, denominacao);
     }
+
+    public String toStringText()
+    {
+        return String.format("Sigla: %s;\nDenominação: %s", sigla, denominacao);
+    }
 }

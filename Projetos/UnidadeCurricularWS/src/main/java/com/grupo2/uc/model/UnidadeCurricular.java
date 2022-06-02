@@ -38,35 +38,38 @@ public class UnidadeCurricular
 
     private void validateSigla(String sigla)
     {
-        validateString(sigla,3);
+        validateString(sigla, 3, true);
     }
 
     private void validateDenominacao(String denominacao)
     {
-        validateString(denominacao,10);
+        validateString(denominacao, 10, false);
 
     }
 
-    private void validateString(String str, int minSize) throws ValidacaoInvalidaException
+    private void validateString(String str, int minSize, boolean noSpaces) throws ValidacaoInvalidaException
     {
-        if (str.length() < minSize)
+        if (str.trim().length() < minSize)
         {
             throw new ValidacaoInvalidaException("O tamanho nao deve ser inferior a " + minSize + " catacteres.");
         }
 
-        for(char c : str.toCharArray())
+        for (char c : str.toCharArray())
         {
             if (Character.isDigit(c))
             {
                 throw new ValidacaoInvalidaException("Valores nao podem conter algarismos.");
-            }
-            else if (Character.isWhitespace(c))
+            } else if (!Character.isAlphabetic(c) && !Character.isWhitespace(c))
             {
-                throw new ValidacaoInvalidaException("Valores nao podem conter espacos.");
+                throw new ValidacaoInvalidaException("Valores nao podem conter simbolos. "+str);
             }
-            else if (!Character.isLetter(c))
+
+            if (noSpaces)
             {
-                throw new ValidacaoInvalidaException("Valores nao podem conter simbolos.");
+                if (Character.isWhitespace(c))
+                {
+                    throw new ValidacaoInvalidaException("Valores nao podem conter espacos.");
+                }
             }
         }
     }

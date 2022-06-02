@@ -2,7 +2,6 @@ package com.example.javafx.ui;
 
 import com.example.javafx.controller.*;
 import com.example.javafx.dto.AnoLetivoDTO;
-import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.application.Platform;
@@ -83,9 +82,9 @@ public class MainWindowViewController
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
 
-        fxmlLoader.<CreatePropostaViewController>getController().setController(propostaController);
-
         stage.show();
+
+        fxmlLoader.<CreatePropostaViewController>getController().initialize(propostaController);
     }
 
     public void createEdicaoUCWindow(ActionEvent actionEvent) throws IOException
@@ -115,6 +114,20 @@ public class MainWindowViewController
         fxmlLoader.<CreateUnidadeCurricularViewController>getController().setController(unidadeCurricularController);
 
         stage.show();
+    }
+
+    public void consultarUnidadeCurricularWindow(ActionEvent actionEvent) throws IOException
+    {
+        Stage stage = new Stage();
+        stage.setTitle("Consultar Unidade Curricular");
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/consultarUC-window-view.fxml"));
+        stage.setScene(new Scene(fxmlLoader.load()));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+
+        stage.show();
+
+        fxmlLoader.<ConsultarUCViewController>getController().initialize(unidadeCurricularController);
     }
 
 }

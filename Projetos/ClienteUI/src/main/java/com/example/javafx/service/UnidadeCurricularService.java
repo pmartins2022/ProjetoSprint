@@ -6,6 +6,8 @@ import com.example.javafx.repository.rest.UnidadeCurricularRestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UnidadeCurricularService
 {
@@ -17,4 +19,8 @@ public class UnidadeCurricularService
         return restRepo.createUnidadeCurricular(unidadeCurricularDTO);
     }
 
+    public List<UnidadeCurricularDTO> findAll()
+    {
+        return restRepo.findAll();
+    }
 }

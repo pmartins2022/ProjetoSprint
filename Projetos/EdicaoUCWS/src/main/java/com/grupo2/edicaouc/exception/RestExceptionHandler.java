@@ -18,14 +18,16 @@ public class RestExceptionHandler
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ErroGeralException.class)
-    public ResponseEntity<?> handleErroGeralException(ErroGeralException ex)
+    @ExceptionHandler(BaseDadosException.class)
+    public ResponseEntity<?> handleBaseDadosException(BaseDadosException ex)
     {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTitle("Erro geral");
+        errorDetail.setTitle("Problema na base de dados.");
         errorDetail.setDetail(ex.getMessage());
         errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
+
+
 
 }

@@ -19,9 +19,9 @@ public class CreateEdicaoUCViewController
 {
     private EdicaoUCController controller;
     @FXML
-    public ChoiceBox<AnoLetivoDTO> txtChoiceBoxAnoLetivo;
+    public ChoiceBox<String> txtChoiceBoxAnoLetivo;
     @FXML
-    public ChoiceBox<UnidadeCurricularDTO> txtChoiceBoxUC;
+    public ChoiceBox<String> txtChoiceBoxUC;
 
     public void setController(EdicaoUCController controller)
     {
@@ -55,10 +55,7 @@ public class CreateEdicaoUCViewController
     {
         try
         {
-            UnidadeCurricularDTO ucDTO = txtChoiceBoxUC.getSelectionModel().getSelectedItem();
-            AnoLetivoDTO anoLetivoDTO = txtChoiceBoxAnoLetivo.getSelectionModel().getSelectedItem();
-
-            final EdicaoUCDTO edicaoUCDTO = controller.createEdicaoUC(ucDTO, anoLetivoDTO);
+            EdicaoUCDTO edicaoUCDTO = controller.createEdicaoUC(txtChoiceBoxUC.getSelectionModel().getSelectedIndex(), txtChoiceBoxAnoLetivo.getSelectionModel().getSelectedIndex());
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Edição de Unidade Curricular criada com sucesso. " + edicaoUCDTO.toString());
         } catch (ErrorDetail e)
         {
