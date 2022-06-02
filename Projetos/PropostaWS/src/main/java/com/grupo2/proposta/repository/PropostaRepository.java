@@ -95,6 +95,14 @@ public class PropostaRepository
 
         return listaModel;
     }
+    public List<Proposta> findAllByTitulo(String titulo)
+    {
+        List<PropostaJPA> lista = jpaRepository.findAllByTitulo(titulo);
+
+        List<Proposta> listaModel = lista.stream().map(mapper::toModel).toList();
+
+        return listaModel;
+    }
 
     public List<Proposta> findByNif(Integer nif)
     {

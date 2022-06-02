@@ -54,6 +54,19 @@ public class PropostaController
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    @GetMapping("listarPorTitulo")
+    public ResponseEntity<Object> listbyTitulo(String titulo)
+    {
+        List<PropostaDTO> lista = service.findByTitulo(titulo);
+
+        if (lista.isEmpty())
+        {
+            throw new ListaVaziaException("Não existem Propostas");
+        }
+
+        return new ResponseEntity<>(lista,HttpStatus.OK);
+    }
+
     @GetMapping("/listarPorNif")
     public ResponseEntity<Object> listbyNif(Integer nif)
     {

@@ -77,6 +77,14 @@ public class PropostaService
 
         return listaDTOS;
     }
+    public List<PropostaDTO> findByTitulo(String titulo)
+    {
+        List<Proposta> lista = repository.findAllByTitulo(titulo);
+
+        List<PropostaDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
+
+        return listaDTOS;
+    }
 
     public List<PropostaDTO> findByIdUtilizador(Long id)
     {

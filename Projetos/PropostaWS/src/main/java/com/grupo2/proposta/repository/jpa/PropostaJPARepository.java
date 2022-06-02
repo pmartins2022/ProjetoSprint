@@ -9,6 +9,7 @@ public interface PropostaJPARepository extends JpaRepository<PropostaJPA,Long>
 {
 
     List<PropostaJPA> findAllByutilizadorId(Long id);
+    List<PropostaJPA> findAllByTitulo(String titulo);
 
     List<PropostaJPA> findByorganizacaoId(Long id);
 }
