@@ -7,7 +7,7 @@
       <Entity type="Class">
         <Name>AnoLetivo</Name>
         <Access>Public</Access>
-        <Location left="1892" top="936" />
+        <Location left="1808" top="709" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String sigla</Member>
@@ -17,7 +17,7 @@
       <Entity type="Class">
         <Name>UnidadeCurricular</Name>
         <Access>Public</Access>
-        <Location left="2172" top="936" />
+        <Location left="2062" top="709" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String sigla</Member>
@@ -28,7 +28,7 @@
       <Entity type="Class">
         <Name>Organizacao</Name>
         <Access>Public</Access>
-        <Location left="1584" top="11" />
+        <Location left="1576" top="242" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private long Id</Member>
@@ -40,7 +40,7 @@
       <Entity type="Class">
         <Name>EdicaoUnidadeCurricular</Name>
         <Access>Public</Access>
-        <Location left="2008" top="577" />
+        <Location left="1892" top="272" />
         <Size width="220" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private long id</Member>
@@ -52,7 +52,7 @@
       <Entity type="Class">
         <Name>Utilizador</Name>
         <Access>Public</Access>
-        <Location left="474" top="379" />
+        <Location left="540" top="343" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private long id</Member>
@@ -66,7 +66,7 @@
       <Entity type="Class">
         <Name>Projeto</Name>
         <Access>Public</Access>
-        <Location left="1380" top="543" />
+        <Location left="1285" top="579" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private long Id</Member>
@@ -108,72 +108,76 @@
       <Entity type="Enum">
         <Name>TipoUtilizador</Name>
         <Access>Public</Access>
-        <Location left="85" top="196" />
+        <Location left="225" top="207" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Value>Orientador</Value>
         <Value>Docente</Value>
         <Value>Estudante</Value>
       </Entity>
-      <Entity type="Class">
-        <Name>Empresa</Name>
-        <Access>Public</Access>
-        <Location left="1584" top="284" />
-        <Size width="162" height="216" />
-        <Collapsed>False</Collapsed>
-        <Modifier>None</Modifier>
-      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Association" first="6" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="5" second="6">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="6" second="7">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="4" second="8">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
-      <Relationship type="Generalization" first="9" second="2">
-        <StartOrientation>Vertical</StartOrientation>
-        <EndOrientation>Vertical</EndOrientation>
-      </Relationship>
       <Relationship type="Association" first="3" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="3" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
-        <Direction>Unidirectional</Direction>
-        <AssociationType>Association</AssociationType>
-      </Relationship>
-      <Relationship type="Association" first="6" second="9">
-        <StartOrientation>Horizontal</StartOrientation>
-        <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="6" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
