@@ -40,7 +40,7 @@ public class OrganizacaoRepository
 
     public Optional<Organizacao> findByNIF(Integer nif)
     {
-        Optional<OrganizacaoJPA> organizacaoJPA = jpaRepository.findByNIF(nif);
+        Optional<OrganizacaoJPA> organizacaoJPA = jpaRepository.findBynif(nif);
 
         if (organizacaoJPA.isEmpty()){
             return Optional.empty();

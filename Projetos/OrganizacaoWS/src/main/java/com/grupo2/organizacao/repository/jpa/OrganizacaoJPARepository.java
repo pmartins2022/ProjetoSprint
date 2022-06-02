@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface OrganizacaoJPARepository extends JpaRepository<OrganizacaoJPA,Long>
 {
-    Optional<OrganizacaoJPA> findByNIF(Integer nif);
+    Optional<OrganizacaoJPA> findBynif(Integer nif);
 }

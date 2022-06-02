@@ -4,7 +4,6 @@ import com.grupo2.proposta.dto.EdicaoUCDTO;
 import com.grupo2.proposta.dto.OrganizacaoDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.BaseDadosException;
-import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.jpa.PropostaJPA;
 import com.grupo2.proposta.jpa.mapper.PropostaJPAMapper;
 import com.grupo2.proposta.model.Proposta;
@@ -97,7 +96,7 @@ public class PropostaRepository
     }
     public List<Proposta> findAllByTitulo(String titulo)
     {
-        List<PropostaJPA> lista = jpaRepository.findAllByTitulo(titulo);
+        List<PropostaJPA> lista = jpaRepository.findAllByTituloContainsIgnoreCase(titulo);
 
         List<Proposta> listaModel = lista.stream().map(mapper::toModel).toList();
 

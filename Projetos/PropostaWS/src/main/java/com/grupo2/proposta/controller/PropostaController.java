@@ -54,9 +54,11 @@ public class PropostaController
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
-    @GetMapping("listarPorTitulo")
-    public ResponseEntity<Object> listbyTitulo(String titulo)
+    @GetMapping("/listarPorTitulo")
+    public ResponseEntity<Object> listbyTitulo(@RequestParam String titulo)
     {
+        System.out.println("Encontrar por titulo: "+titulo);
+
         List<PropostaDTO> lista = service.findByTitulo(titulo);
 
         if (lista.isEmpty())
