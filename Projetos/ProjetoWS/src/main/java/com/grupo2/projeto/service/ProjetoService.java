@@ -9,15 +9,29 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Classe de Service do projeto. Possui endpoints para createAndSaveProjeto e findById.
+ */
 @Service
 public class ProjetoService
 {
+    /**
+     * O repository a ser utilizado por este Service.
+     */
     @Autowired
     private ProjetoRepository repository;
 
+    /**
+     * O mapper a ser utilizado por este Service.
+     */
     @Autowired
     private ProjetoDTOMapper mapper;
 
+    /**
+     * Endpoint que possibilita encontrar o projeto por id existente no serviço.
+     * @param id um objeto com os dados do id
+     * @return um projeto.
+     */
     public Optional<ProjetoDTO> findById(Long id)
     {
         Optional<Projeto> optionalProjeto = repository.findById(id);
@@ -32,6 +46,11 @@ public class ProjetoService
         }
     }
 
+    /**
+     * Endpoint que possibilita criar um projeto.
+     * @param projetoDTO um objeto com os dados do projeto
+     * @return um projeto
+     */
     public ProjetoDTO createAndSave(ProjetoDTO projetoDTO)
     {
         Projeto projeto = mapper.toModel(projetoDTO);
