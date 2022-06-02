@@ -9,14 +9,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
+/*
+Classe REST Controller de projeto. Possui endpoints para createProjeto e findById.
+ */
 @RestController
 @RequestMapping("/projeto")
 public class ProjetoController
 {
+    /**
+     * O serviço a ser utilizado por este REST Controller.
+     */
     @Autowired
     private ProjetoService service;
 
+    /**
+     * Endpoint que possibilita encontrar o projeto por id existente no serviço.
+     * @param id um objeto com os dados do projeto
+     * @returnum projeto, ou um erro se os dados estiverem invalidos.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ProjetoDTO> findById(@PathVariable Long id)
     {
@@ -32,8 +42,13 @@ public class ProjetoController
         }
     }
 
+    /**
+     * Endpoint que possibilita a criaçao de um projeto.
+     * @param projetoDTO um objeto com os dados do projeto
+     * @return um projeto, ou um erro se os dados estiverem invalidos.
+     */
     @PostMapping("/criar")
-    public ResponseEntity<ProjetoDTO> create(@RequestBody ProjetoDTO projetoDTO)
+    public ResponseEntity<ProjetoDTO> createProjeto(@RequestBody ProjetoDTO projetoDTO)
     {
         ProjetoDTO projetoDTOSaved = service.createAndSave(projetoDTO);
 
