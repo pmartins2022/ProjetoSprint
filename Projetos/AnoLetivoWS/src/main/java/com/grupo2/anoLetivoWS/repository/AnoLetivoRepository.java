@@ -1,14 +1,13 @@
 package com.grupo2.anoLetivoWS.repository;
 
 import com.grupo2.anoLetivoWS.exception.ErroGeralException;
-import com.grupo2.anoLetivoWS.jpa.AnoLetivoJpa;
+import com.grupo2.anoLetivoWS.jpa.AnoLetivoJPA;
 import com.grupo2.anoLetivoWS.jpa.mapper.AnoLetivoJPAMapper;
 import com.grupo2.anoLetivoWS.model.AnoLetivo;
 import com.grupo2.anoLetivoWS.repository.jpa.AnoLetivoJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,16 +27,16 @@ public class AnoLetivoRepository
             throw new ErroGeralException("Ano Letivo já existente.");
         }
 
-        AnoLetivoJpa jpa = mapper.toJpa(anoLetivo);
+        AnoLetivoJPA jpa = mapper.toJpa(anoLetivo);
 
-        AnoLetivoJpa saved = repository.save(jpa);
+        AnoLetivoJPA saved = repository.save(jpa);
 
         return mapper.toModel(saved);
     }
 
     public Optional<AnoLetivo> findById(String id)
     {
-        Optional<AnoLetivoJpa> jpa = repository.findById(id);
+        Optional<AnoLetivoJPA> jpa = repository.findById(id);
 
         if (jpa.isPresent())
         {
@@ -51,7 +50,7 @@ public class AnoLetivoRepository
 
     public List<AnoLetivo> findAll()
     {
-        List<AnoLetivoJpa> lista = repository.findAll();
+        List<AnoLetivoJPA> lista = repository.findAll();
 
         List<AnoLetivo> listaModel = lista.stream().map(mapper::toModel).toList();
 

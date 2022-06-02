@@ -1,7 +1,7 @@
 package com.grupo2.anoLetivoWS.repository;
 
 import com.grupo2.anoLetivoWS.exception.ErroGeralException;
-import com.grupo2.anoLetivoWS.jpa.AnoLetivoJpa;
+import com.grupo2.anoLetivoWS.jpa.AnoLetivoJPA;
 import com.grupo2.anoLetivoWS.jpa.mapper.AnoLetivoJPAMapper;
 import com.grupo2.anoLetivoWS.model.AnoLetivo;
 import com.grupo2.anoLetivoWS.repository.jpa.AnoLetivoJPARepository;
@@ -43,7 +43,7 @@ class AnoLetivoRepositoryUnitTests
     public void shouldCreateValidAnoLetivo()
     {
         AnoLetivo mockAno = mock(AnoLetivo.class);
-        AnoLetivoJpa mockAnoJpa = mock(AnoLetivoJpa.class);
+        AnoLetivoJPA mockAnoJpa = mock(AnoLetivoJPA.class);
 
         when(mockAno.getSigla()).thenReturn("2000-2001");
         when(mockAnoJpa.getSigla()).thenReturn("2000-2001");
@@ -64,7 +64,7 @@ class AnoLetivoRepositoryUnitTests
     public void shouldNotCreateAnoLetivo_Exists()
     {
         AnoLetivo anoLetivoMock = mock(AnoLetivo.class);
-        AnoLetivoJpa anoLetivoJpa = mock(AnoLetivoJpa.class);
+        AnoLetivoJPA anoLetivoJpa = mock(AnoLetivoJPA.class);
 
         when(anoLetivoMock.getSigla()).thenReturn("2009-2010");
 
@@ -82,10 +82,10 @@ class AnoLetivoRepositoryUnitTests
     public void shouldFindAllAnoLetivo()
     {
         AnoLetivo anoLetivoMock = mock(AnoLetivo.class);
-        AnoLetivoJpa anoLetivoMockJpa = mock(AnoLetivoJpa.class);
+        AnoLetivoJPA anoLetivoMockJpa = mock(AnoLetivoJPA.class);
 
         List<AnoLetivo> mockList = List.of(anoLetivoMock,anoLetivoMock,anoLetivoMock);
-        List<AnoLetivoJpa> mockListJpa = List.of(anoLetivoMockJpa,anoLetivoMockJpa,anoLetivoMockJpa);
+        List<AnoLetivoJPA> mockListJpa = List.of(anoLetivoMockJpa,anoLetivoMockJpa,anoLetivoMockJpa);
 
         when(jpaRepository.findAll()).thenReturn(mockListJpa);
 
@@ -101,10 +101,10 @@ class AnoLetivoRepositoryUnitTests
     public void shouldFindEmptyListAnoLetivo()
     {
         AnoLetivo anoLetivoMock = mock(AnoLetivo.class);
-        AnoLetivoJpa anoLetivoMockJpa = mock(AnoLetivoJpa.class);
+        AnoLetivoJPA anoLetivoMockJpa = mock(AnoLetivoJPA.class);
 
         List<AnoLetivo> mockList = List.of();
-        List<AnoLetivoJpa> mockListJpa = List.of();
+        List<AnoLetivoJPA> mockListJpa = List.of();
 
         when(jpaRepository.findAll()).thenReturn(mockListJpa);
 
@@ -113,5 +113,29 @@ class AnoLetivoRepositoryUnitTests
         List<AnoLetivo> all = repository.findAll();
 
         assertEquals(all,mockList);
+    }
+
+    @Test
+    public void shouldFindAnoLetivo_Exists()
+    {
+        AnoLetivoJPA anoLetivoJPA = mock(AnoLetivoJPA.class);
+        AnoLetivo anoLetivo = mock(AnoLetivo.class);
+
+        when(jpaRepository.findById("2001-2002")).thenReturn(Optional.of(anoLetivoJPA));
+        when(mapper.toModel(anoLetivoJPA)).thenReturn(anoLetivo);
+
+        Optional<AnoLetivo> saved = repository.findById("2001-2002");
+
+        assertEquals(anoLetivo, saved.get());
+    }
+
+    @Test
+    public void shouldNotFindAnoLetivo_NotExists()
+    {
+        when(jpaRepository.findById("2001-2002")).thenReturn(Optional.empty());
+
+        Optional<AnoLetivo> saved = repository.findById("2001-2002");
+
+        assertEquals(Optional.empty(), saved);
     }
 }

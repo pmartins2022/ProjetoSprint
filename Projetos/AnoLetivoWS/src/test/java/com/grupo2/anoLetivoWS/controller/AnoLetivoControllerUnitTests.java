@@ -2,11 +2,9 @@ package com.grupo2.anoLetivoWS.controller;
 
 import com.grupo2.anoLetivoWS.dto.AnoLetivoDTO;
 import com.grupo2.anoLetivoWS.exception.ErroGeralException;
+import com.grupo2.anoLetivoWS.exception.ListaVaziaException;
+import com.grupo2.anoLetivoWS.exception.OptionalVazioException;
 import com.grupo2.anoLetivoWS.exception.ValidacaoInvalidaException;
-import com.grupo2.anoLetivoWS.jpa.mapper.AnoLetivoJPAMapper;
-import com.grupo2.anoLetivoWS.model.AnoLetivo;
-import com.grupo2.anoLetivoWS.repository.AnoLetivoRepository;
-import com.grupo2.anoLetivoWS.repository.jpa.AnoLetivoJPARepository;
 import com.grupo2.anoLetivoWS.service.AnoLetivoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -26,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
-class AnoLetivoControllerUnitTest
+class AnoLetivoControllerUnitTests
 {
     @MockBean
     AnoLetivoService service;
@@ -54,7 +53,7 @@ class AnoLetivoControllerUnitTest
     }
 
     @Test
-    public void shouldNotCreateValidAnoLetivo_WrongFormatInSigla()
+    public void shouldNotCreateValidAnoLetivo_Invalid()
     {
 
         AnoLetivoDTO anoLetivoDTOMOCK = mock(AnoLetivoDTO.class);
@@ -87,4 +86,33 @@ class AnoLetivoControllerUnitTest
 
         assertEquals(responseEntity.getStatusCodeValue(),200);
     }
+
+    @Test
+    public void shouldNotFindListAnoLetivo_Empty()
+    {
+        when(service.findAll()).thenThrow(ListaVaziaException.class);
+
+        assertThrows(ListaVaziaException.class,()->controller.listAllAnoLetivo());
+    }
+
+    @Test
+    public void shouldFindAnoLetivo_Exists()
+    {
+        AnoLetivoDTO anoLetivoDTO = mock(AnoLetivoDTO.class);
+
+        when(service.findByID("2001-2002")).thenReturn(Optional.of(anoLetivoDTO));
+
+        ResponseEntity<Object> responseEntity = controller.findBySigla("2001-2002");
+
+        assertEquals(responseEntity.getStatusCodeValue(), 200);
+    }
+
+    @Test
+    public void shouldNotFindAnoLetivo_NotExists()
+    {
+        when(service.findByID("2001-2002")).thenThrow(OptionalVazioException.class);
+
+        assertThrows(OptionalVazioException.class, ()-> controller.findBySigla("2001-2002"));
+    }
+
 }

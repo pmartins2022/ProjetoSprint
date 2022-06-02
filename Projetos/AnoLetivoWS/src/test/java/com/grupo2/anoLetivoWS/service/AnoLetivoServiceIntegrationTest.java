@@ -10,8 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 @SpringBootTest
@@ -61,5 +64,26 @@ class AnoLetivoServiceIntegrationTest
         List<AnoLetivoDTO> letivos = service.findAll();
 
         assertEquals(0, letivos.size());
+    }
+
+    @Test
+    public void shouldFindAnoLetivo_Exists()
+    {
+        AnoLetivoDTO ano = new AnoLetivoDTO("2000-2001");
+
+        service.createAndSaveAnoLetivo(ano);
+
+        Optional<AnoLetivoDTO> saved = service.findByID("2000-2001");
+
+        assertEquals(ano, saved.get());
+    }
+
+    @Test
+    public void shouldNotFindAnoLetivo_NotExists()
+    {
+
+        Optional<AnoLetivoDTO> saved = service.findByID("2000-2001");
+
+        assertEquals(Optional.empty(), saved);
     }
 }

@@ -24,7 +24,9 @@ public class AnoLetivoDTOMapper
      */
     public AnoLetivo toModel(AnoLetivoDTO dto) throws ValidacaoInvalidaException
     {
-        return anoLetivoFactory.createAnoLetivo(dto.getSigla());
+        AnoLetivo anoLetivo = anoLetivoFactory.createAnoLetivo(dto.getSigla());
+
+        return anoLetivo;
     }
 
     /**
@@ -35,7 +37,9 @@ public class AnoLetivoDTOMapper
 
     public AnoLetivoDTO toDTO(AnoLetivo ano)
     {
-        return new AnoLetivoDTO(ano.getSigla());
+        AnoLetivoDTO anoLetivoDTO = new AnoLetivoDTO(ano.getSigla());
+
+        return anoLetivoDTO;
     }
 
 }
