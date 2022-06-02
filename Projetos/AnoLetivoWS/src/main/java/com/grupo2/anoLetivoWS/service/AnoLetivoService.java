@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Classe que inclui metodo que comunicam com o repositorio atual. Possui metodo para criar anos letivos e
@@ -24,7 +25,6 @@ public class AnoLetivoService
     private AnoLetivoDTOMapper mapper;
 
     /**
-     *
      * @param anoLetivoDTO
      * @return
      * @throws ValidacaoInvalidaException
@@ -45,5 +45,19 @@ public class AnoLetivoService
         List<AnoLetivoDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
 
         return listaDTOS;
+    }
+
+    public Optional<AnoLetivoDTO> findByID(String id)
+    {
+        Optional<AnoLetivo> anoLetivo = repository.findById(id);
+
+        if (anoLetivo.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        AnoLetivoDTO anoLetivoDTO = mapper.toDTO(anoLetivo.get());
+
+        return Optional.of(anoLetivoDTO);
     }
 }

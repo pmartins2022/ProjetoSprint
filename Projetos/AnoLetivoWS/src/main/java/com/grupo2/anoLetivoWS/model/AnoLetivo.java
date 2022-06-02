@@ -11,6 +11,7 @@ public class AnoLetivo
     public AnoLetivo(String sigla) throws ValidacaoInvalidaException
     {
         validate(sigla);
+        this.sigla = sigla;
     }
 
     private void validate(String sigla) throws ValidacaoInvalidaException
@@ -23,7 +24,7 @@ public class AnoLetivo
 
         if (secondYear != firstYear + 1) throw new ValidacaoInvalidaException("Sigla inválida. O intervalo de anos deve ser de 1 ano, e o segundo ano deve ser o primeiro ano + 1.");
 
-        this.sigla = sigla;
+
     }
 
     public String getSigla()
@@ -34,6 +35,7 @@ public class AnoLetivo
     public void setSigla(String sigla)
     {
         validate(sigla);
+        this.sigla = sigla;
     }
 
     @Override

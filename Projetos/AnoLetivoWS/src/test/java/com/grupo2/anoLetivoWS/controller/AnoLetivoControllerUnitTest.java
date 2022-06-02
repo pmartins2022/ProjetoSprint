@@ -1,7 +1,10 @@
 package com.grupo2.anoLetivoWS.controller;
 
 import com.grupo2.anoLetivoWS.dto.AnoLetivoDTO;
+import com.grupo2.anoLetivoWS.exception.ErroGeralException;
+import com.grupo2.anoLetivoWS.exception.ValidacaoInvalidaException;
 import com.grupo2.anoLetivoWS.jpa.mapper.AnoLetivoJPAMapper;
+import com.grupo2.anoLetivoWS.model.AnoLetivo;
 import com.grupo2.anoLetivoWS.repository.AnoLetivoRepository;
 import com.grupo2.anoLetivoWS.repository.jpa.AnoLetivoJPARepository;
 import com.grupo2.anoLetivoWS.service.AnoLetivoService;
@@ -14,6 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -49,14 +54,37 @@ class AnoLetivoControllerUnitTest
     }
 
     @Test
-    public void shoulddCreateValidAnoLetivo()
+    public void shouldNotCreateValidAnoLetivo_WrongFormatInSigla()
+    {
+
+        AnoLetivoDTO anoLetivoDTOMOCK = mock(AnoLetivoDTO.class);
+
+        when(service.createAndSaveAnoLetivo(anoLetivoDTOMOCK)).thenThrow(ValidacaoInvalidaException.class);
+
+        assertThrows(ValidacaoInvalidaException.class,()->controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK));
+    }
+
+    @Test
+    public void shouldNotCreateValidAnoLetivo_Exists()
     {
         AnoLetivoDTO anoLetivoDTOMOCK = mock(AnoLetivoDTO.class);
 
-        when(service.createAndSaveAnoLetivo(anoLetivoDTOMOCK)).thenReturn(anoLetivoDTOMOCK);
+        when(service.createAndSaveAnoLetivo(anoLetivoDTOMOCK)).thenThrow(ErroGeralException.class);
 
-        ResponseEntity<AnoLetivoDTO> responseEntity = controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK);
+        assertThrows(ErroGeralException.class,()->controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK));
+    }
 
-        assertEquals( 200, responseEntity.getStatusCodeValue());
+    @Test
+    public void shouldFindAllAnoLetivo()
+    {
+        AnoLetivoDTO anoLetivoDTOMOCK = mock(AnoLetivoDTO.class);
+
+        List<AnoLetivoDTO> anoLetivoListDTO = List.of(anoLetivoDTOMOCK,anoLetivoDTOMOCK,anoLetivoDTOMOCK);
+
+        when(service.findAll()).thenReturn(anoLetivoListDTO);
+
+        ResponseEntity<Object> responseEntity = controller.listAllAnoLetivo();
+
+        assertEquals(responseEntity.getStatusCodeValue(),200);
     }
 }

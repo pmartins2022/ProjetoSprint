@@ -19,8 +19,8 @@ public class AnoLetivoWsApplication {
 	{
 		return (args) ->
 		{
-			service.createAndSaveAnoLetivo(new AnoLetivoDTO("2001-2002"));
-			service.createAndSaveAnoLetivo(new AnoLetivoDTO("2004-2005"));
+//			service.createAndSaveAnoLetivo(new AnoLetivoDTO("2001-2002"));
+//			service.createAndSaveAnoLetivo(new AnoLetivoDTO("2004-2005"));
 		};
 	}
 

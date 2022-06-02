@@ -66,14 +66,14 @@ class AnoLetivoRepositoryUnitTests
         AnoLetivo anoLetivoMock = mock(AnoLetivo.class);
         AnoLetivoJpa anoLetivoJpa = mock(AnoLetivoJpa.class);
 
-        when(anoLetivoMock.getSigla()).thenReturn("2000-2001");
+        when(anoLetivoMock.getSigla()).thenReturn("2009-2010");
 
         when(mapper.toModel(anoLetivoJpa)).thenReturn(anoLetivoMock);
         when(mapper.toJpa(anoLetivoMock)).thenReturn(anoLetivoJpa);
 
         when(jpaRepository.save(anoLetivoJpa)).thenReturn(anoLetivoJpa);
 
-        when(jpaRepository.findById("2000-2001")).thenReturn(Optional.of(anoLetivoJpa));
+        when(jpaRepository.findById("2009-2010")).thenReturn(Optional.of(anoLetivoJpa));
 
         assertThrows(ErroGeralException.class,()->repository.createAndSaveAnoLetivo(anoLetivoMock));
     }
