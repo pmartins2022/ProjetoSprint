@@ -5,6 +5,7 @@ import com.grupo2.uc.dto.mapper.UnidadeCurricularDTOMapper;
 import com.grupo2.uc.exception.OptionalVazioException;
 import com.grupo2.uc.exception.ValidacaoInvalidaException;
 import com.grupo2.uc.model.UnidadeCurricular;
+import com.grupo2.uc.model.factory.UnidadeCurricularFactory;
 import com.grupo2.uc.repository.UnidadeCurricularRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class UnidadeCurricularService
 
     @Autowired
     private UnidadeCurricularDTOMapper mapper;
+
+    @Autowired
+    private UnidadeCurricularFactory factory;
 
 
     public Optional<UnidadeCurricularDTO> findBySigla(String sigla)
@@ -56,7 +60,9 @@ public class UnidadeCurricularService
         }
         ucRequested.get().setDenominacao(denominacao);
 
-        UnidadeCurricular ucUpdated = repository.updateUnidadeCurricular(sigla, ucRequested.get().getDenominacao());
+        UnidadeCurricular dto = factory.createUnidadeCurricular(sigla, ucRequested.get().getDenominacao());
+
+        UnidadeCurricular ucUpdated = repository.updateUnidadeCurricular(dto);
 
         UnidadeCurricularDTO dtoUpdated = mapper.toDTO(ucUpdated);
 

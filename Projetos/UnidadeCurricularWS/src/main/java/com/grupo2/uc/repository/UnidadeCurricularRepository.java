@@ -48,14 +48,13 @@ public class UnidadeCurricularRepository
         return mapper.toModel(saved);
     }
 
-    public UnidadeCurricular updateUnidadeCurricular(String sigla, String denominacao)
+    public UnidadeCurricular updateUnidadeCurricular(UnidadeCurricular uc)
     {
-        UnidadeCurricularJPA jpa = new UnidadeCurricularJPA(sigla, denominacao);
+        UnidadeCurricularJPA jpa = mapper.toJPA(uc);
 
         UnidadeCurricularJPA saved = jpaRepository.save(jpa);
 
-        UnidadeCurricular ucSaved = mapper.toModel(saved);
-        return ucSaved;
+        return mapper.toModel(saved);
     }
 
     public List<UnidadeCurricular> findAll()

@@ -22,7 +22,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@Transactional
 class UnidadeCurricularRepositoryUnitTests
 {
     @MockBean
@@ -143,20 +142,20 @@ class UnidadeCurricularRepositoryUnitTests
     @Test
     public void shouldUpdateUnidadeCurricular()
     {
-        UnidadeCurricularJPA ucJPAMOCK = mock(UnidadeCurricularJPA.class);
-        when(ucJPAMOCK.getSigla()).thenReturn("PTA");
-        when(ucJPAMOCK.getDenominacao()).thenReturn("Português Avançado");
+        UnidadeCurricular ucMock = mock(UnidadeCurricular.class);
 
-        UnidadeCurricular ucMOCK = mock(UnidadeCurricular.class);
-        when(ucMOCK.getSigla()).thenReturn("PTA");
-        when(ucMOCK.getDenominacao()).thenReturn("Português SUPER Avançado");
+        when(ucMock.getSigla()).thenReturn("PTXX");
+        when(ucMock.getDenominacao()).thenReturn("PORTUGUES_AVANCADO");
 
-        when(jpaRepository.save(ucJPAMOCK)).thenReturn(ucJPAMOCK);
-        when(mapper.toModel(ucJPAMOCK)).thenReturn(ucMOCK);
+        UnidadeCurricularJPA jpaMock = mock(UnidadeCurricularJPA.class);
 
-        UnidadeCurricular ucUpdated = repository.updateUnidadeCurricular("PTA", "Português Avançado");
+        when(jpaRepository.save(jpaMock)).thenReturn(jpaMock);
+        when(mapper.toModel(jpaMock)).thenReturn(ucMock);
+        when(mapper.toJPA(ucMock)).thenReturn(jpaMock);
 
-        assertEquals(ucMOCK.getDenominacao(), ucUpdated.getDenominacao());
+        UnidadeCurricular unidadeCurricular = repository.updateUnidadeCurricular(ucMock);
+
+        assertEquals(ucMock,unidadeCurricular);
     }
 
     /*
