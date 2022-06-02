@@ -19,10 +19,7 @@ public class OrganizacaoWsApplication {
 	{
 		return (args) ->
 		{
-			service.createAndSave(new OrganizacaoDTO("Escola Secundária Infanta D. Maria",600020150));
-			service.createAndSave(new OrganizacaoDTO("Escola Secundária Alves Martins",600012417));
-			service.createAndSave(new OrganizacaoDTO("Escola Básica e Secundária Clara de Resende",600080897));
-			service.createAndSave(new OrganizacaoDTO("Escola Básica e Secundária Henrique Sommer", 600077462));
+			service.createAndSave(new OrganizacaoDTO("Escola Secundária Infanta D. Maria",500000135));
 		};
 	}
 }
