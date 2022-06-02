@@ -5,10 +5,6 @@ import com.grupo2.anoLetivoWS.exception.ErroGeralException;
 import com.grupo2.anoLetivoWS.exception.ListaVaziaException;
 import com.grupo2.anoLetivoWS.exception.OptionalVazioException;
 import com.grupo2.anoLetivoWS.exception.ValidacaoInvalidaException;
-import com.grupo2.anoLetivoWS.jpa.mapper.AnoLetivoJPAMapper;
-import com.grupo2.anoLetivoWS.model.AnoLetivo;
-import com.grupo2.anoLetivoWS.repository.AnoLetivoRepository;
-import com.grupo2.anoLetivoWS.repository.jpa.AnoLetivoJPARepository;
 import com.grupo2.anoLetivoWS.service.AnoLetivoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
-class AnoLetivoControllerUnitTest
+class AnoLetivoControllerUnitTests
 {
     @MockBean
     AnoLetivoService service;
@@ -118,6 +114,5 @@ class AnoLetivoControllerUnitTest
 
         assertThrows(OptionalVazioException.class, ()-> controller.findBySigla("2001-2002"));
     }
-
 
 }

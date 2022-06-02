@@ -6,14 +6,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "AnoLetivo")
-public class AnoLetivoJpa
+public class AnoLetivoJPA
 {
     @Id
     private String sigla;
 
-    public AnoLetivoJpa(){}
+    public AnoLetivoJPA(){}
 
-    public AnoLetivoJpa(String sigla)
+    public AnoLetivoJPA(String sigla)
     {
         this.sigla = sigla;
     }

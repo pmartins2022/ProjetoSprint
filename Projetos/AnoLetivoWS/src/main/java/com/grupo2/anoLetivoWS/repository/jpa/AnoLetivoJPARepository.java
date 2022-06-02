@@ -1,8 +1,8 @@
 package com.grupo2.anoLetivoWS.repository.jpa;
 
-import com.grupo2.anoLetivoWS.jpa.AnoLetivoJpa;
+import com.grupo2.anoLetivoWS.jpa.AnoLetivoJPA;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AnoLetivoJPARepository extends JpaRepository<AnoLetivoJpa, String>
+public interface AnoLetivoJPARepository extends JpaRepository<AnoLetivoJPA, String>
 {
 }

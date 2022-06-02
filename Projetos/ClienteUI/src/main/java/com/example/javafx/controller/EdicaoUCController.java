@@ -16,10 +16,6 @@ public class EdicaoUCController
     @Autowired
     private EdicaoUCService service;
 
-    /*
-    Primeiro vou bscar a lista
-    Depois tento criar  (no seu WS de EdicaoUC ele a verifica se existe)
-     */
     public List<UnidadeCurricularDTO> findAllUC()
     {
         List<UnidadeCurricularDTO> listUCDTO = service.findAllUC();

@@ -3,10 +3,8 @@ package com.grupo2.anoLetivoWS.service;
 import com.grupo2.anoLetivoWS.dto.AnoLetivoDTO;
 import com.grupo2.anoLetivoWS.dto.mapper.AnoLetivoDTOMapper;
 import com.grupo2.anoLetivoWS.exception.ErroGeralException;
-import com.grupo2.anoLetivoWS.jpa.mapper.AnoLetivoJPAMapper;
 import com.grupo2.anoLetivoWS.model.AnoLetivo;
 import com.grupo2.anoLetivoWS.repository.AnoLetivoRepository;
-import com.grupo2.anoLetivoWS.repository.jpa.AnoLetivoJPARepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -100,5 +99,28 @@ class AnoLetivoServiceUnitTests
         assertEquals(0,all.size());
     }
 
+    @Test
+    public void shouldFindAnoLetivo_Exists()
+    {
+        AnoLetivoDTO anoLetivoDTO = mock(AnoLetivoDTO.class);
+        AnoLetivo anoLetivo = mock(AnoLetivo.class);
+
+        when(repository.findById("2001-2002")).thenReturn(Optional.of(anoLetivo));
+        when(mapper.toDTO(anoLetivo)).thenReturn(anoLetivoDTO);
+
+        Optional<AnoLetivoDTO> saved = service.findByID("2001-2002");
+
+        assertEquals(anoLetivoDTO, saved.get());
+    }
+
+    @Test
+    public void shouldNotFindAnoLetivo_NotExists()
+    {
+        when(repository.findById("2001-2002")).thenReturn(Optional.empty());
+
+        Optional<AnoLetivoDTO> saved = service.findByID("2001-2002");
+
+        assertEquals(Optional.empty(), saved);
+    }
 
 }

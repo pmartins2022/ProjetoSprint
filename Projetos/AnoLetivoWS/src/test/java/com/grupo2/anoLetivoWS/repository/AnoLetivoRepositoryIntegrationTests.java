@@ -1,5 +1,6 @@
 package com.grupo2.anoLetivoWS.repository;
 
+import com.grupo2.anoLetivoWS.dto.AnoLetivoDTO;
 import com.grupo2.anoLetivoWS.exception.ErroGeralException;
 import com.grupo2.anoLetivoWS.exception.ValidacaoInvalidaException;
 import com.grupo2.anoLetivoWS.model.AnoLetivo;
@@ -89,6 +90,27 @@ class AnoLetivoRepositoryIntegrationTests
         List<AnoLetivo> letivos = repository.findAll();
 
         assertTrue(letivos.isEmpty());
+    }
+
+    @Test
+    public void shouldFindAnoLetivo_Exists()
+    {
+        AnoLetivo ano = new AnoLetivo("2000-2001");
+
+        repository.createAndSaveAnoLetivo(ano);
+
+        Optional<AnoLetivo> saved = repository.findById("2000-2001");
+
+        assertEquals(ano, saved.get());
+    }
+
+    @Test
+    public void shouldNotFindAnoLetivo_NotExists()
+    {
+
+        Optional<AnoLetivo> saved = repository.findById("2000-2001");
+
+        assertEquals(Optional.empty(), saved);
     }
 
 }
