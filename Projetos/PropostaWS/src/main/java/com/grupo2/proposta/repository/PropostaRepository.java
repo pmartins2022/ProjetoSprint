@@ -93,6 +93,7 @@ public class PropostaRepository
 
         return listaModel;
     }
+
     public List<Proposta> findAllByTitulo(String titulo)
     {
         List<PropostaJPA> lista = jpaRepository.findAllByTituloContainsIgnoreCase(titulo);
