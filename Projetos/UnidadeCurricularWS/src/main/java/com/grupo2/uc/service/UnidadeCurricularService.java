@@ -60,9 +60,9 @@ public class UnidadeCurricularService
         }
         ucRequested.get().setDenominacao(denominacao);
 
-        UnidadeCurricular dto = factory.createUnidadeCurricular(sigla, ucRequested.get().getDenominacao());
+        UnidadeCurricular uc = factory.createUnidadeCurricular(sigla, ucRequested.get().getDenominacao());
 
-        UnidadeCurricular ucUpdated = repository.updateUnidadeCurricular(dto);
+        UnidadeCurricular ucUpdated = repository.updateUnidadeCurricular(uc);
 
         UnidadeCurricularDTO dtoUpdated = mapper.toDTO(ucUpdated);
 
