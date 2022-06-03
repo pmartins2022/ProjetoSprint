@@ -4,6 +4,8 @@ import com.grupo2.utilizadores.exception.ErroGeralException;
 import com.grupo2.utilizadores.exception.OptionalVazioException;
 import com.grupo2.utilizadores.exception.ValidacaoInvalidaException;
 
+import java.util.Objects;
+
 /**
  * Classe de dominio do Utilizador
  */
@@ -264,4 +266,14 @@ public class Utilizador
                 ", tipoUtilizador=" + tipoUtilizador +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Utilizador that = (Utilizador) o;
+        return Objects.equals(nome, that.nome) && Objects.equals(sobrenome, that.sobrenome) && Objects.equals(email, that.email) && tipoUtilizador == that.tipoUtilizador;
+    }
+
 }
