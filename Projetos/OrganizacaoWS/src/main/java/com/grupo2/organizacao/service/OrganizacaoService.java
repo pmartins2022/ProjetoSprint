@@ -3,6 +3,7 @@ package com.grupo2.organizacao.service;
 import com.grupo2.organizacao.dto.NifDTO;
 import com.grupo2.organizacao.dto.OrganizacaoDTO;
 import com.grupo2.organizacao.dto.mapper.OrganizacaoDTOMapper;
+import com.grupo2.organizacao.exception.OptionalVazioException;
 import com.grupo2.organizacao.exception.ValidacaoInvalidaException;
 import com.grupo2.organizacao.model.Organizacao;
 import com.grupo2.organizacao.repository.OrganizacaoRepository;
@@ -64,7 +65,7 @@ public class OrganizacaoService
         Optional<NifDTO> nifDTO = nifRestController.findByNif(dto.getNif());
 
         if (nifDTO.isEmpty()){
-            throw new ValidacaoInvalidaException("Nif não existe no Servidor ");
+            throw new OptionalVazioException("Nif não existe no Servidor ");
         }
 
         Organizacao organizacao = mapper.toModel(dto);
