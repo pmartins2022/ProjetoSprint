@@ -7,7 +7,6 @@ import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
 import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.exception.ListaVaziaException;
-import com.grupo2.proposta.exception.ValidacaoInvalidaException;
 import com.grupo2.proposta.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,12 +28,11 @@ public class PropostaController
     @PostMapping("/create")
     public ResponseEntity<PropostaDTO> createProposta(@RequestBody PropostaDTO dto)
     {
-        System.out.println("Criar proposta");
         try
         {
             PropostaDTO proposta = service.createProposta(dto);
 
-            return new ResponseEntity<>(proposta, HttpStatus.OK);
+            return new ResponseEntity<>(proposta, HttpStatus.CREATED);
         } catch (BaseDadosException e)
         {
             throw new BaseDadosException(e.getMessage());
@@ -57,8 +55,6 @@ public class PropostaController
     @GetMapping("/listarPorTitulo")
     public ResponseEntity<Object> listbyTitulo(@RequestParam String titulo)
     {
-        System.out.println("Encontrar por titulo: "+titulo);
-
         List<PropostaDTO> lista = service.findByTitulo(titulo);
 
         if (lista.isEmpty())
@@ -109,13 +105,14 @@ public class PropostaController
         {
             ProjetoDTO projetoDTO = service.acceptProposta(propostaID, orientadorID, alunoID);
             return new ResponseEntity<>(projetoDTO, HttpStatus.OK);
-        } catch (ValidacaoInvalidaException e)
-        {
-            throw new ValidacaoInvalidaException(e.getMessage());
         }
         catch (IdInvalidoException e)
         {
             throw new IdInvalidoException(e.getMessage());
+        }
+        catch (AtualizacaoInvalidaException e)
+        {
+            throw new AtualizacaoInvalidaException(e.getMessage());
         }
     }
 }
