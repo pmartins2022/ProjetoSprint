@@ -62,49 +62,30 @@ class EdicaoUCServiceUnitTest {
     public void shouldFindAllEdicaoByUCCode()
     {
         EdicaoUCDTO edicaoUCDTOMOCK = mock(EdicaoUCDTO.class);
-        EdicaoUCDTO edicaoUCDTOMOCK2 = mock(EdicaoUCDTO.class);
-        EdicaoUCDTO edicaoUCDTOMOCK3 = mock(EdicaoUCDTO.class);
         EdicaoUC edicaoUCMOCK = mock(EdicaoUC.class);
-        EdicaoUC edicaoUCMOCK2 = mock(EdicaoUC.class);
-        EdicaoUC edicaoUCMOCK3 = mock(EdicaoUC.class);
 
-        when(edicaoUCDTOMOCK.getUcCode()).thenReturn("1");
-        when(edicaoUCDTOMOCK.getAnoLetivoCode()).thenReturn("2000-2001");
-        when(edicaoUCDTOMOCK2.getUcCode()).thenReturn("2");
-        when(edicaoUCDTOMOCK2.getAnoLetivoCode()).thenReturn("2004-2005");
-        when(edicaoUCDTOMOCK3.getUcCode()).thenReturn("2");
-        when(edicaoUCDTOMOCK3.getAnoLetivoCode()).thenReturn("2002-2003");
-        List<EdicaoUCDTO> edicaoUCListDTO = List.of(edicaoUCDTOMOCK2,edicaoUCDTOMOCK3);
+        List<EdicaoUC> list = List.of(edicaoUCMOCK,edicaoUCMOCK,edicaoUCMOCK);
 
-        when(edicaoUCMOCK.getUCCode()).thenReturn("1");
-        when(edicaoUCMOCK.getAnoLetivoCode()).thenReturn("2000-2001");
-        when(edicaoUCMOCK2.getUCCode()).thenReturn("2");
-        when(edicaoUCMOCK2.getAnoLetivoCode()).thenReturn("2004-2005");
-        when(edicaoUCMOCK3.getUCCode()).thenReturn("2");
-        when(edicaoUCMOCK3.getAnoLetivoCode()).thenReturn("2002-2003");
-        List<EdicaoUC> edicaoUCList = List.of(edicaoUCMOCK2,edicaoUCMOCK3);
-
+        when(repository.findAllEdicaoByUCCode("2")).thenReturn(list);
 
         when(mapper.toDTO(edicaoUCMOCK)).thenReturn(edicaoUCDTOMOCK);
-        when(mapper.toDTO(edicaoUCMOCK2)).thenReturn(edicaoUCDTOMOCK2);
-        when(mapper.toDTO(edicaoUCMOCK3)).thenReturn(edicaoUCDTOMOCK3);
-        when(repository.findAllEdicaoByUCCode("2")).thenReturn(edicaoUCList);
+
         List<EdicaoUCDTO> resultado =service.findAllEdicaoByUCCode("2");
 
-        assertEquals(resultado,edicaoUCListDTO);
+        assertEquals(resultado.size(),list.size());
     }
     @Test
     public void shouldFindEdicaoUC_Exists()
     {
-        EdicaoUCDTO edicaoUCDTO = mock(EdicaoUCDTO.class);
-        EdicaoUC edicaoUC = mock(EdicaoUC.class);
+        EdicaoUCDTO edicaoUCDTOMOCK = mock(EdicaoUCDTO.class);
+        EdicaoUC edicaoUCMOCK = mock(EdicaoUC.class);
 
-        when(repository.findById(1L)).thenReturn(Optional.of(edicaoUC));
-        when(mapper.toDTO(edicaoUC)).thenReturn(edicaoUCDTO);
+        when(repository.findById(1L)).thenReturn(Optional.of(edicaoUCMOCK));
+        when(mapper.toDTO(edicaoUCMOCK)).thenReturn(edicaoUCDTOMOCK);
 
         Optional<EdicaoUCDTO> saved = service.findById(1L);
 
-        assertEquals(edicaoUCDTO, saved.get());
+        assertEquals(edicaoUCDTOMOCK, saved.get());
     }
     @Test
     public void shouldNotFindEdicaoUC_Empty()
