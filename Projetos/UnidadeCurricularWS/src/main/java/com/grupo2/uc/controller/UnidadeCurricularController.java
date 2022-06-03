@@ -41,7 +41,7 @@ public class UnidadeCurricularController
         {
             UnidadeCurricularDTO dto = service.createAndSaveUnidadeCurricular(unidadeCurricularDTO);
 
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
         }
         catch (ValidacaoInvalidaException e)
         {

@@ -6,6 +6,7 @@ import com.grupo2.uc.jpa.mapper.UnidadeCurricularJPAMapper;
 import com.grupo2.uc.model.UnidadeCurricular;
 import com.grupo2.uc.repository.jpa.UnidadeCurricularJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -50,9 +51,15 @@ public class UnidadeCurricularRepository
 
     public UnidadeCurricular updateUnidadeCurricular(UnidadeCurricular uc)
     {
+        if (jpaRepository.findById(uc.getSigla()).isPresent())
+        {
+            jpaRepository.deleteById(uc.getSigla());
+        }
+        else
+        {
+            throw new ErroGeralException("O id "+uc.getSigla()+" nao existe.");
+        }
         UnidadeCurricularJPA jpa = mapper.toJPA(uc);
-
-        jpaRepository.deleteById(uc.getSigla());
 
         UnidadeCurricularJPA saved = jpaRepository.save(jpa);
 

@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -44,7 +45,6 @@ class UnidadeCurricularRepositoryUnitTests
     {
         UnidadeCurricular ucMOCK = mock(UnidadeCurricular.class);
         UnidadeCurricularJPA ucJPAMOCK = mock(UnidadeCurricularJPA.class);
-
         when(ucMOCK.getSigla()).thenReturn("Português");
         when(ucJPAMOCK.getSigla()).thenReturn("Português");
 
@@ -149,6 +149,7 @@ class UnidadeCurricularRepositoryUnitTests
 
         UnidadeCurricularJPA jpaMock = mock(UnidadeCurricularJPA.class);
 
+        when(jpaRepository.findById(ucMock.getSigla())).thenReturn(Optional.of(jpaMock));
         when(jpaRepository.save(jpaMock)).thenReturn(jpaMock);
         when(mapper.toModel(jpaMock)).thenReturn(ucMock);
         when(mapper.toJPA(ucMock)).thenReturn(jpaMock);
@@ -158,15 +159,14 @@ class UnidadeCurricularRepositoryUnitTests
         assertEquals(ucMock,unidadeCurricular);
     }
 
-    /*
-        public UnidadeCurricular updateUnidadeCurricular(String sigla, String denominacao)
+    @Test
+    public void shouldNotUpdateUnidadeCurricular_DiffSiglaThatNotExists()
     {
-        UnidadeCurricularJPA jpa = new UnidadeCurricularJPA(sigla, denominacao);
+        UnidadeCurricular ucMOCKToUpdate = mock(UnidadeCurricular.class);
+        when(ucMOCKToUpdate.getSigla()).thenReturn("PTAB");
 
-        UnidadeCurricularJPA saved = jpaRepository.save(jpa);
+        when(jpaRepository.findById(ucMOCKToUpdate.getSigla())).thenReturn(Optional.empty());
 
-        UnidadeCurricular ucSaved = mapper.toModel(saved);
-        return ucSaved;
+        assertThrows(ErroGeralException.class,()-> repository.updateUnidadeCurricular(ucMOCKToUpdate));
     }
-     */
 }

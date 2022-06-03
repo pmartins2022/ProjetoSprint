@@ -2,6 +2,8 @@ package com.grupo2.uc.model;
 
 import com.grupo2.uc.exception.ValidacaoInvalidaException;
 
+import java.util.Objects;
+
 public class UnidadeCurricular
 {
     private String sigla;
@@ -72,5 +74,14 @@ public class UnidadeCurricular
                 }
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UnidadeCurricular that = (UnidadeCurricular) o;
+        return Objects.equals(sigla, that.sigla) && Objects.equals(denominacao, that.denominacao);
     }
 }

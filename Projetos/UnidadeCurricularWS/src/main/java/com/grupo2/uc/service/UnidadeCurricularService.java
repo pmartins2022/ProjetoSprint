@@ -56,7 +56,7 @@ public class UnidadeCurricularService
 
         if (ucRequested.isEmpty())
         {
-            throw new OptionalVazioException("Não existe Unidade Curricular com essa sigla");
+           return Optional.empty();
         }
         ucRequested.get().setDenominacao(denominacao);
 
