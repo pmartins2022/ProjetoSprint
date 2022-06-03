@@ -17,12 +17,6 @@ public class EdicaoUcwsApplication {
 	@Bean
 	public CommandLineRunner demo(EdicaoUCService edicaoService) {
 		return (args) -> {
-			edicaoService.createEdicaoUC("432","20006-4302");
-			edicaoService.createEdicaoUC("2","2002-2003");
-			edicaoService.createEdicaoUC("3","2003-2004");
-			edicaoService.createEdicaoUC("4","2004-2005");
-			edicaoService.createEdicaoUC("4","2012-2014");
-
 		};
 	}
 }

@@ -25,7 +25,7 @@ public class EdicaoUCController
     {
         try
         {
-            EdicaoUCDTO edicaoUC = service.createEdicaoUC(edicaoUCDTO.getUcCode(), edicaoUCDTO.getAnoLetivoCode());
+            EdicaoUCDTO edicaoUC = service.createEdicaoUC(edicaoUCDTO);
             return new ResponseEntity<>(edicaoUC, HttpStatus.CREATED);
 
         } catch (ValidacaoInvalidaException e)

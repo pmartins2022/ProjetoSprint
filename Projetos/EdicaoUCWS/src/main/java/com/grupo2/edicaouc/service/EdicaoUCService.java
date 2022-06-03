@@ -28,10 +28,8 @@ public class EdicaoUCService
     }
 
 
-    public EdicaoUCDTO createEdicaoUC(String ucCode, String anoLetivoCode)
+    public EdicaoUCDTO createEdicaoUC(EdicaoUCDTO dto)
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO(ucCode,anoLetivoCode);
-
         EdicaoUC edicaoUC = mapper.toModel(dto);
 
         EdicaoUC saveEdicaoUC = repository.saveEdicaoUC(edicaoUC);
