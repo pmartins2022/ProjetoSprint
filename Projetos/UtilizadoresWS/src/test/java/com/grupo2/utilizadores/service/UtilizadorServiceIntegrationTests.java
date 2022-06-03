@@ -31,7 +31,7 @@ class UtilizadorServiceIntegrationTests
     @Test
     public void shouldFindById_Exists()
     {
-        UtilizadorDTO utilizadorDTO = new UtilizadorDTO("testName","testSName","testEmail@email.com", TipoUtilizador.ALUNO);
+        UtilizadorDTO utilizadorDTO = new UtilizadorDTO(1L, "testName","testSName","testEmail@email.com", TipoUtilizador.ALUNO);
         UtilizadorDTO save = utilizadorService.createAndSave(utilizadorDTO);
 
         Optional<UtilizadorDTO> dto = utilizadorService.findByID(save.getId());

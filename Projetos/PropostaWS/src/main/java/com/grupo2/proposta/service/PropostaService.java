@@ -2,6 +2,7 @@ package com.grupo2.proposta.service;
 
 import com.grupo2.proposta.dto.ProjetoDTO;
 import com.grupo2.proposta.dto.PropostaDTO;
+import com.grupo2.proposta.dto.factory.ProjetoDTOFactory;
 import com.grupo2.proposta.model.TipoUtilizador;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
@@ -30,6 +31,9 @@ public class PropostaService
 
     @Autowired
     private PropostaDTOMapper mapper;
+
+    @Autowired
+    private ProjetoDTOFactory projetoDTOFactory;
 
     public PropostaDTO createProposta(PropostaDTO dto) throws BaseDadosException
     {
@@ -140,10 +144,8 @@ public class PropostaService
 
     public ProjetoDTO createProject(Long propostaID, Long orientadorID, Long estudanteID)
     {
-        ProjetoDTO projetoDTO = new ProjetoDTO(propostaID, orientadorID, estudanteID);
+        ProjetoDTO projetoDTO = projetoDTOFactory.createProjeto(propostaID, orientadorID, estudanteID);
 
-        ProjetoDTO saved = projetoRestRepository.create(projetoDTO);
-
-        return saved;
+        return projetoRestRepository.create(projetoDTO);
     }
 }

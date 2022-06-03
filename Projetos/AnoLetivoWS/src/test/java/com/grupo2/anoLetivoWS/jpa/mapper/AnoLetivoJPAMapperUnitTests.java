@@ -63,7 +63,7 @@ class AnoLetivoJPAMapperUnitTests
     }
 
     @Test
-    public void shouldConvertValidAnoLetivoDTO_ValidAtributtes()
+    public void shouldConvertValidAnoLetivoJPA_ValidAtributtes()
     {
         AnoLetivoJPA anoLetivoJPAMOCK = mock(AnoLetivoJPA.class);
         AnoLetivo anoLetivoMOCK = mock(AnoLetivo.class);
@@ -75,13 +75,4 @@ class AnoLetivoJPAMapperUnitTests
         assertEquals(anoLetivoJPA.getSigla(), anoLetivoMOCK.getSigla());
     }
 
-    @Test
-    public void shouldNotConvertValidAnoLetivoDTO_InvalidAtributtes()
-    {
-        AnoLetivoJPA anoLetivoJPAMOCK = mock(AnoLetivoJPA.class);
-
-        when(factory.createAnoLetivo(anoLetivoJPAMOCK.getSigla())).thenThrow(ValidacaoInvalidaException.class);
-
-        assertThrows(ValidacaoInvalidaException.class, () -> mapper.toModel(anoLetivoJPAMOCK));
-    }
 }

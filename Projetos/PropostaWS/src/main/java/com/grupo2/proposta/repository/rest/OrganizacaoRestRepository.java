@@ -1,7 +1,6 @@
 package com.grupo2.proposta.repository.rest;
 
 import com.grupo2.proposta.dto.OrganizacaoDTO;
-import com.grupo2.proposta.dto.UtilizadorDTO;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 

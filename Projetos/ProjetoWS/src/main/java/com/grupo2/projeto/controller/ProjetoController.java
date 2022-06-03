@@ -52,6 +52,6 @@ public class ProjetoController
     {
         ProjetoDTO projetoDTOSaved = service.createAndSave(projetoDTO);
 
-        return new ResponseEntity<>(projetoDTOSaved, HttpStatus.OK);
+        return new ResponseEntity<>(projetoDTOSaved, HttpStatus.CREATED);
     }
 }

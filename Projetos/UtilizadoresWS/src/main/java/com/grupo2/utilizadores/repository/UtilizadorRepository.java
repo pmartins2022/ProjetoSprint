@@ -1,5 +1,6 @@
 package com.grupo2.utilizadores.repository;
 
+import com.grupo2.utilizadores.exception.ErroGeralException;
 import com.grupo2.utilizadores.jpa.UtilizadorJPA;
 import com.grupo2.utilizadores.jpa.mapper.UtilizadorJPAMapper;
 import com.grupo2.utilizadores.model.Utilizador;
@@ -50,8 +51,13 @@ public class UtilizadorRepository
      * @param utilizador um objeto com os dados
      * @return um utilizador guardado
      */
-    public Utilizador save(Utilizador utilizador)
+    public Utilizador save(Utilizador utilizador) throws ErroGeralException
     {
+        if (jpaRepository.findById(utilizador.getId()).isPresent())
+        {
+            throw new ErroGeralException("Utilizador com id " + utilizador.getId() + " já existe.");
+        }
+
         UtilizadorJPA jpa = mapper.toJPA(utilizador);
 
         UtilizadorJPA jpaSaved = jpaRepository.save(jpa);

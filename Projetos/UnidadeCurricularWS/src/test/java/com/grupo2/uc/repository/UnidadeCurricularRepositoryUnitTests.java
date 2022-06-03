@@ -23,6 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@Transactional
 class UnidadeCurricularRepositoryUnitTests
 {
     @MockBean
@@ -67,11 +68,6 @@ class UnidadeCurricularRepositoryUnitTests
         UnidadeCurricularJPA ucMOCKJPA = mock(UnidadeCurricularJPA.class);
 
         when(ucMOCK.getSigla()).thenReturn("Português");
-
-        when(mapper.toModel(ucMOCKJPA)).thenReturn(ucMOCK);
-        when(mapper.toJPA(ucMOCK)).thenReturn(ucMOCKJPA);
-
-        when(jpaRepository.save(ucMOCKJPA)).thenReturn(ucMOCKJPA);
 
         when(jpaRepository.findById("Português")).thenReturn(Optional.of(ucMOCKJPA));
 

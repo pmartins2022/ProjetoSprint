@@ -1,4 +1,4 @@
-package com.grupo2.uc.exception;
+package com.grupo2.utilizadores.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

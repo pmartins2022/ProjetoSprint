@@ -57,6 +57,7 @@ public class Proposta
     {
         this.utilizadorId = utilizadorId;
         this.organizacaoId = organizacaoId;
+        validate(titulo,problema,objetivo);
         this.titulo = titulo;
         this.problema = problema;
         this.objetivo = objetivo;

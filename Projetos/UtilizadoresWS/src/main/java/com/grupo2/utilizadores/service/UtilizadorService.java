@@ -2,6 +2,7 @@ package com.grupo2.utilizadores.service;
 
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.dto.mapper.UtilizadorDTOMapper;
+import com.grupo2.utilizadores.exception.ErroGeralException;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.repository.UtilizadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,14 +50,12 @@ public class UtilizadorService
      * @param dto um objeto com os dados do utilizador
      * @return um utilizador
      */
-    public UtilizadorDTO createAndSave(UtilizadorDTO dto)
+    public UtilizadorDTO createAndSave(UtilizadorDTO dto) throws ErroGeralException
     {
         Utilizador utilizador = mapper.toModel(dto);
 
         Utilizador saved = repository.save(utilizador);
 
-        UtilizadorDTO dtoSaved = mapper.toDTO(saved);
-
-        return dtoSaved;
+        return mapper.toDTO(saved);
     }
 }
