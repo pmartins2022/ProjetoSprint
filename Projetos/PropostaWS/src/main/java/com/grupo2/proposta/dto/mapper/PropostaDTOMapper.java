@@ -14,22 +14,16 @@ public class PropostaDTOMapper
 
     public Proposta toModel(PropostaDTO dto)
     {
-        if (dto.getId() != null)
-        {
-            return factory.createProposta(dto.getId(), dto.getUtilizadorId(), dto.getOrganizacaoId(),
-                    dto.getTitulo(), dto.getProblema(), dto.getObjetivo(),
-                    dto.getEdicaoUCId(), dto.getEstadoAtual());
-        }
-        return factory.createProposta(dto.getUtilizadorId(), dto.getOrganizacaoId(),
+        return factory.createProposta(dto.getId(), dto.getUtilizadorId(), dto.getOrganizacaoId(),
                 dto.getTitulo(), dto.getProblema(), dto.getObjetivo(),
                 dto.getEdicaoUCId(), dto.getEstadoAtual());
     }
 
     public PropostaDTO toDTO(Proposta model)
     {
-        return new PropostaDTO(model.getId(),model.getUtilizadorId(),model.getOrganizacaoId(),
-                model.getTitulo(),model.getProblema(),model.getObjetivo(),
-                model.getEdicaoUCId(),model.getEstadoAtual());
+        return new PropostaDTO(model.getId(), model.getUtilizadorId(), model.getOrganizacaoId(),
+                model.getTitulo(), model.getProblema(), model.getObjetivo(),
+                model.getEdicaoUCId(), model.getEstadoAtual());
     }
 
 }
