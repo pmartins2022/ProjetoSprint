@@ -55,19 +55,6 @@ public class EdicaoUCRepository
         return lista.stream().map(mapper::toModel).toList();
     }
 
-    public Optional<EdicaoUC> findByAnoLetivoCode(String UCCode)
-    {
-        Optional<EdicaoUCJPA> jpa = jpaRepository.findByanoLetivoCode(UCCode);
-        if (jpa.isPresent())
-        {
-            return jpa.map(mapper::toModel);
-        }
-        else
-        {
-            return Optional.empty();
-        }
-    }
-
     public Optional<EdicaoUC> findById(Long id)
     {
         Optional<EdicaoUCJPA> jpa = jpaRepository.findById(id);

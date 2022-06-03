@@ -19,9 +19,9 @@ public class ProjetoWsApplication {
 	{
 		return (args) ->
 		{
-			service.createAndSave(new ProjetoDTO(2L, 3L, 4L));
-			service.createAndSave(new ProjetoDTO(2L, 3L, 4L));
-			service.createAndSave(new ProjetoDTO(2L, 3L, 4L));
+//			service.createAndSave(new ProjetoDTO(2L, 3L, 4L));
+//			service.createAndSave(new ProjetoDTO(2L, 3L, 4L));
+//			service.createAndSave(new ProjetoDTO(2L, 3L, 4L));
 		};
 	}
 }

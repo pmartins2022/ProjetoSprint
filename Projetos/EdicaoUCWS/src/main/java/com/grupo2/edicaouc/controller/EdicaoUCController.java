@@ -1,6 +1,7 @@
 package com.grupo2.edicaouc.controller;
 
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
+import com.grupo2.edicaouc.exception.BaseDadosException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
@@ -28,10 +29,12 @@ public class EdicaoUCController
             EdicaoUCDTO edicaoUC = service.createEdicaoUC(edicaoUCDTO);
             return new ResponseEntity<>(edicaoUC, HttpStatus.CREATED);
 
-        } catch (ValidacaoInvalidaException e)
+        }
+        catch (BaseDadosException e)
         {
-            throw new ValidacaoInvalidaException(e.getMessage());
-        } catch (OptionalVazioException e)
+            throw new BaseDadosException(e.getMessage());
+        }
+        catch (OptionalVazioException e)
         {
             throw new OptionalVazioException(e.getMessage());
         }

@@ -128,6 +128,6 @@ public class Projeto
         if (this == o) return true;
         if (!(o instanceof Projeto)) return false;
         Projeto projeto = (Projeto) o;
-        return Objects.equals(getId(), projeto.getId()) && Objects.equals(getPropostaId(), projeto.getPropostaId()) && Objects.equals(getEstudanteId(), projeto.getEstudanteId()) && Objects.equals(getOrientadorId(), projeto.getOrientadorId());
+        return Objects.equals(getPropostaId(), projeto.getPropostaId()) && Objects.equals(getEstudanteId(), projeto.getEstudanteId()) && Objects.equals(getOrientadorId(), projeto.getOrientadorId());
     }
 }
