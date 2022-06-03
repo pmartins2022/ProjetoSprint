@@ -1,10 +1,12 @@
 package com.grupo2.edicaouc.repository.rest;
 
 import com.grupo2.edicaouc.dto.AnoLetivoDTO;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
+@Repository
 public class AnoLetivoUCRestRepository
 {
     public Optional<AnoLetivoDTO> findById(String id)

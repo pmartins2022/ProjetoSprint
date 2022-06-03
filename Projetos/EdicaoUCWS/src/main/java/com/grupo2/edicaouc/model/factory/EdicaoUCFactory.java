@@ -10,5 +10,4 @@ public class EdicaoUCFactory
     {
         return new EdicaoUC(id, UCCode,anoLetivoCode);
     }
-
 }

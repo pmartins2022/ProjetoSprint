@@ -1,10 +1,12 @@
 package com.grupo2.edicaouc.repository.rest;
 
 import com.grupo2.edicaouc.dto.UnidadeCurricularDTO;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
+@Repository
 public class UnidadeCurricularRestRepository
 {
     public Optional<UnidadeCurricularDTO> findById(String id)
