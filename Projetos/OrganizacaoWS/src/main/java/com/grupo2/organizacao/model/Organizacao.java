@@ -2,6 +2,8 @@ package com.grupo2.organizacao.model;
 
 import com.grupo2.organizacao.exception.ValidacaoInvalidaException;
 
+import java.util.Objects;
+
 /**
  * Classe de dominio do Organizacao
  */
@@ -42,6 +44,17 @@ public class Organizacao
     {
         this.id = id;
         validateDenominacao(denominacao);
+        this.denominacao = denominacao;
+        this.nif = nif;
+    }
+
+    /**
+     * Inicializa a denominacao e nif da Organizacao
+     * @param denominacao a denominacao da organizacao
+     * @param nif o nif da organizacao
+     */
+    public Organizacao(String denominacao, Integer nif)
+    {
         this.denominacao = denominacao;
         this.nif = nif;
     }
@@ -111,5 +124,14 @@ public class Organizacao
     public void setNif(Integer nif)
     {
         this.nif = nif;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Organizacao)) return false;
+        Organizacao that = (Organizacao) o;
+        return Objects.equals(getDenominacao(), that.getDenominacao()) && Objects.equals(getNif(), that.getNif());
     }
 }
