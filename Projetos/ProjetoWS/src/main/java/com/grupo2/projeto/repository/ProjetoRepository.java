@@ -1,6 +1,5 @@
 package com.grupo2.projeto.repository;
 
-import com.grupo2.projeto.exception.ErroGeralException;
 import com.grupo2.projeto.jpa.ProjetoJPA;
 import com.grupo2.projeto.jpa.mapper.ProjetoJPAMapper;
 import com.grupo2.projeto.model.Projeto;
@@ -11,19 +10,19 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- *
+ * Classe Repository do Projeto
  */
 @Repository
 public class ProjetoRepository
 {
     /**
-     * O repositoryJPA a ser utilizado por este Service.
+     * O repositoryJPA a ser utilizado por este Repository.
      */
     @Autowired
     private ProjetoJPARepository repository;
 
     /**
-     * O repositoryJPAMapper a ser utilizado por este Service.
+     * O repositoryJPAMapper a ser utilizado por este Repository.
      */
     @Autowired
     private ProjetoJPAMapper mapper;

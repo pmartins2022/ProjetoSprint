@@ -4,7 +4,7 @@ import com.grupo2.projeto.model.Projeto;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * Classe Factory do Projeto
  */
 @Component
 public class ProjetoFactory

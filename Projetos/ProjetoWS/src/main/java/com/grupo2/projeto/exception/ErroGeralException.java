@@ -18,7 +18,7 @@ public class ErroGeralException extends RuntimeException
 
     /**
      * Inicializa o massage de ErroGeralException com massage
-     * @param message
+     * @param message o objeto a ser recebido
      */
     public ErroGeralException(String message)
     {

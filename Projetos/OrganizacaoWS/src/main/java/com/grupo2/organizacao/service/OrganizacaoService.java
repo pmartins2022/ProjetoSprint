@@ -13,19 +13,35 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe de Service do organizacao. Possui endpoints para createAndSave, findByNif, findALL e findById.
+ */
 @Service
 public class OrganizacaoService
 {
+    /**
+     * O repository a ser utilizado por este Service.
+     */
     @Autowired
     private OrganizacaoRepository repository;
 
+    /**
+     * O mapper a ser utilizado por este Service.
+     */
     @Autowired
     private OrganizacaoDTOMapper mapper;
 
+    /**
+     * O RESTController a ser utilizado por este Service.
+     */
     @Autowired
     private NifRestController nifRestController;
 
-
+    /**
+     * Endpoint que possibilita encontrar o organizacao por id existente.
+     * @param id um objeto com os dados do id
+     * @return uma organizacao
+     */
     public Optional<OrganizacaoDTO> findByID(Long id)
     {
         Optional<Organizacao> optionalOrganizacao = repository.findByID(id);
@@ -38,6 +54,11 @@ public class OrganizacaoService
         return Optional.empty();
     }
 
+    /**
+     * Endpoint que possibilita crear e gravar o organizacao existente.
+     * @param dto um objeto com os dados
+     * @return uma organizacao criada e guardado
+     */
     public OrganizacaoDTO createAndSave(OrganizacaoDTO dto)
     {
         Optional<NifDTO> nifDTO = nifRestController.findByNif(dto.getNif());
@@ -52,6 +73,11 @@ public class OrganizacaoService
         return dtoSaved;
     }
 
+    /**
+     * Endpoint que possibilita encontrar o organizacao existente procurada pelo nif.
+     * @param nif e um objeto com dados
+     * @return uma organizacao
+     */
     public Optional<OrganizacaoDTO> findByNIF(Integer nif)
     {
         Optional<Organizacao> optionalOrganizacao = repository.findByNIF(nif);
@@ -64,6 +90,10 @@ public class OrganizacaoService
         return Optional.empty();
     }
 
+    /**
+     * Endpoint que possibilita encontrar tadas organizacoes existentes.
+     * @return lista de organizacoes
+     */
     public List<OrganizacaoDTO> findAll()
     {
         List<Organizacao> list = repository.findAll();

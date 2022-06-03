@@ -1,29 +1,29 @@
 package com.grupo2.projeto.dto;
 
-/*
-Classe DTO de projeto.
+/**
+ * Classe DTO do projeto
  */
 public class ProjetoDTO
 {
-    /*
-    Id do projeto
+    /**
+     *Id do projeto
      */
     private Long id;
-    /*
-    Id da proposta
+    /**
+     *Id da proposta
      */
     private Long propostaId;
-    /*
-    Id do Estudante
+    /**
+     *Id do Estudante
      */
     private Long estudanteId;
-    /*
-    Id do orientador
+    /**
+     *Id do orientador
      */
     private Long orientadorId;
 
-    /*
-    Inicializa o ProjetoDto sem parametros
+    /**
+     *Inicializa o ProjetoDto sem parametros
      */
     public ProjetoDTO()
     {}
@@ -102,8 +102,8 @@ public class ProjetoDTO
     }
 
     /**
-     *  Modifica o id da proposta
-     * @param propostaId novo id da proposta
+     *  Modifica o propostaId da proposta
+     * @param propostaId novo propostaId da proposta
      */
     public void setPropostaId(Long propostaId)
     {
@@ -111,8 +111,8 @@ public class ProjetoDTO
     }
 
     /**
-     *  Modifica o id do estudante
-     * @param estudanteId novo id do estudante
+     *  Modifica o estudanteId do estudante
+     * @param estudanteId novo estudanteId do estudante
      */
     public void setEstudanteId(Long estudanteId)
     {
@@ -120,8 +120,8 @@ public class ProjetoDTO
     }
 
     /**
-     *  Modifica o id do orientador
-     * @param orientadorId novo id do orientador
+     *  Modifica o orientadorId do orientador
+     * @param orientadorId novo orientadorId do orientador
      */
     public void setOrientadorId(Long orientadorId)
     {

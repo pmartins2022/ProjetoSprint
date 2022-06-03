@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProjetoJPAMapper
 {
+    /**
+     *  O factory a ser utilizado por este JPA Mapper.
+     */
     @Autowired
     private ProjetoFactory factory;
 

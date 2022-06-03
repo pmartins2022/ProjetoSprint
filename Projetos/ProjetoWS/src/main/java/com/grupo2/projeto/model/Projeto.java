@@ -24,8 +24,8 @@ public class Projeto
      */
     private Long orientadorId;
 
-    /*
-    Inicializa o Projeto sem parametros
+    /**
+     *Inicializa o Projeto sem parametros
      */
     public Projeto()
     {}

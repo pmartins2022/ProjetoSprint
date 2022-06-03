@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-/*
-Classe REST Controller de projeto. Possui endpoints para createProjeto e findById.
+/**
+ * Classe REST Controller de projeto. Possui endpoints para createProjeto e findById.
  */
 @RestController
 @RequestMapping("/projeto")

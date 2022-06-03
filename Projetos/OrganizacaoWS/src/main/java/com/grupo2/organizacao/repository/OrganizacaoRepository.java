@@ -10,15 +10,29 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe de Repository do organizacao. Possui endpoints para save, findById, findAll e findByNif.
+ */
 @Repository
 public class OrganizacaoRepository
 {
+    /**
+     * O repositoryJPA a ser utilizado por este Repository.
+     */
     @Autowired
     private OrganizacaoJPARepository jpaRepository;
 
+    /**
+     * O repositoryJPAMapper a ser utilizado por este Repository.
+     */
     @Autowired
     private OrganizacaoJPAMapper mapper;
 
+    /**
+     * Endpoint que possibilita encontrar o organizacao por id existente no repositorio.
+     * @param id um objeto com os dados do id
+     * @return uma organizacao
+     */
     public Optional<Organizacao> findByID(Long id)
     {
         Optional<OrganizacaoJPA> organizacaoJPA = jpaRepository.findById(id);
@@ -30,6 +44,11 @@ public class OrganizacaoRepository
         return Optional.of(organizacao);
     }
 
+    /**
+     * Endpoint que possibilita gravar o organizacao existente no repositorio.
+     * @param organizacao um objeto com os dados
+     * @return uma organizacao guardado
+     */
     public Organizacao save(Organizacao organizacao)
     {
         OrganizacaoJPA jpa = mapper.toJpa(organizacao);
@@ -39,6 +58,11 @@ public class OrganizacaoRepository
         return saved;
     }
 
+    /**
+     * Endpoint que possibilita encontrar o organizacao existente no repositorio pelo nif.
+     * @param nif e um objeto com dados
+     * @return uma organizacao
+     */
     public Optional<Organizacao> findByNIF(Integer nif)
     {
         Optional<OrganizacaoJPA> organizacaoJPA = jpaRepository.findBynif(nif);
@@ -50,6 +74,10 @@ public class OrganizacaoRepository
         return Optional.of(organizacao);
     }
 
+    /**
+     * Endpoint que possibilita encontrar tadas organizacoes existente no repositorio.
+     * @return lista de organizacoes
+     */
     public List<Organizacao> findAll()
     {
         List<OrganizacaoJPA> list =jpaRepository.findAll();

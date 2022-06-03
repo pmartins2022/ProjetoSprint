@@ -12,13 +12,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe REST Controller de organizacao. Possui endpoints para findByID, findByNif e listar
+ */
 @RestController
 @RequestMapping("/organizacao")
 public class OrganizacaoController
 {
+    /**
+     * O serviço a ser utilizado por este REST Controller.
+     */
     @Autowired
     private OrganizacaoService service;
 
+    /**
+     * Endpoint que possibilita encontrar a organizacao por id existente no serviço.
+     * @param id um objeto com os dados da organizacao
+     * @return organizcao, ou um erro se os dados estiverem invalidos.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Object> findByID(@PathVariable("id") Long id)
     {
@@ -31,6 +42,11 @@ public class OrganizacaoController
         return new ResponseEntity<>(optionalOrganizacaoDTO, HttpStatus.OK);
     }
 
+    /**
+     * Endpoint que possibilita encontrar a organizacao por nif existente no serviço.
+     * @param nif um objeto com os dados da organizacao
+     * @return organizcao, ou um erro se os dados estiverem invalidos.
+     */
     @GetMapping("")
     public ResponseEntity<Object> findByNIF(@RequestParam(name = "nif") Integer nif)
     {
@@ -43,6 +59,10 @@ public class OrganizacaoController
         return new ResponseEntity<>(optionalOrganizacaoDTO, HttpStatus.OK);
     }
 
+    /**
+     * Endpoint que possibilita encontrar as organizacoes.
+     * @return lista de organizacoes, ou um erro se os dados estiverem invalidos.
+     */
     @GetMapping("/listar")
     public ResponseEntity<List<OrganizacaoDTO>> findAll()
     {
