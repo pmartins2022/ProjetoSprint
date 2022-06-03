@@ -104,7 +104,6 @@ public class PropostaController
     public ResponseEntity<Object> aceitarProposta(@PathVariable("id") Long propostaID,
                                                       @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
     {
-
         try
         {
             ProjetoDTO projetoDTO = service.acceptProposta(propostaID, orientadorID, alunoID);

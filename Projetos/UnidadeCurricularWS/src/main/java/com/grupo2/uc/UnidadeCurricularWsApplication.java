@@ -20,10 +20,10 @@ public class UnidadeCurricularWsApplication {
 	{
 		return (args) ->
 		{
-			jpaRepo.save(new UnidadeCurricularJPA("MAFK", "Matematica Avancada"));
-			jpaRepo.save(new UnidadeCurricularJPA("MASXG", "Matematica Basica"));
-			jpaRepo.save(new UnidadeCurricularJPA("EDSDGDSG", "Educacao Fisica"));
-			jpaRepo.save(new UnidadeCurricularJPA("PTSDSG", "Portugues Avancado"));
+			//jpaRepo.save(new UnidadeCurricularJPA("MAFK", "Matematica Avancada"));
+			//jpaRepo.save(new UnidadeCurricularJPA("MASXG", "Matematica Basica"));
+			//jpaRepo.save(new UnidadeCurricularJPA("EDSDGDSG", "Educacao Fisica"));
+			//jpaRepo.save(new UnidadeCurricularJPA("PTSDSG", "Portugues Avancado"));
 		};
 	}
 }
