@@ -68,11 +68,6 @@ class UnidadeCurricularRepositoryUnitTests
 
         when(ucMOCK.getSigla()).thenReturn("Português");
 
-        when(mapper.toModel(ucMOCKJPA)).thenReturn(ucMOCK);
-        when(mapper.toJPA(ucMOCK)).thenReturn(ucMOCKJPA);
-
-        when(jpaRepository.save(ucMOCKJPA)).thenReturn(ucMOCKJPA);
-
         when(jpaRepository.findById("Português")).thenReturn(Optional.of(ucMOCKJPA));
 
         assertThrows(ErroGeralException.class, () -> repository.saveUnidadeCurricular(ucMOCK));

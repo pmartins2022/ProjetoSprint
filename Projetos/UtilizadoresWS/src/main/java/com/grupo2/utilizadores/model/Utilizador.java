@@ -1,6 +1,8 @@
 package com.grupo2.utilizadores.model;
 
+import com.grupo2.utilizadores.exception.ErroGeralException;
 import com.grupo2.utilizadores.exception.OptionalVazioException;
+import com.grupo2.utilizadores.exception.ValidacaoInvalidaException;
 
 /**
  * Classe de dominio do Utilizador
@@ -57,13 +59,25 @@ public class Utilizador
      * @param email é o email do utilizador
      * @param tipoUtilizador é o tipoUtilizador do utilizador
      */
-    public Utilizador(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
+    public Utilizador(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador) throws  ValidacaoInvalidaException
     {
         validateNome(nome);
         validateSobrenome(sobrenome);
         validateEmail(email);
 
         this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.tipoUtilizador = tipoUtilizador;
+    }
+
+    public Utilizador(String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
+    {
+        validateNome(nome);
+        validateSobrenome(sobrenome);
+        validateEmail(email);
+
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
@@ -78,7 +92,7 @@ public class Utilizador
     {
         if (!email.matches(REGEX_PATTERN))
         {
-            throw new OptionalVazioException("Email Inválido");
+            throw new ValidacaoInvalidaException("Email Inválido");
         }
     }
 
@@ -90,7 +104,7 @@ public class Utilizador
     {
         if (sobrenome.trim().isEmpty() || sobrenome.length() < SOBRENOME_MIN_NUM_CHARACTERS)
         {
-            throw new OptionalVazioException("Sobrenome tem que ter no mínimo 3 caracteres");
+            throw new ValidacaoInvalidaException("Sobrenome tem que ter no mínimo 3 caracteres");
         }
         char x;
         for (int i = 0; i < sobrenome.length(); i++)
@@ -98,15 +112,15 @@ public class Utilizador
             x = sobrenome.charAt(i);
             if (!(Character.isAlphabetic(x)))
             {
-                throw new OptionalVazioException("Sobrenome só pode ter caracteres alfabéticos");
+                throw new ValidacaoInvalidaException("Sobrenome só pode ter caracteres alfabéticos");
             }
             if (Character.isDigit(x))
             {
-                throw new OptionalVazioException("Sobrenome não pode ter números");
+                throw new ValidacaoInvalidaException("Sobrenome não pode ter números");
             }
             if (Character.isSpaceChar(x))
             {
-                throw new OptionalVazioException("Sobrenome não pode conter espaços em branco");
+                throw new ValidacaoInvalidaException("Sobrenome não pode conter espaços em branco");
             }
 
         }
@@ -120,7 +134,7 @@ public class Utilizador
     {
         if (nome.trim().isEmpty() || nome.length() < NOME_MIN_NUM_CHARACTERS)
         {
-            throw new OptionalVazioException("Nome tem que ter no mínimo 3 caracteres");
+            throw new ValidacaoInvalidaException("Nome tem que ter no mínimo 3 caracteres");
         }
         char x;
         for (int i = 0; i < nome.length(); i++)
@@ -128,15 +142,15 @@ public class Utilizador
             x = nome.charAt(i);
             if (!(Character.isAlphabetic(x)))
             {
-                throw new OptionalVazioException("Nome só pode ter caracteres alfabéticos");
+                throw new ValidacaoInvalidaException("Nome só pode ter caracteres alfabéticos");
             }
             if (Character.isDigit(x))
             {
-                throw new OptionalVazioException("Nome não pode ter números");
+                throw new ValidacaoInvalidaException("Nome não pode ter números");
             }
             if (Character.isSpaceChar(x))
             {
-                throw new OptionalVazioException("Nome não pode conter espaços em branco");
+                throw new ValidacaoInvalidaException("Nome não pode conter espaços em branco");
             }
 
         }

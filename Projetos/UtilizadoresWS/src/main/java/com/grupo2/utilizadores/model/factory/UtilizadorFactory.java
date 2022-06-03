@@ -1,5 +1,6 @@
 package com.grupo2.utilizadores.model.factory;
 
+import com.grupo2.utilizadores.exception.ValidacaoInvalidaException;
 import com.grupo2.utilizadores.jpa.UtilizadorJPA;
 import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
@@ -24,9 +25,15 @@ public class UtilizadorFactory
      */
 
     public Utilizador createUtilizador(Long id, String nome, String sobrenome, String email,
-                                       TipoUtilizador tipoUtilizador)
+                                       TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
+    {
+        return new Utilizador(id, nome, sobrenome, email, tipoUtilizador);
+    }
+
+    public Utilizador createUtilizador(String nome, String sobrenome, String email,
+                                       TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
     {
 
-        return new Utilizador(id, nome, sobrenome, email, tipoUtilizador);
+        return new Utilizador(nome, sobrenome, email, tipoUtilizador);
     }
 }

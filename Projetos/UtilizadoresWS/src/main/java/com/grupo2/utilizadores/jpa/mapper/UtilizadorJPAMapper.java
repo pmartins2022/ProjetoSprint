@@ -1,5 +1,6 @@
 package com.grupo2.utilizadores.jpa.mapper;
 
+import com.grupo2.utilizadores.exception.ValidacaoInvalidaException;
 import com.grupo2.utilizadores.jpa.UtilizadorJPA;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.model.factory.UtilizadorFactory;
@@ -25,12 +26,10 @@ public class UtilizadorJPAMapper
      * @param jpa o objeto jpa com os dados
      * @return o objeto convertido
      */
-    public Utilizador toModel(UtilizadorJPA jpa)
+    public Utilizador toModel(UtilizadorJPA jpa) throws ValidacaoInvalidaException
     {
-        Utilizador utilizador = factory.createUtilizador(jpa.getId(), jpa.getNome(), jpa.getSobrenome(), jpa.getEmail(),
+        return factory.createUtilizador(jpa.getId(), jpa.getNome(), jpa.getSobrenome(), jpa.getEmail(),
                 jpa.getTipoUtilizador());
-
-        return utilizador;
     }
 
     /**
@@ -38,12 +37,11 @@ public class UtilizadorJPAMapper
      * @param utilizador o objeto de dominio com os dados
      * @return o objeto convertido
      */
-    public UtilizadorJPA toJPA(Utilizador utilizador)
+    public UtilizadorJPA toJPA(Utilizador utilizador) throws ValidacaoInvalidaException
     {
-        UtilizadorJPA jpa = new UtilizadorJPA(utilizador.getId(), utilizador.getNome(), utilizador.getSobrenome(),
-                utilizador.getEmail(), utilizador.getTipoUtilizador());
 
-        return jpa;
+        return new UtilizadorJPA(utilizador.getId(), utilizador.getNome(), utilizador.getSobrenome(),
+                utilizador.getEmail(), utilizador.getTipoUtilizador());
     }
 
 }

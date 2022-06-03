@@ -68,12 +68,11 @@ class AnoLetivoRepositoryUnitTests
 
         when(anoLetivoMock.getSigla()).thenReturn("2009-2010");
 
+        //when(repository.findById())
+        when(jpaRepository.findById("2009-2010")).thenReturn(Optional.of(anoLetivoJpa));
+        when(jpaRepository.save(anoLetivoJpa)).thenReturn(anoLetivoJpa);
         when(mapper.toModel(anoLetivoJpa)).thenReturn(anoLetivoMock);
         when(mapper.toJpa(anoLetivoMock)).thenReturn(anoLetivoJpa);
-
-        when(jpaRepository.save(anoLetivoJpa)).thenReturn(anoLetivoJpa);
-
-        when(jpaRepository.findById("2009-2010")).thenReturn(Optional.of(anoLetivoJpa));
 
         assertThrows(ErroGeralException.class,()->repository.createAndSaveAnoLetivo(anoLetivoMock));
     }
