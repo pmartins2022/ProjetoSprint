@@ -46,13 +46,4 @@ class AnoLetivoJPAMapperIntegrationTests
 
         assertEquals(sigla, anoLetivo.getSigla());
     }
-
-    @Test
-    public void shouldNotConvertValidAnoLetivoDTO_InvalidAtributtes()
-    {
-        AnoLetivoJPA anoLetivoJPA = new AnoLetivoJPA("2001asd-2002");
-
-        assertThrows(ValidacaoInvalidaException.class, () -> mapper.toModel(anoLetivoJPA));
-    }
-
 }

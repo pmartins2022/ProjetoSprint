@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Classe REST Controller de ano letivo. Possui endpoints para createAnoLetivo e listAnoLetivo.
+ * Classe REST Controller de ano letivo. Possui endpoints para createAnoLetivo, findBySigla, listAnoLetivo.
  */
 @RestController
 @RequestMapping("/anoLetivo")
@@ -41,7 +41,7 @@ public class AnoLetivoController
         {
             AnoLetivoDTO dto = service.createAndSaveAnoLetivo(anoLetivoDTO);
 
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (ValidacaoInvalidaException e)
         {
             throw new ValidacaoInvalidaException(e.getMessage());

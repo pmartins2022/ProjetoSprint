@@ -2,6 +2,7 @@ package com.grupo2.organizacao.controller;
 
 import com.grupo2.organizacao.dto.OrganizacaoDTO;
 import com.grupo2.organizacao.exception.ListaVaziaException;
+import com.grupo2.organizacao.exception.OptionalVazioException;
 import com.grupo2.organizacao.exception.ValidacaoInvalidaException;
 import com.grupo2.organizacao.service.OrganizacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class OrganizacaoController
 
         if (optionalOrganizacaoDTO.isEmpty())
         {
-            throw new ValidacaoInvalidaException("Não existe Organização com esse ID");
+            throw new OptionalVazioException("Não existe Organização com esse ID");
         }
         return new ResponseEntity<>(optionalOrganizacaoDTO, HttpStatus.OK);
     }
@@ -54,7 +55,7 @@ public class OrganizacaoController
 
         if (optionalOrganizacaoDTO.isEmpty())
         {
-            throw new ValidacaoInvalidaException("Não existe Organização com esse NIF");
+            throw new OptionalVazioException("Não existe Organização com esse NIF");
         }
         return new ResponseEntity<>(optionalOrganizacaoDTO, HttpStatus.OK);
     }

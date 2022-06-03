@@ -46,12 +46,4 @@ class AnoLetivoDTOMapperIntegrationTests
 
         assertEquals(sigla, anoLetivo.getSigla());
     }
-
-    @Test
-    public void shouldNotConvertValidAnoLetivoDTO_InvalidAtributtes()
-    {
-        AnoLetivoDTO anoLetivoDTO = new AnoLetivoDTO("2001asd-2002");
-
-        assertThrows(ValidacaoInvalidaException.class, () -> mapper.toModel(anoLetivoDTO));
-    }
 }

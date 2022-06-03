@@ -9,6 +9,7 @@ import com.grupo2.anoLetivoWS.service.AnoLetivoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
@@ -25,11 +26,7 @@ import static org.mockito.Mockito.when;
 class AnoLetivoControllerIntegrationTests
 {
     @Autowired
-    private AnoLetivoService service;
-
-    @Autowired
     private AnoLetivoController controller;
-
 
     @Test
     public void shouldCreateValidAnoLetivo()
@@ -38,15 +35,7 @@ class AnoLetivoControllerIntegrationTests
 
         ResponseEntity<AnoLetivoDTO> responseEntity = controller.createAndSaveAnoLetivo(anoLetivoDTO);
 
-        assertEquals(200, responseEntity.getStatusCodeValue());
-    }
-
-    @Test
-    public void shouldNotCreateValidAnoLetivo_Invalid()
-    {
-        AnoLetivoDTO anoLetivoDTO = new AnoLetivoDTO("2001asd-2002");
-
-        assertThrows(ValidacaoInvalidaException.class, () -> controller.createAndSaveAnoLetivo(anoLetivoDTO));
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
 
     @Test
@@ -56,7 +45,7 @@ class AnoLetivoControllerIntegrationTests
 
         AnoLetivoDTO anoLetivoDTO = new AnoLetivoDTO("2001-2002");
 
-        service.createAndSaveAnoLetivo(anoLetivoDTOSaved);
+        controller.createAndSaveAnoLetivo(anoLetivoDTOSaved);
 
         assertThrows(ErroGeralException.class, () -> controller.createAndSaveAnoLetivo(anoLetivoDTO));
     }
@@ -67,12 +56,12 @@ class AnoLetivoControllerIntegrationTests
         AnoLetivoDTO anoLetivoDTO = new AnoLetivoDTO("2001-2002");
         AnoLetivoDTO anoLetivoDTO1 = new AnoLetivoDTO("2002-2003");
 
-        service.createAndSaveAnoLetivo(anoLetivoDTO1);
-        service.createAndSaveAnoLetivo(anoLetivoDTO);
+        controller.createAndSaveAnoLetivo(anoLetivoDTO1);
+        controller.createAndSaveAnoLetivo(anoLetivoDTO);
 
         ResponseEntity<Object> responseEntity = controller.listAllAnoLetivo();
 
-        assertEquals(responseEntity.getStatusCodeValue(), 200);
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
     @Test
@@ -86,11 +75,11 @@ class AnoLetivoControllerIntegrationTests
     {
         AnoLetivoDTO anoLetivoDTO = new AnoLetivoDTO("2001-2002");
 
-        service.createAndSaveAnoLetivo(anoLetivoDTO);
+        controller.createAndSaveAnoLetivo(anoLetivoDTO);
 
         ResponseEntity<Object> responseEntity = controller.findBySigla("2001-2002");
 
-        assertEquals(responseEntity.getStatusCodeValue(), 200);
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
     @Test

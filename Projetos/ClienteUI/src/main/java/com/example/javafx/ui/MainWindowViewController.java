@@ -45,16 +45,6 @@ public class MainWindowViewController
     {
         closeItem.setOnAction(event -> Platform.exit());
         aboutItem.setOnAction(event -> AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sobre", "UI Client", "Teste software JavaFX com Spring."));
-        putTestItem.setOnAction(event ->
-        {
-            try
-            {
-                AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Recebeu feedback", "Feedback from sv:", anoLetivoController.putTest(new AnoLetivoDTO("bom dia test"), 99, 10));
-            } catch (ErrorDetail e)
-            {
-                AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro: " + e.getStatus(), e.getTitle(), e.getDetail());
-            }
-        });
     }
 
     public void createAnoLetivoWindow(ActionEvent actionEvent) throws IOException

@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
@@ -49,7 +50,7 @@ class AnoLetivoControllerUnitTests
 
         ResponseEntity<AnoLetivoDTO> responseEntity = controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK);
 
-        assertEquals( 200, responseEntity.getStatusCodeValue());
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
 
     @Test
@@ -84,7 +85,7 @@ class AnoLetivoControllerUnitTests
 
         ResponseEntity<Object> responseEntity = controller.listAllAnoLetivo();
 
-        assertEquals(responseEntity.getStatusCodeValue(),200);
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
     @Test
@@ -104,7 +105,7 @@ class AnoLetivoControllerUnitTests
 
         ResponseEntity<Object> responseEntity = controller.findBySigla("2001-2002");
 
-        assertEquals(responseEntity.getStatusCodeValue(), 200);
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
     @Test

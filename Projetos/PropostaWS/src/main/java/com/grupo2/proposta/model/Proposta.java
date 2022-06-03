@@ -3,6 +3,9 @@ package com.grupo2.proposta.model;
 import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.ValidacaoInvalidaException;
 
+/**
+ * Classe que representa uma proposta de um projeto.
+ */
 public class Proposta
 {
     private Long id;
@@ -16,6 +19,18 @@ public class Proposta
 
     private static final int MIN_TAMANHO = 10;
 
+    /**
+     * Metodo que inicializa a proposta.
+     * @param id id da proposta
+     * @param utilizadorId id do utilizador que criou a proposta
+     * @param organizacaoId id da organizacao que criou a proposta
+     * @param titulo titulo da proposta
+     * @param problema problema da proposta
+     * @param objetivo objetivo da proposta
+     * @param edicaoUCId id da edicao da UC
+     * @param estadoAtual estado da proposta
+     * @throws ValidacaoInvalidaException
+     */
     public Proposta(Long id, Long utilizadorId, Long organizacaoId, String titulo,
                     String problema, String objetivo,
                     Long edicaoUCId, PropostaEstado estadoAtual) throws ValidacaoInvalidaException
@@ -28,6 +43,16 @@ public class Proposta
         this.estadoAtual = estadoAtual;
     }
 
+    /**
+     * Metodo que inicia uma proposta.
+     * @param utilizadorId id do utilizador que criou a proposta
+     * @param organizacaoId id da organizacao que criou a proposta
+     * @param titulo titulo da proposta
+     * @param problema problema da proposta
+     * @param objetivo objetivo da proposta
+     * @param edicaoUCId id da edicao da UC
+     * @param estadoAtual estado da proposta
+     */
     public Proposta(Long utilizadorId, Long organizacaoId, String titulo, String problema, String objetivo, Long edicaoUCId, PropostaEstado estadoAtual)
     {
         this.utilizadorId = utilizadorId;
@@ -39,15 +64,30 @@ public class Proposta
         this.estadoAtual = estadoAtual;
     }
 
+
+    /**
+     * Metodo que retorna o id da proposta.
+     * @return id da proposta
+     */
     public Long getId()
     {
         return id;
     }
 
+    /**
+     * Metodo que atualiza o id da proposta.
+     * @param id novo id da proposta
+     */
     public void setId(Long id)
     {
         this.id = id;
     }
+
+
+    /**
+     * Metodo que retorna o id do utilizador que criou a proposta.
+     * @return id do utilizador que criou a proposta
+     */
 
     public Long getUtilizadorId()
     {

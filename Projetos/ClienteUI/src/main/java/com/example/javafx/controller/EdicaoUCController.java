@@ -32,30 +32,20 @@ public class EdicaoUCController
      */
     public List<String> findAllUC()
     {
-        if (listaUC.isEmpty())
-        {
-            listaUC.addAll(service.findAllUC());
-        }
+        service.findAllUC().forEach(e -> {
+            if (!listaUC.contains(e))
+                listaUC.add(e);
+        });
         return listaUC.stream().map(UnidadeCurricularDTO::getSigla).toList();
     }
 
     public List<String> findAllAnoLetivo()
     {
-        if (listaAL.isEmpty())
-        {
-            listaAL.addAll(service.findAllAnoLetivo());
-        }
+        service.findAllAnoLetivo().forEach(e -> {
+            if (!listaAL.contains(e))
+                listaAL.add(e);
+        });
         return listaAL.stream().map(AnoLetivoDTO::getSigla).toList();
-    }
-
-    public UnidadeCurricularDTO getFromListUC(int index)
-    {
-        return listaUC.get(index);
-    }
-
-    public AnoLetivoDTO getFromListAL(int index)
-    {
-        return listaAL.get(index);
     }
 
     public EdicaoUCDTO createEdicaoUC(int uc, int anoLetivo)

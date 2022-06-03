@@ -9,9 +9,4 @@ public class MainWindowController
 {
     @Autowired
     private AnoLetivoService service;
-
-    public String getTestString()
-    {
-        return service.getString();
-    }
 }

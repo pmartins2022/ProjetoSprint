@@ -26,10 +26,9 @@ public class UtilizadorDTOMapper
      */
     public Utilizador toModel(UtilizadorDTO dto)
     {
-        Utilizador utilizador = factory.createUtilizador(dto.getId(), dto.getNome(), dto.getSobrenome(),
-                dto.getEmail(), dto.getTipoUtilizador());
 
-        return utilizador;
+        return factory.createUtilizador(dto.getId(), dto.getNome(), dto.getSobrenome(),
+                dto.getEmail(), dto.getTipoUtilizador());
     }
 
     /**
@@ -39,10 +38,9 @@ public class UtilizadorDTOMapper
      */
     public UtilizadorDTO toDTO(Utilizador utilizador)
     {
-        UtilizadorDTO dto = new UtilizadorDTO(utilizador.getId(), utilizador.getNome(), utilizador.getSobrenome(),
-                utilizador.getEmail(), utilizador.getTipoUtilizador());
 
-        return dto;
+        return new UtilizadorDTO(utilizador.getId(), utilizador.getNome(), utilizador.getSobrenome(),
+                utilizador.getEmail(), utilizador.getTipoUtilizador());
     }
 }
 

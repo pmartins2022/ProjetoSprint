@@ -8,6 +8,8 @@ public class AnoLetivo
 {
     private String sigla;
 
+    private static final String REGEX = "\\d{4}-\\d{4}";
+
     public AnoLetivo(String sigla) throws ValidacaoInvalidaException
     {
         validate(sigla);
@@ -16,15 +18,13 @@ public class AnoLetivo
 
     private void validate(String sigla) throws ValidacaoInvalidaException
     {
-        if(!sigla.matches("\\d{4}-\\d{4}"))
+        if(!sigla.matches(REGEX))
             throw new ValidacaoInvalidaException("Sigla inválida. Deve estar no formato: 'YYYY-YYYY'");
 
         int firstYear = Integer.parseInt(sigla.substring(0, 4));
         int secondYear = Integer.parseInt(sigla.substring(5, 9));
 
         if (secondYear != firstYear + 1) throw new ValidacaoInvalidaException("Sigla inválida. O intervalo de anos deve ser de 1 ano, e o segundo ano deve ser o primeiro ano + 1.");
-
-
     }
 
     public String getSigla()

@@ -16,9 +16,4 @@ public class AnoLetivoController
     {
         return anoLetivoService.createAnoLetivo(anoLetivoDTO);
     }
-
-    public String putTest(AnoLetivoDTO dto, long pathVar, long id)
-    {
-        return anoLetivoService.putTest(dto, pathVar, id);
-    }
 }

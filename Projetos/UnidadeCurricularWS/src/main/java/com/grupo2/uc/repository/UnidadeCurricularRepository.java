@@ -52,6 +52,8 @@ public class UnidadeCurricularRepository
     {
         UnidadeCurricularJPA jpa = mapper.toJPA(uc);
 
+        jpaRepository.deleteById(uc.getSigla());
+
         UnidadeCurricularJPA saved = jpaRepository.save(jpa);
 
         return mapper.toModel(saved);
@@ -61,8 +63,6 @@ public class UnidadeCurricularRepository
     {
         List<UnidadeCurricularJPA> lista = jpaRepository.findAll();
 
-        List<UnidadeCurricular> listaModel = lista.stream().map(mapper::toModel).toList();
-
-        return listaModel;
+        return lista.stream().map(mapper::toModel).toList();
     }
 }

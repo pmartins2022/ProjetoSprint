@@ -39,18 +39,18 @@ public class Utilizador
     /**
      * Variavel auxiliar para validacao do email
      */
-    private static final String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+    private static final String REGEX_PATTERN = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
             + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
     /**
-     * Inicializa o Projeto sem parametros
+     * Inicializa o Utilizador sem parametros
      */
     public Utilizador()
     {
     }
 
     /**
-     * Inicializa o id, nome, sobrenome, email, tipoUtilizador do Utilizador com id, nome, sobrenome, email, tipoUtilizador
+     * Inicializa o Utilizador com id, nome, sobrenome, email, tipoUtilizador do Utilizador com id, nome, sobrenome, email, tipoUtilizador
      * @param id é o id do utilizador
      * @param nome é o nome do utilizador
      * @param sobrenome é o sobrenome do utilizador
@@ -76,7 +76,7 @@ public class Utilizador
      */
     private void validateEmail(String email)
     {
-        if (!email.matches(regexPattern))
+        if (!email.matches(REGEX_PATTERN))
         {
             throw new OptionalVazioException("Email Inválido");
         }

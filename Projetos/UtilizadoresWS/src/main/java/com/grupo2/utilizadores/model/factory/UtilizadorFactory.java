@@ -6,6 +6,10 @@ import com.grupo2.utilizadores.model.Utilizador;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+/**
+ * Classe que gere a instanciacao de objetos do tipo Utilizador
+ */
+
 @Component
 public class UtilizadorFactory
 {
@@ -22,8 +26,7 @@ public class UtilizadorFactory
     public Utilizador createUtilizador(Long id, String nome, String sobrenome, String email,
                                        TipoUtilizador tipoUtilizador)
     {
-        Utilizador utilizador = new Utilizador(id, nome, sobrenome, email, tipoUtilizador);
 
-        return utilizador;
+        return new Utilizador(id, nome, sobrenome, email, tipoUtilizador);
     }
 }

@@ -34,11 +34,11 @@ public class UnidadeCurricularController
 
     public List<String> findAllUnidadeCurricular()
     {
-        if (lista.isEmpty())
-        {
-            lista.addAll(unidadeCurricularService.findAll());
-        }
+        unidadeCurricularService.findAll().forEach(e -> {
+            if (!lista.contains(e))
+                lista.add(e);
+        });
+
         return lista.stream().map(UnidadeCurricularDTO::getSigla).toList();
     }
-
 }

@@ -8,9 +8,6 @@ import java.util.Optional;
 
 public interface EdicaoUCJpaRepository extends JpaRepository<EdicaoUCJPA, Long>
 {
-    Optional<EdicaoUCJPA> findByucCode(String code);
     List<EdicaoUCJPA> findAllByucCode(String code);
     Optional<EdicaoUCJPA> findByanoLetivoCode(String code);
-
-
 }
