@@ -74,6 +74,6 @@ public class OrganizacaoController
             throw new ListaVaziaException("Nao existem organizacoes");
         }
 
-        return new ResponseEntity<>(list,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(list,HttpStatus.OK);
     }
 }
