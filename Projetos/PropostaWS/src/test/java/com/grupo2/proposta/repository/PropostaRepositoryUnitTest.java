@@ -232,25 +232,29 @@ class PropostaRepositoryUnitTest
         Proposta propostaMock = mock(Proposta.class);
         PropostaJPA propostaJPAMock = mock(PropostaJPA.class);
 
-        //when(jpaRepository.deleteById(propostaMock.getId()))
+        when(propostaMock.getId()).thenReturn(1L);
+
+        when(jpaRepository.findById(propostaMock.getId())).thenReturn(Optional.of(propostaJPAMock));
 
         when(mapper.toJPA(propostaMock)).thenReturn(propostaJPAMock);
+        when(mapper.toModel(propostaJPAMock)).thenReturn(propostaMock);
 
         when(jpaRepository.save(propostaJPAMock)).thenReturn(propostaJPAMock);
 
-        //assertEquals();
+        Optional<Proposta> saved = repository.atualizarProposta(propostaMock);
+
+        assertEquals(saved.get(), propostaMock);
     }
 
-    /**
-     * public Proposta atualizarProposta(Proposta proposta)
-     *     {
-     *         jpaRepository.deleteById(proposta.getId());
-     *
-     *         PropostaJPA jpa = mapper.toJPA(proposta);
-     *
-     *         PropostaJPA saved = jpaRepository.save(jpa);
-     *
-     *         return mapper.toModel(saved);
-     *     }
-     */
+    @Test
+    public void shouldNotUpdateProposta()
+    {
+        Proposta propostaMock = mock(Proposta.class);
+
+        when(repository.findById(1L)).thenReturn(Optional.empty());
+
+        Optional<Proposta> saved = repository.atualizarProposta(propostaMock);
+
+        assertEquals(Optional.empty(), saved);
+    }
 }
