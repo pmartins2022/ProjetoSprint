@@ -5,6 +5,7 @@ import com.example.javafx.dto.OrganizacaoDTO;
 import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.dto.UnidadeCurricularDTO;
 import com.example.javafx.exception.ErrorDetail;
+import com.example.javafx.exception.RestPostException;
 import com.example.javafx.repository.rest.EdicaoUCRestRepo;
 import com.example.javafx.repository.rest.OrganizacaoRestRepo;
 import com.example.javafx.repository.rest.PropostaRestRepo;
@@ -42,7 +43,7 @@ public class PropostaService
         return list.stream().map(EdicaoUCDTO::toString).toList();
     }
 
-    public PropostaDTO saveProposta(PropostaDTO dto)
+    public PropostaDTO saveProposta(PropostaDTO dto) throws RestPostException
     {
         return propostaRestRepo.createProposta(dto);
     }

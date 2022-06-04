@@ -3,6 +3,7 @@ package com.example.javafx.service;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.dto.UnidadeCurricularDTO;
+import com.example.javafx.dto.factory.EdicaoUCDTOFactory;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.repository.rest.AnoLetivoRestRepo;
 import com.example.javafx.repository.rest.EdicaoUCRestRepo;
@@ -22,6 +23,8 @@ public class EdicaoUCService
     private UnidadeCurricularRestRepo unidadeCurricularRestRepo;
     @Autowired
     private EdicaoUCRestRepo edicaoUCRestRepo;
+    @Autowired
+    private EdicaoUCDTOFactory factory;
 
     public List<UnidadeCurricularDTO> findAllUC()
     {
@@ -30,7 +33,7 @@ public class EdicaoUCService
         return listUCDTO;
     }
 
-    public List<AnoLetivoDTO> findAllAnoLetivo()
+    public List<AnoLetivoDTO> findAllAnoLetivo() throws RestPostException
     {
 
         List<AnoLetivoDTO> listAnoLetivoDTO = anoLetivoRestRepo.findAll();
@@ -40,7 +43,7 @@ public class EdicaoUCService
 
     public EdicaoUCDTO createAndSave(UnidadeCurricularDTO ucDTO, AnoLetivoDTO anoLetivoDTO) throws RestPostException
     {
-        EdicaoUCDTO edicaoUCDTO = new EdicaoUCDTO(ucDTO.getSigla(), anoLetivoDTO.getSigla());
+        EdicaoUCDTO edicaoUCDTO = factory.createEdicaoUCDTO(ucDTO.getSigla(), anoLetivoDTO.getSigla());
 
         EdicaoUCDTO saved = edicaoUCRestRepo.createEdicaoUC(edicaoUCDTO);
 
