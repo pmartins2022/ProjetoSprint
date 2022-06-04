@@ -74,15 +74,22 @@ public class PropostaRepository
         return Optional.of(mapper.toModel(jpa.get()));
     }
 
-    public Proposta atualizarProposta(Proposta proposta)
+    public Optional<Proposta> atualizarProposta(Proposta proposta)
     {
-        jpaRepository.deleteById(proposta.getId());
+        if (findById(proposta.getId()).isPresent())
+        {
+            jpaRepository.deleteById(proposta.getId());
 
-        PropostaJPA jpa = mapper.toJPA(proposta);
+            PropostaJPA jpa = mapper.toJPA(proposta);
 
-        PropostaJPA saved = jpaRepository.save(jpa);
+            PropostaJPA saved = jpaRepository.save(jpa);
 
-        return mapper.toModel(saved);
+            return Optional.of(mapper.toModel(saved));
+        }
+        else
+        {
+            return Optional.empty();
+        }
     }
 
     public List<Proposta> findByIdUtilizador(Long id)

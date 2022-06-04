@@ -12,11 +12,6 @@ public class AnoLetivoService
     @Autowired
     private AnoLetivoRestRepo restRepo;
 
-    public String getString()
-    {
-        return restRepo.getString();
-    }
-
     public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestPostException
     {
         return restRepo.createAnoLetivo(anoLetivoDTO);

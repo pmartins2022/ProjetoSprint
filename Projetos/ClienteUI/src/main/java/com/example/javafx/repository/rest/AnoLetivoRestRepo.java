@@ -14,12 +14,6 @@ import java.util.List;
 @Repository
 public class AnoLetivoRestRepo
 {
-    public String getString()
-    {
-        return WebClient.create("http://localhost:8081/anoLetivo/test").get().
-                retrieve().bodyToMono(String.class).onErrorReturn("Nao deu :(").block();
-    }
-
     public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestPostException
     {
         try
