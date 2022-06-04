@@ -11,6 +11,9 @@ import javafx.scene.control.TextArea;
 import javafx.stage.WindowEvent;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Classe controller FXML para consultar unidade curricular.
+ */
 @Controller
 public class ConsultarUCViewController
 {
@@ -20,6 +23,9 @@ public class ConsultarUCViewController
 
     UnidadeCurricularController controller;
 
+    /**
+     * Inicializa o controller FXML.
+     */
     public void initialize(UnidadeCurricularController controller)
     {
         this.controller = controller;
@@ -48,6 +54,10 @@ public class ConsultarUCViewController
         );
     }
 
+    /**
+     * Fecha a janela.
+     * @param actionEvent informacao do evento.
+     */
     public void closeWindow(ActionEvent actionEvent)
     {
         textUC.getScene().getWindow().fireEvent(

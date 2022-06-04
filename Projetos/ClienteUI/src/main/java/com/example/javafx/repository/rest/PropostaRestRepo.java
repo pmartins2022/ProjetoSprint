@@ -8,9 +8,19 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+/**
+ * Classe que permite a comunicação com WebService externo de Proposta.
+ */
 @Repository
 public class PropostaRestRepo
 {
+
+    /**
+     * Tentar criar uma proposta.
+     * @param anoLetivoDTO Proposta a criar.
+     * @return Proposta criada.
+     * @throws RestPostException Erro ao criar proposta.
+     */
     public PropostaDTO createProposta(PropostaDTO anoLetivoDTO) throws RestPostException
     {
         try

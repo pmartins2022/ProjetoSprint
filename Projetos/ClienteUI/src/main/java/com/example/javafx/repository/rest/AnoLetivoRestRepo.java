@@ -11,9 +11,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Classe que permite a comunicação com WebService externo de Ano Letivo.
+ */
 @Repository
 public class AnoLetivoRestRepo
 {
+
+    /**
+     * Tentar criar um ano letivo.
+     * @param anoLetivoDTO Ano Letivo a criar.
+     * @return Ano Letivo criado.
+     * @throws RestPostException Erro ao criar ano letivo.
+     */
     public AnoLetivoDTO createAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws RestPostException
     {
         try
@@ -33,6 +43,13 @@ public class AnoLetivoRestRepo
         }
     }
 
+    /**
+     * Tentar atualizar um ano letivo.
+     * @param dto Ano Letivo a atualizar.
+     * @param pathVariable Ano Letivo a atualizar.
+     * @return Ano Letivo atualizado.
+     * @throws RestPostException Erro ao atualizar ano letivo.
+     */
     public String updateTest(AnoLetivoDTO dto, long pathVariable, long id)
     {
         final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/" + pathVariable + "?id=" + id).put().
@@ -44,6 +61,11 @@ public class AnoLetivoRestRepo
         return responseSpec.bodyToMono(String.class).block();
     }
 
+    /**
+     * Tentar obter lista de anos letivos.
+     * @return Lista de anos letivos.
+     * @throws RestPostException Erro ao obter lista de anos letivos.
+     */
     public List<AnoLetivoDTO> findAll() throws RestPostException
     {
         try

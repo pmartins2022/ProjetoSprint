@@ -12,6 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.WindowEvent;
 
+/**
+ * Classe controller FXML para criar uma proposta.
+ */
 public class CreatePropostaViewController
 {
     private PropostaController controller;
@@ -34,6 +37,10 @@ public class CreatePropostaViewController
     @FXML
     public TextField userIdText;
 
+    /**
+     * Necessario para inicializar o controller FXML.
+     * @param controller Controller de proposta.
+     */
     public void initialize(PropostaController controller)
     {
         this.controller = controller;
@@ -56,6 +63,10 @@ public class CreatePropostaViewController
         }
     }
 
+    /**
+     * Validar uma caixa de texto para permitir apenas numeros inteiros.
+     * @param keyEvent Informacao da tecla.
+     */
     public void validateNumberField(KeyEvent keyEvent)
     {
         if (!keyEvent.getCharacter().matches("[0-9]"))
@@ -68,11 +79,19 @@ public class CreatePropostaViewController
         }
     }
 
+    /**
+     * Cria uma proposta.
+     * @param actionEvent Informacao do evento.
+     */
     public void createProposta(ActionEvent actionEvent)
     {
         PropostaDTO dto = controller.createProposta(Long.parseLong(userIdText.getText()),organizacaoChoice.getSelectionModel().getSelectedIndex(),edicaoChoice.getSelectionModel().getSelectedIndex(),tituloText.getText(),problemaText.getText(),objetivoText.getText());
     }
 
+    /**
+     * Fecha a janela.
+     * @param actionEvent Informacao do evento.
+     */
     public void closeWindow(ActionEvent actionEvent)
     {
         userIdText.getScene().getWindow().fireEvent(

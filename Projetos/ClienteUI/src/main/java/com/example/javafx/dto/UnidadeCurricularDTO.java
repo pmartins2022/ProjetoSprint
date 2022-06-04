@@ -1,5 +1,8 @@
 package com.example.javafx.dto;
 
+/**
+ * Classe de dados para Unidade Curricular.
+ */
 public class UnidadeCurricularDTO
 {
     private String sigla;

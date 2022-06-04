@@ -11,9 +11,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Classe que permite a comunicação com WebService externo de Unidade Curricular.
+ */
 @Repository
 public class UnidadeCurricularRestRepo
 {
+
+    /**
+     * Tentar obter lista de todas as unidades curriculares.
+     * @return Lista de unidades curriculares.
+     */
     public List<UnidadeCurricularDTO> findAll()
     {
         final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8086/uc/listar").get()
@@ -27,6 +35,12 @@ public class UnidadeCurricularRestRepo
         }).block();
     }
 
+    /**
+     * Tentar criar uma unidade curricular.
+     * @param unidadeCurricularDTO Unidade curricular a criar.
+     * @return Unidade curricular criada.
+     * @throws RestPostException Erro ao criar unidade curricular.
+     */
     public UnidadeCurricularDTO createUnidadeCurricular(UnidadeCurricularDTO unidadeCurricularDTO) throws RestPostException
     {
         try

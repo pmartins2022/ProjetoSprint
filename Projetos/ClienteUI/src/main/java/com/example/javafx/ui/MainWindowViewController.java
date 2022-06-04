@@ -18,6 +18,9 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
+/**
+ * Classe controller FXML para a janela principal da aplicacao.
+ */
 @Controller
 public class MainWindowViewController
 {
@@ -40,6 +43,9 @@ public class MainWindowViewController
     @Autowired
     private UnidadeCurricularController unidadeCurricularController;
 
+    /**
+     * Metodo de inicializacao da janela principal.
+     */
     @FXML
     public void initialize()
     {
@@ -47,6 +53,11 @@ public class MainWindowViewController
         aboutItem.setOnAction(event -> AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sobre", "UI Client", "Teste software JavaFX com Spring."));
     }
 
+    /**
+     * Criar uma nova janela para criar ano letivo.
+     * @param actionEvent informacao do evento.
+     * @throws IOException caso ocorra erro ao carregar o ficheiro fxml.
+     */
     public void createAnoLetivoWindow(ActionEvent actionEvent) throws IOException
     {
 
@@ -62,6 +73,11 @@ public class MainWindowViewController
         stage.show();
     }
 
+    /**
+     * Criar uma nova janela para criar proposta.
+     * @param actionEvent informacao do evento.
+     * @throws IOException caso ocorra erro ao carregar o ficheiro fxml.
+     */
     public void createPropostaWindow(ActionEvent actionEvent) throws IOException
     {
 
@@ -77,6 +93,11 @@ public class MainWindowViewController
         fxmlLoader.<CreatePropostaViewController>getController().initialize(propostaController);
     }
 
+    /**
+     * Criar uma nova janela para criar edicao UC.
+     * @param actionEvent informacao do evento.
+     * @throws IOException caso ocorra erro ao carregar o ficheiro fxml.
+     */
     public void createEdicaoUCWindow(ActionEvent actionEvent) throws IOException
     {
         Stage stage = new Stage();
@@ -91,6 +112,11 @@ public class MainWindowViewController
         fxmlLoader.<CreateEdicaoUCViewController>getController().setController(edicaoUCController);
     }
 
+    /**
+     * Criar uma nova janela para criar unidade curricular.
+     * @param actionEvent informacao do evento.
+     * @throws IOException caso ocorra erro ao carregar o ficheiro fxml.
+     */
     public void createUnidadeCurricularWindow(ActionEvent actionEvent) throws IOException
     {
 
@@ -106,6 +132,11 @@ public class MainWindowViewController
         stage.show();
     }
 
+    /**
+     * Criar uma nova janela para consultar unidades curriculares existentes.
+     * @param actionEvent informacao do evento.
+     * @throws IOException caso ocorra erro ao carregar o ficheiro fxml.
+     */
     public void consultarUnidadeCurricularWindow(ActionEvent actionEvent) throws IOException
     {
         Stage stage = new Stage();

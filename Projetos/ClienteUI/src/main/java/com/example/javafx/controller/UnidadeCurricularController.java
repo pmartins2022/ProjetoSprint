@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe controller para uma unidade curricular.
+ */
 @Controller
 public class UnidadeCurricularController
 {
@@ -22,16 +25,31 @@ public class UnidadeCurricularController
         lista = new ArrayList<>();
     }
 
+    /**
+     * Criar uma unidade curricular.
+     * @param unidadeCurricularDTO Unidade curricular a ser criada.
+     * @return Unidade curricular criada.
+     * @throws RestPostException Exceção ao criar unidade curricular.
+     */
     public UnidadeCurricularDTO createUnidadeCurricular(UnidadeCurricularDTO unidadeCurricularDTO) throws RestPostException
     {
         return unidadeCurricularService.createUnidadeCurricular(unidadeCurricularDTO);
     }
 
+    /**
+     * Obter uma unidade curricular pelo index da lista.
+     * @param index indice da unidade curricular.
+     * @return Unidade curricular.
+     */
     public UnidadeCurricularDTO getFromLista(int index)
     {
         return lista.get(index);
     }
 
+    /**
+     * Buscar a lista de unidades curriculares.
+     * @return Lista de unidades curriculares em formato String.
+     */
     public List<String> findAllUnidadeCurricular()
     {
         unidadeCurricularService.findAll().forEach(e -> {

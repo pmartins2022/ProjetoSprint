@@ -1,5 +1,8 @@
 package com.example.javafx.dto;
 
+/**
+ * Classe de dados para edicao UC.
+ */
 public class EdicaoUCDTO
 {
     private Long id;

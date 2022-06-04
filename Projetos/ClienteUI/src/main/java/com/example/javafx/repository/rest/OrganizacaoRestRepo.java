@@ -10,9 +10,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Classe que permite a comunicação com WebService externo de Organizacao.
+ */
 @Repository
 public class OrganizacaoRestRepo
 {
+    /**
+     * Tentar obter lista de todas as organizações.
+     * @return Lista de organizações.
+     */
     public List<OrganizacaoDTO> findAll()
     {
         final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/organizacao/listar").get()

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe controller para uma edição de uma unidade curricular.
+ */
 @Controller
 public class EdicaoUCController
 {
@@ -26,9 +29,9 @@ public class EdicaoUCController
         listaAL = new ArrayList<>();
     }
 
-    /*
-    Primeiro vou bscar a lista
-    Depois tento criar  (no seu WS de EdicaoUC ele a verifica se existe)
+    /**
+     * Buscar a lista de unidades curriculares.
+     * @return Lista de unidades curriculares em formato String.
      */
     public List<String> findAllUC()
     {
@@ -39,6 +42,10 @@ public class EdicaoUCController
         return listaUC.stream().map(UnidadeCurricularDTO::getSigla).toList();
     }
 
+    /**
+     * Buscar a lista de anos letivos.
+     * @return Lista de anos letivos em formato String.
+     */
     public List<String> findAllAnoLetivo()
     {
         service.findAllAnoLetivo().forEach(e -> {
@@ -48,6 +55,12 @@ public class EdicaoUCController
         return listaAL.stream().map(AnoLetivoDTO::getSigla).toList();
     }
 
+    /**
+     * Criar uma edição de uma unidade curricular.
+     * @param uc indice da unidade curricular.
+     * @param anoLetivo indice do ano letivo.
+     * @return Edição de uma unidade curricular.
+     */
     public EdicaoUCDTO createEdicaoUC(int uc, int anoLetivo)
     {
         UnidadeCurricularDTO ucDTO = listaUC.get(uc);

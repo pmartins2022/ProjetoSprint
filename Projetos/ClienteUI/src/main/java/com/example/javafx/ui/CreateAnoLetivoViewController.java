@@ -11,6 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.WindowEvent;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Classe controller FXML para criar ano letivo.
+ */
 @Controller
 public class CreateAnoLetivoViewController
 {
@@ -19,11 +22,19 @@ public class CreateAnoLetivoViewController
     @FXML
     public TextField siglaText;
 
+    /**
+     * Necessario para inicializar o controller FXML.
+     * @param controller Controller de ano letivo.
+     */
     public void setController(AnoLetivoController controller)
     {
         this.controller = controller;
     }
 
+    /**
+     * Cria um ano letivo.
+     * @param actionEvent informacao do evento.
+     */
     public void createAnoLetivo(ActionEvent actionEvent)
     {
         if (siglaText.getText().isEmpty())
@@ -47,6 +58,10 @@ public class CreateAnoLetivoViewController
         }
     }
 
+    /**
+     * Fecha a janela.
+     * @param actionEvent informacao do evento.
+     */
     public void closeWindow(ActionEvent actionEvent)
     {
         siglaText.getScene().getWindow().fireEvent(

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 
+/**
+ * Classe controller FXML para criar uma unidade curricular.
+ */
 public class CreateUnidadeCurricularViewController
 {
     private UnidadeCurricularController controller;
@@ -19,11 +22,19 @@ public class CreateUnidadeCurricularViewController
     public TextField siglaText;
     public TextField denominacaoText;
 
+    /**
+     * Necessario para inicializar o controller FXML.
+     * @param controller Controller de unidade curricular.
+     */
     public void setController(UnidadeCurricularController controller)
     {
         this.controller = controller;
     }
 
+    /**
+     * Criar uma unidade curricular.
+     * @param actionEvent informacao do evento.
+     */
     public void createUnidadeCurricular(ActionEvent actionEvent)
     {
         if (siglaText.getText().isEmpty())
@@ -54,6 +65,10 @@ public class CreateUnidadeCurricularViewController
         }
     }
 
+    /**
+     * Fecha a janela.
+     * @param actionEvent informacao do evento.
+     */
     public void closeWindow(ActionEvent actionEvent)
     {
         siglaText.getScene().getWindow().fireEvent(

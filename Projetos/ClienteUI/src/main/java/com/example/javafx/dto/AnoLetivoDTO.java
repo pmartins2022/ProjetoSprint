@@ -1,5 +1,8 @@
 package com.example.javafx.dto;
 
+/**
+ * Classe de dados para ano letivo.
+ */
 public class AnoLetivoDTO
 {
     private String sigla;

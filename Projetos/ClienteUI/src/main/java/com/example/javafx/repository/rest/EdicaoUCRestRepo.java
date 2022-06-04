@@ -12,9 +12,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Classe que permite a comunicação com WebService externo de Edição UC.
+ */
 @Repository
 public class EdicaoUCRestRepo
 {
+    /**
+     * Tentar criar uma edição UC.
+     * @param edicaoUCDTO Edição UC a criar.
+     * @return Edição UC criado.
+     * @throws RestPostException Erro ao criar edição UC.
+     */
     public EdicaoUCDTO createEdicaoUC(EdicaoUCDTO edicaoUCDTO) throws RestPostException
     {
         try
@@ -34,6 +43,10 @@ public class EdicaoUCRestRepo
         }
     }
 
+    /**
+     * Tentar obter lista de todas as edição UC.
+     * @return Lista de edição UC.
+     */
     public List<EdicaoUCDTO> findAll()
     {
         final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8082/edicaoUC/listar").get()

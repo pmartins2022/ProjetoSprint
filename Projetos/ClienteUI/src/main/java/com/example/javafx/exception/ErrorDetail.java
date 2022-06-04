@@ -1,5 +1,10 @@
 package com.example.javafx.exception;
 
+/**
+ * Classe excecao especial em que se pode construir uma excecao com mensagens de erro mais detalhadas.
+ * Contem informacao sobre o titulo do erro, status code, e mensagem detalhada do erro.
+ * E possivel associar esta excecao a um objeto de resposta HTTP.
+ */
 public class ErrorDetail extends RuntimeException
 {
     private String title;

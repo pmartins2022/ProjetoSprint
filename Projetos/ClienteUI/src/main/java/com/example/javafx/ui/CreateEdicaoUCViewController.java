@@ -14,6 +14,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.stage.WindowEvent;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Classe controller FXML para criar uma edicao de UC.
+ */
 @Controller
 public class CreateEdicaoUCViewController
 {
@@ -23,6 +26,10 @@ public class CreateEdicaoUCViewController
     @FXML
     public ChoiceBox<String> txtChoiceBoxUC;
 
+    /**
+     * Necessario para inicializar o controller FXML.
+     * @param controller Controller de edicao de UC.
+     */
     public void setController(EdicaoUCController controller)
     {
         this.controller = controller;
@@ -30,6 +37,9 @@ public class CreateEdicaoUCViewController
         initializeChoiceBoxs();
     }
 
+    /**
+     * Metodo de inicializacao dos dados necessarios para criar uma edicao de UC.
+     */
     public void initializeChoiceBoxs()
     {
         try
@@ -51,6 +61,10 @@ public class CreateEdicaoUCViewController
         }
     }
 
+    /**
+     * Cria uma edicao de UC.
+     * @param actionEvent Informacao do evento.
+     */
     public void createEdicaoUC(ActionEvent actionEvent)
     {
         try
@@ -66,6 +80,10 @@ public class CreateEdicaoUCViewController
         }
     }
 
+    /**
+     * Fecha a janela.
+     * @param actionEvent Informacao do evento.
+     */
     public void closeWindow(ActionEvent actionEvent)
     {
         txtChoiceBoxUC.getScene().getWindow().fireEvent(

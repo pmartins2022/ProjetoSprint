@@ -1,5 +1,8 @@
 package com.example.javafx.dto;
 
+/**
+ * Classe de dados para Organização.
+ */
 public class OrganizacaoDTO
 {
     private Long id;

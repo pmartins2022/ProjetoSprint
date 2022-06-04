@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URL;
 
-
+/**
+ * Ponto de entrada da aplicação java fx, gerido pelo Spring.
+ */
 @Component
 public class StageListener implements ApplicationListener<StageReadyEvent>
 {
@@ -35,7 +37,10 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
         this.ac = ac;
     }
 
-
+    /**
+     * Chamado quando a aplicação é iniciada.
+     * @param event Evento de início da aplicação.
+     */
     @Override
     public void onApplicationEvent(StageReadyEvent event)
     {

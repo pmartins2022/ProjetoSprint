@@ -3,6 +3,9 @@ package com.example.javafx;
 import javafx.application.Application;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Ponto de entrada da aplicacao.
+ */
 @SpringBootApplication
 public class SpringFxApplication
 {

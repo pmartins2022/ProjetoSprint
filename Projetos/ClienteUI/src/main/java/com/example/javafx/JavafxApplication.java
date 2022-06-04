@@ -14,6 +14,10 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
+/**
+ * Ponto de entrada da aplicacacao, inicializada pelo Spring, para registo de beans e de eventos para inicializar
+ * corretamente o Java FX.
+ */
 public class JavafxApplication extends Application
 {
     private ConfigurableApplicationContext context;
