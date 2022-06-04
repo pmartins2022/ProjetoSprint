@@ -23,16 +23,16 @@ public class UtilizadorJPA
      */
     private String nome;
     /**
-     * o nome do utilizador
+     * o sobrenome do utilizador
      */
     private String sobrenome;
     /**
-     * o nome do utilizador
+     * o email do utilizador
      */
     @Column(unique = true)
     private String email;
     /**
-     * o nome do utilizador
+     * o tipoUtilizador do utilizador
      */
     private TipoUtilizador tipoUtilizador;
 

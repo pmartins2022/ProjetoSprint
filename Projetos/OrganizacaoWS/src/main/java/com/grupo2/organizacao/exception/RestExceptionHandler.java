@@ -15,7 +15,7 @@ public class RestExceptionHandler
     /**
      * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informacao do erro.
      * @param ex objeto do tipo handleOptionalVazioException
-     * @return ResponseEnntity erroDetail e um BAD_REQUEST
+     * @return ResponseEntity erroDetail e um BAD_REQUEST
      */
     @ExceptionHandler(ValidacaoInvalidaException.class)
     public ResponseEntity<?> handleOptionalVazioException(ValidacaoInvalidaException ex)

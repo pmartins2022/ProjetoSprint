@@ -5,9 +5,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Classe RestExceptionHandler
+ */
 @ControllerAdvice
 public class RestExceptionHandler
 {
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informação do erro.
+     * @param ex objeto do tipo handleValidacaoInvalidaException
+     * @return ResponseEntity erroDetail e um BAD_REQUEST
+     */
     @ExceptionHandler(ValidacaoInvalidaException.class)
     public ResponseEntity<?> handleValidacaoInvalidaException(ValidacaoInvalidaException ex)
     {
@@ -18,6 +26,11 @@ public class RestExceptionHandler
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informação do erro.
+     * @param ex objeto do tipo handleBaseDadosException
+     * @return ResponseEntity errorDetail e BAD_REQUEST
+     */
     @ExceptionHandler(BaseDadosException.class)
     public ResponseEntity<?> handleBaseDadosException(BaseDadosException ex)
     {
@@ -28,6 +41,11 @@ public class RestExceptionHandler
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informação do erro.
+     * @param ex objeto do tipo handleListaVaziaException
+     * @return ResponseEntity errorDetail e BAD_REQUEST
+     */
     @ExceptionHandler(ListaVaziaException.class)
     public ResponseEntity<?> handleListaVaziaException(ListaVaziaException ex)
     {
