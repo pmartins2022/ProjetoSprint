@@ -25,4 +25,24 @@ public class RestExceptionHandler
         errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ErroGeralException.class)
+    public ResponseEntity<?> handleErroGeralException(ErroGeralException ex)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTitle("Erro Geral");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ValidacaoInvalidaException.class)
+    public ResponseEntity<?> handleValidacaoInvalidaException(ValidacaoInvalidaException ex)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTitle("Validacao Invalida");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
 }
