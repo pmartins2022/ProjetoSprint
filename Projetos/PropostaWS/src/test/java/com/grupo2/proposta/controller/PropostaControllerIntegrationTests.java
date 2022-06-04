@@ -7,7 +7,10 @@ import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
 import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.exception.ListaVaziaException;
+import com.grupo2.proposta.jpa.PropostaJPA;
+import com.grupo2.proposta.model.Proposta;
 import com.grupo2.proposta.model.PropostaEstado;
+import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,145 +32,93 @@ class PropostaControllerIntegrationTests
 {
     @Autowired
     PropostaController controller;
-
-    @Test
-    public void shouldCreateProposta_valid()
-    {
-        PropostaDTO prop = new PropostaDTO(1L, 1L, 1L, "titulo",
-                "problema", "objetivo",  1L, PropostaEstado.CANDIDATURA);
-
-        ResponseEntity<PropostaDTO> proposta = controller.createProposta(prop);
-
-        assertEquals(proposta.getStatusCode(), HttpStatus.CREATED);
-    }
-
-    @Test
-    public void shouldNotCreateProposta_invalid()
-    {
-        PropostaDTO prop = new PropostaDTO(1L, 1L, 1L, "titulo",
-                "problema", "objetivo",  1L, PropostaEstado.CANDIDATURA);
-
-        assertThrows(BaseDadosException.class,()->controller.createProposta(prop));
-    }
-
-    @Test
-    public void shouldAcceptProposta_valid()
-    {
-        ResponseEntity<Object> objectResponseEntity = controller.aceitarProposta(1L, 1L, 1L);
-
-        assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
-    }
-
-    @Test
-    public void shouldNotAcceptProposta_invalidId()
-    {
-        assertThrows(IdInvalidoException.class,()->controller.aceitarProposta(1L, 1L, 1L));
-    }
-
-    @Test
-    public void shouldNotAcceptProposta_invalidAtualizacao()
-    {
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.aceitarProposta(1L, 1L, 1L));
-    }
+    @Autowired
+    PropostaJPARepository jpaRepository;
 /*
     @Test
-    public void shouldListById()
+    public void shouldFindById()
     {
-        PropostaDTO prop = mock(PropostaDTO.class);
+        PropostaJPA proposta = new PropostaJPA(1L, 1L, 1L,
+                "AAAAAAAAAA", "AAAAAAAAAA", "AAAAAAAAAA",
+                1L, PropostaEstado.APROVADO);
 
-        List<PropostaDTO> list = List.of(prop,prop,prop);
+        PropostaJPA save = jpaRepository.save(proposta);
+        Optional<PropostaJPA> id = jpaRepository.findById(save.getId());
 
-        when(service.findByIdUtilizador(1L)).thenReturn(list);
-
-        ResponseEntity<Object> response = controller.listbyIdUtilizador(1L);
-
-        assertEquals(response.getBody(), list);
+        assertTrue(id.isPresent());
+        assertEquals(id.get().getId(),save.getId());
     }
 
     @Test
-    public void shouldThrow_ListById_empty()
+    public void shouldNotFindById()
     {
-        List<PropostaDTO> list = List.of();
-
-        when(service.findByIdUtilizador(1L)).thenReturn(list);
-
-        assertThrows(ListaVaziaException.class,()->controller.listbyIdUtilizador(1L));
+        Optional<PropostaJPA> id = jpaRepository.findById(99L);
+        assertTrue(id.isEmpty());
     }
 
     @Test
-    public void shouldRejectProposta()
+    public void shouldFindByIdUtilizador()
     {
-        PropostaDTO prop = mock(PropostaDTO.class);
+        PropostaJPA proposta = new PropostaJPA(1L, 20L, 1L,
+                "AAAAAAAAAA", "AAAAAAAAAA", "AAAAAAAAAA",
+                1L, PropostaEstado.APROVADO);
 
-        when(service.rejeitarProposta(1L)).thenReturn(Optional.of(prop));
+        PropostaJPA save = jpaRepository.save(proposta);
 
-        ResponseEntity<PropostaDTO> response = controller.rejeitarProposta(1L);
+        List<PropostaJPA> utilizador = jpaRepository.findAllByutilizadorId(20L);
 
-        assertEquals(response.getStatusCode(),HttpStatus.OK);
+        assertEquals(1, utilizador.size());
     }
 
     @Test
-    public void shouldNotRejectProposta_invalidId()
+    public void shouldNotFindByIdUtilizador()
     {
-        when(service.rejeitarProposta(1L)).thenReturn(Optional.empty());
-
-        assertThrows(IdInvalidoException.class,()->controller.rejeitarProposta(1L));
+        List<PropostaJPA> utilizador = jpaRepository.findAllByutilizadorId(99L);
+        assertTrue(utilizador.isEmpty());
     }
 
     @Test
-    public void shouldNotRejectProposta_invalid()
+    public void shouldFindAllByTitulo()
     {
-        when(service.rejeitarProposta(1L)).thenThrow(AtualizacaoInvalidaException.class);
+        PropostaJPA proposta = new PropostaJPA(1L, 20L, 1L,
+                "AAAAAAAACC", "AAAAAAAAAA", "AAAAAAAAAA",
+                1L, PropostaEstado.APROVADO);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.rejeitarProposta(1L));
+        PropostaJPA save = jpaRepository.save(proposta);
+
+        List<PropostaJPA> titulo = jpaRepository.findAllByTituloContainsIgnoreCase("AAAAAAAACC");
+
+        assertEquals(1, titulo.size());
     }
 
     @Test
-    public void shouldListByNif()
+    public void shouldNotFindByTitulo()
     {
-        PropostaDTO prop = mock(PropostaDTO.class);
+        List<PropostaJPA> titulo = jpaRepository.findAllByTituloContainsIgnoreCase("ASOJASFJASFOSAFIO");
 
-        List<PropostaDTO> list = List.of(prop,prop,prop);
-
-        when(service.findByNif(1)).thenReturn(list);
-
-        ResponseEntity<Object> entity = controller.listbyNif(1);
-
-        assertEquals(entity.getBody(),list);
+        assertEquals(0,titulo.size());
     }
 
     @Test
-    public void shouldNotListByNif_Empty()
+    public void shouldUpdateProposta()
     {
-        List<PropostaDTO> list = List.of();
+        PropostaJPA proposta = new PropostaJPA(1L, 20L, 1L,
+                "AAAAAAAACC", "AAAAAAAAAA", "AAAAAAAAAA",
+                1L, PropostaEstado.CANDIDATURA);
 
-        when(service.findByNif(1)).thenReturn(list);
+        PropostaJPA jpa = jpaRepository.save(proposta);
 
-        assertThrows(ListaVaziaException.class,()->controller.listbyNif(1));
-    }
+        Proposta proposta2 = new Proposta(jpa.getId(), 20L, 1L,
+                "QWERAAAACC", "ABCDEFGHIJKL", "ZXCVBNMLKJ",
+                1L, PropostaEstado.CANDIDATURA);
 
-    @Test
-    public void shouldListByTitulo()
-    {
-        PropostaDTO prop = mock(PropostaDTO.class);
+        Optional<Proposta> propostaSaved = repository.atualizarProposta(proposta2);
 
-        List<PropostaDTO> list = List.of(prop,prop,prop);
+        assertTrue(propostaSaved.isPresent());
 
-        when(service.findByTitulo("AAA")).thenReturn(list);
-
-        ResponseEntity<Object> response = controller.listbyTitulo("AAA");
-
-        assertEquals(response.getBody(),list);
-    }
-
-    @Test
-    public void shouldNotListByTitulo_Empty()
-    {
-        List<PropostaDTO> list = List.of();
-
-        when(service.findByTitulo("AAA")).thenReturn(list);
-
-        assertThrows(ListaVaziaException.class,()->controller.listbyTitulo("AAA"));
+        assertEquals(proposta2.getTitulo(),propostaSaved.get().getTitulo());
+        assertEquals(proposta2.getProblema(),propostaSaved.get().getProblema());
+        assertEquals(proposta2.getObjetivo(),propostaSaved.get().getObjetivo());
     }
 
  */

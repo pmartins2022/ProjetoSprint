@@ -65,10 +65,6 @@ class UnidadeCurricularControllerIntegrationTests
         controller.createAndSaveUnidadeCurricular(uc);
         controller.createAndSaveUnidadeCurricular(uc1);
 
-        List<UnidadeCurricularDTO> list = new ArrayList<>();
-        list.add(uc);
-        list.add(uc1);
-
         ResponseEntity<Object> responseEntity = controller.listAll();
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
