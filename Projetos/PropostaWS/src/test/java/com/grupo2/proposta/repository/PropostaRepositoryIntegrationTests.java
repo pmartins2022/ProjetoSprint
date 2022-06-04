@@ -106,10 +106,12 @@ class PropostaRepositoryIntegrationTests
                 "QWERAAAACC", "ABCDEFGHIJKL", "ZXCVBNMLKJ",
                 1L, PropostaEstado.CANDIDATURA);
 
-        Proposta propostaSaved = repository.atualizarProposta(proposta2);
+        Optional<Proposta> propostaSaved = repository.atualizarProposta(proposta2);
 
-        assertEquals(proposta2.getTitulo(),propostaSaved.getTitulo());
-        assertEquals(proposta2.getProblema(),propostaSaved.getProblema());
-        assertEquals(proposta2.getObjetivo(),propostaSaved.getObjetivo());
+        assertTrue(propostaSaved.isPresent());
+
+        assertEquals(proposta2.getTitulo(),propostaSaved.get().getTitulo());
+        assertEquals(proposta2.getProblema(),propostaSaved.get().getProblema());
+        assertEquals(proposta2.getObjetivo(),propostaSaved.get().getObjetivo());
     }
 }

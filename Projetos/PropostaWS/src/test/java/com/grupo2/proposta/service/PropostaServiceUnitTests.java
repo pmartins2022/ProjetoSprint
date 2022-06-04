@@ -207,7 +207,7 @@ class PropostaServiceUnitTests
 
         when(repository.findById(1L)).thenReturn(Optional.of(prop));
 
-        when(repository.atualizarProposta(prop)).thenReturn(prop);
+        when(repository.atualizarProposta(prop)).thenReturn(Optional.of(prop));
 
         when(mapper.toDTO(prop)).thenReturn(propDTO);
 

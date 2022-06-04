@@ -61,16 +61,26 @@ public class PropostaService
             throw new AtualizacaoInvalidaException(e.getMessage());
         }
 
-        PropostaDTO propostaDTOSaved = atualizarProposta(prop.get());
+        Optional<PropostaDTO> propostaDTOSaved = atualizarProposta(prop.get());
 
-        return Optional.of(propostaDTOSaved);
+        if (propostaDTOSaved.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        return propostaDTOSaved;
     }
 
-    private PropostaDTO atualizarProposta(Proposta proposta)
+    private Optional<PropostaDTO> atualizarProposta(Proposta proposta)
     {
-        Proposta propostaSaved = repository.atualizarProposta(proposta);
+        Optional<Proposta> propostaSaved = repository.atualizarProposta(proposta);
 
-        return mapper.toDTO(propostaSaved);
+        if (propostaSaved.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(mapper.toDTO(propostaSaved.get()));
     }
 
     public List<PropostaDTO> findByNif(Integer nif)
