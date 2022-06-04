@@ -76,7 +76,7 @@ public class PropostaRepository
 
     public Optional<Proposta> atualizarProposta(Proposta proposta)
     {
-        if (findById(proposta.getId()).isPresent())
+        if (jpaRepository.findById(proposta.getId()).isPresent())
         {
             jpaRepository.deleteById(proposta.getId());
 
