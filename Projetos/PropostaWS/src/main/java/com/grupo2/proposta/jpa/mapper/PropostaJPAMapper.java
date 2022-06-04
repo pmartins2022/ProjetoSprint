@@ -6,12 +6,20 @@ import com.grupo2.proposta.model.factory.PropostaFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Classe que mapeia uma PropostaJPA para uma Proposta ou vice-versa.
+ */
 @Component
 public class PropostaJPAMapper
 {
     @Autowired
     private PropostaFactory factory;
 
+    /**
+     * Mapeia uma PropostaJPA para uma Proposta.
+     * @param jpa PropostaJPA
+     * @return Proposta
+     */
     public Proposta toModel(PropostaJPA jpa)
     {
         return factory.createProposta(jpa.getId(),jpa.getUtilizadorId(),jpa.getOrganizacaoId(),
@@ -19,6 +27,11 @@ public class PropostaJPAMapper
                 jpa.getEdicaoUCId(),jpa.getEstadoAtual());
     }
 
+    /**
+     * Mapeia uma Proposta para uma PropostaJPA.
+     * @param model Proposta
+     * @return PropostaJPA
+     */
     public PropostaJPA toJPA(Proposta model)
     {
         return new PropostaJPA(model.getId(),model.getUtilizadorId(),model.getOrganizacaoId(),

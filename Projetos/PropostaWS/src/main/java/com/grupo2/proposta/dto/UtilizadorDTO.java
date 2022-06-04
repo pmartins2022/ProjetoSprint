@@ -2,6 +2,9 @@ package com.grupo2.proposta.dto;
 
 import com.grupo2.proposta.model.TipoUtilizador;
 
+/**
+ * Classe DTO que contem informacao sobre um utilizador.
+ */
 public class UtilizadorDTO
 {
     private Long id;

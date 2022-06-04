@@ -1,5 +1,8 @@
 package com.grupo2.proposta.dto;
 
+/**
+ * Classe DTO que contem informacao sobre uma edicao de uc.
+ */
 public class EdicaoUCDTO
 {
     private Long id;

@@ -2,6 +2,9 @@ package com.grupo2.proposta.dto;
 
 import com.grupo2.proposta.model.PropostaEstado;
 
+/**
+ * Classe DTO que contem informacao sobre uma proposta.
+ */
 public class PropostaDTO
 {
     private Long id;

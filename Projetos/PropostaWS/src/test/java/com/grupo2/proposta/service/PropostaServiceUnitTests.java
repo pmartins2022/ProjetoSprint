@@ -186,20 +186,6 @@ class PropostaServiceUnitTests
     }
 
     @Test
-    public void shouldCreateProjeto()
-    {
-        ProjetoDTO proj = mock(ProjetoDTO.class);
-
-        when(projetoDTOFactory.createProjeto(1L, 1L, 2L)).thenReturn(proj);
-
-        when(projetoRestRepository.create(proj)).thenReturn(proj);
-
-        ProjetoDTO project = service.createProject(1L, 1L, 2L);
-
-        assertEquals(proj, project);
-    }
-
-    @Test
     public void shouldRejectProposta()
     {
         PropostaDTO propDTO = mock(PropostaDTO.class);

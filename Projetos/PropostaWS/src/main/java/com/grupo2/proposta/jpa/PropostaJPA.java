@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Entidade que representa uma Proposta.
+ */
 @Entity
 @Table(name = "Proposta")
 public class PropostaJPA

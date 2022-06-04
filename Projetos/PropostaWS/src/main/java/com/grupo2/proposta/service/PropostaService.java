@@ -19,6 +19,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe de servico de Proposta.
+ */
 @Service
 public class PropostaService
 {
@@ -35,6 +38,13 @@ public class PropostaService
     @Autowired
     private ProjetoDTOFactory projetoDTOFactory;
 
+
+    /**
+     * Criar uma nova proposta.
+     * @param dto Proposta a ser criada
+     * @return Proposta criada
+     * @throws BaseDadosException Se ocorrerem erros relativos a base de dados
+     */
     public PropostaDTO createProposta(PropostaDTO dto) throws BaseDadosException
     {
         Proposta prop = mapper.toModel(dto);
@@ -44,6 +54,11 @@ public class PropostaService
         return mapper.toDTO(proposta);
     }
 
+    /**
+     * Rejeitar uma proposta.
+     * @param id Id da proposta a ser rejeitada
+     * @return Proposta rejeitada ou erro se a atualizacao for invalida
+     */
     public Optional<PropostaDTO> rejeitarProposta(Long id)
     {
         Optional<Proposta> prop = repository.findById(id);
@@ -83,6 +98,11 @@ public class PropostaService
         return Optional.of(mapper.toDTO(propostaSaved.get()));
     }
 
+    /**
+     * Encontrar lista de propostas por NIF de organizacao
+     * @param nif NIF da organizacao
+     * @return Lista de propostas
+     */
     public List<PropostaDTO> findByNif(Integer nif)
     {
         List<Proposta> lista = repository.findByNif(nif);
@@ -91,6 +111,12 @@ public class PropostaService
 
         return listaDTOS;
     }
+
+    /**
+     * Encontrar lista de propostas por titulo
+     * @param titulo Titulo da proposta
+     * @return Lista de propostas
+     */
     public List<PropostaDTO> findByTitulo(String titulo)
     {
         List<Proposta> lista = repository.findAllByTitulo(titulo);
@@ -100,6 +126,11 @@ public class PropostaService
         return listaDTOS;
     }
 
+    /**
+     * Encontrar lista de propostas por id de utilizador
+     * @param id Id do utilizador
+     * @return Lista de propostas
+     */
     public List<PropostaDTO> findByIdUtilizador(Long id)
     {
         List<Proposta> lista = repository.findByIdUtilizador(id);
@@ -109,6 +140,15 @@ public class PropostaService
         return listaDTOS;
     }
 
+    /**
+     * Aprovar uma proposta. Necessita de validar o id de orientador e de aluno em repositorios externos.
+     * @param propostaID Id da proposta a ser aprovada
+     * @param orientadorID Id do orientador
+     * @param alunoID Id do aluno
+     * @return Proposta aprovada
+     * @throws AtualizacaoInvalidaException Se a atualizacao for invalida
+     * @throws IdInvalidoException Se o id for invalido
+     */
     public ProjetoDTO acceptProposta(Long propostaID, Long orientadorID, Long alunoID) throws AtualizacaoInvalidaException, IdInvalidoException
     {
         Optional<Proposta> proposta = repository.findById(propostaID);
@@ -152,7 +192,14 @@ public class PropostaService
         return projetoDTO;
     }
 
-    public ProjetoDTO createProject(Long propostaID, Long orientadorID, Long estudanteID)
+    /**
+     * Criar um projeto a partir de uma proposta.
+     * @param propostaID Id da proposta
+     * @param orientadorID Id do orientador
+     * @param estudanteID Id do estudante
+     * @return Projeto criado
+     */
+    private ProjetoDTO createProject(Long propostaID, Long orientadorID, Long estudanteID)
     {
         ProjetoDTO projetoDTO = projetoDTOFactory.createProjeto(propostaID, orientadorID, estudanteID);
 

@@ -10,9 +10,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
+/**
+ * Classe que permite a comunicação com WebService externo de projeto.
+ */
 @Repository
 public class ProjetoRestRepository
 {
+    /**
+     * Tenta criar um projeto.
+     * @param projetoDTO Projeto a criar
+     * @return Projeto criado ou erro
+     */
     public ProjetoDTO create(ProjetoDTO projetoDTO)
     {
             WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/projeto/create").post().

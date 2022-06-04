@@ -22,8 +22,8 @@ public class Proposta
     /**
      * Metodo que inicializa a proposta.
      * @param id id da proposta
-     * @param utilizadorId id do utilizador que criou a proposta
-     * @param organizacaoId id da organizacao que criou a proposta
+     * @param utilizadorId id do utilizador
+     * @param organizacaoId id da organizacao
      * @param titulo titulo da proposta
      * @param problema problema da proposta
      * @param objetivo objetivo da proposta
@@ -45,8 +45,8 @@ public class Proposta
 
     /**
      * Metodo que inicia uma proposta.
-     * @param utilizadorId id do utilizador que criou a proposta
-     * @param organizacaoId id da organizacao que criou a proposta
+     * @param utilizadorId id do utilizador
+     * @param organizacaoId id da organizacao
      * @param titulo titulo da proposta
      * @param problema problema da proposta
      * @param objetivo objetivo da proposta
@@ -65,30 +65,15 @@ public class Proposta
         this.estadoAtual = estadoAtual;
     }
 
-
-    /**
-     * Metodo que retorna o id da proposta.
-     * @return id da proposta
-     */
     public Long getId()
     {
         return id;
     }
 
-    /**
-     * Metodo que atualiza o id da proposta.
-     * @param id novo id da proposta
-     */
     public void setId(Long id)
     {
         this.id = id;
     }
-
-
-    /**
-     * Metodo que retorna o id do utilizador que criou a proposta.
-     * @return id do utilizador que criou a proposta
-     */
 
     public Long getUtilizadorId()
     {
@@ -155,6 +140,10 @@ public class Proposta
         return estadoAtual;
     }
 
+    /**
+     * Metodo que atualiza o estado da proposta, ficando aprovada.
+     * @throws AtualizacaoInvalidaException caso ja tenha sido aprovada/rejeitada anteriormente
+     */
     public void aprovarProposta() throws AtualizacaoInvalidaException
     {
         if (estadoAtual != PropostaEstado.CANDIDATURA)
@@ -164,6 +153,10 @@ public class Proposta
         this.estadoAtual = PropostaEstado.APROVADO;
     }
 
+    /**
+     * Metodo que atualiza o estado da proposta, ficando reprovada.
+     * @throws AtualizacaoInvalidaException caso ja tenha sido aprovada/rejeitada anteriormente
+     */
     public void reprovarProposta() throws AtualizacaoInvalidaException
     {
         if (estadoAtual != PropostaEstado.CANDIDATURA)

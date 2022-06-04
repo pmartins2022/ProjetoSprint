@@ -6,9 +6,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
+/**
+ * Classe que permite a comunicação com WebService externo de organizacao.
+ */
 @Repository
 public class OrganizacaoRestRepository
 {
+    /**
+     * Tenta obter a organizacao pelo id.
+     * @param id Id da organizacao
+     * @return Organizacao ou optional vazio
+     */
     public Optional<OrganizacaoDTO> findById(Long id)
     {
         OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao/"+id).get().
@@ -22,6 +30,11 @@ public class OrganizacaoRestRepository
         return Optional.of(dto);
     }
 
+    /**
+     * Tenta obter a organizacao pelo nif.
+     * @param nif Nif da organizacao
+     * @return Organizacao ou optional vazio
+     */
     public Optional<OrganizacaoDTO> findByNIF(Integer nif)
     {
         OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao?nif="+nif).get().

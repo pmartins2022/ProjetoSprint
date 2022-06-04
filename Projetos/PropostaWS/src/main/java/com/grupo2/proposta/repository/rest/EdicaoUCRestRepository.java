@@ -7,9 +7,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
+/**
+ * Classe que permite a comunicação com WebService externo de edicao UC.
+ */
 @Repository
 public class EdicaoUCRestRepository
 {
+    /**
+     * Tenta obter a edicao da UC pelo id.
+     * @param id Id da edicao de UC
+     * @return Edicao de UC ou optional vazio
+     */
     public Optional<EdicaoUCDTO> findById(Long id)
     {
         EdicaoUCDTO dto = WebClient.create("http://localhost:8082/edicaoUC/"+id).get().

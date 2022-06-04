@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * Classe REST Controller de Proposta. Possui endpoints para createProposta, listbyIdUtilizador, listbyTitulo,
+ * listbyNif, aprovarProposta, rejeitarProposta
+ */
 @RestController
 @RequestMapping("/proposta")
 public class PropostaController
@@ -25,6 +28,11 @@ public class PropostaController
     @Autowired
     private PropostaService service;
 
+    /**
+     * Endpoint que possibilita criar uma proposta.
+     * @param dto um objeto com os dados da proposta
+     * @return proposta, ou um erro se os dados estiverem invalidos.
+     */
     @PostMapping("/create")
     public ResponseEntity<PropostaDTO> createProposta(@RequestBody PropostaDTO dto)
     {
@@ -39,6 +47,11 @@ public class PropostaController
         }
     }
 
+/**
+     * Endpoint que possibilita listar as propostas de um utilizador.
+     * @param id o id do utilizador
+     * @return proposta, ou um erro se os dados estiverem invalidos.
+     */
     @GetMapping("/listarPorId")
     public ResponseEntity<Object> listbyIdUtilizador(Long id)
     {
@@ -52,6 +65,11 @@ public class PropostaController
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    /**
+     * Endpoint que possibilita listar as propostas de uma proposta por titulo.
+     * @param titulo o titulo da proposta
+     * @return proposta, ou um erro se os dados estiverem invalidos.
+     */
     @GetMapping("/listarPorTitulo")
     public ResponseEntity<Object> listbyTitulo(@RequestParam String titulo)
     {
@@ -65,6 +83,11 @@ public class PropostaController
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    /**
+     * Endpoint que possibilita listar as propostas por nif de organizacao.
+     * @param nif o nif da organizacao
+     * @return proposta, ou um erro se os dados estiverem invalidos.
+     */
     @GetMapping("/listarPorNif")
     public ResponseEntity<Object> listbyNif(Integer nif)
     {
@@ -78,6 +101,11 @@ public class PropostaController
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    /**
+     * Endpoint que possibilita rejeitar uma proposta.
+     * @param id o id da proposta
+     * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
+     */
     @GetMapping("/rejeitar/{id}")
     public ResponseEntity<PropostaDTO> rejeitarProposta(@PathVariable(name = "id") Long id)
     {
@@ -96,6 +124,13 @@ public class PropostaController
         }
     }
 
+    /**
+     * Endpoint que possibilita aprovar uma proposta.
+     * @param propostaID o id da proposta
+     * @param orientadorID o id do orientador
+     * @param alunoID o id do aluno
+     * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
+     */
     @GetMapping("/aceitar/{id}")
     public ResponseEntity<Object> aceitarProposta(@PathVariable("id") Long propostaID,
                                                       @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)

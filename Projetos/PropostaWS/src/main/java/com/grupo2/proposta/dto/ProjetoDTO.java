@@ -1,5 +1,8 @@
 package com.grupo2.proposta.dto;
 
+/**
+ * Classe DTO que contem informacao sobre um projeto.
+ */
 public class ProjetoDTO
 {
     private Long id;

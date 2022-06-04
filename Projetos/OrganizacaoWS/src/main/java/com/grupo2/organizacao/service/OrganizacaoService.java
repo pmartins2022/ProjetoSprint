@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Classe de Service do organizacao. Possui endpoints para createAndSave, findByNif, findALL e findById.
+ * Classe de Service do organizacao.
  */
 @Service
 public class OrganizacaoService
