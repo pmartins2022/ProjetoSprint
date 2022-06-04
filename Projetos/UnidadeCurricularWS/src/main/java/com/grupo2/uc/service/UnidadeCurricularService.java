@@ -13,19 +13,36 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe que permite a ligação entre o UnidadeCurricularController e o resto da API
+ */
 @Service
 public class UnidadeCurricularService
 {
+    /**
+     * objeto do tipo UnidadeCurricularRepository a ser utilizado
+     */
     @Autowired
     private UnidadeCurricularRepository repository;
 
+    /**
+     * Objeto do tipo UnidadeCurricularDTOMapper a ser utilizado
+     */
     @Autowired
     private UnidadeCurricularDTOMapper mapper;
 
+    /**
+     * Factory de UnidadeCurricular a ser utilizado
+     */
     @Autowired
     private UnidadeCurricularFactory factory;
 
 
+    /**
+     * Método que permite encontrar UnidadeCurricular pela sigla
+     * @param sigla sigla da UnidadeCurricular
+     * @return Optional da UnidadeCurricular encontrada ou Optional vazio
+     */
     public Optional<UnidadeCurricularDTO> findBySigla(String sigla)
     {
         Optional<UnidadeCurricular> uc = repository.findBySigla(sigla);
@@ -40,6 +57,12 @@ public class UnidadeCurricularService
         return Optional.of(dto);
     }
 
+    /**
+     * Método que permite criar e guardar UnidadeCurricular na Base de Dados
+     * @param unidadeCurricularDTO UnidadeCurricular a ser guardada
+     * @return UnidadeCurricular guardada
+     * @throws ValidacaoInvalidaException
+     */
     public UnidadeCurricularDTO createAndSaveUnidadeCurricular(UnidadeCurricularDTO unidadeCurricularDTO) throws ValidacaoInvalidaException
     {
         UnidadeCurricular unidadeCurricular = mapper.toModel(unidadeCurricularDTO);
@@ -49,7 +72,13 @@ public class UnidadeCurricularService
         return mapper.toDTO(savedUnidadeCurricular);
     }
 
-
+    /**
+     * Método que permite atualizar atributos de uma UnidadeCurricular
+     * @param sigla sigla da UnidadeCurricular
+     * @param denominacao nova denominacao da UnidadeCurricular
+     * @return UnidadeCurricular guardada
+     * @throws ValidacaoInvalidaException
+     */
     public Optional<UnidadeCurricularDTO> update(String sigla, String denominacao) throws ValidacaoInvalidaException
     {
         Optional<UnidadeCurricular> ucRequested = repository.findBySigla(sigla);
@@ -68,6 +97,12 @@ public class UnidadeCurricularService
 
         return Optional.of(dtoUpdated);
     }
+
+
+    /**
+     * Método que permite encontrar todas as UnidadeCurricular's na Base de Dados
+     * @return lista com UnidadeCurricular's encontradas
+     */
     public List<UnidadeCurricularDTO> findAll()
     {
         List<UnidadeCurricular> lista = repository.findAll();

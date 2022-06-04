@@ -12,15 +12,29 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe UnidadeCurricularRepository que permite estabeler ligação com UnidadeCurricularJPARepository
+ */
 @Repository
 public class UnidadeCurricularRepository
 {
+    /**
+     * Objeto do tipo UnidadeCurricularJPARepository a ser utilizado
+     */
     @Autowired
     private UnidadeCurricularJPARepository jpaRepository;
 
+    /**
+     * Objeto do tipo UnidadeCurricularJPAMapper a ser utilizado
+     */
     @Autowired
     private UnidadeCurricularJPAMapper mapper;
 
+    /**
+     * Método que permite encontrar UnidadeCurricular pela sigla
+     * @param sigla sigla da UnidadeCurricular
+     * @return Optional da UnidadeCurricular encontrada ou Optional vazio
+     */
     public Optional<UnidadeCurricular> findBySigla(String sigla)
     {
         Optional<UnidadeCurricularJPA> jpa = jpaRepository.findBySigla(sigla);
@@ -35,6 +49,11 @@ public class UnidadeCurricularRepository
         return Optional.of(unidadeCurricular);
     }
 
+    /**
+     * Método que permite guardar UnidadeCurricular na Base de Dados
+     * @param unidadeCurricular UnidadeCurricular a ser guardada
+     * @return UnidadeCurricular guardada
+     */
     public UnidadeCurricular saveUnidadeCurricular(UnidadeCurricular unidadeCurricular)
     {
         if (jpaRepository.findById(unidadeCurricular.getSigla()).isPresent())
@@ -49,6 +68,11 @@ public class UnidadeCurricularRepository
         return mapper.toModel(saved);
     }
 
+    /**
+     * Método que permite atualizar atributos de uma UnidadeCurricular
+     * @param uc UnidadeCurricular atualizada
+     * @return UnidadeCurricular guardada
+     */
     public UnidadeCurricular updateUnidadeCurricular(UnidadeCurricular uc)
     {
         if (jpaRepository.findById(uc.getSigla()).isPresent())
@@ -66,6 +90,10 @@ public class UnidadeCurricularRepository
         return mapper.toModel(saved);
     }
 
+    /**
+     * Método que permite encontrar todas as UnidadeCurricular's na Base de Dados
+     * @return lista com UnidadeCurricular's encontradas
+     */
     public List<UnidadeCurricular> findAll()
     {
         List<UnidadeCurricularJPA> lista = jpaRepository.findAll();
