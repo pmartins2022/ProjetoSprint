@@ -225,4 +225,32 @@ class PropostaRepositoryUnitTest
         assertThrows(BaseDadosException.class,()->repository.createProposta(propostaMock));
 
     }
+
+    @Test
+    public void shouldUpdateProposta()
+    {
+        Proposta propostaMock = mock(Proposta.class);
+        PropostaJPA propostaJPAMock = mock(PropostaJPA.class);
+
+        //when(jpaRepository.deleteById(propostaMock.getId()))
+
+        when(mapper.toJPA(propostaMock)).thenReturn(propostaJPAMock);
+
+        when(jpaRepository.save(propostaJPAMock)).thenReturn(propostaJPAMock);
+
+        //assertEquals();
+    }
+
+    /**
+     * public Proposta atualizarProposta(Proposta proposta)
+     *     {
+     *         jpaRepository.deleteById(proposta.getId());
+     *
+     *         PropostaJPA jpa = mapper.toJPA(proposta);
+     *
+     *         PropostaJPA saved = jpaRepository.save(jpa);
+     *
+     *         return mapper.toModel(saved);
+     *     }
+     */
 }

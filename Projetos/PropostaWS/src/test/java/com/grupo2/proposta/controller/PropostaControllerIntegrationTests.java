@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 class PropostaControllerIntegrationTests
 {
     @Autowired
-    private PropostaController controller;
+    PropostaController controller;
 
     @Test
     public void shouldCreateProposta_valid()

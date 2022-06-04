@@ -21,11 +21,4 @@ public class AnoLetivoService
     {
         return restRepo.createAnoLetivo(anoLetivoDTO);
     }
-
-    public String putTest(AnoLetivoDTO dto, long pathVar, long id)
-    {
-        return restRepo.updateTest(dto, pathVar, id);
-    }
-
-
 }
