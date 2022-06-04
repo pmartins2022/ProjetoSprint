@@ -18,7 +18,7 @@ public class AnoLetivoRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/create").post().
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/criar").post().
                     body(BodyInserters.fromValue(anoLetivoDTO)).retrieve();
 
 
