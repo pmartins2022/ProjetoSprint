@@ -15,20 +15,39 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe de EdicaoUCRepository. Possui endpoints para saveEdicaoUC, findAllEdicaoByUCCode e findById.
+ */
 @Repository
 public class EdicaoUCRepository
 {
+    /**
+     * O repositoryJPA a ser utilizado por este Repository.
+     */
     @Autowired
     private EdicaoUCJpaRepository jpaRepository;
-
+    /**
+     * O restRepository a ser utilizado por este Repository.
+     */
     @Autowired
     private AnoLetivoUCRestRepository anoLetivoUCRestRepository;
-
+    /**
+     * O restRepository a ser utilizado por este Repository.
+     */
     @Autowired
     private UnidadeCurricularRestRepository unidadeCurricularRestRepository;
+    /**
+     * O repositoryJPAMapper a ser utilizado por este Repository.
+     */
     @Autowired
     private EdicaoUCJPAMapper mapper;
 
+    /**
+     * Endpoint que possibilita criar e guardar EdicaoUC
+     * @param edicaoUC objeto com dados de EdicaoUC
+     * @return uma EdicaoUc guardada
+     * @throws BaseDadosException caso Id de Ano Letivo ou Id de Unidade Curricular não existam em Sistema
+     */
     public EdicaoUC saveEdicaoUC(EdicaoUC edicaoUC) throws BaseDadosException
     {
         Optional<AnoLetivoDTO> anoLetivoId = anoLetivoUCRestRepository.findById(edicaoUC.getAnoLetivoCode());
@@ -47,6 +66,11 @@ public class EdicaoUCRepository
         return mapper.toModel(saved);
     }
 
+    /**
+     * Endpoint que possibilita encontrar todas as Edições existente no repositorio com um determinado código de Unidade Curricular.
+     * @param UCCode objeto com dados
+     * @return Lista de Edições com determinado código de Unidade Curricular
+     */
 
     public List<EdicaoUC> findAllEdicaoByUCCode(String UCCode)
     {
@@ -55,6 +79,11 @@ public class EdicaoUCRepository
         return lista.stream().map(mapper::toModel).toList();
     }
 
+    /**
+     * Endpoint que possibilita encontrar uma Edição com um determinado Id
+     * @param id objeto com dados
+     * @return Edição com um determinado Id
+     */
     public Optional<EdicaoUC> findById(Long id)
     {
         Optional<EdicaoUCJPA> jpa = jpaRepository.findById(id);
