@@ -1,8 +1,8 @@
 package com.example.javafx.controller;
 
 import com.example.javafx.dto.PropostaDTO;
+import com.example.javafx.dto.factory.PropostaDTOFactory;
 import com.example.javafx.service.PropostaService;
-import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -14,6 +14,9 @@ public class PropostaController
     @Autowired
     private PropostaService propostaService;
 
+    @Autowired
+    private PropostaDTOFactory propostaDTOFactory;
+
     public List<String> findAllOrganizacao()
     {
         return propostaService.findAllOrganizacao();
@@ -24,9 +27,9 @@ public class PropostaController
         return propostaService.findAllEdicao();
     }
 
-    public PropostaDTO createProposta(TextField userIdText, int organizacaoId, int edicaoUCId, TextField tituloText, TextField problemaText, TextField objetivoText)
+    public PropostaDTO createProposta(long userId, int organizacaoId, int edicaoUCId, String tituloText, String problemaText, String objetivoText)
     {
-        PropostaDTO dto = new PropostaDTO(Long.parseLong(userIdText.getText()), (long) organizacaoId, (long) edicaoUCId,tituloText.getText(),problemaText.getText(),objetivoText.getText());
+        PropostaDTO dto = propostaDTOFactory.create(userId, (long) organizacaoId,tituloText,problemaText,objetivoText,(long) edicaoUCId);
 
         return propostaService.saveProposta(dto);
     }

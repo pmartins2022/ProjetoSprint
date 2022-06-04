@@ -70,7 +70,7 @@ public class CreatePropostaViewController
 
     public void createProposta(ActionEvent actionEvent)
     {
-        PropostaDTO dto = controller.createProposta(userIdText,organizacaoChoice.getSelectionModel().getSelectedIndex(),edicaoChoice.getSelectionModel().getSelectedIndex(),tituloText,problemaText,objetivoText);
+        PropostaDTO dto = controller.createProposta(Long.parseLong(userIdText.getText()),organizacaoChoice.getSelectionModel().getSelectedIndex(),edicaoChoice.getSelectionModel().getSelectedIndex(),tituloText.getText(),problemaText.getText(),objetivoText.getText());
     }
 
     public void closeWindow(ActionEvent actionEvent)
