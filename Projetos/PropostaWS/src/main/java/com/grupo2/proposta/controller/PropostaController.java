@@ -54,8 +54,8 @@ public class PropostaController
      * @param id o id do utilizador
      * @return proposta, ou um erro se os dados estiverem invalidos.
      */
-    @GetMapping("/listarPorId")
-    public ResponseEntity<Object> listbyIdUtilizador(Long id)
+    @GetMapping("/listarPorId/{id}")
+    public ResponseEntity<Object> listbyIdUtilizador(@PathVariable(name = "id") Long id)
     {
         List<PropostaDTO> lista = service.findByIdUtilizador(id);
 
@@ -90,8 +90,8 @@ public class PropostaController
      * @param nif o nif da organizacao
      * @return proposta, ou um erro se os dados estiverem invalidos.
      */
-    @GetMapping("/listarPorNif")
-    public ResponseEntity<Object> listbyNif(Integer nif)
+    @GetMapping("/listarPorNif/{nif}")
+    public ResponseEntity<Object> listbyNif(@PathVariable(name = "nif") Integer nif)
     {
         List<PropostaDTO> lista = service.findByNif(nif);
 

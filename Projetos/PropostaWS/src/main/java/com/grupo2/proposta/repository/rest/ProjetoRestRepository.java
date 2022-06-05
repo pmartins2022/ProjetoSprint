@@ -23,7 +23,7 @@ public class ProjetoRestRepository
      */
     public ProjetoDTO create(ProjetoDTO projetoDTO)
     {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/projeto/create").post().
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/projeto/criar").post().
                     body(BodyInserters.fromValue(projetoDTO)).retrieve();
 
 
