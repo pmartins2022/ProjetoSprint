@@ -2,10 +2,8 @@ package com.grupo2.proposta.repository;
 
 import com.grupo2.proposta.dto.EdicaoUCDTO;
 import com.grupo2.proposta.dto.OrganizacaoDTO;
-import com.grupo2.proposta.dto.PropostaDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.BaseDadosException;
-import com.grupo2.proposta.exception.ListaVaziaException;
 import com.grupo2.proposta.jpa.PropostaJPA;
 import com.grupo2.proposta.jpa.mapper.PropostaJPAMapper;
 import com.grupo2.proposta.model.Proposta;
@@ -164,7 +162,7 @@ class PropostaRepositoryUnitTest
         List<Proposta> mockList = List.of(propostaMock,propostaMock,propostaMock);
         List<PropostaJPA> mockListJpa = List.of(propostaJPAMock,propostaJPAMock,propostaJPAMock);
 
-        when(jpaRepository.findAllByutilizadorId(1L)).thenReturn(mockListJpa);
+        when(jpaRepository.findAllByUtilizadorId(1L)).thenReturn(mockListJpa);
 
         when(mapper.toModel(propostaJPAMock)).thenReturn(propostaMock);
 

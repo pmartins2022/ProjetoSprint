@@ -119,7 +119,7 @@ public class PropostaRepository
      */
     public List<Proposta> findByIdUtilizador(Long id)
     {
-        List<PropostaJPA> lista = jpaRepository.findAllByutilizadorId(id);
+        List<PropostaJPA> lista = jpaRepository.findAllByUtilizadorId(id);
 
         List<Proposta> listaModel = lista.stream().map(mapper::toModel).toList();
 

@@ -11,7 +11,7 @@ import java.util.List;
 public interface PropostaJPARepository extends JpaRepository<PropostaJPA,Long>
 {
 
-    List<PropostaJPA> findAllByutilizadorId(Long id);
+    List<PropostaJPA> findAllByUtilizadorId(Long id);
     List<PropostaJPA> findAllByTituloContainsIgnoreCase(String titulo);
     List<PropostaJPA> findByorganizacaoId(Long id);
 }
