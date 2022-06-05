@@ -35,10 +35,10 @@ public class EdicaoUCController
      */
     public List<String> findAllUC()
     {
-        service.findAllUC().forEach(e -> {
-            if (!listaUC.contains(e))
-                listaUC.add(e);
-        });
+        listaUC.clear();
+
+        listaUC.addAll(service.findAllUC());
+
         return listaUC.stream().map(UnidadeCurricularDTO::getSigla).toList();
     }
 
@@ -48,10 +48,10 @@ public class EdicaoUCController
      */
     public List<String> findAllAnoLetivo()
     {
-        service.findAllAnoLetivo().forEach(e -> {
-            if (!listaAL.contains(e))
-                listaAL.add(e);
-        });
+        listaAL.clear();
+
+        listaAL.addAll(service.findAllAnoLetivo());
+
         return listaAL.stream().map(AnoLetivoDTO::getSigla).toList();
     }
 

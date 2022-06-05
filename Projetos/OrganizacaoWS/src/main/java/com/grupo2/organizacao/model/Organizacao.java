@@ -100,7 +100,6 @@ public class Organizacao
 
     /**
      * Devolve o denominacao da organizacao
-     * @return o denominacao da organizacao
      */
     public void setDenominacao(String denominacao)
     {
@@ -119,7 +118,6 @@ public class Organizacao
 
     /**
      * Devolve o nif da organizacao
-     * @return o nif da organizacao
      */
     public void setNif(Integer nif)
     {

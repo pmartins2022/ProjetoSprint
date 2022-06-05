@@ -96,4 +96,15 @@ public class EdicaoUCRepository
         return Optional.empty();
 
     }
+
+    /**
+     * Encontrar todas as Edicoes UC existentes.
+     * @return a lista de Edicoes UC
+     */
+    public List<EdicaoUC> findAll()
+    {
+        List<EdicaoUCJPA> lista = jpaRepository.findAll();
+
+        return lista.stream().map(mapper::toModel).toList();
+    }
 }

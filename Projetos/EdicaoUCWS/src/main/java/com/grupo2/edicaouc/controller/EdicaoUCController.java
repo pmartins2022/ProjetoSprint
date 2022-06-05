@@ -70,6 +70,23 @@ public class EdicaoUCController
     }
 
     /**
+     * Endpoint que permite obter a lista total de Edições de Unidade Curricular existentes.
+     * @return Lista todas as Edições de Unidade Curricular ou erro.
+     */
+    @GetMapping("/listar")
+    public ResponseEntity<List<EdicaoUCDTO>> listAll()
+    {
+        List<EdicaoUCDTO> opEdicaoUC = service.findAllEdicaoUC();
+
+        if (opEdicaoUC.isEmpty())
+        {
+            throw new ListaVaziaException("Nao existem edicoes UC");
+        }
+
+        return new ResponseEntity<>(opEdicaoUC, HttpStatus.OK);
+    }
+
+    /**
      * Endpoint que possibilita encontrar o Edição de Unidade Curricular por id existente no service.
      * @param id objeto com dados da Edição de Unidade Curricular
      * @return Edição de Unidade Curricular OU exceção OptionalVazioException caso a Edição com o ID inserido não exista.

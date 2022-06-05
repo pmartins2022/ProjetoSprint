@@ -68,4 +68,15 @@ public class EdicaoUCService
 
         return Optional.empty();
     }
+
+    /**
+     * Encontrar todas as EdicaoUC
+     * @return Lista de EdicaoUC
+     */
+    public List<EdicaoUCDTO> findAllEdicaoUC()
+    {
+        List<EdicaoUC> edicaoUC = repository.findAll();
+
+        return edicaoUC.stream().map(mapper::toDTO).toList();
+    }
 }

@@ -54,11 +54,13 @@ public class CreatePropostaViewController
         catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+            e.printStackTrace();
             closeWindow(null);
         }
         catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+            e.printStackTrace();
             closeWindow(null);
         }
     }
@@ -85,7 +87,19 @@ public class CreatePropostaViewController
      */
     public void createProposta(ActionEvent actionEvent)
     {
-        PropostaDTO dto = controller.createProposta(Long.parseLong(userIdText.getText()),organizacaoChoice.getSelectionModel().getSelectedIndex(),edicaoChoice.getSelectionModel().getSelectedIndex(),tituloText.getText(),problemaText.getText(),objetivoText.getText());
+        try
+        {
+            PropostaDTO dto = controller.createProposta(Long.parseLong(userIdText.getText()), organizacaoChoice.getSelectionModel().getSelectedIndex()+1, edicaoChoice.getSelectionModel().getSelectedIndex()+1, tituloText.getText(), problemaText.getText(), objetivoText.getText());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Proposta criada com sucesso. " + dto.toString());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+        }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
     /**

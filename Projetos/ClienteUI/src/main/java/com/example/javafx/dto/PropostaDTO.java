@@ -131,5 +131,18 @@ public class PropostaDTO
         this.estadoAtual = estadoAtual;
     }
 
-
+    @Override
+    public String toString()
+    {
+        return "PropostaDTO{" +
+                "id=" + id +
+                ", utilizadorId=" + utilizadorId +
+                ", organizacaoId=" + organizacaoId +
+                ", titulo='" + titulo + '\'' +
+                ", problema='" + problema + '\'' +
+                ", objetivo='" + objetivo + '\'' +
+                ", edicaoUCId=" + edicaoUCId +
+                ", estadoAtual=" + estadoAtual +
+                '}';
+    }
 }

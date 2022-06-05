@@ -22,7 +22,7 @@ public class PropostaFactory
      * @param estadoAtual Estado Atual da Proposta
      * @return Proposta
      */
-    public Proposta createProposta(long id, long utilizadorId, long organizacaoId, String titulo, String problema, String objetivo, long edicaoUcId, PropostaEstado estadoAtual)
+    public Proposta createProposta(Long id, Long utilizadorId, Long organizacaoId, String titulo, String problema, String objetivo, Long edicaoUcId, PropostaEstado estadoAtual)
     {
         return new Proposta(id, utilizadorId,organizacaoId,titulo,problema,objetivo,edicaoUcId,estadoAtual);
     }
@@ -39,7 +39,7 @@ public class PropostaFactory
      * @param estadoAtual Estado Atual da Proposta
      * @return Proposta
      */
-    public Proposta createProposta(long utilizadorId, long organizacaoId, String titulo, String problema, String objetivo, long edicaoUcId, PropostaEstado estadoAtual)
+    public Proposta createProposta(Long utilizadorId, Long organizacaoId, String titulo, String problema, String objetivo, Long edicaoUcId, PropostaEstado estadoAtual)
     {
         return new Proposta(utilizadorId,organizacaoId,titulo,problema,objetivo,edicaoUcId,estadoAtual);
     }

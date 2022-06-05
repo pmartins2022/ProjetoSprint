@@ -19,15 +19,22 @@ public class OrganizacaoRestRepository
      */
     public Optional<OrganizacaoDTO> findById(Long id)
     {
-        OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao/"+id).get().
-                retrieve().bodyToMono(OrganizacaoDTO.class).block();
+        try
+        {
+            OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao/" + id).get().
+                    retrieve().bodyToMono(OrganizacaoDTO.class).block();
 
-        if (dto == null)
+            if (dto == null)
+            {
+                return Optional.empty();
+            }
+
+            return Optional.of(dto);
+        }
+        catch (Exception e)
         {
             return Optional.empty();
         }
-
-        return Optional.of(dto);
     }
 
     /**
@@ -37,14 +44,21 @@ public class OrganizacaoRestRepository
      */
     public Optional<OrganizacaoDTO> findByNIF(Integer nif)
     {
-        OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao?nif="+nif).get().
-                retrieve().bodyToMono(OrganizacaoDTO.class).block();
+        try
+        {
+            OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao?nif=" + nif).get().
+                    retrieve().bodyToMono(OrganizacaoDTO.class).block();
 
-        if (dto == null)
+            if (dto == null)
+            {
+                return Optional.empty();
+            }
+
+            return Optional.of(dto);
+        }
+        catch (Exception e)
         {
             return Optional.empty();
         }
-
-        return Optional.of(dto);
     }
 }

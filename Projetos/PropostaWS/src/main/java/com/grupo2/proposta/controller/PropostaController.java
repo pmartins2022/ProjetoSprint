@@ -3,10 +3,7 @@ package com.grupo2.proposta.controller;
 
 import com.grupo2.proposta.dto.ProjetoDTO;
 import com.grupo2.proposta.dto.PropostaDTO;
-import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
-import com.grupo2.proposta.exception.BaseDadosException;
-import com.grupo2.proposta.exception.IdInvalidoException;
-import com.grupo2.proposta.exception.ListaVaziaException;
+import com.grupo2.proposta.exception.*;
 import com.grupo2.proposta.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +38,12 @@ public class PropostaController
             PropostaDTO proposta = service.createProposta(dto);
 
             return new ResponseEntity<>(proposta, HttpStatus.CREATED);
-        } catch (BaseDadosException e)
+        }
+        catch(ValidacaoInvalidaException e)
+        {
+            throw new ValidacaoInvalidaException(e.getMessage());
+        }
+        catch (BaseDadosException e)
         {
             throw new BaseDadosException(e.getMessage());
         }

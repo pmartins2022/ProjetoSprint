@@ -31,7 +31,7 @@ public class UnidadeCurricularDTOMapper
 
     /**
      * Fazer a conversao para classe DTO
-     * @param organizacao o objeto de dominio com os dados
+     * @param model o objeto de dominio com os dados
      * @return o objeto convertido
      */
     public UnidadeCurricularDTO toDTO(UnidadeCurricular model)

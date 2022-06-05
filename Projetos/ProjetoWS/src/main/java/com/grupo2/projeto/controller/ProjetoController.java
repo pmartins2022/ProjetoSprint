@@ -25,7 +25,7 @@ public class ProjetoController
     /**
      * Endpoint que possibilita encontrar o projeto por id existente no serviço.
      * @param id um objeto com os dados do projeto
-     * @returnum projeto, ou um erro se os dados estiverem invalidos.
+     * @return um projeto, ou um erro se os dados estiverem invalidos.
      */
     @GetMapping("/{id}")
     public ResponseEntity<ProjetoDTO> findById(@PathVariable Long id)

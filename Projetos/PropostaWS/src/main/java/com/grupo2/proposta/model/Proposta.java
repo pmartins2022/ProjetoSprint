@@ -40,7 +40,14 @@ public class Proposta
         this.utilizadorId = utilizadorId;
         this.organizacaoId = organizacaoId;
         this.edicaoUCId = edicaoUCId;
-        this.estadoAtual = estadoAtual;
+        if (estadoAtual == null)
+        {
+            this.estadoAtual = PropostaEstado.CANDIDATURA;
+        }
+        else
+        {
+            this.estadoAtual = estadoAtual;
+        }
     }
 
     /**
@@ -62,7 +69,14 @@ public class Proposta
         this.problema = problema;
         this.objetivo = objetivo;
         this.edicaoUCId = edicaoUCId;
-        this.estadoAtual = estadoAtual;
+        if (estadoAtual == null)
+        {
+            this.estadoAtual = PropostaEstado.CANDIDATURA;
+        }
+        else
+        {
+            this.estadoAtual = estadoAtual;
+        }
     }
 
     public Long getId()

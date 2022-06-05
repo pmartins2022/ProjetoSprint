@@ -52,10 +52,9 @@ public class UnidadeCurricularController
      */
     public List<String> findAllUnidadeCurricular()
     {
-        unidadeCurricularService.findAll().forEach(e -> {
-            if (!lista.contains(e))
-                lista.add(e);
-        });
+        lista.clear();
+
+        lista.addAll(unidadeCurricularService.findAll());
 
         return lista.stream().map(UnidadeCurricularDTO::getSigla).toList();
     }
