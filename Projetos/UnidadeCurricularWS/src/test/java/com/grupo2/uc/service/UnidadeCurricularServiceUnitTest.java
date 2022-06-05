@@ -95,6 +95,8 @@ class UnidadeCurricularServiceUnitTest {
         UnidadeCurricular mockUnidadeCurricular = mock(UnidadeCurricular.class);
         UnidadeCurricularDTO mockUnidadeCurricularDTO = mock(UnidadeCurricularDTO.class);
 
+        when(mockUnidadeCurricular.getDenominacao()).thenReturn("Portugues Avancado");
+
         when(repository.findBySigla("PTA")).thenReturn(Optional.of(mockUnidadeCurricular));
         when(factory.createUnidadeCurricular("PTA","Portugues Avancado")).thenReturn(mockUnidadeCurricular);
 

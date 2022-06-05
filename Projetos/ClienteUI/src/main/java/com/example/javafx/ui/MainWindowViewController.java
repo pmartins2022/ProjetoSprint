@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -50,7 +51,7 @@ public class MainWindowViewController
     public void initialize()
     {
         closeItem.setOnAction(event -> Platform.exit());
-        aboutItem.setOnAction(event -> AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sobre", "UI Client", "Teste software JavaFX com Spring."));
+        aboutItem.setOnAction(event -> AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sobre", "UI Client JavaFX com Spring.", "Copyright (c) 2022, by Pedro Martins, Marta Moutinho, Diogo Gonçalves, Tiago Martins"));
     }
 
     /**
@@ -66,9 +67,11 @@ public class MainWindowViewController
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createAnoLetivo-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+        //stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
 
         fxmlLoader.<CreateAnoLetivoViewController>getController().setController(anoLetivoController);
+
+        stage.setResizable(false);
 
         stage.show();
     }
@@ -86,7 +89,9 @@ public class MainWindowViewController
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createProposta-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+        //stage.initOwner(((Button) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+
+        stage.setResizable(false);
 
         stage.show();
 
@@ -105,7 +110,9 @@ public class MainWindowViewController
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createEdicaoUC-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+        //stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+
+        stage.setResizable(false);
 
         stage.show();
 
@@ -125,7 +132,9 @@ public class MainWindowViewController
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createUnidadeCurricular-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+        //stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+
+        stage.setResizable(false);
 
         fxmlLoader.<CreateUnidadeCurricularViewController>getController().setController(unidadeCurricularController);
 
@@ -144,7 +153,9 @@ public class MainWindowViewController
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/consultarUC-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+        //stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
+
+        stage.setResizable(false);
 
         stage.show();
 

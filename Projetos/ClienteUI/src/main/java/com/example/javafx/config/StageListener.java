@@ -60,6 +60,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
 
             stage.setScene(scene);
             stage.setTitle(STAGE_TITLE);
+            stage.setResizable(false);
             stage.show();
         }
         catch (IOException e)
