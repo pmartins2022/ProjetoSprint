@@ -77,13 +77,15 @@ class OrganizacaoRepositoryIntegrationTest
     @Test
     public void shouldFindByNif_Exists()
     {
+        //arrange
         Organizacao organizacao = new Organizacao( "denominacao", 111222333);
-
-        repository.save(organizacao);
-
         Optional<Organizacao> optional = repository.findByNIF(111222333);
-
-        assertTrue(optional.isPresent());
+        assertFalse(optional.isPresent());
+        repository.save(organizacao);
+        //act
+        Optional<Organizacao> optional2 = repository.findByNIF(111222333);
+        //assert
+        assertTrue(optional2.isPresent());
     }
 
     @Test

@@ -45,12 +45,13 @@ class EdicaoUCControllerUnitTests
     @Test
     public void shouldCreateEdicaoUC()
     {
+        //arrange
         EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
 
         when(service.createEdicaoUC(dtoMOCK)).thenReturn(dtoMOCK);
-
+        //
         ResponseEntity<Object> responseEntity = controller.createEdicao(dtoMOCK);
-
+        //
         assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
 

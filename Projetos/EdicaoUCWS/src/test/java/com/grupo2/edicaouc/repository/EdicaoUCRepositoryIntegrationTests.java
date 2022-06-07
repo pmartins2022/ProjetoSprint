@@ -52,12 +52,13 @@ class EdicaoUCRepositoryIntegrationTests
     @Test
     public void shouldFindById()
     {
+        //arrange
         EdicaoUC edicaoUC = factory.createEdicaoUC(1L, "UC1", "XRYRXVBXBX");
 
         EdicaoUCJPA uc = jpaRepository.save(mapper.toJpa(edicaoUC));
-
+        //act
         Optional<EdicaoUC> id = repository.findById(uc.getId());
-
+        //assert
         assertTrue(id.isPresent());
     }
 

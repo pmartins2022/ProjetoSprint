@@ -50,15 +50,16 @@ class EdicaoUCRepositoryUnitTests
     @Test
     public void shouldCreateEdicaoUC()
     {
+        //arrange
         EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
         EdicaoUC edicaoUCMOCK = mock(EdicaoUC.class);
 
         when(mapper.toModel(dtoMOCK)).thenReturn(edicaoUCMOCK);
         when(repository.saveEdicaoUC(edicaoUCMOCK)).thenReturn(edicaoUCMOCK);
         when(mapper.toDTO(edicaoUCMOCK)).thenReturn(dtoMOCK);
-
+        //act
         EdicaoUCDTO saved = service.createEdicaoUC(dtoMOCK);
-
+        //assert
         assertEquals(saved, dtoMOCK);
     }
 

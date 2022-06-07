@@ -41,6 +41,7 @@ class OrganizacaoRepositoryUnitTest
     @Test
     public void shouldCreateValidOrganizacao()
     {
+        //arrange
         Organizacao mockOrganizacao = mock(Organizacao.class);
         OrganizacaoJPA mockOrganizacaoJpa = mock(OrganizacaoJPA.class);
 
@@ -48,9 +49,9 @@ class OrganizacaoRepositoryUnitTest
         when(mapper.toJpa(mockOrganizacao)).thenReturn(mockOrganizacaoJpa);
 
         when(jpaRepository.save(mockOrganizacaoJpa)).thenReturn(mockOrganizacaoJpa);
-
+        //act
         Organizacao saveOrganizacao = repository.save(mockOrganizacao);
-
+        //assert
         assertEquals(saveOrganizacao, mockOrganizacao);
     }
 

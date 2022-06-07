@@ -33,12 +33,13 @@ class EdicaoUCControllerIntegrationTests
     @Test
     public void shouldFindByIdEdicaoUC()
     {
+        //arrange
         EdicaoUCJPA edicaoUCJPA = new EdicaoUCJPA("PTA", "2001-2002");
 
         EdicaoUCJPA save = jpaRepository.save(edicaoUCJPA);
-
+        //act
         ResponseEntity<Object> responseEntity = controller.findById(save.getId());
-
+        //assert
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
