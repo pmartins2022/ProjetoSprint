@@ -30,15 +30,6 @@ public class PropostaRepository
     @Autowired
     private PropostaJPAMapper mapper;
 
-    @Autowired
-    private UtilizadorRestRepository utilizadorRestRepository;
-
-    @Autowired
-    private EdicaoUCRestRepository edicaoUCRestRepository;
-
-    @Autowired
-    private OrganizacaoRestRepository organizacaoRestRepository;
-
     /**
      * Criar uma nova proposta. Necessita de validar os dados de utilizador e edicaoUC externamente.
      * @param proposta Proposta a ser criada
@@ -47,26 +38,7 @@ public class PropostaRepository
      */
     public Proposta createProposta(Proposta proposta) throws BaseDadosException
     {
-        Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId());
 
-        if (utilizadorId.isEmpty())
-        {
-            throw new BaseDadosException("Id de utilizador "+proposta.getUtilizadorId()+" nao existe.");
-        }
-
-        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId());
-
-        if (organizacaoId.isEmpty())
-        {
-            throw new BaseDadosException("Id de organizacao "+proposta.getOrganizacaoId()+" nao existe.");
-        }
-
-        Optional<EdicaoUCDTO> edicaoId = edicaoUCRestRepository.findById(proposta.getEdicaoUCId());
-
-        if (edicaoId.isEmpty())
-        {
-            throw new BaseDadosException("Id de edicao unidade curricular "+proposta.getEdicaoUCId()+" nao existe.");
-        }
 
         PropostaJPA jpa = mapper.toJPA(proposta);
 
@@ -142,19 +114,12 @@ public class PropostaRepository
 
     /**
      * Obter todas as propostas por id de organizacao.
-     * @param nif NIF da organizacao
+     * @param dto NIF da organizacao
      * @return Lista de propostas
      */
-    public List<Proposta> findByNif(Integer nif)
+    public List<Proposta> findByNif(OrganizacaoDTO dto)
     {
-        Optional<OrganizacaoDTO> dto = organizacaoRestRepository.findByNIF(nif);
-
-        if (dto.isEmpty())
-        {
-            return List.of();
-        }
-
-        List<PropostaJPA> lista = jpaRepository.findByorganizacaoId(dto.get().getId());
+        List<PropostaJPA> lista = jpaRepository.findByorganizacaoId(dto.getId());
 
         List<Proposta> listaModel = lista.stream().map(mapper::toModel).toList();
 

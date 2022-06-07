@@ -1,16 +1,16 @@
 package com.grupo2.proposta.service;
 
-import com.grupo2.proposta.dto.ProjetoDTO;
-import com.grupo2.proposta.dto.PropostaDTO;
+import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.dto.factory.ProjetoDTOFactory;
 import com.grupo2.proposta.model.TipoUtilizador;
-import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
 import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
 import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.model.Proposta;
 import com.grupo2.proposta.repository.PropostaRepository;
+import com.grupo2.proposta.repository.rest.EdicaoUCRestRepository;
+import com.grupo2.proposta.repository.rest.OrganizacaoRestRepository;
 import com.grupo2.proposta.repository.rest.ProjetoRestRepository;
 import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,11 @@ public class PropostaService
     @Autowired
     private ProjetoDTOFactory projetoDTOFactory;
 
+    @Autowired
+    private EdicaoUCRestRepository edicaoUCRestRepository;
+
+    @Autowired
+    private OrganizacaoRestRepository organizacaoRestRepository;
 
     /**
      * Criar uma nova proposta.
@@ -47,11 +52,32 @@ public class PropostaService
      */
     public PropostaDTO createProposta(PropostaDTO dto) throws BaseDadosException
     {
-        Proposta prop = mapper.toModel(dto);
+        Proposta proposta = mapper.toModel(dto);
 
-        Proposta proposta = repository.createProposta(prop);
+        Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId());
 
-        return mapper.toDTO(proposta);
+        if (utilizadorId.isEmpty())
+        {
+            throw new BaseDadosException("Id de utilizador "+proposta.getUtilizadorId()+" nao existe.");
+        }
+
+        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId());
+
+        if (organizacaoId.isEmpty())
+        {
+            throw new BaseDadosException("Id de organizacao "+proposta.getOrganizacaoId()+" nao existe.");
+        }
+
+        Optional<EdicaoUCDTO> edicaoId = edicaoUCRestRepository.findById(proposta.getEdicaoUCId());
+
+        if (edicaoId.isEmpty())
+        {
+            throw new BaseDadosException("Id de edicao unidade curricular "+proposta.getEdicaoUCId()+" nao existe.");
+        }
+
+        Proposta prop = repository.createProposta(proposta);
+
+        return mapper.toDTO(prop);
     }
 
     /**
@@ -105,7 +131,14 @@ public class PropostaService
      */
     public List<PropostaDTO> findByNif(Integer nif)
     {
-        List<Proposta> lista = repository.findByNif(nif);
+        Optional<OrganizacaoDTO> dto = organizacaoRestRepository.findByNIF(nif);
+
+        if (dto.isEmpty())
+        {
+            return List.of();
+        }
+
+        List<Proposta> lista = repository.findByNif(dto.get());
 
         List<PropostaDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
 

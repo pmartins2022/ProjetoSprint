@@ -208,7 +208,7 @@ class PropostaRepositoryUnitTest
 
         when(mapper.toModel(propostaJPAMock)).thenReturn(propostaMock);
 
-        List<Proposta> listSave = repository.findByNif(111222333);
+        List<Proposta> listSave = repository.findByNif(organizacaoDTOMock);
 
         assertEquals(listSave,mockList);
     }

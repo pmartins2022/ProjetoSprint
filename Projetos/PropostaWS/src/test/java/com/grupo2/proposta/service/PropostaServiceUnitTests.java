@@ -1,5 +1,6 @@
 package com.grupo2.proposta.service;
 
+import com.grupo2.proposta.dto.OrganizacaoDTO;
 import com.grupo2.proposta.dto.ProjetoDTO;
 import com.grupo2.proposta.dto.PropostaDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
@@ -261,9 +262,12 @@ class PropostaServiceUnitTests
         Proposta prop = mock(Proposta.class);
         PropostaDTO propDTO = mock(PropostaDTO.class);
 
+        OrganizacaoDTO dto = mock(OrganizacaoDTO.class);
+        when(dto.getNif()).thenReturn(1L);
+
         List<Proposta> list = List.of(prop,prop,prop);
 
-        when(repository.findByNif(1)).thenReturn(list);
+        when(repository.findByNif(dto)).thenReturn(list);
 
         when(mapper.toDTO(prop)).thenReturn(propDTO);
 
@@ -277,7 +281,11 @@ class PropostaServiceUnitTests
     {
         List<Proposta> list = List.of();
 
-        when(repository.findByNif(1)).thenReturn(list);
+        OrganizacaoDTO org = mock(OrganizacaoDTO.class);
+
+        when(org.getNif()).thenReturn(1L);
+
+        when(repository.findByNif(org)).thenReturn(list);
 
         List<PropostaDTO> nif = service.findByNif(1);
 

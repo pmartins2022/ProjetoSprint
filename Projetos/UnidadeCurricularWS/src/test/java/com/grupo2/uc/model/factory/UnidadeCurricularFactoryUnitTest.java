@@ -19,5 +19,4 @@ class UnidadeCurricularFactoryUnitTest {
     {
         assertDoesNotThrow(()-> factory.createUnidadeCurricular("MATA","Matematica Avançada"));
     }
-
 }
