@@ -55,4 +55,14 @@ public class RestExceptionHandler
         errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(OptionalVazioException.class)
+    public ResponseEntity<?> handleOptionalVazioException(OptionalVazioException ex)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTitle("Nao passa");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
 }

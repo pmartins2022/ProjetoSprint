@@ -1,18 +1,23 @@
 package com.grupo2.edicaouc.repository;
 
 import com.grupo2.edicaouc.controller.EdicaoUCController;
+import com.grupo2.edicaouc.dto.AnoLetivoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
+import com.grupo2.edicaouc.dto.UnidadeCurricularDTO;
 import com.grupo2.edicaouc.dto.mapper.EdicaoUCDTOMapper;
 import com.grupo2.edicaouc.exception.BaseDadosException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
 import com.grupo2.edicaouc.model.EdicaoUC;
+import com.grupo2.edicaouc.service.AnoLetivoService;
 import com.grupo2.edicaouc.service.EdicaoUCService;
+import com.grupo2.edicaouc.service.UnidadeCurricularService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -37,8 +42,14 @@ class EdicaoUCRepositoryUnitTests
     @MockBean
     EdicaoUCDTOMapper mapper;
 
+    @MockBean
+    private UnidadeCurricularService ucService;
+
+    @MockBean
+    private AnoLetivoService anoLetivoService;
     @InjectMocks
     EdicaoUCService service;
+
 
     @BeforeEach
     public void setup()
@@ -55,6 +66,8 @@ class EdicaoUCRepositoryUnitTests
         EdicaoUC edicaoUCMOCK = mock(EdicaoUC.class);
 
         when(mapper.toModel(dtoMOCK)).thenReturn(edicaoUCMOCK);
+        when(ucService.findBySigla(edicaoUCMOCK.getUCCode())).thenReturn(Optional.of(new UnidadeCurricularDTO()));
+        when(anoLetivoService.findByID(edicaoUCMOCK.getAnoLetivoCode())).thenReturn(Optional.of(new AnoLetivoDTO()));
         when(repository.saveEdicaoUC(edicaoUCMOCK)).thenReturn(edicaoUCMOCK);
         when(mapper.toDTO(edicaoUCMOCK)).thenReturn(dtoMOCK);
         //act

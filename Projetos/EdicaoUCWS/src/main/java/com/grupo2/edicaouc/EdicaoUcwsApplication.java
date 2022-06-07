@@ -1,6 +1,5 @@
 package com.grupo2.edicaouc;
 
-import com.grupo2.edicaouc.dto.EdicaoUCDTO;
 import com.grupo2.edicaouc.service.EdicaoUCService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

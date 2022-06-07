@@ -1,14 +1,10 @@
 package com.grupo2.edicaouc.repository;
 
-import com.grupo2.edicaouc.dto.AnoLetivoDTO;
-import com.grupo2.edicaouc.dto.UnidadeCurricularDTO;
 import com.grupo2.edicaouc.exception.BaseDadosException;
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
 import com.grupo2.edicaouc.model.EdicaoUC;
 import com.grupo2.edicaouc.repository.jpa.EdicaoUCJpaRepository;
-import com.grupo2.edicaouc.repository.rest.AnoLetivoUCRestRepository;
-import com.grupo2.edicaouc.repository.rest.UnidadeCurricularRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,16 +25,7 @@ public class EdicaoUCRepository
     /**
      * O restRepository a ser utilizado por este Repository.
      */
-    @Autowired
-    private AnoLetivoUCRestRepository anoLetivoUCRestRepository;
-    /**
-     * O restRepository a ser utilizado por este Repository.
-     */
-    @Autowired
-    private UnidadeCurricularRestRepository unidadeCurricularRestRepository;
-    /**
-     * O repositoryJPAMapper a ser utilizado por este Repository.
-     */
+
     @Autowired
     private EdicaoUCJPAMapper mapper;
 
@@ -50,19 +37,9 @@ public class EdicaoUCRepository
      */
     public EdicaoUC saveEdicaoUC(EdicaoUC edicaoUC) throws BaseDadosException
     {
-        Optional<AnoLetivoDTO> anoLetivoId = anoLetivoUCRestRepository.findById(edicaoUC.getAnoLetivoCode());
-
-        if (anoLetivoId.isEmpty()){
-            throw new BaseDadosException("ID de Ano Letivo " +edicaoUC.getAnoLetivoCode()+ " não existe");
-        }
-
-        Optional<UnidadeCurricularDTO> unidadeCurricular = unidadeCurricularRestRepository.findById(edicaoUC.getUCCode());
-
-        if (unidadeCurricular.isEmpty()){
-            throw new BaseDadosException("ID de Unidade Curricular "+edicaoUC.getUCCode()+" não existe");
-        }
         EdicaoUCJPA jpa = mapper.toJpa(edicaoUC);
         EdicaoUCJPA saved = jpaRepository.save(jpa);
+
         return mapper.toModel(saved);
     }
 

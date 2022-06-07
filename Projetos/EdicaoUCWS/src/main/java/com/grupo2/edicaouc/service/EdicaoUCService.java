@@ -2,6 +2,8 @@ package com.grupo2.edicaouc.service;
 
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
 import com.grupo2.edicaouc.dto.mapper.EdicaoUCDTOMapper;
+import com.grupo2.edicaouc.exception.ErroGeralException;
+import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.model.EdicaoUC;
 import com.grupo2.edicaouc.repository.EdicaoUCRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,12 @@ public class EdicaoUCService
     @Autowired
     private EdicaoUCDTOMapper mapper;
 
+    @Autowired
+    private UnidadeCurricularService ucService;
+
+    @Autowired
+    private AnoLetivoService anoLetivoService;
+
     /**
      * Endpoint que possibilita encontrar o EdicaoUC por ucCode existente.
      * @param ucCode um objeto com os dados do ucCode
@@ -47,6 +55,16 @@ public class EdicaoUCService
     public EdicaoUCDTO createEdicaoUC(EdicaoUCDTO dto)
     {
         EdicaoUC edicaoUC = mapper.toModel(dto);
+
+        if (ucService.findBySigla(dto.getUcCode()).isEmpty())
+        {
+            throw new OptionalVazioException("Não existe Unidade Curricular com esse id "+ dto.getUcCode());
+        }
+
+        if (anoLetivoService.findByID(dto.getAnoLetivoCode()).isEmpty())
+        {
+            throw new OptionalVazioException("Não existe Ano Letivo com esse id "+ dto.getAnoLetivoCode());
+        }
 
         EdicaoUC saveEdicaoUC = repository.saveEdicaoUC(edicaoUC);
 
