@@ -50,7 +50,7 @@ public class PropostaService
      * @return Proposta criada
      * @throws BaseDadosException Se ocorrerem erros relativos a base de dados
      */
-    public PropostaDTO createProposta(PropostaDTO dto) throws BaseDadosException
+    public PropostaDTO createProposta(PropostaDTO dto, String encoded) throws BaseDadosException
     {
         Proposta proposta = mapper.toModel(dto);
 
@@ -61,7 +61,7 @@ public class PropostaService
             throw new BaseDadosException("Id de utilizador "+proposta.getUtilizadorId()+" nao existe.");
         }
 
-        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId());
+        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId(),encoded);
 
         if (organizacaoId.isEmpty())
         {
@@ -129,9 +129,9 @@ public class PropostaService
      * @param nif NIF da organizacao
      * @return Lista de propostas
      */
-    public List<PropostaDTO> findByNif(Integer nif)
+    public List<PropostaDTO> findByNif(Integer nif, String encoded)
     {
-        Optional<OrganizacaoDTO> dto = organizacaoRestRepository.findByNIF(nif);
+        Optional<OrganizacaoDTO> dto = organizacaoRestRepository.findByNIF(nif, encoded);
 
         if (dto.isEmpty())
         {

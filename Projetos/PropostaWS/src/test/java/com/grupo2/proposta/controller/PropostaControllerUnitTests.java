@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,9 @@ class PropostaControllerUnitTests
 {
     @MockBean
     private PropostaService service;
+
+    @MockBean
+    private HttpServletRequest request;
 
     @InjectMocks
     private PropostaController controller;
@@ -43,9 +47,9 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
-        when(service.createProposta(prop)).thenReturn(prop);
+        when(service.createProposta(prop,"")).thenReturn(prop);
 
-        ResponseEntity<PropostaDTO> proposta = controller.createProposta(prop);
+        ResponseEntity<PropostaDTO> proposta = controller.createProposta(prop,request);
 
         assertEquals(proposta.getStatusCode(), HttpStatus.CREATED);
     }
@@ -55,9 +59,9 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
-        when(service.createProposta(prop)).thenThrow(BaseDadosException.class);
+        when(service.createProposta(prop,"")).thenThrow(BaseDadosException.class);
 
-        assertThrows(BaseDadosException.class,()->controller.createProposta(prop));
+        assertThrows(BaseDadosException.class,()->controller.createProposta(prop,request));
     }
 
     @Test
@@ -151,9 +155,9 @@ class PropostaControllerUnitTests
 
         List<PropostaDTO> list = List.of(prop,prop,prop);
 
-        when(service.findByNif(1)).thenReturn(list);
+        when(service.findByNif(1,"")).thenReturn(list);
 
-        ResponseEntity<Object> entity = controller.listbyNif(1);
+        ResponseEntity<Object> entity = controller.listbyNif(1,request);
 
         assertEquals(entity.getBody(),list);
     }
@@ -163,9 +167,9 @@ class PropostaControllerUnitTests
     {
         List<PropostaDTO> list = List.of();
 
-        when(service.findByNif(1)).thenReturn(list);
+        when(service.findByNif(1,"")).thenReturn(list);
 
-        assertThrows(ListaVaziaException.class,()->controller.listbyNif(1));
+        assertThrows(ListaVaziaException.class,()->controller.listbyNif(1,request));
     }
 
     @Test
