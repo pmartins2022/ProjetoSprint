@@ -45,6 +45,19 @@ public class UtilizadorRepository
         Utilizador utilizador = mapper.toModel(utilizadorJPA.get());
         return Optional.of(utilizador);
     }
+    public Optional<Utilizador> findByUsername(String username)
+    {
+        Optional<UtilizadorJPA> jpa = jpaRepository.findByUsername(username);
+
+        if (jpa.isPresent())
+        {
+            return Optional.of(mapper.toModel(jpa.get()));
+        }
+        else
+        {
+            return Optional.empty();
+        }
+    }
 
     /**
      * Endpoint que possibilita gravar o utilizador existente no repositorio.
@@ -53,9 +66,12 @@ public class UtilizadorRepository
      */
     public Utilizador save(Utilizador utilizador) throws ErroGeralException
     {
-        if (jpaRepository.findById(utilizador.getId()).isPresent())
+        if (utilizador.getId() != null)
         {
-            throw new ErroGeralException("Utilizador com id " + utilizador.getId() + " já existe.");
+            if (jpaRepository.findById(utilizador.getId()).isPresent())
+            {
+                throw new ErroGeralException("Utilizador com id " + utilizador.getId() + " já existe.");
+            }
         }
 
         UtilizadorJPA jpa = mapper.toJPA(utilizador);

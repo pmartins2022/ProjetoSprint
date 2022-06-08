@@ -19,14 +19,4 @@ public class UtilizadoresWsApplication
         SpringApplication.run(UtilizadoresWsApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner demo(UtilizadorService service)
-    {
-        return (args) ->
-        {
-//            service.createAndSave(new UtilizadorDTO("Michael", "Jordan", "mjDOCENTE@hotmail.com", TipoUtilizador.DOCENTE));
-//            service.createAndSave(new UtilizadorDTO("Scottie", "Pippen", "spALUNO@hotmail.com", TipoUtilizador.ALUNO));
-//            service.createAndSave(new UtilizadorDTO("Dennis", "Rodman", "drORIENTADOR@hotmail.com", TipoUtilizador.ORIENTADOR));
-        };
-    }
 }

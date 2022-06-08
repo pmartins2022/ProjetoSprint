@@ -9,6 +9,7 @@ import com.grupo2.edicaouc.service.EdicaoUCService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Optional;
  * Class REST Controller de Edição de Unidade Curricular. Possui endpoints para createEdicaoUC, findAllEdicaoByUCCode e findById.
  */
 @RestController
-@RequestMapping("/edicaoUC")
+@RequestMapping("edicaoUC")
 public class EdicaoUCController
 {
     /**
@@ -32,6 +33,7 @@ public class EdicaoUCController
      * @param edicaoUCDTO objeto DTO com dados da Edicao de Unidade Curricular a criar.
      * @return Edicao de Unidade Curricular OU excecao da classe BaseDadosException e OptionalVazioException caso os dados não sejam válidos
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/criar")
     public ResponseEntity<Object> createEdicao(@RequestBody EdicaoUCDTO edicaoUCDTO)
     {

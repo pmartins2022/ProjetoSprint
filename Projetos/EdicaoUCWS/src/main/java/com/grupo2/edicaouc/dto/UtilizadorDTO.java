@@ -1,4 +1,4 @@
-package com.pp.app.dto;
+package com.grupo2.edicaouc.dto;
 
 
 public class UtilizadorDTO

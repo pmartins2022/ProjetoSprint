@@ -24,7 +24,7 @@ class UtilizadorDTOMapperIntegrationTests
     @Test
     public void shouldConvertValidUtilizador()
     {
-        UtilizadorDTO dto = new UtilizadorDTO(1L, "nome", "sobrenome", "email@gmail.com", TipoUtilizador.ALUNO);
+        UtilizadorDTO dto = new UtilizadorDTO(1L, "nome", "sobrenome", "email@gmail.com", "usermame", "password", TipoUtilizador.ALUNO);
 
         Utilizador utilizador = mapper.toModel(dto);
 
@@ -34,7 +34,7 @@ class UtilizadorDTOMapperIntegrationTests
     @Test
     public void shouldNotConvertValidUtilizador_InvalidAtributtes()
     {
-        UtilizadorDTO dto = new UtilizadorDTO(1L, "nome", "sobrenome", "email.com", TipoUtilizador.ALUNO);
+        UtilizadorDTO dto = new UtilizadorDTO(1L, "nome", "sobrenome", "email@gmail.com", "usermame", "password",TipoUtilizador.ALUNO);
 
         assertThrows(ValidacaoInvalidaException.class, ()-> mapper.toModel(dto));
     }
@@ -42,7 +42,7 @@ class UtilizadorDTOMapperIntegrationTests
     @Test
     public void shouldConvertValidUtilizadorDTO_ValidAtributtes()
     {
-        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com", TipoUtilizador.ALUNO);
+        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com", "usermame", "password", TipoUtilizador.ALUNO);
 
         UtilizadorDTO dtoConverted = mapper.toDTO(utilizador);
 

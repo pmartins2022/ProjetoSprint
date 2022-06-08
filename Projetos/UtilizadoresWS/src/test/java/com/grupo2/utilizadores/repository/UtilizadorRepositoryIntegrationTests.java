@@ -26,7 +26,7 @@ class UtilizadorRepositoryIntegrationTests
     @Test
     public void shouldCreateValidUtilizador()
     {
-        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com",
+        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com","username","pass",
                 TipoUtilizador.DOCENTE);
 
         Utilizador saved = repository.save(utilizador);
@@ -38,7 +38,7 @@ class UtilizadorRepositoryIntegrationTests
     @Test
     public void shouldFindByIDUtilizador_Exists()
     {
-        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com",
+        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com","user", "pass",
                 TipoUtilizador.DOCENTE);
 
         Utilizador save = repository.save(utilizador);

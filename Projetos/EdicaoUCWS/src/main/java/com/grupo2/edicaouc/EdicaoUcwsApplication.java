@@ -13,9 +13,4 @@ public class EdicaoUcwsApplication {
 		SpringApplication.run(EdicaoUcwsApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner demo(EdicaoUCService edicaoService) {
-		return (args) -> {
-		};
-	}
 }

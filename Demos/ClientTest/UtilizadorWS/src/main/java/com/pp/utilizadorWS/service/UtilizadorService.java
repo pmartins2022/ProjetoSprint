@@ -1,5 +1,6 @@
 package com.pp.utilizadorWS.service;
 
+import com.pp.utilizadorWS.dto.UtilizadorAuthDTO;
 import com.pp.utilizadorWS.dto.UtilizadorDTO;
 import com.pp.utilizadorWS.dto.mapper.UtilizadorDTOMapper;
 import com.pp.utilizadorWS.model.TipoUtilizador;
@@ -22,13 +23,13 @@ public class UtilizadorService
     @Autowired
     private UtilizadorDTOMapper mapper;
 
-    public Optional<UtilizadorDTO> findByUsername(String username)
+    public Optional<UtilizadorAuthDTO> findByUsername(String username)
     {
         Optional<Utilizador> username1 = utilizadorRepository.findByUsername(username);
 
         if (username1.isPresent())
         {
-            return Optional.of(mapper.toDTO(username1.get()));
+            return Optional.of(mapper.toAuthDTO(username1.get()));
         }
         return Optional.empty();
     }

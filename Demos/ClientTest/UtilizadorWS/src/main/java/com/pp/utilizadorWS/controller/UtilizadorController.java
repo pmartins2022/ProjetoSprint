@@ -1,5 +1,6 @@
 package com.pp.utilizadorWS.controller;
 
+import com.pp.utilizadorWS.dto.UtilizadorAuthDTO;
 import com.pp.utilizadorWS.dto.UtilizadorDTO;
 import com.pp.utilizadorWS.model.TipoUtilizador;
 import com.pp.utilizadorWS.service.UtilizadorService;
@@ -33,9 +34,9 @@ public class UtilizadorController
     }
 
     @GetMapping("/find")
-    public ResponseEntity<UtilizadorDTO> findByUsername(@RequestParam(name = "username") String username)
+    public ResponseEntity<UtilizadorAuthDTO> findByUsername(@RequestParam(name = "username") String username)
     {
-        Optional<UtilizadorDTO> utilizadorDTO = utilizadorService.findByUsername(username);
+        Optional<UtilizadorAuthDTO> utilizadorDTO = utilizadorService.findByUsername(username);
 
         if (utilizadorDTO.isEmpty())
         {

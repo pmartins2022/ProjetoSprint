@@ -1,6 +1,7 @@
-package com.pp.app.security;
+package com.grupo2.edicaouc.security;
 
-import com.pp.app.dto.UtilizadorDTO;
+import com.grupo2.edicaouc.dto.UtilizadorDTO;
+import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -9,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import com.pp.app.repository.rest.UtilizadorRestRepository;
 
 import java.util.List;
 @Component

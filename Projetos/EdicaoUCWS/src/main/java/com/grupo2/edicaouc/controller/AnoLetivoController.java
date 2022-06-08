@@ -9,6 +9,7 @@ import com.grupo2.edicaouc.service.AnoLetivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Optional;
  * Classe REST Controller de ano letivo. Possui endpoints para createAnoLetivo, findBySigla, listAnoLetivo.
  */
 @RestController
-@RequestMapping("/anoLetivo")
+@RequestMapping("anoLetivo")
 public class AnoLetivoController
 {
 
@@ -30,10 +31,10 @@ public class AnoLetivoController
 
     /**
      * Endpoint que possibilita a criaçao de um ano letivo.
-     *
      * @param anoLetivoDTO um objeto com os dados do ano letivo
      * @return um ano letivo, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/criar")
     public ResponseEntity<AnoLetivoDTO> createAndSaveAnoLetivo(@RequestBody AnoLetivoDTO anoLetivoDTO)
     {

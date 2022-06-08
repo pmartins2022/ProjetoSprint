@@ -1,11 +1,11 @@
 package com.grupo2.utilizadores.dto.mapper;
 
+import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.model.factory.UtilizadorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * Classe para fazer a conversao entre objetos Utilizador de DTO para classe de dominio.
@@ -28,7 +28,7 @@ public class UtilizadorDTOMapper
     {
 
         return factory.createUtilizador(dto.getId(), dto.getNome(), dto.getSobrenome(),
-                dto.getEmail(), dto.getTipoUtilizador());
+                dto.getEmail(), dto.getUsername(), dto.getPassword(), dto.getTipoUtilizador());
     }
 
     /**
@@ -40,7 +40,13 @@ public class UtilizadorDTOMapper
     {
 
         return new UtilizadorDTO(utilizador.getId(), utilizador.getNome(), utilizador.getSobrenome(),
-                utilizador.getEmail(), utilizador.getTipoUtilizador());
+                utilizador.getEmail(), utilizador.getUsername(), utilizador.getPassword(), utilizador.getTipoUtilizador());
+    }
+
+    public UtilizadorAuthDTO toAuthDTO(Utilizador user)
+    {
+        return new UtilizadorAuthDTO(user.getId(),
+                user.getUsername(), user.getPassword(), user.getTipoUtilizador().toString());
     }
 }
 

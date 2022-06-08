@@ -9,6 +9,7 @@ import com.grupo2.edicaouc.service.UnidadeCurricularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Optional;
  * Classe REST Controller de Unidade Curricular. Possui endpoints para findByID, createAndSaveUnidadeCurricular, updateDenominacao e listAll.
  */
 @RestController
-@RequestMapping("/uc")
+@RequestMapping("uc")
 public class UnidadeCurricularController
 {
     /**
@@ -53,6 +54,7 @@ public class UnidadeCurricularController
      * @return unidade curricular OU exceção da classe ValidacaoInvalidaException caso os dados não passem nas validações
      * OU exceção da classe ErroGeralException caso uma unidade curricular com o mesmo id(sigla) exista na base de dados.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/criar")
     public ResponseEntity<UnidadeCurricularDTO> createAndSaveUnidadeCurricular(@RequestBody UnidadeCurricularDTO unidadeCurricularDTO)
     {

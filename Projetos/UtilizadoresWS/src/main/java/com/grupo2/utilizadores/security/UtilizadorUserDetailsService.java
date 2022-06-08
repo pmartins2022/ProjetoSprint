@@ -1,18 +1,18 @@
-package com.pp.utilizadorWS.security;
+package com.grupo2.utilizadores.security;
 
-import com.pp.utilizadorWS.dto.UtilizadorAuthDTO;
-import com.pp.utilizadorWS.dto.mapper.UtilizadorDTOMapper;
-import com.pp.utilizadorWS.model.TipoUtilizador;
-import com.pp.utilizadorWS.model.Utilizador;
-import com.pp.utilizadorWS.repository.jpa.UtilizadorRepository;
+import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
+import com.grupo2.utilizadores.dto.mapper.UtilizadorDTOMapper;
+import com.grupo2.utilizadores.model.TipoUtilizador;
+import com.grupo2.utilizadores.model.Utilizador;
+import com.grupo2.utilizadores.repository.UtilizadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,7 @@ public class UtilizadorUserDetailsService implements UserDetailsService
 {
     @Autowired
     private UtilizadorRepository utilizadorRepository;
+
     @Autowired
     private UtilizadorDTOMapper mapper;
 
@@ -39,6 +40,6 @@ public class UtilizadorUserDetailsService implements UserDetailsService
 
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(authDTO.getTipoUtilizador().toString());
 
-        return new User(username, utilizador.get().getPassword(), authorities);
+        return new User(username, utilizador.get().getPassword() , authorities);
     }
 }
