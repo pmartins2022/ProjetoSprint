@@ -55,20 +55,20 @@ public class UtilizadorController
     @GetMapping("/admin")
     public String getAdmin()
     {
-        return "admin";
+        return "eu sou admin";
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE','ROLE_ADMIN')")
     @GetMapping("/docente")
     public String getDocente()
     {
-        return "docente";
+        return "eu sou docente";
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ALUNO','ROLE_ADMIN')")
     @GetMapping("/aluno")
     public String getAluno()
     {
-        return "aluno";
+        return "eu sou aluno";
     }
 }

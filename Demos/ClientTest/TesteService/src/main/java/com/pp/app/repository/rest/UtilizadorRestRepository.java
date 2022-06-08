@@ -21,4 +21,17 @@ public class UtilizadorRestRepository
 
         return spec.bodyToMono(UtilizadorDTO.class).block();
     }
+
+    public String getAdminMessage(String encoded)
+    {
+        WebClient.ResponseSpec spec =
+                WebClient.builder().baseUrl("http://localhost:8085/utilizador/admin").build().
+                        get().header("Authorization",encoded).retrieve();
+
+        spec.onStatus(HttpStatus::is4xxClientError, clientResponse -> {
+           throw new IllegalArgumentException(clientResponse.statusCode().getReasonPhrase());
+        });
+
+        return spec.bodyToMono(String.class).block();
+    }
 }
