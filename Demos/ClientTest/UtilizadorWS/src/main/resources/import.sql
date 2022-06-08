@@ -1,0 +1,3 @@
+--INSERT INTO UTILIZADORES (id, username, password, tipoUtilizador) VALUES (1,'admin','$2a$10$5z2zOoxo2MD9dVQiU/ehg.CEYo8Mz9/jTHIlavsu3e/aJL9VPuCHC',0);
+--INSERT INTO UTILIZADORES (id, username, password, tipoUtilizador) VALUES (2,'docente','$2a$10$vD7XNGsa8D3zC1KP2eMTne3Cjpc8QxPmnd6xau9uf.vYtmW4YaoLy',1);
+--INSERT INTO UTILIZADORES (id, username, password, tipoUtilizador) VALUES (3,'aluno','$2a$10$5IAsrYtHTDLhcH5Bs47yIuWr8PdPri0PTDip/5BfTcsniKYj5S3nC',2);
