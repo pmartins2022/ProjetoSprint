@@ -1,5 +1,6 @@
 package com.grupo2.utilizadores.controller;
 
+import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.exception.OptionalVazioException;
 import com.grupo2.utilizadores.service.UtilizadorService;
@@ -53,5 +54,18 @@ public class UtilizadorController
             throw new OptionalVazioException("Não existe Utilizador com esse ID");
         }
         return new ResponseEntity<>(optionalUtilizadorDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<UtilizadorAuthDTO> findByUsername(@RequestParam(name = "username") String username)
+    {
+        Optional<UtilizadorAuthDTO> utilizadorDTO = service.findByUsername(username);
+
+        if (utilizadorDTO.isEmpty())
+        {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(utilizadorDTO.get());
     }
 }

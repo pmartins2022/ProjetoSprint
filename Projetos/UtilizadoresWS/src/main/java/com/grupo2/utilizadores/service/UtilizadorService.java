@@ -1,5 +1,6 @@
 package com.grupo2.utilizadores.service;
 
+import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.dto.mapper.UtilizadorDTOMapper;
 import com.grupo2.utilizadores.exception.ErroGeralException;
@@ -73,5 +74,16 @@ public class UtilizadorService
         Utilizador saved = repository.save(utilizador);
 
         return mapper.toDTO(saved);
+    }
+
+    public Optional<UtilizadorAuthDTO> findByUsername(String username)
+    {
+        Optional<Utilizador> username1 = repository.findByUsername(username);
+
+        if (username1.isPresent())
+        {
+            return Optional.of(mapper.toAuthDTO(username1.get()));
+        }
+        return Optional.empty();
     }
 }
