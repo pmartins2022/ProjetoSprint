@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -112,12 +111,18 @@ public class EdicaoUCController
     public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
     {
         //ver se o docente está ao encargo desta edicaoUC
-
         UtilizadorDTO dto = LoginContext.getCurrent();
-
-        EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto,edicaoUCID, alunoID);
-
-        return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
+        try
+        {
+            EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto, edicaoUCID, alunoID);
+            return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
+        } catch (ErrorDetail e)
+        {
+            throw e;
+        } catch (ErroGeralException e)
+        {
+            throw e;
+        }
     }
 
 
@@ -151,21 +156,10 @@ public class EdicaoUCController
             EdicaoUCDTO dto = service.desativarEdicao(edicaoUCID);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        catch (OptionalVazioException e)
+        } catch (OptionalVazioException e)
         {
             throw new OptionalVazioException(e.getMessage());
-        }
-        catch (ErroGeralException e)
-        try
-        {
-            EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto, edicaoUCID, alunoID);
-            return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
-        } catch (ErrorDetail e)
-        {
-            throw e;
-        }
-        catch (ErroGeralException e)
+        } catch (ErroGeralException e)
         {
             throw e;
         }
