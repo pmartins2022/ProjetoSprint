@@ -4,6 +4,7 @@ import com.grupo2.edicaouc.dto.EdicaoUCAlunoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
 import com.grupo2.edicaouc.dto.UtilizadorDTO;
 import com.grupo2.edicaouc.exception.BaseDadosException;
+import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.security.LoginContext;
