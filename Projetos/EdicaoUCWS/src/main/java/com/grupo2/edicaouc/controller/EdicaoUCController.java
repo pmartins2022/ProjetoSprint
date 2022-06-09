@@ -122,7 +122,7 @@ public class EdicaoUCController
 
         return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
     }
-}
+
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PatchMapping("/ativarEdicao/{edicaoUCID}")
