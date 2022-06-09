@@ -199,7 +199,7 @@ class PropostaRepositoryUnitTest
         PropostaJPA propostaJPAMock = mock(PropostaJPA.class);
         OrganizacaoDTO organizacaoDTOMock = mock(OrganizacaoDTO.class);
 
-        when(organizacaoRestRepository.findByNIF(111222333)).thenReturn(Optional.of(organizacaoDTOMock));
+        when(organizacaoRestRepository.findByNIF(111222333,"")).thenReturn(Optional.of(organizacaoDTOMock));
 
         List<Proposta> mockList = List.of(propostaMock,propostaMock,propostaMock);
         List<PropostaJPA> mockListJpa = List.of(propostaJPAMock,propostaJPAMock,propostaJPAMock);
@@ -218,7 +218,7 @@ class PropostaRepositoryUnitTest
     {
         Proposta propostaMock = mock(Proposta.class);
 
-        when(organizacaoRestRepository.findByNIF(111222333)).thenReturn(Optional.empty());
+        when(organizacaoRestRepository.findByNIF(111222333,"")).thenReturn(Optional.empty());
 
         assertThrows(BaseDadosException.class,()->repository.createProposta(propostaMock));
 

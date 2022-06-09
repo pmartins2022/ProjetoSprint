@@ -119,6 +119,3 @@ public class EdicaoUCController
         return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
     }
 }
-
-
-
