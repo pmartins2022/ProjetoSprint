@@ -1,44 +1,27 @@
 package com.grupo2.edicaouc.jpa;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "EdicaoUCAluno")
 public class EdicaoUCAlunoJPA
 {
-    @Id
-    private String fakeComposedKey;
-
-    private Long idEdicaoUC;
-
-    private Long idAluno;
+    @EmbeddedId
+    private EdicaoUCAlunoID id;
 
     public EdicaoUCAlunoJPA()
     {
     }
 
-    public EdicaoUCAlunoJPA(Long idEdicaoUC, Long idAluno)
+    public EdicaoUCAlunoJPA(EdicaoUCAlunoID id)
     {
-        this.idEdicaoUC = idEdicaoUC;
-        this.idAluno = idAluno;
-        fakeComposedKey = idEdicaoUC + "," + idAluno;
+        this.id = id;
     }
 
-    public Long getIdEdicaoUC()
+    public EdicaoUCAlunoID getId()
     {
-        return idEdicaoUC;
-    }
-
-    public Long getIdAluno()
-    {
-        return idAluno;
-    }
-
-    public String getFakeComposedKey()
-    {
-        return fakeComposedKey;
+        return id;
     }
 }

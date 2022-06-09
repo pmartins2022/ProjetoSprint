@@ -112,8 +112,6 @@ public class EdicaoUCController
     @PostMapping("/inscrever/{edicaoUCID}")
     public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
     {
-        //ver se o docente está ao encargo desta edicaoUC
-
         UtilizadorDTO dto = LoginContext.getCurrent();
 
         EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto,edicaoUCID, alunoID);

@@ -9,6 +9,7 @@ import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.model.EdicaoUC;
 import com.grupo2.edicaouc.model.EdicaoUCAluno;
+import com.grupo2.edicaouc.repository.EdicaoUCAlunoRepository;
 import com.grupo2.edicaouc.repository.EdicaoUCRepository;
 import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,6 @@ public class EdicaoUCService
      */
     @Autowired
     private EdicaoUCDTOMapper mapper;
-    @Autowired
-    private EdicaoUCAlunoDTOMapper edicaoUCAlunoDTOMapper;
-
 
     @Autowired
     private UnidadeCurricularService ucService;
@@ -46,6 +44,11 @@ public class EdicaoUCService
     @Autowired
     private UtilizadorRestRepository utilizadorRestRepository;
 
+    @Autowired
+    private EdicaoUCAlunoRepository edicaoUCAlunoRepository;
+
+    @Autowired
+    private EdicaoUCAlunoDTOMapper edicaoUCAlunoDTOMapper;
 
     /**
      * Endpoint que possibilita encontrar o EdicaoUC por ucCode existente.
@@ -70,7 +73,6 @@ public class EdicaoUCService
     public EdicaoUCDTO createEdicaoUC(EdicaoUCDTO dto)
     {
 
-
         if (ucService.findBySigla(dto.getUcCode()).isEmpty())
         {
             throw new OptionalVazioException("Não existe Unidade Curricular com esse id " + dto.getUcCode());
@@ -85,7 +87,6 @@ public class EdicaoUCService
         {
             throw new ErroGeralException(dto.getRucID() + " não é um docente");
         }
-        //tenho que ver se é um docente; ir repositorio utilizadores e ver se é docente
         EdicaoUC edicaoUC = mapper.toModel(dto);
         EdicaoUC saveEdicaoUC = repository.saveEdicaoUC(edicaoUC);
 
@@ -122,7 +123,7 @@ public class EdicaoUCService
         return edicaoUC.stream().map(mapper::toDTO).toList();
     }
 
-    public EdicaoUCAlunoDTO addAlunoEdicaoUC(UtilizadorDTO dto, Long edicaoUCID, Long alunoID)
+    public EdicaoUCAlunoDTO addAlunoEdicaoUC(UtilizadorDTO dtoPostedRequest, Long edicaoUCID, Long alunoID)
     {
         Optional<EdicaoUC> edicao = repository.findById(edicaoUCID);
 
@@ -131,19 +132,34 @@ public class EdicaoUCService
             throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
         }
 
+        if (!edicao.get().getRucID().equals(dtoPostedRequest.getId()))
+        {
+            throw new ErroGeralException(dtoPostedRequest.getId() + " não é RUC desta edição.");
+        }
+
         if (!utilizadorRestRepository.isRole("ALUNO", alunoID))
         {
             throw new ErroGeralException(alunoID + " não é um aluno.");
         }
+        /*
+        Saber se edicaoUC existe
+        Se RUC que fez pedido é RUC dessa edicao
+        Saber se Aluno já está inscrito numa edicao EEEE se já está inscrito noutra EDICAOUC EXISTENTE
+        OU
+        lista estática @Deprecated
 
-        if (!edicao.get().getRucID().equals(dto.getId()))
+        SELECT * from EdicaoUC where seila AND EdicaoUC.estado = ATIVA
+         */
+
+        //confimar
+        Boolean isAvailable = edicaoUCAlunoRepository.isStudentAvailable(alunoID);
+
+        if (!isAvailable)
         {
-            throw new ErroGeralException(dto.getId() + " não é RUC desta edição.");
+            throw new ErroGeralException(alunoID + " já está inscrito noutra EdiçãoUC.");
         }
 
-        EdicaoUCAluno edicaoUCAluno = new EdicaoUCAluno(edicaoUCID, alunoID);
-
-        EdicaoUCAluno saved = repository.saveEdicaoUCAluno(edicaoUCAluno);
+        EdicaoUCAluno saved = edicaoUCAlunoRepository.saveEdicaoUCAluno(edicaoUCID, alunoID);
 
         return edicaoUCAlunoDTOMapper.toDTO(saved);
     }

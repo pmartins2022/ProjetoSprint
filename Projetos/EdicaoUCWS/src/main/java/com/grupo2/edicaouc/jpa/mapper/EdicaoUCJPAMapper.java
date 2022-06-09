@@ -34,7 +34,7 @@ public class EdicaoUCJPAMapper
      */
     public EdicaoUCJPA toJPA(EdicaoUC edicaoUC)
     {
-        return new EdicaoUCJPA(edicaoUC.getId(),edicaoUC.getUCCode(), edicaoUC.getAnoLetivoCode(), edicaoUC.getRucID());
+        return new EdicaoUCJPA(edicaoUC.getId(),edicaoUC.getUCCode(), edicaoUC.getAnoLetivoCode(), edicaoUC.getRucID(), edicaoUC.getEstadoEdicaoUC());
     }
 
 }
