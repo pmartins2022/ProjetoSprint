@@ -1,5 +1,6 @@
 package com.grupo2.edicaouc.jpa;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;

@@ -30,6 +30,7 @@ public class EdicaoUCJPA
      */
     private String anoLetivoCode;
     private Long rucID;
+    @Column(name = "estado")
     private EstadoEdicaoUC estadoEdicaoUC;
 
     /**

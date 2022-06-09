@@ -1,9 +1,9 @@
 package com.grupo2.edicaouc.repository;
+
 import com.grupo2.edicaouc.exception.BaseDadosException;
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
 import com.grupo2.edicaouc.model.EdicaoUC;
-import com.grupo2.edicaouc.model.EdicaoUCAluno;
 import com.grupo2.edicaouc.repository.jpa.EdicaoUCJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -83,5 +83,4 @@ public class EdicaoUCRepository
 
         return lista.stream().map(mapper::toModel).toList();
     }
-
 }
