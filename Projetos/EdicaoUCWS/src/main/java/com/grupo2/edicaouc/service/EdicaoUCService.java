@@ -142,17 +142,7 @@ public class EdicaoUCService
         {
             throw new ErroGeralException(alunoID + " não é um aluno.");
         }
-        /*
-        Saber se edicaoUC existe
-        Se RUC que fez pedido é RUC dessa edicao
-        Saber se Aluno já está inscrito numa edicao EEEE se já está inscrito noutra EDICAOUC EXISTENTE
-        OU
-        lista estática @Deprecated
 
-        SELECT * from EdicaoUC where seila AND EdicaoUC.estado = ATIVA
-         */
-
-        //confimar
         Boolean isAvailable = edicaoUCAlunoRepository.isStudentAvailable(alunoID);
 
         if (!isAvailable)

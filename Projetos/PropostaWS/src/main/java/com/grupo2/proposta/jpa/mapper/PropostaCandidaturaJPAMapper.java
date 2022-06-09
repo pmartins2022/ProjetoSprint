@@ -3,7 +3,9 @@ package com.grupo2.proposta.jpa.mapper;
 import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
 import com.grupo2.proposta.model.PropostaCandidatura;
 import com.grupo2.proposta.model.PropostaCandidaturaID;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PropostaCandidaturaJPAMapper
 {
     public PropostaCandidatura toModel(PropostaCandidaturaJPA jpa)

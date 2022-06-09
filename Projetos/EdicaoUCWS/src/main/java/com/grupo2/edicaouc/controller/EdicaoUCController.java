@@ -4,7 +4,6 @@ import com.grupo2.edicaouc.dto.EdicaoUCAlunoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
 import com.grupo2.edicaouc.dto.UtilizadorDTO;
 import com.grupo2.edicaouc.exception.BaseDadosException;
-import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.security.LoginContext;
@@ -111,13 +110,18 @@ public class EdicaoUCController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/inscrever/{edicaoUCID}")
-    public ResponseEntity<Object> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
+    public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
     {
         UtilizadorDTO dto = LoginContext.getCurrent();
 
-        EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto,edicaoUCID, alunoID);
-
-        return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
+        try
+        {
+            EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto, edicaoUCID, alunoID);
+            return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
+        } catch (ErroGeralException e)
+        {
+            throw new ErroGeralException(e.getMessage());
+        }
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
@@ -162,6 +166,3 @@ public class EdicaoUCController
 
     }
 }
-
-
-

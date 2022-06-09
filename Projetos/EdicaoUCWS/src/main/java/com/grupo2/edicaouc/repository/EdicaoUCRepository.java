@@ -1,4 +1,5 @@
 package com.grupo2.edicaouc.repository;
+
 import com.grupo2.edicaouc.exception.BaseDadosException;
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
@@ -81,35 +82,5 @@ public class EdicaoUCRepository
         List<EdicaoUCJPA> lista = jpaRepository.findAll();
 
         return lista.stream().map(mapper::toModel).toList();
-    }
-
-    public Optional<EdicaoUC> findByEstado(Long id)
-    {
-        Optional<EdicaoUCJPA> jpa = jpaRepository.findByEstado(id);
-
-        if (jpa.isPresent())
-        {
-            return Optional.of(mapper.toModel(jpa.get()));
-        }
-
-        return Optional.empty();
-    }
-
-    public EdicaoUC ativarEdicao(EdicaoUC edicaoUC)
-    {
-        jpaRepository.deleteById(edicaoUC.getId());
-
-        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
-
-        return mapper.toModel(jpaRepository.save(jpa));
-    }
-
-    public EdicaoUC desativarEdicao(EdicaoUC edicaoUC)
-    {
-        jpaRepository.deleteById(edicaoUC.getId());
-
-        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
-
-        return mapper.toModel(jpaRepository.save(jpa));
     }
 }

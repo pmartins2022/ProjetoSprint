@@ -3,6 +3,7 @@ package com.grupo2.proposta.service;
 import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.dto.factory.ProjetoDTOFactory;
 import com.grupo2.proposta.dto.mapper.ConviteDTOMapper;
+import com.grupo2.proposta.dto.mapper.PropostaCandidaturaDTOMapper;
 import com.grupo2.proposta.exception.*;
 import com.grupo2.proposta.model.Convite;
 import com.grupo2.proposta.model.PropostaEstado;
@@ -16,6 +17,7 @@ import com.grupo2.proposta.repository.rest.EdicaoUCRestRepository;
 import com.grupo2.proposta.repository.rest.OrganizacaoRestRepository;
 import com.grupo2.proposta.repository.rest.ProjetoRestRepository;
 import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
+import com.grupo2.proposta.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,8 @@ public class PropostaService
     private ProjetoRestRepository projetoRestRepository;
     @Autowired
     private PropostaCandidaturaRepo propostaCandidaturaRepo;
+    @Autowired
+    private PropostaCandidaturaDTOMapper candidaturaDTOMapper;
 
 
     @Autowired
@@ -301,5 +305,28 @@ public class PropostaService
         Convite convite = conviteRepository.createAndSaveConvite(conviteDTOMapper.toModel(conviteDTO));
 
         return conviteDTOMapper.toDTO(convite);
+    }
+
+    public PropostaCandidaturaDTO candidatarProposta(Long propostaID)
+    {
+        Optional<Proposta> proposta = repository.findById(propostaID);
+        if (proposta.isEmpty())
+        {
+            throw new OptionalVazioException("Não existe esta proposta");
+        }
+
+        if(proposta.get().getEstadoAtual() != PropostaEstado.APROVADO)
+        {
+            throw new ValidacaoInvalidaException("Esta proposta nao esta como aprovado");
+        }
+
+        Long alunoId = LoginContext.getCurrent().getId();
+
+        if (propostaCandidaturaRepo.isCandidaturaRegistered(alunoId))
+        {
+            throw new AtualizacaoInvalidaException("O aluno ja se encontra inscrito numa proposta ativa");
+        }
+
+        return candidaturaDTOMapper.toDTO(propostaCandidaturaRepo.createAndSave(propostaID,alunoId));
     }
 }
