@@ -4,7 +4,6 @@ import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
 import com.grupo2.edicaouc.model.EdicaoUC;
 import com.grupo2.edicaouc.model.factory.EdicaoUCFactory;
-import org.h2.command.dml.MergeUsing;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -64,7 +63,7 @@ class EdicaoUCJPAMapperUnitTest {
         when(edicaoUCMOCK.getUCCode()).thenReturn("MAT");
         when(edicaoUCMOCK.getAnoLetivoCode()).thenReturn("2001-2002");
 
-        EdicaoUCJPA jpa = mapper.toJpa(edicaoUCMOCK);
+        EdicaoUCJPA jpa = mapper.toJPA(edicaoUCMOCK);
 
         assertEquals(jpa.getId(),edicaoUCMOCK.getId());
         assertEquals(jpa.getAnoLetivoCode(),edicaoUCMOCK.getAnoLetivoCode());

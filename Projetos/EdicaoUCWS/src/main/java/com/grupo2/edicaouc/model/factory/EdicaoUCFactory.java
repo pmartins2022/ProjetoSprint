@@ -16,8 +16,8 @@ public class EdicaoUCFactory
      * @param anoLetivoCode recebe o anoLetivoCode dos mappers
      * @return novo objeto do tipo EdicaoUC
      */
-    public EdicaoUC createEdicaoUC(Long id, String UCCode, String anoLetivoCode)
+    public EdicaoUC createEdicaoUC(Long id, String UCCode, String anoLetivoCode, Long rucID)
     {
-        return new EdicaoUC(id, UCCode,anoLetivoCode);
+        return new EdicaoUC(id, UCCode,anoLetivoCode, rucID);
     }
 }

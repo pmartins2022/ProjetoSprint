@@ -17,6 +17,7 @@ public class EdicaoUCDTO
      * anoLetivoCode de Edição de Unidade Curricular
      */
     private String anoLetivoCode;
+    private Long rucID;
 
     /**
      * Inicializa a EdicaoUCDTO sem parametros
@@ -31,10 +32,11 @@ public class EdicaoUCDTO
      * @param ucCode é o ucCode de Edição de Unidade Curricular
      * @param anoLetivoCode é o anoLetivoCode de Edição de Unidade Curricular
      */
-    public EdicaoUCDTO(String ucCode, String anoLetivoCode)
+    public EdicaoUCDTO(String ucCode, String anoLetivoCode, Long rucID)
     {
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
     }
 
     /**
@@ -43,11 +45,12 @@ public class EdicaoUCDTO
      * @param ucCode é o ucCode de EdicaoUCDTO
      * @param anoLetivoCode é o anoLetivoCode de EdicaoUCDTO
      */
-    public EdicaoUCDTO(Long id, String ucCode, String anoLetivoCode)
+    public EdicaoUCDTO(Long id, String ucCode, String anoLetivoCode, Long rucID)
     {
         this.id = id;
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
     }
 
     /**
@@ -102,6 +105,16 @@ public class EdicaoUCDTO
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public Long getRucID()
+    {
+        return rucID;
+    }
+
+    public void setRucID(Long rucID)
+    {
+        this.rucID = rucID;
     }
 
     @Override

@@ -68,4 +68,13 @@ public class UtilizadorController
 
         return ResponseEntity.ok(utilizadorDTO.get());
     }
+
+    @GetMapping("/{role}/{id}")
+    public ResponseEntity<Boolean> isRole(@PathVariable("role") String role, @PathVariable("id") Long id)
+    {
+        Boolean isRole = service.isRole(role, id);
+
+        return new ResponseEntity<>(isRole, HttpStatus.OK);
+    }
+
 }

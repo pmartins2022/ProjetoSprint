@@ -24,17 +24,17 @@ public class EdicaoUCJPAMapper
      */
     public EdicaoUC toModel(EdicaoUCJPA jpa)
     {
-        return factory.createEdicaoUC(jpa.getId(),jpa.getUCCode(),jpa.getAnoLetivoCode());
+        return factory.createEdicaoUC(jpa.getId(),jpa.getUCCode(),jpa.getAnoLetivoCode(), jpa.getRucID());
     }
 
     /**
      * Fazer conversão para classe JPA
-     * @param model o objeto de domínio de dados
+     * @param edicaoUC o objeto de domínio de dados
      * @return o objeto convertido
      */
-    public EdicaoUCJPA toJpa(EdicaoUC model)
+    public EdicaoUCJPA toJPA(EdicaoUC edicaoUC)
     {
-        return new EdicaoUCJPA(model.getId(),model.getUCCode(), model.getAnoLetivoCode());
+        return new EdicaoUCJPA(edicaoUC.getId(),edicaoUC.getUCCode(), edicaoUC.getAnoLetivoCode(), edicaoUC.getRucID());
     }
 
 }

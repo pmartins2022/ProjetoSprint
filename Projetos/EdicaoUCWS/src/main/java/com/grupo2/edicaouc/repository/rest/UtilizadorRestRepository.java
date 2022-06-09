@@ -19,4 +19,28 @@ public class UtilizadorRestRepository
 
         return spec.bodyToMono(UtilizadorDTO.class).block();
     }
+
+    public UtilizadorDTO findById(Long id)
+    {
+        WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/"+id).
+                build().get().retrieve();
+
+        spec.onStatus(HttpStatus::is4xxClientError, clientResponse -> {
+            throw new IllegalArgumentException(clientResponse.statusCode().getReasonPhrase());
+        });
+
+        return spec.bodyToMono(UtilizadorDTO.class).block();
+    }
+
+    public Boolean isRole(String role, Long id)
+    {
+        WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/"+role +"/"+id).
+                build().get().retrieve();
+
+        spec.onStatus(HttpStatus::is4xxClientError, clientResponse -> {
+            throw new IllegalArgumentException(clientResponse.statusCode().getReasonPhrase());
+        });
+
+        return spec.bodyToMono(Boolean.class).block();
+    }
 }

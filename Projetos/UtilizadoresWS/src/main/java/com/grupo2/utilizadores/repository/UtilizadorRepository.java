@@ -76,10 +76,15 @@ public class UtilizadorRepository
 
         UtilizadorJPA jpa = mapper.toJPA(utilizador);
 
-        UtilizadorJPA jpaSaved = jpaRepository.save(jpa);
+        UtilizadorJPA jpaSaved;
+        try
+        {
+            jpaSaved = jpaRepository.save(jpa);
+        } catch (Exception e)
+        {
+            throw new ErroGeralException("Atributos incorretos. Email é único.");
+        }
 
-        Utilizador saved = mapper.toModel(jpaSaved);
-
-        return saved;
+        return mapper.toModel(jpaSaved);
     }
 }

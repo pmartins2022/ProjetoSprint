@@ -25,6 +25,7 @@ public class EdicaoUCJPA
      * anoLetivoCode de EdicaoUC
      */
     private String anoLetivoCode;
+    private Long rucID;
 
     /**
      * Inicializa EdicaoUCJPA sem parâmetros
@@ -37,10 +38,11 @@ public class EdicaoUCJPA
      * @param UCCode é o UCCode de Edicao de Unidade Curricular
      * @param anoLetivoCode é o anoLetivoCode de Edicao de Unidade Curricular
      */
-    public EdicaoUCJPA(String UCCode, String anoLetivoCode)
+    public EdicaoUCJPA(String UCCode, String anoLetivoCode, Long rucID)
     {
         this.ucCode = UCCode;
         this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
     }
     /**
      * Inicializa o Id, UCCODE e anoLetivoCode da EdicaoUCJPA
@@ -49,11 +51,12 @@ public class EdicaoUCJPA
      * @param ucCode é o UCCode de Edicao de Unidade Curricular
      * @param anoLetivoCode é o anoLetivoCode de Edicao de Unidade Curricular
      */
-    public EdicaoUCJPA(Long id, String ucCode, String anoLetivoCode)
+    public EdicaoUCJPA(Long id, String ucCode, String anoLetivoCode, Long rucID)
     {
         this.id = id;
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
     }
 
     /**
@@ -84,5 +87,10 @@ public class EdicaoUCJPA
     public String getUcCode()
     {
         return ucCode;
+    }
+
+    public Long getRucID()
+    {
+        return rucID;
     }
 }
