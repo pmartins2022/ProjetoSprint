@@ -39,6 +39,8 @@ public class UtilizadorUserDetailsService implements UserDetailsService
 
         UserDetails userDetails = new User(username, utilizador.getPassword(), authorities);
 
+        LoginContext.setCurrent(utilizador);
+
         return userDetails;
     }
 }

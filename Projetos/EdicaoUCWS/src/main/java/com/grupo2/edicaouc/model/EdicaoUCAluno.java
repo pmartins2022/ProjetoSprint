@@ -2,36 +2,36 @@ package com.grupo2.edicaouc.model;
 
 public class EdicaoUCAluno
 {
-    private Long idEdicaoUC;
-    private Long idAluno;
+    private Long edicaoUCID;
+    private Long alunoID;
 
     public EdicaoUCAluno()
     {
     }
 
-    public EdicaoUCAluno(Long idEdicaoUC, Long idAluno)
+    public EdicaoUCAluno(Long edicaoUCID, Long alunoID)
     {
-        this.idEdicaoUC = idEdicaoUC;
-        this.idAluno = idAluno;
+        this.edicaoUCID = edicaoUCID;
+        this.alunoID = alunoID;
     }
 
-    public Long getIdEdicaoUC()
+    public Long getEdicaoUCID()
     {
-        return idEdicaoUC;
+        return edicaoUCID;
     }
 
-    public void setIdEdicaoUC(Long idEdicaoUC)
+    public void setEdicaoUCID(Long edicaoUCID)
     {
-        this.idEdicaoUC = idEdicaoUC;
+        this.edicaoUCID = edicaoUCID;
     }
 
-    public Long getIdAluno()
+    public Long getAlunoID()
     {
-        return idAluno;
+        return alunoID;
     }
 
-    public void setIdAluno(Long idAluno)
+    public void setAlunoID(Long alunoID)
     {
-        this.idAluno = idAluno;
+        this.alunoID = alunoID;
     }
 }

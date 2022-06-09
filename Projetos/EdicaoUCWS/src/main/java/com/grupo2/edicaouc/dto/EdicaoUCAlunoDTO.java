@@ -2,36 +2,36 @@ package com.grupo2.edicaouc.dto;
 
 public class EdicaoUCAlunoDTO
 {
-    private Long idEdicaoUC;
-    private Long idAluno;
+    private Long edicaoUCID;
+    private Long alunoID;
 
     public EdicaoUCAlunoDTO()
     {
     }
 
-    public EdicaoUCAlunoDTO(Long idEdicaoUC, Long idAluno)
+    public EdicaoUCAlunoDTO(Long edicaoUCID, Long alunoID)
     {
-        this.idEdicaoUC = idEdicaoUC;
-        this.idAluno = idAluno;
+        this.edicaoUCID = edicaoUCID;
+        this.alunoID = alunoID;
     }
 
-    public Long getIdEdicaoUC()
+    public Long getEdicaoUCID()
     {
-        return idEdicaoUC;
+        return edicaoUCID;
     }
 
-    public Long getIdAluno()
+    public void setEdicaoUCID(Long edicaoUCID)
     {
-        return idAluno;
+        this.edicaoUCID = edicaoUCID;
     }
 
-    public void setIdEdicaoUC(Long idEdicaoUC)
+    public Long getAlunoID()
     {
-        this.idEdicaoUC = idEdicaoUC;
+        return alunoID;
     }
 
-    public void setIdAluno(Long idAluno)
+    public void setAlunoID(Long alunoID)
     {
-        this.idAluno = idAluno;
+        this.alunoID = alunoID;
     }
 }

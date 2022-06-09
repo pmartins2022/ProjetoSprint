@@ -1,7 +1,5 @@
 package com.grupo2.edicaouc.model;
 
-import com.grupo2.edicaouc.dto.AlunoDTO;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +23,14 @@ public class EdicaoUC
 
     private Long rucID;
 
+    private EstadoEdicaoUC estadoEdicaoUC;
+
     /**
      * Inicializa a EdicaoUC sem parâmetros
      */
     public EdicaoUC()
     {
+        estadoEdicaoUC = EstadoEdicaoUC.PENDENTE;
     }
 
     /**
@@ -42,6 +43,7 @@ public class EdicaoUC
         this.UCCode = UCCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
+        estadoEdicaoUC = EstadoEdicaoUC.PENDENTE;
     }
     /**
      * Inicializa a EdicaoUC com Id, UCCode e anoLetivoCode
@@ -55,6 +57,7 @@ public class EdicaoUC
         this.UCCode = UCCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
+        estadoEdicaoUC = EstadoEdicaoUC.PENDENTE;
     }
 
     /**
@@ -120,4 +123,20 @@ public class EdicaoUC
     {
         this.rucID = rucID;
     }
+
+    public EstadoEdicaoUC getEstadoEdicaoUC()
+    {
+        return estadoEdicaoUC;
+    }
+
+    public void activateEdicaoUC()
+    {
+        estadoEdicaoUC = EstadoEdicaoUC.ATIVA;
+    }
+
+    public void deactivateEdicaoUC()
+    {
+        estadoEdicaoUC = EstadoEdicaoUC.DESATIVA;
+    }
+
 }

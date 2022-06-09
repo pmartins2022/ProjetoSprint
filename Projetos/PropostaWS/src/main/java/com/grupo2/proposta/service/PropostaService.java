@@ -2,17 +2,22 @@ package com.grupo2.proposta.service;
 
 import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.dto.factory.ProjetoDTOFactory;
+import com.grupo2.proposta.dto.mapper.ConviteDTOMapper;
+import com.grupo2.proposta.dto.mapper.PropostaCandidaturaDTOMapper;
+import com.grupo2.proposta.exception.*;
+import com.grupo2.proposta.model.Convite;
+import com.grupo2.proposta.model.PropostaEstado;
 import com.grupo2.proposta.model.TipoUtilizador;
 import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
-import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
-import com.grupo2.proposta.exception.BaseDadosException;
-import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.model.Proposta;
+import com.grupo2.proposta.repository.ConviteRepository;
+import com.grupo2.proposta.repository.PropostaCandidaturaRepo;
 import com.grupo2.proposta.repository.PropostaRepository;
 import com.grupo2.proposta.repository.rest.EdicaoUCRestRepository;
 import com.grupo2.proposta.repository.rest.OrganizacaoRestRepository;
 import com.grupo2.proposta.repository.rest.ProjetoRestRepository;
 import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
+import com.grupo2.proposta.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +36,11 @@ public class PropostaService
     private UtilizadorRestRepository utilizadorRestRepository;
     @Autowired
     private ProjetoRestRepository projetoRestRepository;
+    @Autowired
+    private PropostaCandidaturaRepo propostaCandidaturaRepo;
+    @Autowired
+    private PropostaCandidaturaDTOMapper candidaturaDTOMapper;
+
 
     @Autowired
     private PropostaDTOMapper mapper;
@@ -43,6 +53,12 @@ public class PropostaService
 
     @Autowired
     private OrganizacaoRestRepository organizacaoRestRepository;
+
+    @Autowired
+    private ConviteRepository conviteRepository;
+
+    @Autowired
+    private ConviteDTOMapper conviteDTOMapper;
 
     /**
      * Criar uma nova proposta.
@@ -237,5 +253,80 @@ public class PropostaService
         ProjetoDTO projetoDTO = projetoDTOFactory.createProjeto(propostaID, orientadorID, estudanteID);
 
         return projetoRestRepository.create(projetoDTO);
+    }
+
+    public ConviteDTO createConvite(ConviteDTO conviteDTO)
+    {
+        Optional<Proposta> proposta = repository.findById(conviteDTO.getIdProposta());
+        if (proposta.isEmpty())
+        {
+            throw new OptionalVazioException("Não existe esta proposta");
+        }
+
+        if(proposta.get().getEstadoAtual() != PropostaEstado.APROVADO)
+        {
+            throw new ValidacaoInvalidaException("Esta proposta nao esta como aprovado");
+        }
+
+        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(conviteDTO.getIdAluno());
+        if (alunoDTO.isEmpty())
+        {
+            throw new OptionalVazioException("O utilizador não existe");
+        }
+
+        if (alunoDTO.get().getTipoUtilizador() != TipoUtilizador.ALUNO)
+        {
+            throw new ValidacaoInvalidaException("O utilizador "+conviteDTO.getIdAluno()+" nao e aluno.");
+        }
+
+        try
+        {
+            if (!propostaCandidaturaRepo.isIncrito(conviteDTO.getIdProposta(), conviteDTO.getIdAluno()))
+            {
+                throw new ValidacaoInvalidaException("O aluno nao "+conviteDTO.getIdAluno()+" nao esta incrito na proposta "+conviteDTO.getIdProposta());
+            }
+        }
+        catch (IdInvalidoException e)
+        {
+            throw new IdInvalidoException(e.getMessage());
+        }
+
+        Optional<UtilizadorDTO> docenteDTO = utilizadorRestRepository.findById(conviteDTO.getIdDocente());
+        if (docenteDTO.isEmpty())
+        {
+            throw new OptionalVazioException("O utilizador não existe");
+        }
+
+        if (docenteDTO.get().getTipoUtilizador() != TipoUtilizador.DOCENTE)
+        {
+            throw new ValidacaoInvalidaException("O utilizador "+conviteDTO.getIdDocente()+" nao e docente.");
+        }
+
+        Convite convite = conviteRepository.createAndSaveConvite(conviteDTOMapper.toModel(conviteDTO));
+
+        return conviteDTOMapper.toDTO(convite);
+    }
+
+    public PropostaCandidaturaDTO candidatarProposta(Long propostaID)
+    {
+        Optional<Proposta> proposta = repository.findById(propostaID);
+        if (proposta.isEmpty())
+        {
+            throw new OptionalVazioException("Não existe esta proposta");
+        }
+
+        if(proposta.get().getEstadoAtual() != PropostaEstado.APROVADO)
+        {
+            throw new ValidacaoInvalidaException("Esta proposta nao esta como aprovado");
+        }
+
+        Long alunoId = LoginContext.getCurrent().getId();
+
+        if (propostaCandidaturaRepo.isCandidaturaRegistered(alunoId))
+        {
+            throw new AtualizacaoInvalidaException("O aluno ja se encontra inscrito numa proposta ativa");
+        }
+
+        return candidaturaDTOMapper.toDTO(propostaCandidaturaRepo.createAndSave(propostaID,alunoId));
     }
 }

@@ -1,8 +1,7 @@
 package com.grupo2.proposta.controller;
 
 
-import com.grupo2.proposta.dto.ProjetoDTO;
-import com.grupo2.proposta.dto.PropostaDTO;
+import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.exception.*;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
@@ -154,6 +153,53 @@ public class PropostaController
         catch (IdInvalidoException e)
         {
             throw new IdInvalidoException(e.getMessage());
+        }
+        catch (AtualizacaoInvalidaException e)
+        {
+            throw new AtualizacaoInvalidaException(e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
+    @GetMapping("/criarConvite")
+    public ResponseEntity<Object> criarConvite(@RequestBody ConviteDTO convite) throws Exception
+    {
+        try
+        {
+            ConviteDTO conviteDTO = service.createConvite(convite);
+            return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        }
+        catch (ValidacaoInvalidaException e)
+        {
+            throw new ValidacaoInvalidaException(e.getMessage());
+        }
+        catch (IdInvalidoException e)
+        {
+            throw new IdInvalidoException(e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
+    @PostMapping("/candidatar/{propostaID}")
+    public ResponseEntity<Object> candidatarProposta(@PathVariable(name = "propostaID") Long propostaID)
+    {
+        try
+        {
+
+            PropostaCandidaturaDTO cand = service.candidatarProposta(propostaID);
+            return new ResponseEntity<>(cand,HttpStatus.CREATED);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        }
+        catch (ValidacaoInvalidaException e)
+        {
+            throw new ValidacaoInvalidaException(e.getMessage());
         }
         catch (AtualizacaoInvalidaException e)
         {

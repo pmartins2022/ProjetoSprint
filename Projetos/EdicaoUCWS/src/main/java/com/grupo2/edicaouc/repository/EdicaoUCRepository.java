@@ -1,13 +1,9 @@
 package com.grupo2.edicaouc.repository;
 
 import com.grupo2.edicaouc.exception.BaseDadosException;
-import com.grupo2.edicaouc.jpa.EdicaoUCAlunoJPA;
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
-import com.grupo2.edicaouc.jpa.mapper.EdicaoUCAlunoJPAMapper;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
 import com.grupo2.edicaouc.model.EdicaoUC;
-import com.grupo2.edicaouc.model.EdicaoUCAluno;
-import com.grupo2.edicaouc.repository.jpa.EdicaoUCAlunoJPARepository;
 import com.grupo2.edicaouc.repository.jpa.EdicaoUCJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,12 +26,7 @@ public class EdicaoUCRepository
      * O restRepository a ser utilizado por este Repository.
      */
     @Autowired
-    private EdicaoUCAlunoJPARepository edicaoUCAlunoJPARepository;
-    @Autowired
     private EdicaoUCJPAMapper mapper;
-
-    @Autowired
-    private EdicaoUCAlunoJPAMapper mapperEdicaoUCAluno;
 
     /**
      * Endpoint que possibilita criar e guardar EdicaoUC
@@ -93,12 +84,21 @@ public class EdicaoUCRepository
         return lista.stream().map(mapper::toModel).toList();
     }
 
-    public EdicaoUCAluno saveEdicaoUCAluno(EdicaoUCAluno edicaoUCAluno)
+    public EdicaoUC ativarEdicao(EdicaoUC edicaoUC)
     {
-        EdicaoUCAlunoJPA edicaoUCAlunoJPA = mapperEdicaoUCAluno.toJPA(edicaoUCAluno);
+        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
 
-        EdicaoUCAlunoJPA saved = edicaoUCAlunoJPARepository.save(edicaoUCAlunoJPA);
+        jpaRepository.deleteById(edicaoUC.getId());
 
-        return mapperEdicaoUCAluno.toModel(saved);
+        return mapper.toModel(jpaRepository.save(jpa));
+    }
+
+    public EdicaoUC desativarEdicao(EdicaoUC edicaoUC)
+    {
+        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
+
+        jpaRepository.deleteById(edicaoUC.getId());
+
+        return mapper.toModel(jpaRepository.save(jpa));
     }
 }
