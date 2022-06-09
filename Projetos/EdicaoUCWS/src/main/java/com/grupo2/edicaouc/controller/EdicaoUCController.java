@@ -4,6 +4,7 @@ import com.grupo2.edicaouc.dto.EdicaoUCAlunoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
 import com.grupo2.edicaouc.dto.UtilizadorDTO;
 import com.grupo2.edicaouc.exception.BaseDadosException;
+import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.security.LoginContext;
@@ -110,13 +111,55 @@ public class EdicaoUCController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/inscrever/{edicaoUCID}")
-    public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
+    public ResponseEntity<Object> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
     {
         UtilizadorDTO dto = LoginContext.getCurrent();
 
         EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto,edicaoUCID, alunoID);
 
         return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PatchMapping("/ativarEdicao/{edicaoUCID}")
+    public ResponseEntity<Object> ativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    {
+        try
+        {
+            EdicaoUCDTO dto = service.activarEdicao(edicaoUCID);
+
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        }
+        catch (ErroGeralException e)
+        {
+            throw new ErroGeralException(e.getMessage());
+        }
+
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PatchMapping("/desativarEdicao/{edicaoUCID}")
+    public ResponseEntity<Object> desativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    {
+        try
+        {
+            EdicaoUCDTO dto = service.desativarEdicao(edicaoUCID);
+
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        }
+        catch (ErroGeralException e)
+        {
+            throw new ErroGeralException(e.getMessage());
+        }
+
     }
 }
 

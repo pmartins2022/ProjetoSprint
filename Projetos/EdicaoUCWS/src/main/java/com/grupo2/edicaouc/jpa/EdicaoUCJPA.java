@@ -4,8 +4,6 @@ package com.grupo2.edicaouc.jpa;
 import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Classe JPA de EdicaoUC
@@ -30,7 +28,7 @@ public class EdicaoUCJPA
      */
     private String anoLetivoCode;
     private Long rucID;
-    private EstadoEdicaoUC estadoEdicaoUC;
+    private EstadoEdicaoUC estado;
 
     /**
      * Inicializa EdicaoUCJPA sem parâmetros
@@ -45,12 +43,12 @@ public class EdicaoUCJPA
      * @param UCCode é o UCCode de Edicao de Unidade Curricular
      * @param anoLetivoCode é o anoLetivoCode de Edicao de Unidade Curricular
      */
-    public EdicaoUCJPA(String UCCode, String anoLetivoCode, Long rucID, EstadoEdicaoUC estadoEdicaoUC)
+    public EdicaoUCJPA(String UCCode, String anoLetivoCode, Long rucID, EstadoEdicaoUC estado)
     {
         this.ucCode = UCCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
-        this.estadoEdicaoUC = estadoEdicaoUC;
+        this.estado = estado;
     }
     /**
      * Inicializa o Id, UCCODE e anoLetivoCode da EdicaoUCJPA
@@ -59,13 +57,13 @@ public class EdicaoUCJPA
      * @param ucCode é o UCCode de Edicao de Unidade Curricular
      * @param anoLetivoCode é o anoLetivoCode de Edicao de Unidade Curricular
      */
-    public EdicaoUCJPA(Long id, String ucCode, String anoLetivoCode, Long rucID, EstadoEdicaoUC estadoEdicaoUC)
+    public EdicaoUCJPA(Long id, String ucCode, String anoLetivoCode, Long rucID, EstadoEdicaoUC estado)
     {
         this.id = id;
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
-        this.estadoEdicaoUC = estadoEdicaoUC;
+        this.estado = estado;
     }
 
     /**
@@ -103,8 +101,8 @@ public class EdicaoUCJPA
         return rucID;
     }
 
-    public EstadoEdicaoUC getEstadoEdicaoUC()
+    public EstadoEdicaoUC getEstado()
     {
-        return estadoEdicaoUC;
+        return estado;
     }
 }
