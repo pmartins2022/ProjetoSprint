@@ -72,9 +72,15 @@ public class UtilizadorController
     @GetMapping("/{role}/{id}")
     public ResponseEntity<Boolean> isRole(@PathVariable("role") String role, @PathVariable("id") Long id)
     {
-        Boolean isRole = service.isRole(role, id);
+        try
+        {
+            Boolean isRole = service.isRole(role, id);
+            return new ResponseEntity<>(isRole, HttpStatus.OK);
+        } catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException("Utilizador com esse id "+id+" não existe");
+        }
 
-        return new ResponseEntity<>(isRole, HttpStatus.OK);
     }
 
 }

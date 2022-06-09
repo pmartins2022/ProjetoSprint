@@ -127,20 +127,20 @@ public class EdicaoUCService
     {
         Optional<EdicaoUC> edicao = repository.findById(edicaoUCID);
 
-        if (edicao.isEmpty())
-        {
-            throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
-        }
+            if (edicao.isEmpty())
+            {
+                throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
+            }
 
-        if (!edicao.get().getRucID().equals(dtoPostedRequest.getId()))
-        {
-            throw new ErroGeralException(dtoPostedRequest.getId() + " não é RUC desta edição.");
-        }
+            if (!edicao.get().getRucID().equals(dtoPostedRequest.getId()))
+            {
+                throw new ErroGeralException(dtoPostedRequest.getId() + " não é RUC desta edição.");
+            }
 
-        if (!utilizadorRestRepository.isRole("ALUNO", alunoID))
-        {
-            throw new ErroGeralException(alunoID + " não é um aluno.");
-        }
+            if (!utilizadorRestRepository.isRole("ALUNO", alunoID))
+            {
+                throw new ErroGeralException(alunoID + " não é um aluno.");
+            }
 
         Boolean isAvailable = edicaoUCAlunoRepository.isStudentAvailable(alunoID);
 

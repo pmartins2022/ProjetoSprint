@@ -88,7 +88,7 @@ public class UtilizadorService
         return Optional.empty();
     }
 
-    public Boolean isRole(String role, Long id)
+    public Boolean isRole(String role, Long id) throws OptionalVazioException
     {
         Optional<UtilizadorDTO> utilizador = findByID(id);
 

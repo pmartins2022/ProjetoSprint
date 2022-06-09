@@ -3,10 +3,7 @@ package com.grupo2.edicaouc.controller;
 import com.grupo2.edicaouc.dto.EdicaoUCAlunoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
 import com.grupo2.edicaouc.dto.UtilizadorDTO;
-import com.grupo2.edicaouc.exception.BaseDadosException;
-import com.grupo2.edicaouc.exception.ErroGeralException;
-import com.grupo2.edicaouc.exception.ListaVaziaException;
-import com.grupo2.edicaouc.exception.OptionalVazioException;
+import com.grupo2.edicaouc.exception.*;
 import com.grupo2.edicaouc.security.LoginContext;
 import com.grupo2.edicaouc.service.EdicaoUCService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,14 +111,17 @@ public class EdicaoUCController
     public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
     {
         UtilizadorDTO dto = LoginContext.getCurrent();
-
         try
         {
             EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto, edicaoUCID, alunoID);
             return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
-        } catch (ErroGeralException e)
+        } catch (ErrorDetail e)
         {
-            throw new ErroGeralException(e.getMessage());
+            throw e;
+        }
+        catch (ErroGeralException e)
+        {
+            throw e;
         }
     }
 }

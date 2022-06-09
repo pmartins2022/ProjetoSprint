@@ -2,7 +2,7 @@ package com.grupo2.edicaouc.exception;
 /**
  * Classe ErrorDetail
  */
-public class ErrorDetail
+public class ErrorDetail extends RuntimeException
 {
     /**
      * title do ErrorDetail
