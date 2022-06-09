@@ -1,5 +1,6 @@
 package com.grupo2.proposta.repository.rest;
 
+import com.grupo2.proposta.dto.UtilizadorAuthDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.ErrorDetail;
 import org.springframework.http.HttpStatus;
@@ -40,5 +41,17 @@ public class UtilizadorRestRepository
         {
             return Optional.empty();
         }
+    }
+
+    public UtilizadorAuthDTO findByUsername(String username)
+    {
+        WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/find?username=" + username).
+                build().get().retrieve();
+
+        spec.onStatus(HttpStatus::is4xxClientError, clientResponse -> {
+            throw new IllegalArgumentException(clientResponse.statusCode().getReasonPhrase());
+        });
+
+        return spec.bodyToMono(UtilizadorAuthDTO.class).block();
     }
 }

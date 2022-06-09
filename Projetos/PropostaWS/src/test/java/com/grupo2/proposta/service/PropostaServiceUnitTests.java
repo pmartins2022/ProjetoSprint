@@ -62,7 +62,7 @@ class PropostaServiceUnitTests
 
         when(repository.createProposta(proposta)).thenReturn(proposta);
 
-        PropostaDTO dto = service.createProposta(prop);
+        PropostaDTO dto = service.createProposta(prop,"");
 
         assertEquals(prop, dto);
     }
@@ -79,7 +79,7 @@ class PropostaServiceUnitTests
 
         when(repository.createProposta(proposta)).thenThrow(BaseDadosException.class);
 
-        assertThrows(BaseDadosException.class, () -> service.createProposta(prop));
+        assertThrows(BaseDadosException.class, () -> service.createProposta(prop,""));
     }
 
     @Test
@@ -271,7 +271,7 @@ class PropostaServiceUnitTests
 
         when(mapper.toDTO(prop)).thenReturn(propDTO);
 
-        List<PropostaDTO> saved = service.findByNif(1);
+        List<PropostaDTO> saved = service.findByNif(1,"");
 
         assertEquals(list.size(),saved.size());
     }
@@ -287,7 +287,7 @@ class PropostaServiceUnitTests
 
         when(repository.findByNif(org)).thenReturn(list);
 
-        List<PropostaDTO> nif = service.findByNif(1);
+        List<PropostaDTO> nif = service.findByNif(1,"");
 
         assertTrue(nif.isEmpty());
     }

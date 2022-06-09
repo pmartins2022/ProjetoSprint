@@ -6,6 +6,7 @@ import com.grupo2.projeto.service.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class ProjetoController
      * @param id um objeto com os dados do projeto
      * @return um projeto, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_DOCENTE','ROLE_ALUNO')")
     @GetMapping("/{id}")
     public ResponseEntity<ProjetoDTO> findById(@PathVariable Long id)
     {
@@ -47,6 +49,7 @@ public class ProjetoController
      * @param projetoDTO um objeto com os dados do projeto
      * @return um projeto, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_DOCENTE')")
     @PostMapping("/criar")
     public ResponseEntity<ProjetoDTO> createProjeto(@RequestBody ProjetoDTO projetoDTO)
     {
