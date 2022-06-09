@@ -83,4 +83,22 @@ public class EdicaoUCRepository
 
         return lista.stream().map(mapper::toModel).toList();
     }
+
+    public EdicaoUC ativarEdicao(EdicaoUC edicaoUC)
+    {
+        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
+
+        jpaRepository.deleteById(edicaoUC.getId());
+
+        return mapper.toModel(jpaRepository.save(jpa));
+    }
+
+    public EdicaoUC desativarEdicao(EdicaoUC edicaoUC)
+    {
+        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
+
+        jpaRepository.deleteById(edicaoUC.getId());
+
+        return mapper.toModel(jpaRepository.save(jpa));
+    }
 }

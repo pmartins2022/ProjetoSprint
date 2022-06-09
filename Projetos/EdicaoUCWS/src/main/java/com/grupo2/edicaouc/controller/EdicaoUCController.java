@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -110,7 +111,52 @@ public class EdicaoUCController
     @PostMapping("/inscrever/{edicaoUCID}")
     public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
     {
+        //ver se o docente está ao encargo desta edicaoUC
+
         UtilizadorDTO dto = LoginContext.getCurrent();
+
+        EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto,edicaoUCID, alunoID);
+
+        return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PatchMapping("/ativarEdicao/{edicaoUCID}")
+    public ResponseEntity<Object> ativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    {
+        try
+        {
+            EdicaoUCDTO dto = service.activarEdicao(edicaoUCID);
+
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        }
+        catch (ErroGeralException e)
+        {
+            throw new ErroGeralException(e.getMessage());
+        }
+
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PatchMapping("/desativarEdicao/{edicaoUCID}")
+    public ResponseEntity<Object> desativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    {
+        try
+        {
+            EdicaoUCDTO dto = service.desativarEdicao(edicaoUCID);
+
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        }
+        catch (ErroGeralException e)
         try
         {
             EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto, edicaoUCID, alunoID);

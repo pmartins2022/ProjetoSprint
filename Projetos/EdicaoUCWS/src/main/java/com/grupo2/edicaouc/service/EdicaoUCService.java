@@ -9,6 +9,7 @@ import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.model.EdicaoUC;
 import com.grupo2.edicaouc.model.EdicaoUCAluno;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.repository.EdicaoUCAlunoRepository;
 import com.grupo2.edicaouc.repository.EdicaoUCRepository;
 import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
@@ -152,5 +153,57 @@ public class EdicaoUCService
         EdicaoUCAluno saved = edicaoUCAlunoRepository.saveEdicaoUCAluno(edicaoUCID, alunoID);
 
         return edicaoUCAlunoDTOMapper.toDTO(saved);
+    }
+
+    public EdicaoUCDTO activarEdicao(Long edicaoUCID)
+    {
+        Optional<EdicaoUC> optionalEdicaoUC = repository.findById(edicaoUCID);
+
+        if (optionalEdicaoUC.isEmpty())
+        {
+            throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
+        }
+
+        if (optionalEdicaoUC.get().getEstadoEdicaoUC() == EstadoEdicaoUC.ATIVA)
+        {
+            throw new ErroGeralException(edicaoUCID + " ja esta ativo.");
+        }
+
+        if (optionalEdicaoUC.get().getEstadoEdicaoUC() == EstadoEdicaoUC.DESATIVA)
+        {
+            throw new ErroGeralException(edicaoUCID+" não pode ser ativada.");
+        }
+
+        optionalEdicaoUC.get().activateEdicaoUC();
+
+        EdicaoUC saved = repository.ativarEdicao(optionalEdicaoUC.get());
+
+        return mapper.toDTO(saved);
+    }
+
+    public EdicaoUCDTO desativarEdicao(Long edicaoUCID)
+    {
+        Optional<EdicaoUC> optionalEdicaoUC = repository.findById(edicaoUCID);
+
+        if (optionalEdicaoUC.isEmpty())
+        {
+            throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
+        }
+
+        if (optionalEdicaoUC.get().getEstadoEdicaoUC() == EstadoEdicaoUC.PENDENTE)
+        {
+            throw new ErroGeralException(edicaoUCID + " não pode ser desativada.");
+        }
+
+        if (optionalEdicaoUC.get().getEstadoEdicaoUC() == EstadoEdicaoUC.DESATIVA)
+        {
+            throw new ErroGeralException(edicaoUCID+" ja esta desativada.");
+        }
+
+        optionalEdicaoUC.get().deactivateEdicaoUC();
+
+        EdicaoUC saved = repository.desativarEdicao(optionalEdicaoUC.get());
+
+        return mapper.toDTO(saved);
     }
 }
