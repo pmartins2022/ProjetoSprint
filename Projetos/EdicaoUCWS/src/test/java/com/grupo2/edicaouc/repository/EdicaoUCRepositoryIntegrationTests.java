@@ -34,8 +34,8 @@ class EdicaoUCRepositoryIntegrationTests
     {
         EdicaoUC edicaoUC = factory.createEdicaoUC(1L, "UC1", "XRYRXVBXBX");
         EdicaoUC edicaoUC2 = factory.createEdicaoUC(2L, "UC1", "FSDDSSDGSDG");
-        jpaRepository.save(mapper.toJpa(edicaoUC));
-        jpaRepository.save(mapper.toJpa(edicaoUC2));
+        jpaRepository.save(mapper.toJPA(edicaoUC));
+        jpaRepository.save(mapper.toJPA(edicaoUC2));
 
         List<EdicaoUC> found = repository.findAllEdicaoByUCCode(edicaoUC.getUCCode());
 
@@ -55,7 +55,7 @@ class EdicaoUCRepositoryIntegrationTests
         //arrange
         EdicaoUC edicaoUC = factory.createEdicaoUC(1L, "UC1", "XRYRXVBXBX");
 
-        EdicaoUCJPA uc = jpaRepository.save(mapper.toJpa(edicaoUC));
+        EdicaoUCJPA uc = jpaRepository.save(mapper.toJPA(edicaoUC));
         //act
         Optional<EdicaoUC> id = repository.findById(uc.getId());
         //assert

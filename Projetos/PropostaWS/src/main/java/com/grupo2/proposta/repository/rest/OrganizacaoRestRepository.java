@@ -17,12 +17,13 @@ public class OrganizacaoRestRepository
      * @param id Id da organizacao
      * @return Organizacao ou optional vazio
      */
-    public Optional<OrganizacaoDTO> findById(Long id)
+    public Optional<OrganizacaoDTO> findById(Long id, String encoded)
     {
         try
         {
-            OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao/" + id).get().
-                    retrieve().bodyToMono(OrganizacaoDTO.class).block();
+            OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao/" + id).get()
+                    .header("Authorization",encoded)
+                    .retrieve().bodyToMono(OrganizacaoDTO.class).block();
 
             if (dto == null)
             {
@@ -42,12 +43,13 @@ public class OrganizacaoRestRepository
      * @param nif Nif da organizacao
      * @return Organizacao ou optional vazio
      */
-    public Optional<OrganizacaoDTO> findByNIF(Integer nif)
+    public Optional<OrganizacaoDTO> findByNIF(Integer nif, String encoded)
     {
         try
         {
-            OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao?nif=" + nif).get().
-                    retrieve().bodyToMono(OrganizacaoDTO.class).block();
+            OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao?nif=" + nif).get()
+                    .header("Authorization",encoded)
+                    .retrieve().bodyToMono(OrganizacaoDTO.class).block();
 
             if (dto == null)
             {

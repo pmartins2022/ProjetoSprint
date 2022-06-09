@@ -1,5 +1,10 @@
 package com.grupo2.edicaouc.model;
 
+import com.grupo2.edicaouc.dto.AlunoDTO;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Classe de domínio de EdicaoUC
  */
@@ -18,6 +23,8 @@ public class EdicaoUC
      */
     private String anoLetivoCode;
 
+    private Long rucID;
+
     /**
      * Inicializa a EdicaoUC sem parâmetros
      */
@@ -30,10 +37,11 @@ public class EdicaoUC
      * @param UCCode Código de Unidade Curricular da Edicao
      * @param anoLetivoCode Ano Letivo da Edição
      */
-    public EdicaoUC(String UCCode, String anoLetivoCode)
+    public EdicaoUC(String UCCode, String anoLetivoCode, Long rucID)
     {
         this.UCCode = UCCode;
         this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
     }
     /**
      * Inicializa a EdicaoUC com Id, UCCode e anoLetivoCode
@@ -41,11 +49,12 @@ public class EdicaoUC
      * @param UCCode Código de Unidade Curricular da Edicao
      * @param anoLetivoCode Ano Letivo da Edição
      */
-    public EdicaoUC(Long id, String UCCode, String anoLetivoCode)
+    public EdicaoUC(Long id, String UCCode, String anoLetivoCode, Long rucID)
     {
         this.id = id;
         this.UCCode = UCCode;
         this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
     }
 
     /**
@@ -91,12 +100,24 @@ public class EdicaoUC
     {
         return id;
     }
+
     /**
      * Modifica o Id da EdicaoUC
+     *
      * @param id novo Id da EdicaoUC
      */
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public Long getRucID()
+    {
+        return rucID;
+    }
+
+    public void setRucID(Long rucID)
+    {
+        this.rucID = rucID;
     }
 }

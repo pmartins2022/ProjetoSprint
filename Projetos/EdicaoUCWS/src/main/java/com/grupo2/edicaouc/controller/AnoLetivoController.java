@@ -5,6 +5,7 @@ import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
+import com.grupo2.edicaouc.security.LoginContext;
 import com.grupo2.edicaouc.service.AnoLetivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
-package com.grupo2.edicaouc.security;
+package com.grupo2.projeto.security;
 
-import com.grupo2.edicaouc.dto.UtilizadorDTO;
-import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
+import com.grupo2.projeto.dto.UtilizadorAuthDTO;
+import com.grupo2.projeto.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
 public class UtilizadorUserDetailsService implements UserDetailsService
 {
@@ -21,7 +22,7 @@ public class UtilizadorUserDetailsService implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        UtilizadorDTO utilizador = null;
+        UtilizadorAuthDTO utilizador = null;
 
         try
         {
@@ -32,14 +33,11 @@ public class UtilizadorUserDetailsService implements UserDetailsService
             throw new UsernameNotFoundException("Utilizador não encontrado: "+username);
         }
 
-        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(utilizador.getTipoUtilizador());
+        List<GrantedAuthority> authorities =
+                AuthorityUtils.createAuthorityList(utilizador.getTipoUtilizador());
 
         UserDetails userDetails = new User(username, utilizador.getPassword(), authorities);
 
-        LoginContext.setCurrent(utilizador);
-
         return userDetails;
     }
-
-
 }

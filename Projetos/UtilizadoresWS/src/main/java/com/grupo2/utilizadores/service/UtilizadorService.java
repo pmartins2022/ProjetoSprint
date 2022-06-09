@@ -4,6 +4,7 @@ import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.dto.mapper.UtilizadorDTOMapper;
 import com.grupo2.utilizadores.exception.ErroGeralException;
+import com.grupo2.utilizadores.exception.OptionalVazioException;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.repository.UtilizadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +86,17 @@ public class UtilizadorService
             return Optional.of(mapper.toAuthDTO(username1.get()));
         }
         return Optional.empty();
+    }
+
+    public Boolean isRole(String role, Long id)
+    {
+        Optional<UtilizadorDTO> utilizador = findByID(id);
+
+        if (utilizador.isEmpty())
+        {
+            throw new OptionalVazioException("Utilizador com esse id "+id+" não existe");
+        }
+
+        return utilizador.get().getTipoUtilizador().name().equals(role);
     }
 }

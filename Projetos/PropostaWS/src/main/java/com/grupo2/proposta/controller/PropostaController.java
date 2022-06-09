@@ -6,13 +6,16 @@ import com.grupo2.proposta.dto.ProjetoDTO;
 import com.grupo2.proposta.dto.PropostaDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.*;
+import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,12 +35,13 @@ public class PropostaController
      * @param dto um objeto com os dados da proposta
      * @return proposta, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE','ROLE_ALUNO')")
     @PostMapping("/create")
-    public ResponseEntity<PropostaDTO> createProposta(@RequestBody PropostaDTO dto)
+    public ResponseEntity<PropostaDTO> createProposta(@RequestBody PropostaDTO dto, HttpServletRequest request)
     {
         try
         {
-            PropostaDTO proposta = service.createProposta(dto);
+            PropostaDTO proposta = service.createProposta(dto,request.getHeader("Authorization"));
 
             return new ResponseEntity<>(proposta, HttpStatus.CREATED);
         }
@@ -56,6 +60,7 @@ public class PropostaController
      * @param id o id do utilizador
      * @return proposta, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE','ROLE_ALUNO')")
     @GetMapping("/listarPorId/{id}")
     public ResponseEntity<Object> listbyIdUtilizador(@PathVariable(name = "id") Long id)
     {
@@ -74,6 +79,7 @@ public class PropostaController
      * @param titulo o titulo da proposta
      * @return proposta, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE','ROLE_ALUNO')")
     @GetMapping("/listarPorTitulo")
     public ResponseEntity<Object> listbyTitulo(@RequestParam String titulo)
     {
@@ -92,10 +98,11 @@ public class PropostaController
      * @param nif o nif da organizacao
      * @return proposta, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE','ROLE_ALUNO')")
     @GetMapping("/listarPorNif/{nif}")
-    public ResponseEntity<Object> listbyNif(@PathVariable(name = "nif") Integer nif)
+    public ResponseEntity<Object> listbyNif(@PathVariable(name = "nif") Integer nif, HttpServletRequest request)
     {
-        List<PropostaDTO> lista = service.findByNif(nif);
+        List<PropostaDTO> lista = service.findByNif(nif, request.getHeader(SecurityUtils.AUTH));
 
         if (lista.isEmpty())
         {
@@ -110,6 +117,7 @@ public class PropostaController
      * @param id o id da proposta
      * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
      */
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/rejeitar/{id}")
     public ResponseEntity<PropostaDTO> rejeitarProposta(@PathVariable(name = "id") Long id)
     {
@@ -135,6 +143,7 @@ public class PropostaController
      * @param alunoID o id do aluno
      * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
      */
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/aceitar/{id}")
     public ResponseEntity<Object> aceitarProposta(@PathVariable("id") Long propostaID,
                                                       @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
