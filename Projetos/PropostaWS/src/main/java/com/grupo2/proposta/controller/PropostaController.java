@@ -1,8 +1,10 @@
 package com.grupo2.proposta.controller;
 
 
+import com.grupo2.proposta.dto.ConviteDTO;
 import com.grupo2.proposta.dto.ProjetoDTO;
 import com.grupo2.proposta.dto.PropostaDTO;
+import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.*;
 import com.grupo2.proposta.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,6 +151,21 @@ public class PropostaController
         catch (AtualizacaoInvalidaException e)
         {
             throw new AtualizacaoInvalidaException(e.getMessage());
+        }
+    }
+
+    @GetMapping("/criarConvite")
+    public ResponseEntity<Object> criarConvite(@RequestBody ConviteDTO convite) throws Exception
+    {
+        try
+        {
+            ConviteDTO conviteDTO = service.createConvite(convite);
+            //return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
+            return ResponseEntity.accepted().body(conviteDTO);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.getMessage());
         }
     }
 }
