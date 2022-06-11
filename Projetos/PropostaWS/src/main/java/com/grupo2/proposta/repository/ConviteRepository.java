@@ -8,6 +8,8 @@ import com.grupo2.proposta.repository.jpa.ConviteJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class ConviteRepository
 {
@@ -21,5 +23,25 @@ public class ConviteRepository
         ConviteJPA conviteJPA = mapper.toJPA(convite);
 
         return mapper.toModel(jpaRepository.save(conviteJPA));
+    }
+
+    public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID)
+    {
+        Optional<ConviteJPA> conviteJPA = jpaRepository.findBy_idProposta_And_idAluno(propostaID, alunoID);
+
+        if (conviteJPA.isPresent())
+        {
+            return Optional.of(mapper.toModel(conviteJPA.get()));
+        }
+        return Optional.empty();
+    }
+
+    public void atualizar(Convite convite)
+    {
+        ConviteJPA conviteJPA = mapper.toJPA(convite);
+
+        jpaRepository.deleteById(conviteJPA.getId());
+
+        jpaRepository.save(conviteJPA);
     }
 }

@@ -5,11 +5,8 @@ import com.grupo2.proposta.dto.factory.ProjetoDTOFactory;
 import com.grupo2.proposta.dto.mapper.ConviteDTOMapper;
 import com.grupo2.proposta.dto.mapper.PropostaCandidaturaDTOMapper;
 import com.grupo2.proposta.exception.*;
-import com.grupo2.proposta.model.Convite;
-import com.grupo2.proposta.model.PropostaEstado;
-import com.grupo2.proposta.model.TipoUtilizador;
+import com.grupo2.proposta.model.*;
 import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
-import com.grupo2.proposta.model.Proposta;
 import com.grupo2.proposta.repository.ConviteRepository;
 import com.grupo2.proposta.repository.PropostaCandidaturaRepo;
 import com.grupo2.proposta.repository.PropostaRepository;
@@ -22,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -198,7 +196,7 @@ public class PropostaService
      * @throws AtualizacaoInvalidaException Se a atualizacao for invalida
      * @throws IdInvalidoException Se o id for invalido
      */
-    public ProjetoDTO acceptProposta(Long propostaID, Long orientadorID, Long alunoID) throws AtualizacaoInvalidaException, IdInvalidoException
+    public ProjetoDTO acceptCandidaturaProposta(Long propostaID, Long orientadorID, Long alunoID) throws AtualizacaoInvalidaException, IdInvalidoException
     {
         Optional<Proposta> proposta = repository.findById(propostaID);
         if (proposta.isEmpty())
@@ -328,5 +326,82 @@ public class PropostaService
         }
 
         return candidaturaDTOMapper.toDTO(propostaCandidaturaRepo.createAndSave(propostaID,alunoId));
+    }
+
+    public ProjetoDTO acceptProposta(Long propostaID, Long orientadorID, Long alunoID)
+    {
+        //encontrar e validar proposta
+        Optional<Proposta> proposta = repository.findById(propostaID);
+        if (proposta.isEmpty())
+        {
+            throw new IdInvalidoException("Id de proposta " + propostaID + " nao existe.");
+        }
+
+        if(proposta.get().getEstadoAtual() != PropostaEstado.APROVADO)
+        {
+            throw new ValidacaoInvalidaException("Esta proposta nao esta como aprovado");
+        }
+
+        //encontrar e validar orientador
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
+        if (orientadorDTO.isEmpty())
+        {
+            throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
+        }
+        else if ( orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR)
+        {
+            throw new IdInvalidoException("O ID introduzido nao é um orientador.");
+        }
+
+        //encontrar e validar aluno
+        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(alunoID);
+        if (alunoDTO.isEmpty())
+        {
+            throw new IdInvalidoException("Id de Estudante " + alunoID + " nao existe.");
+        }
+        else if (alunoDTO.get().getTipoUtilizador() != TipoUtilizador.ALUNO)
+        {
+            throw new IdInvalidoException("O ID introduzido nao é um aluno.");
+        }
+
+        //Encontrar convite do aluno e atualizar estado
+        Optional<Convite> convite = conviteRepository.findByPropostaAndAluno(propostaID, alunoID);
+
+        if (convite.isEmpty())
+        {
+            throw new IdInvalidoException("O aluno "+alunoID+" nao tem nenhum convite para esta proposta");
+        }
+
+        if (!convite.get().getIdDocente().equals(orientadorID))
+        {
+            throw new IdInvalidoException("Orientador "+orientadorID+" nao corresponde ao convite");
+        }
+
+        if (convite.get().getEstado() != EstadoConvite.ACEITE)
+        {
+            throw new ValidacaoInvalidaException("O convite do aluno nao esta como aceite");
+        }
+
+        convite.get().setEstado(EstadoConvite.EM_PROJETO);
+
+        atualizarConvite(convite.get());
+
+        //criar projeto
+        ProjetoDTO projetoDTO = createProject(propostaID, orientadorID, alunoID);
+
+        //colocar esta proposta como em_projeto
+
+        proposta.get().aceitarPropostaProjeto();
+
+        atualizarProposta(proposta.get());
+
+        //FALTA REPROVAR AS OUTRAS PROPOSTAS DE OUTROS ALUNOS A MESMA PROPOSTA
+
+        return projetoDTO;
+    }
+
+    private void atualizarConvite(Convite convite)
+    {
+        conviteRepository.atualizar(convite);
     }
 }

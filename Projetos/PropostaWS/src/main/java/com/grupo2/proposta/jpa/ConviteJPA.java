@@ -1,6 +1,7 @@
 package com.grupo2.proposta.jpa;
 
 import com.grupo2.proposta.model.ConviteID;
+import com.grupo2.proposta.model.EstadoConvite;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -13,17 +14,25 @@ public class ConviteJPA
     @EmbeddedId
     private ConviteID id;
 
+    private EstadoConvite estado;
+
     public ConviteJPA()
     {
     }
 
-    public ConviteJPA(ConviteID id)
+    public ConviteJPA(ConviteID id, EstadoConvite estado)
     {
         this.id = id;
+        this.estado = estado;
     }
 
     public ConviteID getId()
     {
         return id;
+    }
+
+    public EstadoConvite getEstado()
+    {
+        return estado;
     }
 }

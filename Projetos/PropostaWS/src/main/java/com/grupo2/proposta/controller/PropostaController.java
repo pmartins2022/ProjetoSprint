@@ -110,13 +110,13 @@ public class PropostaController
     }
 
     /**
-     * Endpoint que possibilita rejeitar uma proposta.
+     * Endpoint que possibilita rejeitar uma candidatura a proposta.
      * @param id o id da proposta
      * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/rejeitar/{id}")
-    public ResponseEntity<PropostaDTO> rejeitarProposta(@PathVariable(name = "id") Long id)
+    @GetMapping("/rejeitarCandidatura/{id}")
+    public ResponseEntity<PropostaDTO> rejeitarCandidaturaProposta(@PathVariable(name = "id") Long id)
     {
         try
         {
@@ -134,16 +134,36 @@ public class PropostaController
     }
 
     /**
-     * Endpoint que possibilita aprovar uma proposta.
+     * Endpoint que possibilita aprovar uma candidatura a proposta.
      * @param propostaID o id da proposta
      * @param orientadorID o id do orientador
      * @param alunoID o id do aluno
      * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/aceitar/{id}")
-    public ResponseEntity<Object> aceitarProposta(@PathVariable("id") Long propostaID,
+    @GetMapping("/aceitarCandidatura/{id}")
+    public ResponseEntity<Object> aceitarCandidaturaProposta(@PathVariable("id") Long propostaID,
                                                       @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
+    {
+        try
+        {
+            ProjetoDTO projetoDTO = service.acceptCandidaturaProposta(propostaID, orientadorID, alunoID);
+            return new ResponseEntity<>(projetoDTO, HttpStatus.OK);
+        }
+        catch (IdInvalidoException e)
+        {
+            throw new IdInvalidoException(e.getMessage());
+        }
+        catch (AtualizacaoInvalidaException e)
+        {
+            throw new AtualizacaoInvalidaException(e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/aceitarProposta/{id}")
+    public ResponseEntity<Object> aceitarProposta(@PathVariable("id") Long propostaID,
+                                                  @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
     {
         try
         {

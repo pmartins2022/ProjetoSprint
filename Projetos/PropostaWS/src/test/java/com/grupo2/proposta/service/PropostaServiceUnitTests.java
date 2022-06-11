@@ -103,7 +103,7 @@ class PropostaServiceUnitTests
         when(projetoDTOFactory.createProjeto(1L, 1L, 2L)).thenReturn(projetoDTO);
         when(projetoRestRepository.create(projetoDTO)).thenReturn(projetoDTO);
 
-        ProjetoDTO acceptProposta = service.acceptProposta(1L, 1L, 2L);
+        ProjetoDTO acceptProposta = service.acceptCandidaturaProposta(1L, 1L, 2L);
 
         assertEquals(acceptProposta, projetoDTO);
     }
@@ -112,7 +112,7 @@ class PropostaServiceUnitTests
     public void shouldNotAcceptProposta_invalidID()
     {
         when(repository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(IdInvalidoException.class, () -> service.acceptProposta(1L, 1L, 2L));
+        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
     }
 
     @Test
@@ -124,7 +124,7 @@ class PropostaServiceUnitTests
 
         doThrow(new AtualizacaoInvalidaException()).when(proposta).aprovarProposta();
 
-        assertThrows(AtualizacaoInvalidaException.class, () -> service.acceptProposta(1L, 1L, 2L));
+        assertThrows(AtualizacaoInvalidaException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
     }
 
     @Test
@@ -135,7 +135,7 @@ class PropostaServiceUnitTests
         when(repository.findById(1L)).thenReturn(Optional.of(proposta));
         when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(IdInvalidoException.class, () -> service.acceptProposta(1L, 1L, 2L));
+        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
     }
 
     @Test
@@ -150,7 +150,7 @@ class PropostaServiceUnitTests
         when(orDto.getTipoUtilizador()).thenReturn(TipoUtilizador.ORIENTADOR);
         when(utilizadorRestRepository.findById(2L)).thenReturn(Optional.empty());
 
-        assertThrows(IdInvalidoException.class, () -> service.acceptProposta(1L, 1L, 2L));
+        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
     }
 
     @Test
@@ -165,7 +165,7 @@ class PropostaServiceUnitTests
 
         when(repository.findById(1L)).thenReturn(Optional.of(proposta));
 
-        assertThrows(IdInvalidoException.class, () -> service.acceptProposta(1L, 1L, 2L));
+        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
     }
 
     @Test
@@ -183,7 +183,7 @@ class PropostaServiceUnitTests
 
         when(repository.findById(1L)).thenReturn(Optional.of(proposta));
 
-        assertThrows(IdInvalidoException.class, () -> service.acceptProposta(1L, 1L, 2L));
+        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
     }
 
     @Test

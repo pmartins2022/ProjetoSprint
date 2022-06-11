@@ -7,5 +7,6 @@ public enum PropostaEstado
 {
     CANDIDATURA,
     APROVADO,
-    REPROVADO
+    REPROVADO,
+    EM_PROJETO
 }

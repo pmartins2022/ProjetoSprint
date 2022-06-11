@@ -212,4 +212,9 @@ public class Proposta
             throw new ValidacaoInvalidaException("Valores tem que ter no minimo "+minSize+" caracteres de comprimento.");
         }
     }
+
+    public void aceitarPropostaProjeto()
+    {
+        this.estadoAtual = PropostaEstado.EM_PROJETO;
+    }
 }

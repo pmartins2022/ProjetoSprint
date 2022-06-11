@@ -38,7 +38,7 @@ class PropostaServiceIntegrationTests
     @Test
     public void shouldNotAcceptProposta_InvalidID()
     {
-        assertThrows(IdInvalidoException.class,()->service.acceptProposta(99L,1L,1L));
+        assertThrows(IdInvalidoException.class,()->service.acceptCandidaturaProposta(99L,1L,1L));
     }
 
     @Test
@@ -47,7 +47,7 @@ class PropostaServiceIntegrationTests
         PropostaJPA p = new PropostaJPA(1L,1L,1L,"AAAAAAAAAA","BBBBBBBBBB","CCCCCCCCCC",1L,PropostaEstado.APROVADO);
         PropostaJPA save = jpaRepository.save(p);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->service.acceptProposta(save.getId(),2L,1L));
+        assertThrows(AtualizacaoInvalidaException.class,()->service.acceptCandidaturaProposta(save.getId(),2L,1L));
     }
 
     @Test

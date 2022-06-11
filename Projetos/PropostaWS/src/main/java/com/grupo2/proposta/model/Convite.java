@@ -6,11 +6,14 @@ public class Convite
     private Long idDocente;
     private Long idProposta;
 
-    public Convite(Long idAluno, Long idDocente, Long idProposta)
+    private EstadoConvite estado;
+
+    public Convite(Long idAluno, Long idDocente, Long idProposta, EstadoConvite estado)
     {
         this.idAluno = idAluno;
         this.idDocente = idDocente;
         this.idProposta = idProposta;
+        this.estado = estado;
     }
 
     public Long getIdAluno()
@@ -41,5 +44,15 @@ public class Convite
     public void setIdProposta(Long idProposta)
     {
         this.idProposta = idProposta;
+    }
+
+    public EstadoConvite getEstado()
+    {
+        return estado;
+    }
+
+    public void setEstado(EstadoConvite estado)
+    {
+        this.estado = estado;
     }
 }

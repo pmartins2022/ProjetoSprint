@@ -9,11 +9,11 @@ public class ConviteDTOMapper
 {
     public ConviteDTO toDTO (Convite conv)
     {
-        return new ConviteDTO(conv.getIdAluno(), conv.getIdDocente(), conv.getIdProposta());
+        return new ConviteDTO(conv.getIdAluno(), conv.getIdDocente(), conv.getIdProposta(), conv.getEstado());
     }
 
     public Convite toModel(ConviteDTO dto)
     {
-        return new Convite(dto.getIdAluno(),dto.getIdDocente(), dto.getIdProposta());
+        return new Convite(dto.getIdAluno(),dto.getIdDocente(), dto.getIdProposta(),dto.getEstado());
     }
 }
