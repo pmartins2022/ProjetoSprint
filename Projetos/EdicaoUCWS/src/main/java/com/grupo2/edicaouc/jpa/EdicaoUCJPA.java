@@ -11,7 +11,7 @@ import java.util.List;
  * Classe JPA de EdicaoUC
  */
 @Entity
-@Table(name="EdicaoUC")
+@Table(name="EdicaoUC", uniqueConstraints = {@UniqueConstraint(columnNames = {"ucCode", "anoLetivoCode"})})
 public class EdicaoUCJPA
 {
     /**

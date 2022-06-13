@@ -7,6 +7,7 @@ import com.grupo2.utilizadores.service.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class UtilizadorController
     @Autowired
     private UtilizadorService service;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/registar")
     public ResponseEntity<?> registar(@RequestBody UtilizadorDTO utilizadorDTO)
     {
