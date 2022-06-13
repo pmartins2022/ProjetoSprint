@@ -108,4 +108,16 @@ public class EdicaoUCJPA
     {
         return estadoEdicaoUC;
     }
+
+    @Override
+    public String toString()
+    {
+        return "EdicaoUCJPA{" +
+                "id=" + id +
+                ", ucCode='" + ucCode + '\'' +
+                ", anoLetivoCode='" + anoLetivoCode + '\'' +
+                ", rucID=" + rucID +
+                ", estadoEdicaoUC=" + estadoEdicaoUC +
+                '}';
+    }
 }

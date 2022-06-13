@@ -2,6 +2,7 @@ package com.grupo2.edicaouc.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Classe de domínio de EdicaoUC
@@ -58,6 +59,15 @@ public class EdicaoUC
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
         estadoEdicaoUC = EstadoEdicaoUC.PENDENTE;
+    }
+
+    public EdicaoUC(Long id, String UCCode, String anoLetivoCode, Long rucID, EstadoEdicaoUC estadoEdicaoUC)
+    {
+        this.id = id;
+        this.UCCode = UCCode;
+        this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
+        this.estadoEdicaoUC = estadoEdicaoUC;
     }
 
     /**
@@ -139,4 +149,31 @@ public class EdicaoUC
         estadoEdicaoUC = EstadoEdicaoUC.DESATIVA;
     }
 
+
+    @Override
+    public String toString()
+    {
+        return "EdicaoUC{" +
+                "id=" + id +
+                ", UCCode='" + UCCode + '\'' +
+                ", anoLetivoCode='" + anoLetivoCode + '\'' +
+                ", rucID=" + rucID +
+                ", estadoEdicaoUC=" + estadoEdicaoUC +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EdicaoUC edicaoUC = (EdicaoUC) o;
+        return UCCode.equals(edicaoUC.UCCode) && anoLetivoCode.equals(edicaoUC.anoLetivoCode) && rucID.equals(edicaoUC.rucID) && estadoEdicaoUC == edicaoUC.estadoEdicaoUC;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, UCCode, anoLetivoCode, rucID, estadoEdicaoUC);
+    }
 }

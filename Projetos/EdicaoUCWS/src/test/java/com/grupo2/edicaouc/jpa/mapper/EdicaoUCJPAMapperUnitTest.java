@@ -39,8 +39,9 @@ class EdicaoUCJPAMapperUnitTest {
         when(edicaoUCJPAMOCK.getId()).thenReturn(1L);
         when(edicaoUCJPAMOCK.getUCCode()).thenReturn("MAT");
         when(edicaoUCJPAMOCK.getAnoLetivoCode()).thenReturn("2001-2002");
+        when(edicaoUCJPAMOCK.getRucID()).thenReturn(1L);
 
-        when(factory.createEdicaoUC(1L,"MAT","2001-2002")).thenReturn(edicaoUCMOCK);
+        when(factory.createEdicaoUC(1L,"MAT","2001-2002",1L)).thenReturn(edicaoUCMOCK);
 
         EdicaoUC edicaoUC = mapper.toModel(edicaoUCJPAMOCK);
         assertEquals(edicaoUC,edicaoUCMOCK);
@@ -49,7 +50,7 @@ class EdicaoUCJPAMapperUnitTest {
     public void shouldNotConvertValidEdicaoUC_InvalidAtributtes()
     {
         EdicaoUCJPA edicaoUCJPAMOCK = mock(EdicaoUCJPA.class);
-        when(factory.createEdicaoUC(edicaoUCJPAMOCK.getId(),edicaoUCJPAMOCK.getUCCode(), edicaoUCJPAMOCK.getAnoLetivoCode())).thenThrow(ValidacaoInvalidaException.class);
+        when(factory.createEdicaoUC(edicaoUCJPAMOCK.getId(),edicaoUCJPAMOCK.getUCCode(), edicaoUCJPAMOCK.getAnoLetivoCode(), edicaoUCJPAMOCK.getRucID())).thenThrow(ValidacaoInvalidaException.class);
 
         assertThrows(ValidacaoInvalidaException.class, () -> mapper.toModel(edicaoUCJPAMOCK));
     }
@@ -75,7 +76,7 @@ class EdicaoUCJPAMapperUnitTest {
     {
         EdicaoUCJPA edicaoUCJPAMOCK = mock(EdicaoUCJPA.class);
 
-        when(factory.createEdicaoUC(edicaoUCJPAMOCK.getId(), edicaoUCJPAMOCK.getUCCode(), edicaoUCJPAMOCK.getAnoLetivoCode())).thenThrow(ValidacaoInvalidaException.class);
+        when(factory.createEdicaoUC(edicaoUCJPAMOCK.getId(), edicaoUCJPAMOCK.getUCCode(), edicaoUCJPAMOCK.getAnoLetivoCode(), edicaoUCJPAMOCK.getRucID())).thenThrow(ValidacaoInvalidaException.class);
 
         assertThrows(ValidacaoInvalidaException.class, () -> mapper.toModel(edicaoUCJPAMOCK));
     }
