@@ -26,12 +26,8 @@ public class ConviteRepository
         return mapper.toModel(jpaRepository.save(conviteJPA));
     }
 
-    public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID, Long d)
+    public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID)
     {
-        ConviteID c = new ConviteID();
-
-        jpaRepository.findById(c);
-
         Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(propostaID, alunoID);
 
         if (conviteJPA.isPresent())

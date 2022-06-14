@@ -232,7 +232,7 @@ public class PropostaService
             throw new IdInvalidoException("O ID introduzido nao é um orientador.");
         }
 
-        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
+        Optional<Convite> convite = Optional.empty(); //conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
         if (convite.isEmpty())
         {
             throw new IdInvalidoException("O Orientador "+orientadorID+" não tem nenhum convite para a proposta "+propostaID);
@@ -259,7 +259,7 @@ public class PropostaService
             throw new IdInvalidoException("O ID introduzido nao é um orientador.");
         }
 
-        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID, propostaID);
+        Optional<Convite> convite = Optional.empty(); //conviteRepository.findByDocenteAndProposta(orientadorID, propostaID);
         if (convite.isEmpty()) {
             throw new IdInvalidoException("O Orientador " + orientadorID + " não tem nenhum convite para a proposta " + propostaID);
         }
@@ -393,6 +393,7 @@ public class PropostaService
 
         //Encontrar convite do aluno e atualizar estado        //proposta e aluno juntos formam ID
         Optional<Convite> convite = conviteRepository.findByPropostaAndAluno(propostaID, alunoID);
+        //TEM TE SE METER DOCENTE TAMBÉM!!!!!!!
 
         if (convite.isEmpty())
         {
