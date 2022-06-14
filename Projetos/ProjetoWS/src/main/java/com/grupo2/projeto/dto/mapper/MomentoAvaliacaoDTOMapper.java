@@ -13,10 +13,10 @@ public class MomentoAvaliacaoDTOMapper {
     MomentoAvaliacaoFactory momentoAvaliacaoFactory;
 
     public MomentoAvaliacao toModel(MomentoAvaliacaoDTO dto){
-        return momentoAvaliacaoFactory.createMomentoAvaliacao(dto.getId(),dto.getProjetoId(),dto.getPresidenteId(),dto.getOrientadorId(), dto.getArguenteId());
+        return momentoAvaliacaoFactory.createMomentoAvaliacao(dto.getId(),dto.getProjetoId());
     }
 
     public MomentoAvaliacaoDTO toDTO(MomentoAvaliacao momentoAvaliacao){
-        return new MomentoAvaliacaoDTO(momentoAvaliacao.getId(), momentoAvaliacao.getProjetoId(), momentoAvaliacao.getPresidenteId(), momentoAvaliacao.getOrientadorId(),momentoAvaliacao.getArguenteId());
+        return new MomentoAvaliacaoDTO(momentoAvaliacao.getId(), momentoAvaliacao.getProjetoId());
     }
 }

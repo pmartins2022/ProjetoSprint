@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MomentoAvaliacaoFactory {
 
-    public MomentoAvaliacao createMomentoAvaliacao (Long id, Long projetoId, Long presidenteId, Long orientadorId, Long arguenteId){
-        return new MomentoAvaliacao(id,projetoId,presidenteId,orientadorId,arguenteId);
+    public MomentoAvaliacao createMomentoAvaliacao (Long id, Long projetoId){
+        return new MomentoAvaliacao(id,projetoId);
     }
 }
