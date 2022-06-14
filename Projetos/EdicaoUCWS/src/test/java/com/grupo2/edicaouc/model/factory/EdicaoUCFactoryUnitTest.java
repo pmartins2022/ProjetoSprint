@@ -22,7 +22,7 @@ class EdicaoUCFactoryUnitTest {
     @Test
     public void shouldCreateValidEdicaoUC()
     {
-        assertDoesNotThrow(()-> factory.createEdicaoUC(1L,"MAT","2001-2002"));
+        assertDoesNotThrow(()-> factory.createEdicaoUC(1L,"MAT","2001-2002",1L));
     }
 
 }

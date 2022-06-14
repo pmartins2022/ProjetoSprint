@@ -187,7 +187,7 @@ public class UtilizadorDTO
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UtilizadorDTO that = (UtilizadorDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(sobrenome, that.sobrenome) && Objects.equals(email, that.email) && tipoUtilizador == that.tipoUtilizador;
+        return Objects.equals(nome, that.nome) && Objects.equals(sobrenome, that.sobrenome) && Objects.equals(email, that.email) && tipoUtilizador == that.tipoUtilizador;
     }
 
     @Override

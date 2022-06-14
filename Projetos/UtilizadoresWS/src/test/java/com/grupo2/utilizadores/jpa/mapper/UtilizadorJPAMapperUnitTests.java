@@ -43,6 +43,8 @@ class UtilizadorJPAMapperUnitTests
         when(jpaMOCK.getNome()).thenReturn("nome");
         when(jpaMOCK.getSobrenome()).thenReturn("sobrenome");
         when(jpaMOCK.getEmail()).thenReturn("email");
+        when(jpaMOCK.getUsername()).thenReturn("username");
+        when(jpaMOCK.getPassword()).thenReturn("password");
         when(jpaMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
 
         Utilizador utilizadorMOCK = mock(Utilizador.class);
@@ -50,10 +52,12 @@ class UtilizadorJPAMapperUnitTests
         when(utilizadorMOCK.getNome()).thenReturn("nome");
         when(utilizadorMOCK.getSobrenome()).thenReturn("sobrenome");
         when(utilizadorMOCK.getEmail()).thenReturn("email");
+        when(utilizadorMOCK.getUsername()).thenReturn("username");
+        when(utilizadorMOCK.getPassword()).thenReturn("password");
         when(utilizadorMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
 
         when(factory.createUtilizador(1L, jpaMOCK.getNome(), jpaMOCK.getSobrenome(), jpaMOCK.getEmail(),
-                jpaMOCK.getTipoUtilizador())).thenReturn(utilizadorMOCK);
+                jpaMOCK.getUsername(),jpaMOCK.getPassword(),jpaMOCK.getTipoUtilizador())).thenReturn(utilizadorMOCK);
 
         Utilizador utilizador = mapper.toModel(jpaMOCK);
 
@@ -66,7 +70,7 @@ class UtilizadorJPAMapperUnitTests
         UtilizadorJPA jpaMOCK = mock(UtilizadorJPA.class);
 
         when(factory.createUtilizador(jpaMOCK.getId(), jpaMOCK.getNome(), jpaMOCK.getSobrenome(), jpaMOCK.getEmail(),
-                jpaMOCK.getTipoUtilizador())).thenThrow(ValidacaoInvalidaException.class);
+                jpaMOCK.getUsername(),jpaMOCK.getPassword(),jpaMOCK.getTipoUtilizador())).thenThrow(ValidacaoInvalidaException.class);
 
         assertThrows(ValidacaoInvalidaException.class, ()-> mapper.toModel(jpaMOCK));
     }

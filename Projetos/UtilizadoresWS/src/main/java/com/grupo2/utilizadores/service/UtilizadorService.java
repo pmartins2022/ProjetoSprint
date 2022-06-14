@@ -33,7 +33,7 @@ public class UtilizadorService
 
     public UtilizadorDTO registar(UtilizadorDTO utilizadorDTO)
     {
-        if (repository.findByUsername(utilizadorDTO.getNome()).isPresent())
+        if (repository.findByUsername(utilizadorDTO.getUsername()).isPresent())
         {
             throw new IllegalArgumentException("Utilizador já existe");
         }
@@ -97,6 +97,6 @@ public class UtilizadorService
             throw new OptionalVazioException("Utilizador com esse id "+id+" não existe");
         }
 
-        return utilizador.get().getTipoUtilizador().name().equals(role);
+        return utilizador.get().getTipoUtilizador().toString().equals(role);
     }
 }
