@@ -50,8 +50,25 @@ public class PropostaController
      */
     public PropostaDTO createProposta(long userId, int organizacaoId, int edicaoUCId, String tituloText, String problemaText, String objetivoText)
     {
-        PropostaDTO dto = propostaDTOFactory.create(userId, (long) organizacaoId,tituloText,problemaText,objetivoText,(long) edicaoUCId);
+        PropostaDTO dto = propostaDTOFactory.create(userId, (long) organizacaoId, tituloText, problemaText, objetivoText, (long) edicaoUCId);
 
         return propostaService.saveProposta(dto);
+    }
+
+    public List<PropostaDTO> findAllPropostaCandidatura()
+    {
+        return propostaService.findAllPropostaOrganizacao();
+    }
+
+    public Boolean acceptCandidaturaProposta(Long idPropostaCandidatura)
+    {
+        propostaService.acceptCandidaturaProposta(idPropostaCandidatura);
+        return true;
+    }
+
+    public Boolean rejectCandidaturaProposta(Long idPropostaCandidatura)
+    {
+        propostaService.rejectCandidaturaProposta(idPropostaCandidatura);
+        return true;
     }
 }

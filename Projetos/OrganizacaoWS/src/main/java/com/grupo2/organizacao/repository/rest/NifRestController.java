@@ -1,7 +1,6 @@
 package com.grupo2.organizacao.repository.rest;
 
 import com.grupo2.organizacao.dto.NifDTO;
-import com.grupo2.organizacao.model.Organizacao;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.reactive.function.client.WebClient;
 

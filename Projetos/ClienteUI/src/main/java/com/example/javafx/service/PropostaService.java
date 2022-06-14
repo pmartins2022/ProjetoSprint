@@ -64,4 +64,19 @@ public class PropostaService
     {
         return propostaRestRepo.createProposta(dto);
     }
+
+    public List<PropostaDTO> findAllPropostaOrganizacao()
+    {
+        return propostaRestRepo.findAllPropostaOrganizacao();
+    }
+
+    public void acceptCandidaturaProposta(Long idPropostaCandidatura)
+    {
+
+    }
+
+    public void rejectCandidaturaProposta(Long idPropostaCandidatura)
+    {
+
+    }
 }
