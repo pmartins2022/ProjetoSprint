@@ -8,7 +8,7 @@ import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
 import com.grupo2.proposta.exception.*;
 import com.grupo2.proposta.model.*;
 import com.grupo2.proposta.repository.ConviteRepository;
-import com.grupo2.proposta.repository.PropostaInscricaoRepo;
+import com.grupo2.proposta.repository.PropostaCandidaturaRepo;
 import com.grupo2.proposta.repository.PropostaRepository;
 import com.grupo2.proposta.repository.rest.EdicaoUCRestRepository;
 import com.grupo2.proposta.repository.rest.OrganizacaoRestRepository;
@@ -35,7 +35,7 @@ public class PropostaService
     @Autowired
     private ProjetoRestRepository projetoRestRepository;
     @Autowired
-    private PropostaInscricaoRepo propostaInscricaoRepo;
+    private PropostaCandidaturaRepo propostaCandidaturaRepo;
     @Autowired
     private PropostaCandidaturaDTOMapper candidaturaDTOMapper;
 
@@ -219,9 +219,10 @@ public class PropostaService
         return mapper.toDTO(saved);
     }
 
-    public ConviteDTO acceptOrientacaoProposta(Long propostaID, Long orientadorID) throws IdInvalidoException
+    public ConviteDTO acceptOrientacaoProposta(Long propostaID, Long orientadorID,
+                                               String encoded) throws IdInvalidoException
     {
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID, encoded);
         if (orientadorDTO.isEmpty())
         {
             throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
@@ -231,7 +232,7 @@ public class PropostaService
             throw new IdInvalidoException("O ID introduzido nao é um orientador.");
         }
 
-        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
+        Optional<Convite> convite = Optional.empty(); //conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
         if (convite.isEmpty())
         {
             throw new IdInvalidoException("O Orientador "+orientadorID+" não tem nenhum convite para a proposta "+propostaID);
@@ -250,25 +251,19 @@ public class PropostaService
         return convitemapper.toDTO(value);
     }
 
-    public ConviteDTO rejectOrientacaoProposta(Long propostaID, Long orientadorID) throws IdInvalidoException
-    {
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
-        if (orientadorDTO.isEmpty())
-        {
+    public ConviteDTO rejectOrientacaoProposta(Long propostaID, Long orientadorID, String encoded) throws IdInvalidoException {
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID, encoded);
+        if (orientadorDTO.isEmpty()) {
             throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
-        }
-        else if ( orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR)
-        {
+        } else if (orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR) {
             throw new IdInvalidoException("O ID introduzido nao é um orientador.");
         }
 
-        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
-        if (convite.isEmpty())
-        {
-            throw new IdInvalidoException("O Orientador "+orientadorID+" não tem nenhum convite para a proposta "+propostaID);
+        Optional<Convite> convite = Optional.empty(); //conviteRepository.findByDocenteAndProposta(orientadorID, propostaID);
+        if (convite.isEmpty()) {
+            throw new IdInvalidoException("O Orientador " + orientadorID + " não tem nenhum convite para a proposta " + propostaID);
         }
-        if (convite.get().getEstado()!=EstadoConvite.PENDENTE)
-        {
+        if (convite.get().getEstado() != EstadoConvite.PENDENTE) {
             throw new AtualizacaoInvalidaException("Nao pode aceitar este convite");
         }
 
@@ -280,13 +275,6 @@ public class PropostaService
 
         return convitemapper.toDTO(value);
     }
-
-
-
-
-
-
-
 
         /**
          * Criar um projeto a partir de uma proposta.
@@ -328,9 +316,9 @@ public class PropostaService
 
         try
         {
-            if (!propostaInscricaoRepo.isIncrito(conviteDTO.getIdProposta(), conviteDTO.getIdAluno()))
+            if (!propostaCandidaturaRepo.isIncrito(conviteDTO.getIdProposta(), conviteDTO.getIdAluno()))
             {
-                throw new ValidacaoInvalidaException("O aluno nao "+conviteDTO.getIdAluno()+" nao esta incrito na proposta "+conviteDTO.getIdProposta());
+                throw new ValidacaoInvalidaException("O aluno nao " + conviteDTO.getIdAluno() + " nao esta incrito na proposta " + conviteDTO.getIdProposta());
             }
         }
         catch (IdInvalidoException e)
@@ -354,7 +342,7 @@ public class PropostaService
         return conviteDTOMapper.toDTO(convite);
     }
 
-    public PropostaInscricaoDTO inscricaoProposta(Long propostaID)
+    public PropostaCandidaturaDTO candidatarAlunoProposta(Long propostaID)
     {
         Optional<Proposta> proposta = repository.findById(propostaID);
         if (proposta.isEmpty())
@@ -362,19 +350,19 @@ public class PropostaService
             throw new OptionalVazioException("Não existe esta proposta");
         }
 
-        if(proposta.get().getEstadoAtual() != PropostaEstado.APROVADO)
+        if (proposta.get().getEstadoAtual() != PropostaEstado.APROVADO)
         {
             throw new ValidacaoInvalidaException("Esta proposta nao está como aprovado");
         }
 
         Long alunoId = LoginContext.getCurrent().getId();
 
-        if (propostaInscricaoRepo.isAlunoInscrito(alunoId))
+        if (propostaCandidaturaRepo.isAlunoInscrito(alunoId))
         {
             throw new AtualizacaoInvalidaException("O aluno ja se encontra inscrito numa proposta ativa");
         }
 
-        return candidaturaDTOMapper.toDTO(propostaInscricaoRepo.createAndSave(propostaID,alunoId));
+        return candidaturaDTOMapper.toDTO(propostaCandidaturaRepo.createAndSave(propostaID, alunoId));
     }
 
     public ProjetoDTO acceptProposta(Long propostaID, Long orientadorID, Long alunoID)
@@ -392,29 +380,20 @@ public class PropostaService
         }
 
         //encontrar e validar orientador
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID, "aaa");
-        if (orientadorDTO.isEmpty())
-        {
-            throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
-        }
-        else if ( orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR)
+        if (!utilizadorRestRepository.isRole("ROLE_ORIENTADOR", orientadorID))
         {
             throw new IdInvalidoException("O ID introduzido nao é um orientador.");
         }
 
         //encontrar e validar aluno
-        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(alunoID, "aaa");
-        if (alunoDTO.isEmpty())
-        {
-            throw new IdInvalidoException("Id de Estudante " + alunoID + " nao existe.");
-        }
-        else if (alunoDTO.get().getTipoUtilizador() != TipoUtilizador.ALUNO)
+        if (!utilizadorRestRepository.isRole("ROLE_ALUNO", alunoID))
         {
             throw new IdInvalidoException("O ID introduzido nao é um aluno.");
         }
 
-        //Encontrar convite do aluno e atualizar estado
+        //Encontrar convite do aluno e atualizar estado        //proposta e aluno juntos formam ID
         Optional<Convite> convite = conviteRepository.findByPropostaAndAluno(propostaID, alunoID);
+        //TEM TE SE METER DOCENTE TAMBÉM!!!!!!!
 
         if (convite.isEmpty())
         {
@@ -428,7 +407,7 @@ public class PropostaService
 
         if (convite.get().getEstado() != EstadoConvite.ACEITE)
         {
-            throw new ValidacaoInvalidaException("O convite do aluno nao esta como aceite");
+            throw new ValidacaoInvalidaException("O convite do aluno nao está em fase ACEITE");
         }
 
         convite.get().setEstado(EstadoConvite.EM_PROJETO);
@@ -439,7 +418,6 @@ public class PropostaService
         ProjetoDTO projetoDTO = createProject(propostaID, orientadorID, alunoID);
 
         //colocar esta proposta como em_projeto
-
         proposta.get().aceitarPropostaProjeto();
 
         atualizarProposta(proposta.get());
@@ -452,5 +430,37 @@ public class PropostaService
     private void atualizarConvite(Convite convite)
     {
         conviteRepository.atualizar(convite);
+    }
+
+    public PropostaCandidaturaDTO acceptAlunoCandidaturaProposta(Long idUtilizador, Long idProposta, Long idAluno)
+    {
+        //docente   idPropostaCanditura - idAluno -idProposta-edicaoUC   se +é RUC desta edicaoUC
+        Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findByID(idProposta, idAluno);
+
+        if (propostaCandidatura.isEmpty())
+        {
+            throw new OptionalVazioException("Não existe candidatura com estes IDs: " + idProposta + " e " + idAluno);
+        }
+
+        Optional<EdicaoUCDTO> edicaoUCDTO = edicaoUCRestRepository.findByRucID(idUtilizador);
+
+        if (edicaoUCDTO.isEmpty())
+        {
+            throw new OptionalVazioException(idUtilizador + " não é RUC.");
+        }
+
+        //ver se é RUC desta Proposta /EdicaoUC  idProposta !!!!!!!!!!!!!!!!!!!!!!!
+
+        if (propostaCandidatura.get().getEstado().ordinal() != 0)
+        {
+            throw new ValidacaoInvalidaException("Candidatura tem que estar em fase "+ EstadoCandidatura.PENDENTE +
+                    "e encontra-se em fase "+ propostaCandidatura.get().getEstado().name());
+        }
+
+        propostaCandidatura.get().setEstado(EstadoCandidatura.ACEITE);
+
+        PropostaCandidatura updated = propostaCandidaturaRepo.createAndSave(propostaCandidatura.get().getIdProposta(), propostaCandidatura.get().getIdAluno());
+
+        return candidaturaDTOMapper.toDTO(updated);
     }
 }

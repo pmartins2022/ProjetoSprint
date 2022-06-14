@@ -138,7 +138,7 @@ public class EdicaoUCService
                 throw new ErroGeralException(dtoPostedRequest.getId() + " não é RUC desta edição.");
             }
 
-            if (!utilizadorRestRepository.isRole("ALUNO", alunoID))
+            if (!utilizadorRestRepository.isRole("ROLE_ALUNO", alunoID))
             {
                 throw new ErroGeralException(alunoID + " não é um aluno.");
             }

@@ -5,17 +5,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class PropostaInscricaoID implements Serializable
+public class PropostaCandidaturaID implements Serializable
 {
     private Long idProposta;
     private Long idAluno;
 
 
-    public PropostaInscricaoID()
+    public PropostaCandidaturaID()
     {
     }
 
-    public PropostaInscricaoID(Long idProposta, Long idAluno)
+    public PropostaCandidaturaID(Long idProposta, Long idAluno)
     {
         this.idProposta = idProposta;
         this.idAluno = idAluno;
@@ -35,8 +35,8 @@ public class PropostaInscricaoID implements Serializable
     public boolean equals(Object o)
     {
         if (this == o) return true;
-        if (!(o instanceof PropostaInscricaoID)) return false;
-        PropostaInscricaoID that = (PropostaInscricaoID) o;
+        if (!(o instanceof PropostaCandidaturaID)) return false;
+        PropostaCandidaturaID that = (PropostaCandidaturaID) o;
         return getIdProposta().equals(that.getIdProposta()) && getIdAluno().equals(that.getIdAluno());
     }
 

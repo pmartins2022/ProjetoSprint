@@ -4,6 +4,7 @@ import com.grupo2.proposta.dto.ConviteDTO;
 import com.grupo2.proposta.jpa.ConviteJPA;
 import com.grupo2.proposta.jpa.mapper.ConviteJPAMapper;
 import com.grupo2.proposta.model.Convite;
+import com.grupo2.proposta.model.ConviteID;
 import com.grupo2.proposta.repository.jpa.ConviteJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,8 +28,7 @@ public class ConviteRepository
 
     public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID)
     {
-        /*Optional<ConviteJPA> conviteJPA = jpaRepository.findBy_idProposta_And_idAluno(propostaID, alunoID);
-        Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdPropostaAndIdIdAluno(propostaID, alunoID);
+        Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(propostaID, alunoID);
 
         if (conviteJPA.isPresent())
         {

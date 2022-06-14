@@ -1,7 +1,7 @@
 package com.grupo2.proposta.jpa;
 
 import com.grupo2.proposta.model.EstadoCandidatura;
-import com.grupo2.proposta.model.PropostaInscricaoID;
+import com.grupo2.proposta.model.PropostaCandidaturaID;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -9,23 +9,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PropostaCandidatura")
-public class PropostaInscricaoJPA
+public class PropostaCandidaturaJPA
 {
     @EmbeddedId
-    private PropostaInscricaoID id;
+    private PropostaCandidaturaID id;
     private EstadoCandidatura estado;
 
-    public PropostaInscricaoJPA()
+    public PropostaCandidaturaJPA()
     {
     }
 
-    public PropostaInscricaoJPA(PropostaInscricaoID id, EstadoCandidatura estado)
+    public PropostaCandidaturaJPA(PropostaCandidaturaID id, EstadoCandidatura estado)
     {
         this.id = id;
         this.estado = estado;
     }
 
-    public PropostaInscricaoID getId()
+    public PropostaCandidaturaID getId()
     {
         return id;
     }

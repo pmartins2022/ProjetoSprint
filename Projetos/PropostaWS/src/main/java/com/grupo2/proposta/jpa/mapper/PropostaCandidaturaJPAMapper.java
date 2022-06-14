@@ -1,21 +1,21 @@
 package com.grupo2.proposta.jpa.mapper;
 
-import com.grupo2.proposta.jpa.PropostaInscricaoJPA;
+import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
 import com.grupo2.proposta.model.PropostaCandidatura;
-import com.grupo2.proposta.model.PropostaInscricaoID;
+import com.grupo2.proposta.model.PropostaCandidaturaID;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PropostaCandidaturaJPAMapper
 {
-    public PropostaCandidatura toModel(PropostaInscricaoJPA jpa)
+    public PropostaCandidatura toModel(PropostaCandidaturaJPA jpa)
     {
         return new PropostaCandidatura(jpa.getId().getIdProposta(), jpa.getId().getIdAluno(), jpa.getEstado());
     }
 
-    public PropostaInscricaoJPA toJPA(PropostaCandidatura cand)
+    public PropostaCandidaturaJPA toJPA(PropostaCandidatura cand)
     {
-        PropostaInscricaoID id = new PropostaInscricaoID(cand.getIdProposta(), cand.getIdAluno());
-        return new PropostaInscricaoJPA(id,cand.getEstado());
+        PropostaCandidaturaID id = new PropostaCandidaturaID(cand.getIdProposta(), cand.getIdAluno());
+        return new PropostaCandidaturaJPA(id,cand.getEstado());
     }
 }
