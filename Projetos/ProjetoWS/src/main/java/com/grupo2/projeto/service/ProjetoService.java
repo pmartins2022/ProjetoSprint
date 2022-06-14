@@ -1,6 +1,5 @@
 package com.grupo2.projeto.service;
 
-import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
 import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.dto.mapper.ProjetoDTOMapper;
 import com.grupo2.projeto.model.Projeto;
