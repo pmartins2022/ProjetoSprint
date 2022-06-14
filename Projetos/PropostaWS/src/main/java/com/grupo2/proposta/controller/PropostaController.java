@@ -3,6 +3,7 @@ package com.grupo2.proposta.controller;
 
 import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.exception.*;
+import com.grupo2.proposta.security.LoginContext;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,6 +180,24 @@ public class PropostaController
             throw new AtualizacaoInvalidaException(e.getMessage());
         }
     }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/aceitarOrientacao/{id}")
+    public ResponseEntity<Object> aceitarOrientacao( @PathVariable("id") Long propostaID,
+                                                    @RequestParam("orientador") Long orientadorID) throws Exception
+    {
+        ConviteDTO conviteDTO = service.acceptOrientacaoProposta(propostaID, orientadorID);
+        return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
+    }
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/rejeitarOrientacao/{id}")
+    public ResponseEntity<Object> rejeitarOrientacao( @PathVariable("id") Long propostaID,
+                                                     @RequestParam("orientador") Long orientadorID) throws Exception
+    {
+        ConviteDTO conviteDTO = service.rejectOrientacaoProposta(propostaID,orientadorID);
+        return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
+    }
+
 
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @GetMapping("/criarConvite")

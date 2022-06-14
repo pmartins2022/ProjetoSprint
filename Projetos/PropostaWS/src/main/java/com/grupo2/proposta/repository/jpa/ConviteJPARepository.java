@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface ConviteJPARepository extends JpaRepository<ConviteJPA, ConviteID>
 {
     Optional<ConviteJPA> findBy_idProposta_And_idAluno(Long propostaID, Long alunoID);
+
+    Optional<ConviteJPA> findByDocenteAndProposta(Long docenteID, Long propostaID);
 }

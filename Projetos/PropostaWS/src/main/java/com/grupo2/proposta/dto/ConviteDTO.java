@@ -19,6 +19,12 @@ public class ConviteDTO
         this.idProposta = idProposta;
         this.estado = estado;
     }
+    public ConviteDTO(Long idAluno, Long idDocente, Long idProposta)
+    {
+        this.idAluno = idAluno;
+        this.idDocente = idDocente;
+        this.idProposta = idProposta;
+    }
 
     public Long getIdAluno()
     {

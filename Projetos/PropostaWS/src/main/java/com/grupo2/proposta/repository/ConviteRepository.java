@@ -36,6 +36,16 @@ public class ConviteRepository
         return Optional.empty();
     }
 
+    public Optional<Convite> findByDocenteAndProposta(Long docenteID, Long propostaID)
+    {
+        Optional<ConviteJPA> conviteJPA = jpaRepository.findByDocenteAndProposta(docenteID,propostaID);
+        if (conviteJPA.isPresent())
+        {
+            return Optional.of(mapper.toModel(conviteJPA.get()));
+        }
+        return Optional.empty();
+    }
+
     public void atualizar(Convite convite)
     {
         ConviteJPA conviteJPA = mapper.toJPA(convite);
@@ -44,4 +54,5 @@ public class ConviteRepository
 
         jpaRepository.save(conviteJPA);
     }
+
 }
