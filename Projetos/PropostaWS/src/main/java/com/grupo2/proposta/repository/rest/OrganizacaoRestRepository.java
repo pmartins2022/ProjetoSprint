@@ -22,7 +22,6 @@ public class OrganizacaoRestRepository
         try
         {
             OrganizacaoDTO dto = WebClient.create("http://localhost:8082/organizacao/" + id).get()
-                    .header("Authorization",encoded)
                     .retrieve().bodyToMono(OrganizacaoDTO.class).block();
 
             if (dto == null)

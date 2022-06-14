@@ -37,8 +37,10 @@ public class PropostaController
     @PostMapping("/create")
     public ResponseEntity<PropostaDTO> createCandidaturaProposta(@RequestBody PropostaDTO dto, HttpServletRequest request)
     {
+        System.out.println("Controller");
         try
         {
+            System.out.println("Antes RequestHeader");
             PropostaDTO proposta = service.createProposta(dto, request.getHeader("Authorization"));
 
             return new ResponseEntity<>(proposta, HttpStatus.CREATED);

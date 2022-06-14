@@ -26,8 +26,7 @@ public class UtilizadorRestRepository
     {
         try
         {
-            WebClient.ResponseSpec retrieve = WebClient.create("http://localhost:8085/utilizador/" + id).get().
-                    header("Authorization",encoded)
+            WebClient.ResponseSpec retrieve = WebClient.create("http://localhost:8085/utilizador/" + id).get()
                 .retrieve();
 
 

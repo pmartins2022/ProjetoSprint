@@ -71,15 +71,16 @@ public class PropostaService
     {
         Proposta proposta = mapper.toModel(dto);
 
+        System.out.println("Antes utilizador");
         Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId(), encoded);
-
+        System.out.println("utilizador");
         if (utilizadorId.isEmpty())
         {
             throw new BaseDadosException("Id de utilizador "+proposta.getUtilizadorId()+" nao existe.");
         }
 
-        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId(),encoded);
-
+        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId(), encoded);
+        System.out.println("Organizacao");
         if (organizacaoId.isEmpty())
         {
             throw new BaseDadosException("Id de organizacao "+proposta.getOrganizacaoId()+" nao existe.");

@@ -10,7 +10,4 @@ public interface ConviteJPARepository extends JpaRepository<ConviteJPA, ConviteI
 {
 
     Optional<ConviteJPA> findByIdIdpropostaAndIdIdaluno(Long propostaId, Long alunoId);
-    Optional<ConviteJPA> findBy_idProposta_And_idAluno(Long propostaID, Long alunoID);
-
-    Optional<ConviteJPA> findByDocenteAndProposta(Long docenteID, Long propostaID);
 }
