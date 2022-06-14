@@ -2,6 +2,7 @@ package com.grupo2.utilizadores.controller;
 
 import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
+import com.grupo2.utilizadores.exception.ListaVaziaException;
 import com.grupo2.utilizadores.exception.OptionalVazioException;
 import com.grupo2.utilizadores.service.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,7 +27,7 @@ public class UtilizadorController
     @Autowired
     private UtilizadorService service;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/registar")
     public ResponseEntity<?> registar(@RequestBody UtilizadorDTO utilizadorDTO)
     {
@@ -82,7 +84,16 @@ public class UtilizadorController
         {
             throw new OptionalVazioException("Utilizador com esse id "+id+" não existe");
         }
+    }
 
+    @GetMapping("/listar")
+    public ResponseEntity<Object> listAll()
+    {
+        List<UtilizadorDTO> lista = service.findAll();
+
+        if (lista.isEmpty()) throw new ListaVaziaException("Nao ha utilizadores");
+
+        return ResponseEntity.ok(lista);
     }
 
 }

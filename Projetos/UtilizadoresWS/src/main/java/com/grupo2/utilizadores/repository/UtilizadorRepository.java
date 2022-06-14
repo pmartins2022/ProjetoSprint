@@ -8,6 +8,7 @@ import com.grupo2.utilizadores.repository.jpa.UtilizadorJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -86,5 +87,10 @@ public class UtilizadorRepository
         }
 
         return mapper.toModel(jpaSaved);
+    }
+
+    public List<Utilizador> findAll()
+    {
+        return jpaRepository.findAll().stream().map(mapper::toModel).toList();
     }
 }

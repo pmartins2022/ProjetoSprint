@@ -101,4 +101,16 @@ public class EdicaoUCRepository
 
         return mapper.toModel(jpaRepository.save(jpa));
     }
+
+    public Optional<EdicaoUC> findByRucID(Long rucID)
+    {
+        Optional<EdicaoUCJPA> jpa = jpaRepository.findByRucID(rucID);
+
+        if (jpa.isPresent())
+        {
+            return Optional.of(mapper.toModel(jpa.get()));
+        }
+
+        return Optional.empty();
+    }
 }

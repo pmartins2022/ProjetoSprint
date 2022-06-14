@@ -106,11 +106,23 @@ public class EdicaoUCController
         throw new OptionalVazioException("Nao encontrou edicao UC com id " + id);
     }
 
+    @GetMapping("/ruc/{rucID}")
+    public ResponseEntity<Object> findByRucID(@PathVariable(name = "rucID") Long rucID)
+    {
+        Optional<EdicaoUCDTO> dto = service.findByRucID(rucID);
+
+        if (dto.isPresent())
+        {
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+
+        throw new OptionalVazioException("Nao encontrou edicao UC com id " + rucID);
+    }
+
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/inscrever/{edicaoUCID}")
     public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
     {
-        //ver se o docente está ao encargo desta edicaoUC
         UtilizadorDTO dto = LoginContext.getCurrent();
         try
         {

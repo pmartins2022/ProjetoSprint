@@ -4,9 +4,9 @@ import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.dto.factory.ProjetoDTOFactory;
 import com.grupo2.proposta.dto.mapper.ConviteDTOMapper;
 import com.grupo2.proposta.dto.mapper.PropostaCandidaturaDTOMapper;
+import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
 import com.grupo2.proposta.exception.*;
 import com.grupo2.proposta.model.*;
-import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
 import com.grupo2.proposta.repository.ConviteRepository;
 import com.grupo2.proposta.repository.PropostaCandidaturaRepo;
 import com.grupo2.proposta.repository.PropostaRepository;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -68,7 +67,7 @@ public class PropostaService
     {
         Proposta proposta = mapper.toModel(dto);
 
-        Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId());
+        Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId(), encoded);
 
         if (utilizadorId.isEmpty())
         {
@@ -89,7 +88,7 @@ public class PropostaService
             throw new BaseDadosException("Id de edicao unidade curricular "+proposta.getEdicaoUCId()+" nao existe.");
         }
 
-        Proposta prop = repository.createProposta(proposta);
+        Proposta prop = repository.save(proposta);
 
         return mapper.toDTO(prop);
     }
@@ -187,56 +186,33 @@ public class PropostaService
         return listaDTOS;
     }
 
-    /**
-     * Aprovar uma proposta. Necessita de validar o id de orientador e de aluno em repositorios externos.
-     * @param propostaID Id da proposta a ser aprovada
-     * @param orientadorID Id do orientador
-     * @param alunoID Id do aluno
-     * @return Proposta aprovada
-     * @throws AtualizacaoInvalidaException Se a atualizacao for invalida
-     * @throws IdInvalidoException Se o id for invalido
-     */
-    public ProjetoDTO acceptCandidaturaProposta(Long propostaID, Long orientadorID, Long alunoID) throws AtualizacaoInvalidaException, IdInvalidoException
+    public PropostaDTO acceptCandidaturaProposta(Long idDocente, Long idProposta)
     {
-        Optional<Proposta> proposta = repository.findById(propostaID);
+        Optional<EdicaoUCDTO> ruc = edicaoUCRestRepository.findByRucID(idDocente);
+
+        if (ruc.isEmpty())
+        {
+            throw new OptionalVazioException(idDocente + " não é um RUC.");
+        }
+
+        Optional<Proposta> proposta = repository.findById(idProposta);
+
         if (proposta.isEmpty())
         {
-            throw new IdInvalidoException("Id de proposta " + propostaID + " nao existe.");
+            throw new OptionalVazioException("Candidatura a proposta com id " + idProposta + " não existe.");
         }
 
-        try
+        if (proposta.get().getEstadoAtual().ordinal() != 0) //CANDIDATURA
         {
-            proposta.get().aprovarProposta();
-        } catch (AtualizacaoInvalidaException e)
-        {
-            throw new AtualizacaoInvalidaException(e.getMessage());
+            throw new ValidacaoInvalidaException("Candidatura a proposta tem que estar em fase de CANDIDATURA" +
+                    idProposta + " encontra-se em fase de " + proposta.get().getEstadoAtual().name());
         }
 
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
-        Optional<UtilizadorDTO> estudanteDTO = utilizadorRestRepository.findById(alunoID);
+        proposta.get().setEstadoAtual(PropostaEstado.APROVADO);
 
-        if (orientadorDTO.isEmpty())
-        {
-            throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
-        }
-        else if ( orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR)
-        {
-            throw new IdInvalidoException("O ID introduzido nao é um orientador.");
-        }
-        if (estudanteDTO.isEmpty())
-        {
-            throw new IdInvalidoException("Id de Estudante " + alunoID + " nao existe.");
-        }
-        else if (estudanteDTO.get().getTipoUtilizador() != TipoUtilizador.ALUNO)
-        {
-            throw new IdInvalidoException("O ID introduzido nao é um aluno.");
-        }
+        Proposta saved = repository.save(proposta.get());
 
-        ProjetoDTO projetoDTO = createProject(propostaID, orientadorID, alunoID);
-
-        atualizarProposta(proposta.get());
-
-        return projetoDTO;
+        return mapper.toDTO(saved);
     }
 
     /**
@@ -266,7 +242,7 @@ public class PropostaService
             throw new ValidacaoInvalidaException("Esta proposta nao esta como aprovado");
         }
 
-        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(conviteDTO.getIdAluno());
+        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(conviteDTO.getIdAluno(), "aaa");
         if (alunoDTO.isEmpty())
         {
             throw new OptionalVazioException("O utilizador não existe");
@@ -289,7 +265,7 @@ public class PropostaService
             throw new IdInvalidoException(e.getMessage());
         }
 
-        Optional<UtilizadorDTO> docenteDTO = utilizadorRestRepository.findById(conviteDTO.getIdDocente());
+        Optional<UtilizadorDTO> docenteDTO = utilizadorRestRepository.findById(conviteDTO.getIdDocente(), "aaa");
         if (docenteDTO.isEmpty())
         {
             throw new OptionalVazioException("O utilizador não existe");
@@ -343,7 +319,7 @@ public class PropostaService
         }
 
         //encontrar e validar orientador
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID, "aaa");
         if (orientadorDTO.isEmpty())
         {
             throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
@@ -354,7 +330,7 @@ public class PropostaService
         }
 
         //encontrar e validar aluno
-        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(alunoID);
+        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(alunoID, "aaa");
         if (alunoDTO.isEmpty())
         {
             throw new IdInvalidoException("Id de Estudante " + alunoID + " nao existe.");

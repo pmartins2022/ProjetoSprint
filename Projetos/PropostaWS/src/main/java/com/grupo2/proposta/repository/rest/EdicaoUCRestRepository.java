@@ -20,7 +20,20 @@ public class EdicaoUCRestRepository
      */
     public Optional<EdicaoUCDTO> findById(Long id)
     {
-        EdicaoUCDTO dto = WebClient.create("http://localhost:8082/edicaoUC/"+id).get().
+        EdicaoUCDTO dto = WebClient.create("http://localhost:8081/edicaoUC/"+id).get().
+                retrieve().bodyToMono(EdicaoUCDTO.class).block();
+
+        if (dto == null)
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(dto);
+    }
+
+   public Optional<EdicaoUCDTO> findByRucID(Long rucID)
+    {
+        EdicaoUCDTO dto = WebClient.create("http://localhost:8081/edicaoUC/ruc/"+rucID).get().
                 retrieve().bodyToMono(EdicaoUCDTO.class).block();
 
         if (dto == null)

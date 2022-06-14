@@ -3,6 +3,7 @@ package com.grupo2.proposta.controller;
 
 import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.exception.*;
+import com.grupo2.proposta.security.LoginContext;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,31 +134,14 @@ public class PropostaController
         }
     }
 
-    /**
-     * Endpoint que possibilita aprovar uma candidatura a proposta.
-     * @param propostaID o id da proposta
-     * @param orientadorID o id do orientador
-     * @param alunoID o id do aluno
-     * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
-     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/aceitarCandidatura/{id}")
-    public ResponseEntity<Object> aceitarCandidaturaProposta(@PathVariable("id") Long propostaID,
-                                                      @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
+    @PatchMapping("/aceitarCandidaturaProposta/{idProposta}") //é patch??!!!!!
+    public ResponseEntity<Object> acceptCandidaturaProposta(@PathVariable("idProposta") Long idProposta)
     {
-        try
-        {
-            ProjetoDTO projetoDTO = service.acceptCandidaturaProposta(propostaID, orientadorID, alunoID);
-            return new ResponseEntity<>(projetoDTO, HttpStatus.OK);
-        }
-        catch (IdInvalidoException e)
-        {
-            throw new IdInvalidoException(e.getMessage());
-        }
-        catch (AtualizacaoInvalidaException e)
-        {
-            throw new AtualizacaoInvalidaException(e.getMessage());
-        }
+        UtilizadorAuthDTO docente = LoginContext.getCurrent();
+
+        PropostaDTO propostaUpdated = service.acceptCandidaturaProposta(docente.getId(), idProposta);
+        return new ResponseEntity<>(propostaUpdated, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
@@ -209,7 +193,6 @@ public class PropostaController
     {
         try
         {
-
             PropostaCandidaturaDTO cand = service.candidatarProposta(propostaID);
             return new ResponseEntity<>(cand,HttpStatus.CREATED);
         }

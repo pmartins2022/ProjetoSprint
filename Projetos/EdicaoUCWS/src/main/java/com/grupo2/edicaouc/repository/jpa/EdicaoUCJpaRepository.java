@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Classe EdicaoUCJpaRepository. Faz extend de JpaRepository
@@ -18,4 +19,5 @@ public interface EdicaoUCJpaRepository extends JpaRepository<EdicaoUCJPA, Long>
             " inner join EdicaoUCAluno edUC on edUC.ucCode = ed.edicaoUCID where ed.estado = 1 and edUC.id.alunoID = (:idAluno)", nativeQuery = true)
     Integer count(@Param("idAluno") Long idAluno);*/
 
+    Optional<EdicaoUCJPA> findByRucID(Long rucID);
 }

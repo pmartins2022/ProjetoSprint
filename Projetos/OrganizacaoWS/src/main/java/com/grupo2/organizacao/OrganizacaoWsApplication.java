@@ -19,7 +19,7 @@ public class OrganizacaoWsApplication {
 	{
 		return (args) ->
 		{
-			//service.createAndSave(new OrganizacaoDTO("Escola Secundária Infanta D. Maria",500000135));
+			service.createAndSave(new OrganizacaoDTO("Escola Secundária Infanta D. Maria",500000135));
 		};
 	}
 }
