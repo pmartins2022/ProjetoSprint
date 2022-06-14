@@ -219,9 +219,10 @@ public class PropostaService
         return mapper.toDTO(saved);
     }
 
-    public ConviteDTO acceptOrientacaoProposta(Long propostaID, Long orientadorID) throws IdInvalidoException
+    public ConviteDTO acceptOrientacaoProposta(Long propostaID, Long orientadorID,
+                                               String encoded) throws IdInvalidoException
     {
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID, encoded);
         if (orientadorDTO.isEmpty())
         {
             throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
@@ -250,25 +251,19 @@ public class PropostaService
         return convitemapper.toDTO(value);
     }
 
-    public ConviteDTO rejectOrientacaoProposta(Long propostaID, Long orientadorID) throws IdInvalidoException
-    {
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
-        if (orientadorDTO.isEmpty())
-        {
+    public ConviteDTO rejectOrientacaoProposta(Long propostaID, Long orientadorID, String encoded) throws IdInvalidoException {
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID, encoded);
+        if (orientadorDTO.isEmpty()) {
             throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
-        }
-        else if ( orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR)
-        {
+        } else if (orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR) {
             throw new IdInvalidoException("O ID introduzido nao é um orientador.");
         }
 
-        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
-        if (convite.isEmpty())
-        {
-            throw new IdInvalidoException("O Orientador "+orientadorID+" não tem nenhum convite para a proposta "+propostaID);
+        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID, propostaID);
+        if (convite.isEmpty()) {
+            throw new IdInvalidoException("O Orientador " + orientadorID + " não tem nenhum convite para a proposta " + propostaID);
         }
-        if (convite.get().getEstado()!=EstadoConvite.PENDENTE)
-        {
+        if (convite.get().getEstado() != EstadoConvite.PENDENTE) {
             throw new AtualizacaoInvalidaException("Nao pode aceitar este convite");
         }
 
@@ -280,13 +275,6 @@ public class PropostaService
 
         return convitemapper.toDTO(value);
     }
-
-
-
-
-
-
-
 
         /**
          * Criar um projeto a partir de uma proposta.

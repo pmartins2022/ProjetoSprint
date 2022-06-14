@@ -169,17 +169,19 @@ public class PropostaController
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/aceitarOrientacao/{id}")
     public ResponseEntity<Object> aceitarOrientacao( @PathVariable("id") Long propostaID,
-                                                    @RequestParam("orientador") Long orientadorID) throws Exception
+                                                    @RequestParam("orientador") Long orientadorID, HttpServletRequest request) throws Exception
     {
-        ConviteDTO conviteDTO = service.acceptOrientacaoProposta(propostaID, orientadorID);
+        String encoded =  request.getHeader(SecurityUtils.AUTH);
+        ConviteDTO conviteDTO = service.acceptOrientacaoProposta(propostaID, orientadorID, encoded);
         return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
     }
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/rejeitarOrientacao/{id}")
     public ResponseEntity<Object> rejeitarOrientacao( @PathVariable("id") Long propostaID,
-                                                     @RequestParam("orientador") Long orientadorID) throws Exception
+                                                     @RequestParam("orientador") Long orientadorID, HttpServletRequest request) throws Exception
     {
-        ConviteDTO conviteDTO = service.rejectOrientacaoProposta(propostaID,orientadorID);
+        String encoded =  request.getHeader(SecurityUtils.AUTH);
+        ConviteDTO conviteDTO = service.rejectOrientacaoProposta(propostaID,orientadorID, encoded);
         return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
     }
 
