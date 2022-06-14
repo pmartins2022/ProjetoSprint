@@ -17,6 +17,7 @@ import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
 import com.grupo2.proposta.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.events.EventTarget;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,9 @@ public class PropostaService
 
     @Autowired
     private PropostaDTOMapper mapper;
+
+    @Autowired
+    private ConviteDTOMapper convitemapper;
 
     @Autowired
     private ProjetoDTOFactory projetoDTOFactory;
@@ -215,13 +219,82 @@ public class PropostaService
         return mapper.toDTO(saved);
     }
 
-    /**
-     * Criar um projeto a partir de uma proposta.
-     * @param propostaID Id da proposta
-     * @param orientadorID Id do orientador
-     * @param estudanteID Id do estudante
-     * @return Projeto criado
-     */
+    public ConviteDTO acceptOrientacaoProposta(Long propostaID, Long orientadorID) throws IdInvalidoException
+    {
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
+        if (orientadorDTO.isEmpty())
+        {
+            throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
+        }
+        else if ( orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR)
+        {
+            throw new IdInvalidoException("O ID introduzido nao é um orientador.");
+        }
+
+        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
+        if (convite.isEmpty())
+        {
+            throw new IdInvalidoException("O Orientador "+orientadorID+" não tem nenhum convite para a proposta "+propostaID);
+        }
+        if (convite.get().getEstado()!=EstadoConvite.PENDENTE)
+        {
+            throw new AtualizacaoInvalidaException("Nao pode aceitar este convite");
+        }
+
+        convite.get().setEstado(EstadoConvite.ACEITE);
+
+        conviteRepository.atualizar(convite.get());
+
+        var value = convite.get();
+
+        return convitemapper.toDTO(value);
+    }
+
+    public ConviteDTO rejectOrientacaoProposta(Long propostaID, Long orientadorID) throws IdInvalidoException
+    {
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
+        if (orientadorDTO.isEmpty())
+        {
+            throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
+        }
+        else if ( orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR)
+        {
+            throw new IdInvalidoException("O ID introduzido nao é um orientador.");
+        }
+
+        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
+        if (convite.isEmpty())
+        {
+            throw new IdInvalidoException("O Orientador "+orientadorID+" não tem nenhum convite para a proposta "+propostaID);
+        }
+        if (convite.get().getEstado()!=EstadoConvite.PENDENTE)
+        {
+            throw new AtualizacaoInvalidaException("Nao pode aceitar este convite");
+        }
+
+        convite.get().setEstado(EstadoConvite.RECUSADO);
+
+        conviteRepository.atualizar(convite.get());
+
+        Convite value = convite.get();
+
+        return convitemapper.toDTO(value);
+    }
+
+
+
+
+
+
+
+
+        /**
+         * Criar um projeto a partir de uma proposta.
+         * @param propostaID Id da proposta
+         * @param orientadorID Id do orientador
+         * @param estudanteID Id do estudante
+         * @return Projeto criado
+         */
     private ProjetoDTO createProject(Long propostaID, Long orientadorID, Long estudanteID)
     {
         ProjetoDTO projetoDTO = projetoDTOFactory.createProjeto(propostaID, orientadorID, estudanteID);

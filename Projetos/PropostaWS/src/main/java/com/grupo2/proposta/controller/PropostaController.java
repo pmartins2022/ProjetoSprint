@@ -166,6 +166,24 @@ public class PropostaController
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/aceitarOrientacao/{id}")
+    public ResponseEntity<Object> aceitarOrientacao( @PathVariable("id") Long propostaID,
+                                                    @RequestParam("orientador") Long orientadorID) throws Exception
+    {
+        ConviteDTO conviteDTO = service.acceptOrientacaoProposta(propostaID, orientadorID);
+        return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
+    }
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/rejeitarOrientacao/{id}")
+    public ResponseEntity<Object> rejeitarOrientacao( @PathVariable("id") Long propostaID,
+                                                     @RequestParam("orientador") Long orientadorID) throws Exception
+    {
+        ConviteDTO conviteDTO = service.rejectOrientacaoProposta(propostaID,orientadorID);
+        return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
+    }
+
+
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @GetMapping("/criarConvite")
     public ResponseEntity<Object> criarConvite(@RequestBody ConviteDTO convite) throws Exception
