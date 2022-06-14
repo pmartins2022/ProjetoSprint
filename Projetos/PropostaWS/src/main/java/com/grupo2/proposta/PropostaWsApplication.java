@@ -16,4 +16,6 @@ public class PropostaWsApplication
     {
         SpringApplication.run(PropostaWsApplication.class, args);
     }
+
+
 }

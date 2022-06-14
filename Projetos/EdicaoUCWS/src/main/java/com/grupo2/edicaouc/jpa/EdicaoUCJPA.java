@@ -19,6 +19,7 @@ public class EdicaoUCJPA
      */
     @Id
     @GeneratedValue
+    @Column(name = "ed_id")
     private Long id;
     /**
      * ucCode de EdicaoUC
@@ -107,6 +108,31 @@ public class EdicaoUCJPA
     public EstadoEdicaoUC getEstadoEdicaoUC()
     {
         return estadoEdicaoUC;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public void setUcCode(String ucCode)
+    {
+        this.ucCode = ucCode;
+    }
+
+    public void setAnoLetivoCode(String anoLetivoCode)
+    {
+        this.anoLetivoCode = anoLetivoCode;
+    }
+
+    public void setRucID(Long rucID)
+    {
+        this.rucID = rucID;
+    }
+
+    public void setEstadoEdicaoUC(EstadoEdicaoUC estadoEdicaoUC)
+    {
+        this.estadoEdicaoUC = estadoEdicaoUC;
     }
 
     @Override
