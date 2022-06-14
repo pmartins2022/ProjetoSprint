@@ -28,7 +28,7 @@ public class ConviteRepository
     public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID)
     {
         /*Optional<ConviteJPA> conviteJPA = jpaRepository.findBy_idProposta_And_idAluno(propostaID, alunoID);
-        Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(propostaID, alunoID);
+        Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdPropostaAndIdIdAluno(propostaID, alunoID);
 
         if (conviteJPA.isPresent())
         {

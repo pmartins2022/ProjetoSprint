@@ -82,7 +82,7 @@ class PropostaControllerIntegrationTests
 
         PropostaJPA save = jpaRepository.save(proposta);
 
-        ResponseEntity<PropostaDTO> response = controller.rejeitarProposta(save.getId());
+        ResponseEntity<PropostaDTO> response = controller.rejeitarCandidaturaProposta(save.getId());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -90,7 +90,7 @@ class PropostaControllerIntegrationTests
     @Test
     public void shouldNotRejectProposta_InvalidID()
     {
-        assertThrows(IdInvalidoException.class, ()->controller.rejeitarProposta(99L));
+        assertThrows(IdInvalidoException.class, ()->controller.rejeitarCandidaturaProposta(99L));
     }
 
     @Test
@@ -102,6 +102,6 @@ class PropostaControllerIntegrationTests
 
         PropostaJPA save = jpaRepository.save(proposta);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.rejeitarProposta(save.getId()));
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.rejeitarCandidaturaProposta(save.getId()));
     }
 }

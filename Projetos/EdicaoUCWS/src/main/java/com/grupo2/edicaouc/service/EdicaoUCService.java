@@ -84,7 +84,7 @@ public class EdicaoUCService
             throw new OptionalVazioException("Não existe Ano Letivo com esse id " + dto.getAnoLetivoCode());
         }
 
-        if (!utilizadorRestRepository.isRole("DOCENTE", dto.getRucID()))
+        if (!utilizadorRestRepository.isRole("ROLE_DOCENTE", dto.getRucID()))
         {
             throw new ErroGeralException(dto.getRucID() + " não é um docente");
         }
