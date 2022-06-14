@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -98,5 +99,10 @@ public class UtilizadorService
         }
 
         return utilizador.get().getTipoUtilizador().toString().equals(role);
+    }
+
+    public List<UtilizadorDTO> findAll()
+    {
+        return repository.findAll().stream().map(mapper::toDTO).toList();
     }
 }

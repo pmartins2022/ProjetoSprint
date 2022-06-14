@@ -134,33 +134,18 @@ public class PropostaController
         }
     }
 
-    /**
-     * Endpoint que possibilita aprovar uma candidatura a proposta.
-     * @param propostaID o id da proposta
-     * @param orientadorID o id do orientador
-     * @param alunoID o id do aluno
-     * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
-     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/aceitarCandidatura/{id}")
-    public ResponseEntity<Object> aceitarCandidaturaProposta(@PathVariable("id") Long propostaID,
-                                                      @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
+    @PatchMapping("/aceitarCandidaturaProposta/{idProposta}") //é patch??!!!!!
+    public ResponseEntity<Object> acceptCandidaturaProposta(@PathVariable("idProposta") Long idProposta)
     {
-        try
-        {
-            ProjetoDTO projetoDTO = service.acceptCandidaturaProposta(propostaID, orientadorID, alunoID);
-            return new ResponseEntity<>(projetoDTO, HttpStatus.OK);
-        }
-        catch (IdInvalidoException e)
-        {
-            throw new IdInvalidoException(e.getMessage());
-        }
-        catch (AtualizacaoInvalidaException e)
-        {
-            throw new AtualizacaoInvalidaException(e.getMessage());
-        }
+        UtilizadorAuthDTO docente = LoginContext.getCurrent();
+
+        PropostaDTO propostaUpdated = service.acceptCandidaturaProposta(docente.getId(), idProposta);
+        return new ResponseEntity<>(propostaUpdated, HttpStatus.OK);
     }
 
+
+//?????????????????????????????????????????????
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/aceitarProposta/{id}")
     public ResponseEntity<Object> aceitarProposta(@PathVariable("id") Long propostaID,
@@ -223,13 +208,12 @@ public class PropostaController
     }
 
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
-    @PostMapping("/candidatar/{propostaID}")
-    public ResponseEntity<Object> candidatarProposta(@PathVariable(name = "propostaID") Long propostaID)
+    @PostMapping("/inscricao/{propostaID}")
+    public ResponseEntity<Object> inscricaoProposta(@PathVariable(name = "propostaID") Long propostaID)
     {
         try
         {
-
-            PropostaCandidaturaDTO cand = service.candidatarProposta(propostaID);
+            PropostaInscricaoDTO cand = service.inscricaoProposta(propostaID);
             return new ResponseEntity<>(cand,HttpStatus.CREATED);
         }
         catch (OptionalVazioException e)

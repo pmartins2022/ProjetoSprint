@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers("/utilizador/**").permitAll()
-                .antMatchers("/utilizador/registar").authenticated()
+                //.antMatchers("/utilizador/registar").authenticated()
                 .and()
                 .httpBasic()
                 .realmName("UtilizadoresWS")

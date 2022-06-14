@@ -1,15 +1,14 @@
 package com.grupo2.proposta.model.factory;
 
-import com.grupo2.proposta.model.PropostaCandidatura;
-import com.grupo2.proposta.model.PropostaCandidaturaID;
+import com.grupo2.proposta.model.PropostaInscricaoID;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PropostaCandidaturaIDFactory
 {
-    public PropostaCandidaturaID create(Long propostaId,Long alunoId)
+    public PropostaInscricaoID create(Long propostaId, Long alunoId)
     {
-        return new PropostaCandidaturaID(propostaId,alunoId);
+        return new PropostaInscricaoID(propostaId,alunoId);
     }
 
 }

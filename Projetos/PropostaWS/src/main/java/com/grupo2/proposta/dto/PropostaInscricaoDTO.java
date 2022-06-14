@@ -2,17 +2,17 @@ package com.grupo2.proposta.dto;
 
 import com.grupo2.proposta.model.EstadoCandidatura;
 
-public class PropostaCandidaturaDTO
+public class PropostaInscricaoDTO
 {
     private Long idProposta;
     private Long idAluno;
     private EstadoCandidatura estado;
 
-    public PropostaCandidaturaDTO()
+    public PropostaInscricaoDTO()
     {
     }
 
-    public PropostaCandidaturaDTO(Long idProposta, Long idAluno, EstadoCandidatura estado)
+    public PropostaInscricaoDTO(Long idProposta, Long idAluno, EstadoCandidatura estado)
     {
         this.idProposta = idProposta;
         this.idAluno = idAluno;

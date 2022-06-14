@@ -73,12 +73,6 @@ public class MomentoAvaliacaoService {
     public MomentoAvaliacaoDTO createAndSave(MomentoAvaliacaoDTO momentoAvaliacaoDTO) {
         MomentoAvaliacao momentoAvaliacao = mapper.toModel(momentoAvaliacaoDTO);
 
-        if (momentoAvaliacaoDTO.getPresidenteId().equals(momentoAvaliacaoDTO.getArguenteId()) ||
-            momentoAvaliacaoDTO.getOrientadorId().equals(momentoAvaliacaoDTO.getArguenteId()) ||
-            momentoAvaliacaoDTO.getOrientadorId().equals(momentoAvaliacaoDTO.getPresidenteId())) {
-            throw new ErroGeralException("Não pode existir o mesmo ID para diferentes Jurados");
-        }
-
         MomentoAvaliacao savedMomentoAvaliacao = repository.saveMomentoAvaliacao(momentoAvaliacao);
 
         return mapper.toDTO(savedMomentoAvaliacao);

@@ -154,6 +154,11 @@ public class Proposta
         return estadoAtual;
     }
 
+    public void setEstadoAtual(PropostaEstado estadoAtual)
+    {
+        this.estadoAtual = estadoAtual;
+    }
+
     /**
      * Metodo que atualiza o estado da proposta, ficando aprovada.
      * @throws AtualizacaoInvalidaException caso ja tenha sido aprovada/rejeitada anteriormente

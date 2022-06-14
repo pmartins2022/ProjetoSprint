@@ -21,7 +21,7 @@ public class OrganizacaoRestRepository
     {
         try
         {
-            OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao/" + id).get()
+            OrganizacaoDTO dto = WebClient.create("http://localhost:8082/organizacao/" + id).get()
                     .header("Authorization",encoded)
                     .retrieve().bodyToMono(OrganizacaoDTO.class).block();
 
@@ -47,7 +47,7 @@ public class OrganizacaoRestRepository
     {
         try
         {
-            OrganizacaoDTO dto = WebClient.create("http://localhost:8083/organizacao?nif=" + nif).get()
+            OrganizacaoDTO dto = WebClient.create("http://localhost:8082/organizacao?nif=" + nif).get()
                     .header("Authorization",encoded)
                     .retrieve().bodyToMono(OrganizacaoDTO.class).block();
 

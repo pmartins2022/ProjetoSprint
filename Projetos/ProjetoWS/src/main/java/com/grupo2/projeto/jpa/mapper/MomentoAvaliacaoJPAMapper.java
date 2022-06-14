@@ -24,7 +24,7 @@ public class MomentoAvaliacaoJPAMapper {
      */
     public MomentoAvaliacao toModel(MomentoAvaliacaoJPA jpa)
     {
-        return momentoAvaliacaoFactory.createMomentoAvaliacao(jpa.getId(), jpa.getProjetoId(), jpa.getPresidenteId(), jpa.getOrientadorId(), jpa.getArguenteId());
+        return momentoAvaliacaoFactory.createMomentoAvaliacao(jpa.getId(), jpa.getProjetoId());
     }
 
     /**
@@ -34,6 +34,6 @@ public class MomentoAvaliacaoJPAMapper {
      */
     public MomentoAvaliacaoJPA toJPA(MomentoAvaliacao momento)
     {
-        return new MomentoAvaliacaoJPA(momento.getId(), momento.getProjetoId(), momento.getPresidenteId(), momento.getOrientadorId(), momento.getArguenteId());
+        return new MomentoAvaliacaoJPA(momento.getId(), momento.getProjetoId());
     }
 }

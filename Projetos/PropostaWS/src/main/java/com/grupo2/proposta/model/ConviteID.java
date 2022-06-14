@@ -7,9 +7,9 @@ import java.util.Objects;
 @Embeddable
 public class ConviteID implements Serializable
 {
-    private Long idAluno;
-    private Long idDocente;
-    private Long idProposta;
+    private Long idaluno;
+    private Long iddocente;
+    private Long idproposta;
 
     public ConviteID()
     {
@@ -17,24 +17,24 @@ public class ConviteID implements Serializable
 
     public ConviteID(Long idAluno, Long idDocente, Long idProposta)
     {
-        this.idAluno = idAluno;
-        this.idDocente = idDocente;
-        this.idProposta = idProposta;
+        this.idaluno = idAluno;
+        this.iddocente = idDocente;
+        this.idproposta = idProposta;
     }
 
-    public Long getIdAluno()
+    public Long getIdaluno()
     {
-        return idAluno;
+        return idaluno;
     }
 
-    public Long getIdDocente()
+    public Long getIddocente()
     {
-        return idDocente;
+        return iddocente;
     }
 
-    public Long getIdProposta()
+    public Long getIdproposta()
     {
-        return idProposta;
+        return idproposta;
     }
 
     @Override
@@ -43,12 +43,12 @@ public class ConviteID implements Serializable
         if (this == o) return true;
         if (!(o instanceof ConviteID)) return false;
         ConviteID conviteID = (ConviteID) o;
-        return getIdAluno().equals(conviteID.getIdAluno()) && getIdDocente().equals(conviteID.getIdDocente()) && getIdProposta().equals(conviteID.getIdProposta());
+        return getIdaluno().equals(conviteID.getIdaluno()) && getIddocente().equals(conviteID.getIddocente()) && getIdproposta().equals(conviteID.getIdproposta());
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(getIdAluno(), getIdDocente(), getIdProposta());
+        return Objects.hash(getIdaluno(), getIddocente(), getIdproposta());
     }
 }

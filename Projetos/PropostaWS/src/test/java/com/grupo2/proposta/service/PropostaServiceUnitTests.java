@@ -60,7 +60,7 @@ class PropostaServiceUnitTests
         when(mapper.toModel(prop)).thenReturn(proposta);
         when(mapper.toDTO(proposta)).thenReturn(prop);
 
-        when(repository.createProposta(proposta)).thenReturn(proposta);
+        when(repository.save(proposta)).thenReturn(proposta);
 
         PropostaDTO dto = service.createProposta(prop,"");
 
@@ -77,7 +77,7 @@ class PropostaServiceUnitTests
         when(mapper.toModel(prop)).thenReturn(proposta);
         when(mapper.toDTO(proposta)).thenReturn(prop);
 
-        when(repository.createProposta(proposta)).thenThrow(BaseDadosException.class);
+        when(repository.save(proposta)).thenThrow(BaseDadosException.class);
 
         assertThrows(BaseDadosException.class, () -> service.createProposta(prop,""));
     }
@@ -94,8 +94,8 @@ class PropostaServiceUnitTests
 
         when(repository.findById(1L)).thenReturn(Optional.of(proposta));
 
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
-        when(utilizadorRestRepository.findById(2L)).thenReturn(Optional.of(utilizadorDTOAl));
+        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.of(utilizadorDTO));
+        when(utilizadorRestRepository.findById(2L, "aaa")).thenReturn(Optional.of(utilizadorDTOAl));
 
         when(utilizadorDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.ORIENTADOR);
         when(utilizadorDTOAl.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
@@ -133,7 +133,7 @@ class PropostaServiceUnitTests
         Proposta proposta = mock(Proposta.class);
 
         when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.empty());
+        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.empty());
 
         assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
     }
@@ -146,9 +146,9 @@ class PropostaServiceUnitTests
         UtilizadorDTO orDto = mock(UtilizadorDTO.class);
 
         when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(orDto));
+        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.of(orDto));
         when(orDto.getTipoUtilizador()).thenReturn(TipoUtilizador.ORIENTADOR);
-        when(utilizadorRestRepository.findById(2L)).thenReturn(Optional.empty());
+        when(utilizadorRestRepository.findById(2L, "aaa")).thenReturn(Optional.empty());
 
         assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
     }
@@ -161,7 +161,7 @@ class PropostaServiceUnitTests
 
         when(orientadorDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
 
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(orientadorDTO));
+        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.of(orientadorDTO));
 
         when(repository.findById(1L)).thenReturn(Optional.of(proposta));
 
@@ -178,8 +178,8 @@ class PropostaServiceUnitTests
         when(orDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.ORIENTADOR);
         when(alunoDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
 
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(orDTO));
-        when(utilizadorRestRepository.findById(2L)).thenReturn(Optional.of(alunoDTO));
+        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.of(orDTO));
+        when(utilizadorRestRepository.findById(2L, "aaa")).thenReturn(Optional.of(alunoDTO));
 
         when(repository.findById(1L)).thenReturn(Optional.of(proposta));
 

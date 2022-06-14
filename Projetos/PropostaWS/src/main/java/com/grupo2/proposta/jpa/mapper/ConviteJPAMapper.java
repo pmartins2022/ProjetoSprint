@@ -10,7 +10,7 @@ public class ConviteJPAMapper
 {
     public Convite toModel(ConviteJPA jpa)
     {
-        return new Convite(jpa.getId().getIdAluno(), jpa.getId().getIdDocente(), jpa.getId().getIdProposta(), jpa.getEstado());
+        return new Convite(jpa.getId().getIdaluno(), jpa.getId().getIddocente(), jpa.getId().getIdproposta(), jpa.getEstado());
     }
 
     public ConviteJPA toJPA(Convite conv)

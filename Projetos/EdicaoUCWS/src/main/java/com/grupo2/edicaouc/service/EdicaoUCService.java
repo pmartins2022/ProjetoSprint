@@ -206,4 +206,16 @@ public class EdicaoUCService
 
         return mapper.toDTO(saved);
     }
+
+    public Optional<EdicaoUCDTO> findByRucID(Long rucID)
+    {
+        Optional<EdicaoUC> edicao = repository.findByRucID(rucID);
+
+        if (edicao.isPresent())
+        {
+            return Optional.of(mapper.toDTO(edicao.get()));
+        }
+
+        return Optional.empty();
+    }
 }

@@ -2,7 +2,6 @@ package com.grupo2.proposta.repository.rest;
 
 import com.grupo2.proposta.dto.UtilizadorAuthDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
-import com.grupo2.proposta.exception.ErrorDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,15 +16,18 @@ public class UtilizadorRestRepository
 {
     /**
      * Tenta obter o utilizador pelo id.
-     * @param id Id do utilizador
+     *
+     * @param id      Id do utilizador
+     * @param encoded
      * @return Utilizador ou optional vazio
      */
-    public Optional<UtilizadorDTO> findById(Long id)
+    public Optional<UtilizadorDTO> findById(Long id, String encoded)
     {
         try
         {
-            WebClient.ResponseSpec retrieve = WebClient.create("http://localhost:8087/utilizador/" + id).get().
-                    retrieve();
+            WebClient.ResponseSpec retrieve = WebClient.create("http://localhost:8085/utilizador/" + id).get().
+                    header("Authorization",encoded)
+                .retrieve();
 
 
             UtilizadorDTO dto = retrieve.bodyToMono(UtilizadorDTO.class).block();

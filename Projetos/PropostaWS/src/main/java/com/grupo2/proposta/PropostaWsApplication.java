@@ -16,15 +16,4 @@ public class PropostaWsApplication
     {
         SpringApplication.run(PropostaWsApplication.class, args);
     }
-    @Bean
-    public CommandLineRunner demo(PropostaService service)
-    {
-        return (args) ->
-        {
-//            service.createProposta(new PropostaDTO(1L,1L,"O Pai delas","Problema da proposta","Objetivo da proposta",1L,PropostaEstado.APROVADO));
-//            service.createProposta(new PropostaDTO(1L,1L,"O Tio delas","Problema da proposta","Objetivo da proposta",1L,PropostaEstado.APROVADO));
-//            service.createProposta(new PropostaDTO(1L,1L,"O Avo delas","Problema da proposta","Objetivo da proposta",1L,PropostaEstado.APROVADO));
-//            service.createProposta(new PropostaDTO(1L,1L,"O Amigo delas","Problema da proposta","Objetivo da proposta",1L,PropostaEstado.APROVADO));
-      };
-    }
 }

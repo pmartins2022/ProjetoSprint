@@ -64,7 +64,7 @@ class PropostaRepositoryUnitTest
         OrganizacaoDTO organizacaoDTOMock = mock(OrganizacaoDTO.class);
         EdicaoUCDTO edicaoUCDTOMock = mock(EdicaoUCDTO.class);
 
-        when(utilizadorRestRepository.findById(propostaMock.getId())).thenReturn(Optional.of(utilizadorDTOMock));
+        when(utilizadorRestRepository.findById(propostaMock.getId(), "aaa")).thenReturn(Optional.of(utilizadorDTOMock));
         when(organizacaoRestRepository.findById(propostaMock.getId(),"")).thenReturn(Optional.of(organizacaoDTOMock));
         when(edicaoUCRestRepository.findById(propostaMock.getId())).thenReturn(Optional.of(edicaoUCDTOMock));
 
@@ -73,7 +73,7 @@ class PropostaRepositoryUnitTest
 
         when(jpaRepository.save(propostaJPAMock)).thenReturn(propostaJPAMock);
 
-        Proposta saved = repository.createProposta(propostaMock);
+        Proposta saved = repository.save(propostaMock);
 
         assertEquals(saved, propostaMock);
     }
@@ -83,9 +83,9 @@ class PropostaRepositoryUnitTest
     {
         Proposta propostaMock = mock(Proposta.class);
 
-        when(utilizadorRestRepository.findById(propostaMock.getId())).thenReturn(Optional.empty());
+        when(utilizadorRestRepository.findById(propostaMock.getId(), "aaa")).thenReturn(Optional.empty());
 
-        assertThrows(BaseDadosException.class,()->repository.createProposta(propostaMock));
+        assertThrows(BaseDadosException.class,()->repository.save(propostaMock));
     }
 
     @Test
@@ -94,10 +94,10 @@ class PropostaRepositoryUnitTest
         Proposta propostaMock = mock(Proposta.class);
         UtilizadorDTO utilizadorDTOMock = mock(UtilizadorDTO.class);
 
-        when(utilizadorRestRepository.findById(propostaMock.getId())).thenReturn(Optional.of(utilizadorDTOMock));
+        when(utilizadorRestRepository.findById(propostaMock.getId(), "aaa")).thenReturn(Optional.of(utilizadorDTOMock));
         when(organizacaoRestRepository.findById(propostaMock.getId(),"")).thenReturn(Optional.empty());
 
-        assertThrows(BaseDadosException.class,()->repository.createProposta(propostaMock));
+        assertThrows(BaseDadosException.class,()->repository.save(propostaMock));
     }
 
     @Test
@@ -107,11 +107,11 @@ class PropostaRepositoryUnitTest
         UtilizadorDTO utilizadorDTOMock = mock(UtilizadorDTO.class);
         OrganizacaoDTO organizacaoDTOMock = mock(OrganizacaoDTO.class);
 
-        when(utilizadorRestRepository.findById(propostaMock.getId())).thenReturn(Optional.of(utilizadorDTOMock));
+        when(utilizadorRestRepository.findById(propostaMock.getId(), "aaa")).thenReturn(Optional.of(utilizadorDTOMock));
         when(organizacaoRestRepository.findById(propostaMock.getId(),"")).thenReturn(Optional.of(organizacaoDTOMock));
         when(edicaoUCRestRepository.findById(propostaMock.getId())).thenReturn(Optional.empty());
 
-        assertThrows(BaseDadosException.class,()->repository.createProposta(propostaMock));
+        assertThrows(BaseDadosException.class,()->repository.save(propostaMock));
     }
 
     @Test
@@ -220,7 +220,7 @@ class PropostaRepositoryUnitTest
 
         when(organizacaoRestRepository.findByNIF(111222333,"")).thenReturn(Optional.empty());
 
-        assertThrows(BaseDadosException.class,()->repository.createProposta(propostaMock));
+        assertThrows(BaseDadosException.class,()->repository.save(propostaMock));
 
     }
 
