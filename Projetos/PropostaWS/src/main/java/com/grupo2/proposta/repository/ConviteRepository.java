@@ -1,5 +1,6 @@
 package com.grupo2.proposta.repository;
 
+import com.grupo2.proposta.dto.ConviteDTO;
 import com.grupo2.proposta.jpa.ConviteJPA;
 import com.grupo2.proposta.jpa.mapper.ConviteJPAMapper;
 import com.grupo2.proposta.model.Convite;
@@ -26,6 +27,7 @@ public class ConviteRepository
 
     public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID)
     {
+        /*Optional<ConviteJPA> conviteJPA = jpaRepository.findBy_idProposta_And_idAluno(propostaID, alunoID);
         Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(propostaID, alunoID);
 
         if (conviteJPA.isPresent())
