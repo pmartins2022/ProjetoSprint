@@ -67,20 +67,18 @@ public class PropostaService
      * @return Proposta criada
      * @throws BaseDadosException Se ocorrerem erros relativos a base de dados
      */
-    public PropostaDTO createProposta(PropostaDTO dto, String encoded) throws BaseDadosException
+    public PropostaDTO createProposta(PropostaDTO dto) throws BaseDadosException
     {
         Proposta proposta = mapper.toModel(dto);
 
-        System.out.println("Antes utilizador");
-        Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId(), encoded);
-        System.out.println("utilizador");
+        Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId());
         if (utilizadorId.isEmpty())
         {
             throw new BaseDadosException("Id de utilizador "+proposta.getUtilizadorId()+" nao existe.");
         }
 
-        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId(), encoded);
-        System.out.println("Organizacao");
+        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId());
+
         if (organizacaoId.isEmpty())
         {
             throw new BaseDadosException("Id de organizacao "+proposta.getOrganizacaoId()+" nao existe.");
@@ -223,7 +221,7 @@ public class PropostaService
     public ConviteDTO acceptOrientacaoProposta(Long propostaID, Long orientadorID,
                                                String encoded) throws IdInvalidoException
     {
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID, encoded);
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
         if (orientadorDTO.isEmpty())
         {
             throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
@@ -253,7 +251,7 @@ public class PropostaService
     }
 
     public ConviteDTO rejectOrientacaoProposta(Long propostaID, Long orientadorID, String encoded) throws IdInvalidoException {
-        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID, encoded);
+        Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(orientadorID);
         if (orientadorDTO.isEmpty()) {
             throw new IdInvalidoException("Id de Orientador " + orientadorID + " nao existe.");
         } else if (orientadorDTO.get().getTipoUtilizador() != TipoUtilizador.ORIENTADOR) {
@@ -304,7 +302,7 @@ public class PropostaService
             throw new ValidacaoInvalidaException("Esta proposta nao esta como aprovado");
         }
 
-        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(conviteDTO.getIdAluno(), "aaa");
+        Optional<UtilizadorDTO> alunoDTO = utilizadorRestRepository.findById(conviteDTO.getIdAluno());
         if (alunoDTO.isEmpty())
         {
             throw new OptionalVazioException("O utilizador não existe");
@@ -321,13 +319,19 @@ public class PropostaService
             {
                 throw new ValidacaoInvalidaException("O aluno nao " + conviteDTO.getIdAluno() + " nao esta incrito na proposta " + conviteDTO.getIdProposta());
             }
+
+            if (candidaturaJPA.get().getEstado() != EstadoCandidatura.PENDENTE)
+            {
+                throw new IdInvalidoException("O aluno ja fez esta candidatura e tinha sido "+candidaturaJPA.get().getEstado());
+            }
+
         }
         catch (IdInvalidoException e)
         {
             throw new IdInvalidoException(e.getMessage());
         }
 
-        Optional<UtilizadorDTO> docenteDTO = utilizadorRestRepository.findById(conviteDTO.getIdDocente(), "aaa");
+        Optional<UtilizadorDTO> docenteDTO = utilizadorRestRepository.findById(conviteDTO.getIdDocente());
         if (docenteDTO.isEmpty())
         {
             throw new OptionalVazioException("O utilizador não existe");
@@ -435,7 +439,7 @@ public class PropostaService
 
     public PropostaCandidaturaDTO acceptAlunoCandidaturaProposta(Long idUtilizador, Long idProposta, Long idAluno)
     {
-        //docente   idPropostaCanditura - idAluno -idProposta-edicaoUC   se +é RUC desta edicaoUC
+
         Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findByID(idProposta, idAluno);
 
         if (propostaCandidatura.isEmpty())
@@ -449,7 +453,7 @@ public class PropostaService
         {
             throw new OptionalVazioException(idUtilizador + " não é RUC.");
         }
-
+//docente   idPropostaCanditura - idAluno -idProposta-edicaoUC   se +é RUC desta edicaoUC
         //ver se é RUC desta Proposta /EdicaoUC  idProposta !!!!!!!!!!!!!!!!!!!!!!!
 
         if (propostaCandidatura.get().getEstado().ordinal() != 0)
@@ -460,7 +464,7 @@ public class PropostaService
 
         propostaCandidatura.get().setEstado(EstadoCandidatura.ACEITE);
 
-        PropostaCandidatura updated = propostaCandidaturaRepo.createAndSave(propostaCandidatura.get().getIdProposta(), propostaCandidatura.get().getIdAluno());
+        PropostaCandidatura updated = propostaCandidaturaRepo.updateAndSave(propostaCandidatura.get());
 
         return candidaturaDTOMapper.toDTO(updated);
     }

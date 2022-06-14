@@ -43,12 +43,6 @@ public class PropostaCandidaturaRepo
         {
             return false;
         }
-
-        if (candidaturaJPA.get().getEstado() != EstadoCandidatura.PENDENTE)
-        {
-            throw new IdInvalidoException("O aluno ja fez esta candidatura e tinha sido "+candidaturaJPA.get().getEstado());
-        }
-
         return true;
     }
 
@@ -76,6 +70,17 @@ public class PropostaCandidaturaRepo
     {
         PropostaCandidaturaID id = factory.create(propostaID, alunoId);
         PropostaCandidaturaJPA jpa = new PropostaCandidaturaJPA(id, EstadoCandidatura.PENDENTE);
+
+        return mapper.toModel(jpaRepository.save(jpa));
+    }
+
+    public PropostaCandidatura updateAndSave(PropostaCandidatura propostaCandidatura)
+    {
+        PropostaCandidaturaID id = factory.create(propostaCandidatura.getIdProposta(), propostaCandidatura.getIdAluno());
+
+        jpaRepository.deleteById(id);
+
+        PropostaCandidaturaJPA jpa = mapper.toJPA(propostaCandidatura);
 
         return mapper.toModel(jpaRepository.save(jpa));
     }

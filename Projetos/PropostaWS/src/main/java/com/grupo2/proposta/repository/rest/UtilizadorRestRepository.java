@@ -22,7 +22,7 @@ public class UtilizadorRestRepository
      * @param encoded
      * @return Utilizador ou optional vazio
      */
-    public Optional<UtilizadorDTO> findById(Long id, String encoded)
+    public Optional<UtilizadorDTO> findById(Long id)
     {
         try
         {

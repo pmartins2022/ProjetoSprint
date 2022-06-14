@@ -37,11 +37,9 @@ public class PropostaController
     @PostMapping("/create")
     public ResponseEntity<PropostaDTO> createCandidaturaProposta(@RequestBody PropostaDTO dto, HttpServletRequest request)
     {
-        System.out.println("Controller");
         try
         {
-            System.out.println("Antes RequestHeader");
-            PropostaDTO proposta = service.createProposta(dto, request.getHeader("Authorization"));
+            PropostaDTO proposta = service.createProposta(dto);
 
             return new ResponseEntity<>(proposta, HttpStatus.CREATED);
         } catch (ValidacaoInvalidaException e)
@@ -203,7 +201,7 @@ public class PropostaController
 
 
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
-    @PostMapping("/inscricao/{propostaID}")
+    @PostMapping("/candidatarAlunoProposta/{propostaID}")
     public ResponseEntity<Object> candidatarAlunoProposta(@PathVariable(name = "propostaID") Long propostaID)
     {
         try
@@ -228,7 +226,6 @@ public class PropostaController
                                                                  @PathVariable("idAluno") Long idAluno)
     {
         UtilizadorAuthDTO utilizadorAuthDTO = LoginContext.getCurrent();
-
         try
         {
             PropostaCandidaturaDTO cand = service.acceptAlunoCandidaturaProposta(utilizadorAuthDTO.getId(), idProposta, idAluno);
@@ -243,7 +240,7 @@ public class PropostaController
     }
 
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
-    @GetMapping("/criarConvite")
+    @PostMapping("/criarConvite")
     public ResponseEntity<Object> criarConvite(@RequestBody ConviteDTO convite) throws Exception
     {
         try

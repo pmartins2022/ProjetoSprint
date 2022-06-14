@@ -17,7 +17,7 @@ public class OrganizacaoRestRepository
      * @param id Id da organizacao
      * @return Organizacao ou optional vazio
      */
-    public Optional<OrganizacaoDTO> findById(Long id, String encoded)
+    public Optional<OrganizacaoDTO> findById(Long id)
     {
         try
         {

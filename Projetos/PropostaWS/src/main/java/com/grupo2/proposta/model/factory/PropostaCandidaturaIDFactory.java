@@ -1,5 +1,7 @@
 package com.grupo2.proposta.model.factory;
 
+import com.grupo2.proposta.model.EstadoCandidatura;
+import com.grupo2.proposta.model.EstadoConvite;
 import com.grupo2.proposta.model.PropostaCandidaturaID;
 import org.springframework.stereotype.Component;
 
