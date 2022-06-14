@@ -1,11 +1,12 @@
 package com.grupo2.proposta.repository;
 
 import com.grupo2.proposta.exception.IdInvalidoException;
-import com.grupo2.proposta.jpa.PropostaInscricaoJPA;
+import com.grupo2.proposta.exception.OptionalVazioException;
+import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
 import com.grupo2.proposta.jpa.mapper.PropostaCandidaturaJPAMapper;
 import com.grupo2.proposta.model.EstadoCandidatura;
 import com.grupo2.proposta.model.PropostaCandidatura;
-import com.grupo2.proposta.model.PropostaInscricaoID;
+import com.grupo2.proposta.model.PropostaCandidaturaID;
 import com.grupo2.proposta.model.factory.PropostaCandidaturaIDFactory;
 import com.grupo2.proposta.repository.jpa.PropostaCandidaturaJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class PropostaInscricaoRepo
+public class PropostaCandidaturaRepo
 {
     @Autowired
     private PropostaCandidaturaJPARepository jpaRepository;
@@ -34,9 +35,9 @@ public class PropostaInscricaoRepo
      */
     public boolean isIncrito(Long idProposta, Long idAluno)
     {
-        PropostaInscricaoID id = new PropostaInscricaoID(idProposta,idAluno);
+        PropostaCandidaturaID id = new PropostaCandidaturaID(idProposta, idAluno);
 
-        Optional<PropostaInscricaoJPA> candidaturaJPA = jpaRepository.findById(id);
+        Optional<PropostaCandidaturaJPA> candidaturaJPA = jpaRepository.findById(id);
 
         if (candidaturaJPA.isEmpty())
         {
@@ -58,10 +59,10 @@ public class PropostaInscricaoRepo
      */
     public boolean isAlunoInscrito(Long idAluno)
     {
-        List<PropostaInscricaoJPA> lista = jpaRepository.findAll();
+        List<PropostaCandidaturaJPA> lista = jpaRepository.findAll();
 
-        List<PropostaInscricaoJPA> candidaturasAluno =
-                lista.stream().filter(obj->
+        List<PropostaCandidaturaJPA> candidaturasAluno =
+                lista.stream().filter(obj ->
                         obj.getId().getIdAluno().equals(idAluno)).toList();
 
         long contagemValido =
@@ -73,9 +74,23 @@ public class PropostaInscricaoRepo
 
     public PropostaCandidatura createAndSave(Long propostaID, Long alunoId)
     {
-        PropostaInscricaoID id = factory.create(propostaID, alunoId);
-        PropostaInscricaoJPA jpa = new PropostaInscricaoJPA(id,EstadoCandidatura.PENDENTE);
+        PropostaCandidaturaID id = factory.create(propostaID, alunoId);
+        PropostaCandidaturaJPA jpa = new PropostaCandidaturaJPA(id, EstadoCandidatura.PENDENTE);
 
         return mapper.toModel(jpaRepository.save(jpa));
+    }
+
+    public Optional<PropostaCandidatura> findByID(Long propostaID, Long alunoId)
+    {
+        PropostaCandidaturaID id = factory.create(propostaID, alunoId);
+
+        Optional<PropostaCandidaturaJPA> propostaCandidaturaJPA = jpaRepository.findById(id);
+
+        if (propostaCandidaturaJPA.isEmpty())
+        {
+            Optional.empty();
+        }
+
+        return Optional.of(mapper.toModel(propostaCandidaturaJPA.get()));
     }
 }

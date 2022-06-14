@@ -3,6 +3,7 @@ package com.grupo2.proposta.repository;
 import com.grupo2.proposta.jpa.ConviteJPA;
 import com.grupo2.proposta.jpa.mapper.ConviteJPAMapper;
 import com.grupo2.proposta.model.Convite;
+import com.grupo2.proposta.model.ConviteID;
 import com.grupo2.proposta.repository.jpa.ConviteJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,8 +25,12 @@ public class ConviteRepository
         return mapper.toModel(jpaRepository.save(conviteJPA));
     }
 
-    public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID)
+    public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID, Long d)
     {
+        ConviteID c = new ConviteID();
+
+        jpaRepository.findById(c);
+
         Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(propostaID, alunoID);
 
         if (conviteJPA.isPresent())

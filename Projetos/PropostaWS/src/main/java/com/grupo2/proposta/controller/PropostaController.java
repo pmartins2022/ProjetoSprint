@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
@@ -29,25 +28,24 @@ public class PropostaController
     private PropostaService service;
 
     /**
-     * Endpoint que possibilita criar uma proposta.
+     * Endpoint que possibilita criar uma proposta (em fase CANDIDATURA).
+     *
      * @param dto um objeto com os dados da proposta
      * @return proposta, ou um erro se os dados estiverem invalidos.
      */
     @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE','ROLE_ALUNO')")
     @PostMapping("/create")
-    public ResponseEntity<PropostaDTO> createProposta(@RequestBody PropostaDTO dto, HttpServletRequest request)
+    public ResponseEntity<PropostaDTO> createCandidaturaProposta(@RequestBody PropostaDTO dto, HttpServletRequest request)
     {
         try
         {
-            PropostaDTO proposta = service.createProposta(dto,request.getHeader("Authorization"));
+            PropostaDTO proposta = service.createProposta(dto, request.getHeader("Authorization"));
 
             return new ResponseEntity<>(proposta, HttpStatus.CREATED);
-        }
-        catch(ValidacaoInvalidaException e)
+        } catch (ValidacaoInvalidaException e)
         {
             throw new ValidacaoInvalidaException(e.getMessage());
-        }
-        catch (BaseDadosException e)
+        } catch (BaseDadosException e)
         {
             throw new BaseDadosException(e.getMessage());
         }
@@ -112,19 +110,20 @@ public class PropostaController
 
     /**
      * Endpoint que possibilita rejeitar uma candidatura a proposta.
+     *
      * @param id o id da proposta
      * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/rejeitarCandidatura/{id}")
-    public ResponseEntity<PropostaDTO> rejeitarCandidaturaProposta(@PathVariable(name = "id") Long id)
+    public ResponseEntity<PropostaDTO> rejectCandidaturaProposta(@PathVariable(name = "id") Long id)
     {
         try
         {
             Optional<PropostaDTO> dto = service.rejeitarProposta(id);
             if (dto.isEmpty())
             {
-                throw new IdInvalidoException("O id da proposta "+id+" e invalido.");
+                throw new IdInvalidoException("O id da proposta " + id + " e invalido.");
             }
             return new ResponseEntity<>(dto.get(), HttpStatus.OK);
         }
@@ -135,34 +134,89 @@ public class PropostaController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PatchMapping("/aceitarCandidaturaProposta/{idProposta}") //é patch??!!!!!
+    @PostMapping("/aceitarCandidatura/{idProposta}")
     public ResponseEntity<Object> acceptCandidaturaProposta(@PathVariable("idProposta") Long idProposta)
     {
+        //Estado da Proposta -CANDIDATURA   -vai ficar APROVADO
         UtilizadorAuthDTO docente = LoginContext.getCurrent();
 
-        PropostaDTO propostaUpdated = service.acceptCandidaturaProposta(docente.getId(), idProposta);
-        return new ResponseEntity<>(propostaUpdated, HttpStatus.OK);
+        try
+        {
+            PropostaDTO propostaUpdated = service.acceptCandidaturaProposta(docente.getId(), idProposta);
+            return new ResponseEntity<>(propostaUpdated, HttpStatus.OK);
+        } catch (OptionalVazioException e)
+        {
+            throw e;
+        } catch (ValidacaoInvalidaException e)
+        {
+            throw e;
+        }
+
     }
 
-
-//?????????????????????????????????????????????
+    /**
+     * Endpoint que possibilita a criação de Projeto.
+     *
+     * @param propostaID
+     * @param orientadorID
+     * @param alunoID
+     * @return
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/aceitarProposta/{id}")
-    public ResponseEntity<Object> aceitarProposta(@PathVariable("id") Long propostaID,
-                                                  @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
+    public ResponseEntity<Object> acceptProposta(@PathVariable("id") Long propostaID,
+                                                 @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
     {
         try
         {
             ProjetoDTO projetoDTO = service.acceptProposta(propostaID, orientadorID, alunoID);
             return new ResponseEntity<>(projetoDTO, HttpStatus.OK);
-        }
-        catch (IdInvalidoException e)
+        } catch (IdInvalidoException e)
         {
             throw new IdInvalidoException(e.getMessage());
-        }
-        catch (AtualizacaoInvalidaException e)
+        } catch (AtualizacaoInvalidaException e)
         {
             throw new AtualizacaoInvalidaException(e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
+    @PostMapping("/inscricao/{propostaID}")
+    public ResponseEntity<Object> candidatarAlunoProposta(@PathVariable(name = "propostaID") Long propostaID)
+    {
+        try
+        {
+            PropostaCandidaturaDTO cand = service.candidatarAlunoProposta(propostaID);
+            return new ResponseEntity<>(cand, HttpStatus.CREATED);
+        } catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        } catch (ValidacaoInvalidaException e)
+        {
+            throw new ValidacaoInvalidaException(e.getMessage());
+        } catch (AtualizacaoInvalidaException e)
+        {
+            throw new AtualizacaoInvalidaException(e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PostMapping("/aceitarCandidaturaAluno/{idProposta}/{idAluno}")
+    public ResponseEntity<Object> acceptAlunoCandidaturaProposta(@PathVariable("idProposta") Long idProposta,
+                                                                 @PathVariable("idAluno") Long idAluno)
+    {
+        UtilizadorAuthDTO utilizadorAuthDTO = LoginContext.getCurrent();
+
+        try
+        {
+            PropostaCandidaturaDTO cand = service.acceptAlunoCandidaturaProposta(utilizadorAuthDTO.getId(), idProposta, idAluno);
+            return new ResponseEntity<>(cand, HttpStatus.CREATED);
+        } catch (OptionalVazioException e)
+        {
+            throw e;
+        } catch (ValidacaoInvalidaException e)
+        {
+            throw e;
         }
     }
 
@@ -174,41 +228,15 @@ public class PropostaController
         {
             ConviteDTO conviteDTO = service.createConvite(convite);
             return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
-        }
-        catch (OptionalVazioException e)
+        } catch (OptionalVazioException e)
         {
             throw new OptionalVazioException(e.getMessage());
-        }
-        catch (ValidacaoInvalidaException e)
+        } catch (ValidacaoInvalidaException e)
         {
             throw new ValidacaoInvalidaException(e.getMessage());
-        }
-        catch (IdInvalidoException e)
+        } catch (IdInvalidoException e)
         {
             throw new IdInvalidoException(e.getMessage());
-        }
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
-    @PostMapping("/inscricao/{propostaID}")
-    public ResponseEntity<Object> inscricaoProposta(@PathVariable(name = "propostaID") Long propostaID)
-    {
-        try
-        {
-            PropostaInscricaoDTO cand = service.inscricaoProposta(propostaID);
-            return new ResponseEntity<>(cand,HttpStatus.CREATED);
-        }
-        catch (OptionalVazioException e)
-        {
-            throw new OptionalVazioException(e.getMessage());
-        }
-        catch (ValidacaoInvalidaException e)
-        {
-            throw new ValidacaoInvalidaException(e.getMessage());
-        }
-        catch (AtualizacaoInvalidaException e)
-        {
-            throw new AtualizacaoInvalidaException(e.getMessage());
         }
     }
 }

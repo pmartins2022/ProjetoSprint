@@ -49,7 +49,7 @@ class PropostaControllerUnitTests
 
         when(service.createProposta(prop,"")).thenReturn(prop);
 
-        ResponseEntity<PropostaDTO> proposta = controller.createProposta(prop,request);
+        ResponseEntity<PropostaDTO> proposta = controller.createCandidaturaProposta(prop,request);
 
         assertEquals(proposta.getStatusCode(), HttpStatus.CREATED);
     }
@@ -61,7 +61,7 @@ class PropostaControllerUnitTests
 
         when(service.createProposta(prop,"")).thenThrow(BaseDadosException.class);
 
-        assertThrows(BaseDadosException.class,()->controller.createProposta(prop,request));
+        assertThrows(BaseDadosException.class,()->controller.createCandidaturaProposta(prop,request));
     }
 
     @Test
@@ -71,7 +71,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptCandidaturaProposta(1L, 1L, 1L)).thenReturn(prop);
 
-        ResponseEntity<Object> objectResponseEntity = controller.aceitarProposta(1L, 1L, 1L);
+        ResponseEntity<Object> objectResponseEntity = controller.acceptProposta(1L, 1L, 1L);
 
         assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
     }
@@ -83,7 +83,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptCandidaturaProposta(1L, 1L, 1L)).thenThrow(IdInvalidoException.class);
 
-        assertThrows(IdInvalidoException.class,()->controller.aceitarProposta(1L, 1L, 1L));
+        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L, 1L));
     }
 
     @Test
@@ -93,7 +93,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptCandidaturaProposta(1L, 1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.aceitarProposta(1L, 1L, 1L));
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L, 1L));
     }
 
     @Test
@@ -127,7 +127,7 @@ class PropostaControllerUnitTests
 
         when(service.rejeitarProposta(1L)).thenReturn(Optional.of(prop));
 
-        ResponseEntity<PropostaDTO> response = controller.rejeitarCandidaturaProposta(1L);
+        ResponseEntity<PropostaDTO> response = controller.rejectCandidaturaProposta(1L);
 
         assertEquals(response.getStatusCode(),HttpStatus.OK);
     }
@@ -137,7 +137,7 @@ class PropostaControllerUnitTests
     {
         when(service.rejeitarProposta(1L)).thenReturn(Optional.empty());
 
-        assertThrows(IdInvalidoException.class,()->controller.rejeitarCandidaturaProposta(1L));
+        assertThrows(IdInvalidoException.class,()->controller.rejectCandidaturaProposta(1L));
     }
 
     @Test
@@ -145,7 +145,7 @@ class PropostaControllerUnitTests
     {
         when(service.rejeitarProposta(1L)).thenThrow(AtualizacaoInvalidaException.class);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.rejeitarCandidaturaProposta(1L));
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.rejectCandidaturaProposta(1L));
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.grupo2.proposta.repository.rest;
 
 import com.grupo2.proposta.dto.UtilizadorAuthDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
+import com.grupo2.proposta.exception.ErrorDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -55,5 +56,17 @@ public class UtilizadorRestRepository
         });
 
         return spec.bodyToMono(UtilizadorAuthDTO.class).block();
+    }
+
+
+    public Boolean isRole(String role, Long id)
+    {
+        WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/"+role +"/"+id).
+                build().get().retrieve();
+
+        spec.onStatus(HttpStatus::is4xxClientError,
+                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+        return spec.bodyToMono(Boolean.class).block();
     }
 }
