@@ -6,16 +6,10 @@ import org.springframework.stereotype.Component;
 public class MomentoAvaliacaoDTO {
     private Long id;
     private Long projetoId;
-    private Long presidenteId;
-    private Long orientadorId;
-    private Long arguenteId;
 
-    public MomentoAvaliacaoDTO(Long id, Long projetoId, Long presidenteId, Long orientadorId, Long arguenteId) {
+    public MomentoAvaliacaoDTO(Long id, Long projetoId) {
         this.id = id;
         this.projetoId = projetoId;
-        this.presidenteId = presidenteId;
-        this.orientadorId = orientadorId;
-        this.arguenteId = arguenteId;
     }
 
     public MomentoAvaliacaoDTO() {
@@ -37,27 +31,4 @@ public class MomentoAvaliacaoDTO {
         this.projetoId = projetoId;
     }
 
-    public Long getPresidenteId() {
-        return presidenteId;
-    }
-
-    public void setPresidenteId(Long presidenteId) {
-        this.presidenteId = presidenteId;
-    }
-
-    public Long getOrientadorId() {
-        return orientadorId;
-    }
-
-    public void setOrientadorId(Long orientadorId) {
-        this.orientadorId = orientadorId;
-    }
-
-    public Long getArguenteId() {
-        return arguenteId;
-    }
-
-    public void setArguenteId(Long arguenteId) {
-        this.arguenteId = arguenteId;
-    }
 }

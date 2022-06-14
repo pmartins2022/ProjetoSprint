@@ -86,9 +86,12 @@ public class EdicaoUCRepository
 
     public EdicaoUC ativarEdicao(EdicaoUC edicaoUC)
     {
+        System.out.println(edicaoUC);
         EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
 
         jpaRepository.deleteById(edicaoUC.getId());
+
+        System.out.println(jpa);
 
         return mapper.toModel(jpaRepository.save(jpa));
     }

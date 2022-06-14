@@ -24,7 +24,7 @@ public class EdicaoUCJPAMapper
      */
     public EdicaoUC toModel(EdicaoUCJPA jpa)
     {
-        return factory.createEdicaoUC(jpa.getId(),jpa.getUCCode(),jpa.getAnoLetivoCode(), jpa.getRucID());
+        return factory.createEdicaoUC(jpa.getId(),jpa.getUCCode(),jpa.getAnoLetivoCode(), jpa.getRucID(), jpa.getEstadoEdicaoUC());
     }
 
     /**

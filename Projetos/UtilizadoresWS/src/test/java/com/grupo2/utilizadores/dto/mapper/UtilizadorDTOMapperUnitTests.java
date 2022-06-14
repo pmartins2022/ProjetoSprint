@@ -52,10 +52,12 @@ class UtilizadorDTOMapperUnitTests
         when(utilizadorMOCK.getNome()).thenReturn("nome");
         when(utilizadorMOCK.getSobrenome()).thenReturn("sobrenome");
         when(utilizadorMOCK.getEmail()).thenReturn("email");
+        when(utilizadorMOCK.getUsername()).thenReturn("username");
+        when(utilizadorMOCK.getPassword()).thenReturn("password");
         when(utilizadorMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
 
         when(factory.createUtilizador(1L, dtoMOCK.getNome(), dtoMOCK.getSobrenome(), dtoMOCK.getEmail(),
-                dtoMOCK.getTipoUtilizador())).thenReturn(utilizadorMOCK);
+                dtoMOCK.getUsername(),dtoMOCK.getPassword(),dtoMOCK.getTipoUtilizador())).thenReturn(utilizadorMOCK);
 
         Utilizador utilizador = mapper.toModel(dtoMOCK);
 
@@ -68,7 +70,7 @@ class UtilizadorDTOMapperUnitTests
         UtilizadorDTO dtoMOCK = mock(UtilizadorDTO.class);
 
         when(factory.createUtilizador(dtoMOCK.getId(), dtoMOCK.getNome(), dtoMOCK.getSobrenome(), dtoMOCK.getEmail(),
-                dtoMOCK.getTipoUtilizador())).thenThrow(ValidacaoInvalidaException.class);
+                dtoMOCK.getUsername(), dtoMOCK.getPassword(),dtoMOCK.getTipoUtilizador())).thenThrow(ValidacaoInvalidaException.class);
 
         assertThrows(ValidacaoInvalidaException.class, ()-> mapper.toModel(dtoMOCK));
     }
