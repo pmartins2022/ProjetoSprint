@@ -317,14 +317,8 @@ public class PropostaService
         {
             if (!propostaCandidaturaRepo.isIncrito(conviteDTO.getIdProposta(), conviteDTO.getIdAluno()))
             {
-                throw new ValidacaoInvalidaException("O aluno nao " + conviteDTO.getIdAluno() + " nao esta incrito na proposta " + conviteDTO.getIdProposta());
+                throw new ValidacaoInvalidaException("O aluno " + conviteDTO.getIdAluno() + " nao esta incrito na proposta " + conviteDTO.getIdProposta());
             }
-
-            if (candidaturaJPA.get().getEstado() != EstadoCandidatura.PENDENTE)
-            {
-                throw new IdInvalidoException("O aluno ja fez esta candidatura e tinha sido "+candidaturaJPA.get().getEstado());
-            }
-
         }
         catch (IdInvalidoException e)
         {
@@ -384,6 +378,11 @@ public class PropostaService
             throw new ValidacaoInvalidaException("Esta proposta nao esta como aprovado");
         }
 
+        if (proposta.get().getEstadoAtual() == PropostaEstado.EM_PROJETO)
+        {
+            throw new AtualizacaoInvalidaException("Esta proposta ja esta em projeto");
+        }
+
         //encontrar e validar orientador
         if (!utilizadorRestRepository.isRole("ROLE_ORIENTADOR", orientadorID))
         {
@@ -396,18 +395,14 @@ public class PropostaService
             throw new IdInvalidoException("O ID introduzido nao é um aluno.");
         }
 
-        //Encontrar convite do aluno e atualizar estado        //proposta e aluno juntos formam ID
-        Optional<Convite> convite = conviteRepository.findByPropostaAndAluno(propostaID, alunoID);
-        //TEM TE SE METER DOCENTE TAMBÉM!!!!!!!
+
+        //encontrar o convite especifico
+        ConviteID conviteId = new ConviteID(alunoID, orientadorID, propostaID);
+        Optional<Convite> convite = conviteRepository.findById(conviteId);
 
         if (convite.isEmpty())
         {
             throw new IdInvalidoException("O aluno "+alunoID+" nao tem nenhum convite para esta proposta");
-        }
-
-        if (!convite.get().getIdDocente().equals(orientadorID))
-        {
-            throw new IdInvalidoException("Orientador "+orientadorID+" nao corresponde ao convite");
         }
 
         if (convite.get().getEstado() != EstadoConvite.ACEITE)
@@ -415,21 +410,23 @@ public class PropostaService
             throw new ValidacaoInvalidaException("O convite do aluno nao está em fase ACEITE");
         }
 
+
+        //atualizar o convite para EM_PROJETO
         convite.get().setEstado(EstadoConvite.EM_PROJETO);
-
         atualizarConvite(convite.get());
-
-        //criar projeto
-        ProjetoDTO projetoDTO = createProject(propostaID, orientadorID, alunoID);
 
         //colocar esta proposta como em_projeto
         proposta.get().aceitarPropostaProjeto();
-
         atualizarProposta(proposta.get());
 
-        //FALTA REPROVAR AS OUTRAS PROPOSTAS DE OUTROS ALUNOS A MESMA PROPOSTA
+        //invalidar as inscricoes (candidaturas) dos outros alunos a esta proposta
+        propostaCandidaturaRepo.invalidarCandidaturas(propostaID,alunoID);
 
-        return projetoDTO;
+        //invalidar os convites dos outros alunos
+        conviteRepository.invalidarConvites(propostaID,alunoID);
+
+        //criar projeto
+        return createProject(propostaID, orientadorID, alunoID);
     }
 
     private void atualizarConvite(Convite convite)
