@@ -144,6 +144,8 @@ public class PropostaController
         return new ResponseEntity<>(propostaUpdated, HttpStatus.OK);
     }
 
+
+//?????????????????????????????????????????????
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/aceitarProposta/{id}")
     public ResponseEntity<Object> aceitarProposta(@PathVariable("id") Long propostaID,
@@ -188,12 +190,12 @@ public class PropostaController
     }
 
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
-    @PostMapping("/candidatar/{propostaID}")
-    public ResponseEntity<Object> candidatarProposta(@PathVariable(name = "propostaID") Long propostaID)
+    @PostMapping("/inscricao/{propostaID}")
+    public ResponseEntity<Object> inscricaoProposta(@PathVariable(name = "propostaID") Long propostaID)
     {
         try
         {
-            PropostaCandidaturaDTO cand = service.candidatarProposta(propostaID);
+            PropostaInscricaoDTO cand = service.inscricaoProposta(propostaID);
             return new ResponseEntity<>(cand,HttpStatus.CREATED);
         }
         catch (OptionalVazioException e)

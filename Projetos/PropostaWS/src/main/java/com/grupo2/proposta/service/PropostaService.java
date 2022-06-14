@@ -8,7 +8,7 @@ import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
 import com.grupo2.proposta.exception.*;
 import com.grupo2.proposta.model.*;
 import com.grupo2.proposta.repository.ConviteRepository;
-import com.grupo2.proposta.repository.PropostaCandidaturaRepo;
+import com.grupo2.proposta.repository.PropostaInscricaoRepo;
 import com.grupo2.proposta.repository.PropostaRepository;
 import com.grupo2.proposta.repository.rest.EdicaoUCRestRepository;
 import com.grupo2.proposta.repository.rest.OrganizacaoRestRepository;
@@ -34,7 +34,7 @@ public class PropostaService
     @Autowired
     private ProjetoRestRepository projetoRestRepository;
     @Autowired
-    private PropostaCandidaturaRepo propostaCandidaturaRepo;
+    private PropostaInscricaoRepo propostaInscricaoRepo;
     @Autowired
     private PropostaCandidaturaDTOMapper candidaturaDTOMapper;
 
@@ -255,7 +255,7 @@ public class PropostaService
 
         try
         {
-            if (!propostaCandidaturaRepo.isIncrito(conviteDTO.getIdProposta(), conviteDTO.getIdAluno()))
+            if (!propostaInscricaoRepo.isIncrito(conviteDTO.getIdProposta(), conviteDTO.getIdAluno()))
             {
                 throw new ValidacaoInvalidaException("O aluno nao "+conviteDTO.getIdAluno()+" nao esta incrito na proposta "+conviteDTO.getIdProposta());
             }
@@ -281,7 +281,7 @@ public class PropostaService
         return conviteDTOMapper.toDTO(convite);
     }
 
-    public PropostaCandidaturaDTO candidatarProposta(Long propostaID)
+    public PropostaInscricaoDTO inscricaoProposta(Long propostaID)
     {
         Optional<Proposta> proposta = repository.findById(propostaID);
         if (proposta.isEmpty())
@@ -291,17 +291,17 @@ public class PropostaService
 
         if(proposta.get().getEstadoAtual() != PropostaEstado.APROVADO)
         {
-            throw new ValidacaoInvalidaException("Esta proposta nao esta como aprovado");
+            throw new ValidacaoInvalidaException("Esta proposta nao está como aprovado");
         }
 
         Long alunoId = LoginContext.getCurrent().getId();
 
-        if (propostaCandidaturaRepo.isCandidaturaRegistered(alunoId))
+        if (propostaInscricaoRepo.isAlunoInscrito(alunoId))
         {
             throw new AtualizacaoInvalidaException("O aluno ja se encontra inscrito numa proposta ativa");
         }
 
-        return candidaturaDTOMapper.toDTO(propostaCandidaturaRepo.createAndSave(propostaID,alunoId));
+        return candidaturaDTOMapper.toDTO(propostaInscricaoRepo.createAndSave(propostaID,alunoId));
     }
 
     public ProjetoDTO acceptProposta(Long propostaID, Long orientadorID, Long alunoID)
