@@ -98,4 +98,20 @@ public class PropostaCandidaturaRepo
 
         return Optional.of(mapper.toModel(propostaCandidaturaJPA.get()));
     }
+
+    public void invalidarCandidaturas(Long propostaID, Long alunoID)
+    {
+        List<PropostaCandidaturaJPA> lista = jpaRepository.findAll();
+
+        List<PropostaCandidatura> candidaturasAluno =
+                lista.stream()
+                        .filter(obj -> !obj.getId().getIdAluno().equals(alunoID))
+                        .filter(obj -> obj.getId().getIdProposta().equals(propostaID))
+                        .filter(obj -> obj.getEstado() == EstadoCandidatura.PENDENTE)
+                        .map(mapper::toModel).toList();
+
+        candidaturasAluno.forEach(obj -> obj.setEstado(EstadoCandidatura.REJEITADO));
+
+        candidaturasAluno.forEach(obj -> jpaRepository.save(mapper.toJPA(obj)));
+    }
 }

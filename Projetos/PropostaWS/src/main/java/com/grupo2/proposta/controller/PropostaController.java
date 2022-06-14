@@ -157,10 +157,10 @@ public class PropostaController
     /**
      * Endpoint que possibilita a criação de Projeto.
      *
-     * @param propostaID
-     * @param orientadorID
-     * @param alunoID
-     * @return
+     * @param propostaID o id da proposta
+     * @param orientadorID o id do orientador
+     * @param alunoID o id do aluno
+     * @return projeto, ou um erro se os dados estiverem invalidos.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/aceitarProposta/{id}")
