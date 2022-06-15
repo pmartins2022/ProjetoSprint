@@ -41,7 +41,7 @@ public class ConviteRepository
 
     public Optional<Convite> findByDocenteAndProposta(Long docenteID, Long propostaID)
     {
-        Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(docenteID,propostaID);
+        Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(docenteID, propostaID);
         if (conviteJPA.isPresent())
         {
             return Optional.of(mapper.toModel(conviteJPA.get()));
@@ -62,8 +62,9 @@ public class ConviteRepository
 
     /**
      * Invalidar todos os convites de uma proposta que nao sejam do aluno
+     *
      * @param propostaID a proposta a ser invalidada
-     * @param alunoId o aluno que nao deve ser invalidado
+     * @param alunoId    o aluno que nao deve ser invalidado
      */
     public void invalidarConvites(Long propostaID, Long alunoId)
     {
@@ -79,6 +80,17 @@ public class ConviteRepository
         }
     }
 
+    public void invalidarTodosConvites(Long propostaID)
+    {
+        List<Convite> list = jpaRepository.findByIdIdproposta(propostaID).stream().map(mapper::toModel).toList();
+
+        for (Convite convite : list)
+        {
+            convite.setEstado(EstadoConvite.RECUSADO);
+            jpaRepository.save(mapper.toJPA(convite));
+        }
+    }
+
     public void atualizar(Convite convite)
     {
         ConviteJPA conviteJPA = mapper.toJPA(convite);
@@ -87,5 +99,4 @@ public class ConviteRepository
 
         jpaRepository.save(conviteJPA);
     }
-
 }

@@ -35,20 +35,20 @@ class PropostaServiceIntegrationTests
     private PropostaJPARepository jpaRepository;
 
 
-//    @Test
-//    public void shouldNotAcceptProposta_InvalidID()
-//    {
-//        assertThrows(IdInvalidoException.class,()->service.acceptCandidaturaProposta(99L,1L,1L));
-//    }
+    @Test
+    public void shouldNotAcceptProposta_InvalidID()
+    {
+        assertThrows(IdInvalidoException.class,()->service.acceptCandidaturaProposta(99L,1L));
+    }
 
-//    @Test
-//    public void shouldNotAcceptProposta_InvalidUpdate()
-//    {
-//        PropostaJPA p = new PropostaJPA(1L,1L,1L,"AAAAAAAAAA","BBBBBBBBBB","CCCCCCCCCC",1L,PropostaEstado.APROVADO);
-//        PropostaJPA save = jpaRepository.save(p);
-//
-//        assertThrows(AtualizacaoInvalidaException.class,()->service.acceptCandidaturaProposta(save.getId(),2L,1L));
-//    }
+    @Test
+    public void shouldNotAcceptProposta_InvalidUpdate()
+    {
+        PropostaJPA p = new PropostaJPA(1L,1L,1L,"AAAAAAAAAA","BBBBBBBBBB","CCCCCCCCCC",1L,PropostaEstado.APROVADO);
+        PropostaJPA save = jpaRepository.save(p);
+
+        assertThrows(AtualizacaoInvalidaException.class,()->service.acceptCandidaturaProposta(save.getId(),2L));
+    }
 
     @Test
     public void shouldRejectProposta()
