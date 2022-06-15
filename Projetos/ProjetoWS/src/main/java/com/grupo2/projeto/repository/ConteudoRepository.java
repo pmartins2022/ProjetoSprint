@@ -1,12 +1,8 @@
 package com.grupo2.projeto.repository;
 
-import com.grupo2.projeto.jpa.AvaliacaoJPA;
 import com.grupo2.projeto.jpa.ConteudoJPA;
-import com.grupo2.projeto.jpa.mapper.AvaliacaoJPAMapper;
 import com.grupo2.projeto.jpa.mapper.ConteudoJPAMapper;
-import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.Conteudo;
-import com.grupo2.projeto.repository.jpa.AvaliacaoJPARepository;
 import com.grupo2.projeto.repository.jpa.ConteudoJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,6 +17,7 @@ public class ConteudoRepository
 
     @Autowired
     private ConteudoJPAMapper mapper;
+
     public Conteudo saveConteudo(Conteudo conteudo)
     {
         ConteudoJPA jpa = mapper.toJpa(conteudo);
@@ -38,10 +35,20 @@ public class ConteudoRepository
         {
             Conteudo conteudo = mapper.toModel(optionalJPA.get());
             return Optional.of(conteudo);
-        }
-        else
+        } else
         {
             return Optional.empty();
         }
+    }
+
+    public Conteudo atualizarConteudo(Conteudo conteudo)
+    {
+        repository.deleteById(conteudo.getId());
+
+        ConteudoJPA jpa = mapper.toJpa(conteudo);
+
+        ConteudoJPA saved = repository.save(jpa);
+
+        return mapper.toModel(saved);
     }
 }

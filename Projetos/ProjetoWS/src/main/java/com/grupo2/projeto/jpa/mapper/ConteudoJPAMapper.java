@@ -9,10 +9,10 @@ public class ConteudoJPAMapper
 {
     public Conteudo toModel(ConteudoJPA jpa)
     {
-        return new Conteudo(jpa.getId(), jpa.getTitulo(), jpa.getDocumento(), jpa.getLinguagemDocumento());
+        return new Conteudo(jpa.getId(), jpa.getIdProjeto(),jpa.getTitulo(), jpa.getCaminhoDocumento(),jpa.getDocumento(), jpa.getLinguagemDocumento(), jpa.getEstadoConteudo());
     }
     public ConteudoJPA toJpa(Conteudo conteudo)
     {
-        return new ConteudoJPA(conteudo.getId(), conteudo.getTitulo(), conteudo.getDocumento(), conteudo.getLinguagemDocumento());
+        return new ConteudoJPA(conteudo.getId(), conteudo.getIdProjeto(),conteudo.getTitulo(), conteudo.getCaminhoDocumento(),conteudo.getDocumento(), conteudo.getLinguagemDocumento(), conteudo.getEstadoConteudo());
     }
 }

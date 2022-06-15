@@ -1,13 +1,12 @@
 package com.grupo2.projeto.controller;
 
-import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.ConteudoDTO;
-import com.grupo2.projeto.exception.ErroGeralException;
-import com.grupo2.projeto.service.AvaliacaoService;
+import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.service.ConteudoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -19,6 +18,7 @@ public class ConteudoController
     @Autowired
     private ConteudoService service;
 
+    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @PostMapping("/criar")
     public ResponseEntity<ConteudoDTO> createConteudo(@RequestBody ConteudoDTO conteudoDTO)
     {
@@ -27,6 +27,7 @@ public class ConteudoController
         return new ResponseEntity<>(conteudoDTOSaved, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/{id}")
     public ResponseEntity<ConteudoDTO> findById(@PathVariable Long id)
     {
@@ -39,6 +40,42 @@ public class ConteudoController
         } else
         {
             throw new ErroGeralException("Nao existe conteudo com esse ID");
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PostMapping("/aceitarConteudo/{idConteudo}")
+    public ResponseEntity<Object> acceptConteudo(@PathVariable("idConteudo") Long idConteudo)
+    {
+        try
+        {
+            ConteudoDTO conteudoUpdate = service.acceptConteudo(idConteudo);
+            return new ResponseEntity<>(conteudoUpdate, HttpStatus.OK);
+        } catch (OptionalVazioException e)
+        {
+            throw e;
+        } catch (ValidacaoInvalidaException e)
+        {
+            throw e;
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/rejeitarConteudo/{id}")
+    public ResponseEntity<ConteudoDTO> rejectConteudo(@PathVariable("idConteudo") Long idConteudo)
+    {
+        try
+        {
+            ConteudoDTO dto = service.rejeitarConteudo(idConteudo);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        catch (AtualizacaoInvalidaException e)
+        {
+            throw e;
+        }
+        catch (IdInvalidoException e)
+        {
+            throw e;
         }
     }
 }
