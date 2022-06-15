@@ -5,11 +5,14 @@ import com.grupo2.projeto.dto.UtilizadorAuthDTO;
 import com.grupo2.projeto.dto.UtilizadorDTO;
 import com.grupo2.projeto.dto.mapper.ConteudoDTOMapper;
 import com.grupo2.projeto.exception.AtualizacaoInvalidaException;
+import com.grupo2.projeto.exception.IdInvalidoException;
 import com.grupo2.projeto.exception.OptionalVazioException;
 import com.grupo2.projeto.exception.ValidacaoInvalidaException;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.model.EstadoConteudo;
+import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.ConteudoRepository;
+import com.grupo2.projeto.repository.ProjetoRepository;
 import com.grupo2.projeto.repository.rest.UtilizadorRestRepository;
 import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,9 @@ public class ConteudoService
     private ConteudoRepository repository;
 
     @Autowired
+    private ProjetoRepository projetoRepository;
+
+    @Autowired
     private ConteudoDTOMapper mapper;
 
     @Autowired
@@ -31,6 +37,22 @@ public class ConteudoService
 
     public ConteudoDTO createAndSave(ConteudoDTO conteudoDTO)
     {
+        if (!LoginContext.getCurrent().getTipoUtilizador().equals("ALUNO"))
+        {
+            throw new IdInvalidoException("Este utilizador nao e aluno");
+        }
+
+        Optional<Projeto> id = projetoRepository.findById(conteudoDTO.getProjetoId());
+        if (id.isEmpty())
+        {
+            throw new IdInvalidoException("Nao existe nenhum projeto com esse id");
+        }
+
+        if (!id.get().getEstudanteId().equals(LoginContext.getCurrent().getId()))
+        {
+            throw new IdInvalidoException("O aluno nao pertence a esse projeto");
+        }
+
         Conteudo conteudo = mapper.toModel(conteudoDTO);
 
         Conteudo saved = repository.saveConteudo(conteudo);
@@ -52,15 +74,8 @@ public class ConteudoService
         }
     }
 
-    public ConteudoDTO acceptConteudo(Long idOrientador, Long idConteudo)
+    public ConteudoDTO acceptConteudo(Long idConteudo)
     {
-        Optional<UtilizadorDTO> orientador = utilizadorRestRepository.findByOrientadorID(idOrientador);
-
-        if (orientador.isEmpty())
-        {
-            throw new OptionalVazioException(idOrientador + " não é um Orientador.");
-        }
-
         Optional<Conteudo> conteudo = repository.findById(idConteudo);
 
         if (conteudo.isEmpty())
@@ -74,6 +89,18 @@ public class ConteudoService
                     idConteudo + " encontra-se em fase de " + conteudo.get().getEstadoConteudo().name());
         }
 
+        Optional<Projeto> projeto = projetoRepository.findById(conteudo.get().getIdProjeto());
+
+        if (projeto.isEmpty())
+        {
+            throw new OptionalVazioException("Projeto nao existe");
+        }
+
+        if(!projeto.get().getOrientadorId().equals(LoginContext.getCurrent().getId()))
+        {
+            throw new IdInvalidoException("Este docente nao e orientador do projeto deste conteudo");
+        }
+
         conteudo.get().setEstadoConteudo(EstadoConteudo.APROVADO);
 
         Conteudo saved = repository.saveConteudo(conteudo.get());
@@ -81,21 +108,25 @@ public class ConteudoService
         return mapper.toDTO(saved);
     }
 
-    public Optional<ConteudoDTO> rejeitarConteudo(Long idConteudo)
+    public ConteudoDTO rejeitarConteudo(Long idConteudo)
     {
-
-        UtilizadorAuthDTO current = LoginContext.getCurrent();
-
-        if (current.getTipoUtilizador().equals("DOCENTE"))
-        {
-            throw new OptionalVazioException(current.getUsername() + " não é um docente.");
-        }
-
         Optional<Conteudo> conteudo = repository.findById(idConteudo);
 
         if (conteudo.isEmpty())
         {
-            return Optional.empty();
+            throw new IdInvalidoException("Conteudo com esse id nao existe");
+        }
+
+        Optional<Projeto> projeto = projetoRepository.findById(conteudo.get().getIdProjeto());
+
+        if (projeto.isEmpty())
+        {
+            throw new OptionalVazioException("Projeto nao existe");
+        }
+
+        if(!projeto.get().getOrientadorId().equals(LoginContext.getCurrent().getId()))
+        {
+            throw new IdInvalidoException("Este docente nao e orientador do projeto deste conteudo");
         }
 
         try
@@ -106,25 +137,12 @@ public class ConteudoService
             throw new AtualizacaoInvalidaException(e.getMessage());
         }
 
-        Optional<ConteudoDTO> saved = atualizarConteudo(conteudo.get());
-
-        if (saved.isEmpty())
-        {
-            return Optional.empty();
-        }
-
-        return saved;
+        return atualizarConteudo(conteudo.get());
     }
 
-    private Optional<ConteudoDTO> atualizarConteudo(Conteudo conteudo)
+    private ConteudoDTO atualizarConteudo(Conteudo conteudo)
     {
-        Optional<Conteudo> saved = repository.atualizarConteudo(conteudo);
-
-        if (saved.isEmpty())
-        {
-            return Optional.empty();
-        }
-
-        return Optional.of(mapper.toDTO(saved.get()));
+        Conteudo saved = repository.atualizarConteudo(conteudo);
+        return mapper.toDTO(saved);
     }
 }

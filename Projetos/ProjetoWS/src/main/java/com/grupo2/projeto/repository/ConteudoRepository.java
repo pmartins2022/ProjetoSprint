@@ -17,6 +17,7 @@ public class ConteudoRepository
 
     @Autowired
     private ConteudoJPAMapper mapper;
+
     public Conteudo saveConteudo(Conteudo conteudo)
     {
         ConteudoJPA jpa = mapper.toJpa(conteudo);
@@ -34,28 +35,20 @@ public class ConteudoRepository
         {
             Conteudo conteudo = mapper.toModel(optionalJPA.get());
             return Optional.of(conteudo);
-        }
-        else
+        } else
         {
             return Optional.empty();
         }
     }
 
-    public Optional<Conteudo> atualizarConteudo(Conteudo conteudo)
+    public Conteudo atualizarConteudo(Conteudo conteudo)
     {
-        if (repository.findById(conteudo.getId()).isPresent())
-        {
-            repository.deleteById(conteudo.getId());
+        repository.deleteById(conteudo.getId());
 
-            ConteudoJPA jpa = mapper.toJpa(conteudo);
+        ConteudoJPA jpa = mapper.toJpa(conteudo);
 
-            ConteudoJPA saved = repository.save(jpa);
+        ConteudoJPA saved = repository.save(jpa);
 
-            return Optional.of(mapper.toModel(saved));
-        }
-        else
-        {
-            return Optional.empty();
-        }
+        return mapper.toModel(saved);
     }
 }

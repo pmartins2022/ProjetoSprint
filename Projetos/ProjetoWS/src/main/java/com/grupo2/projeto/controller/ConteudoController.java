@@ -1,9 +1,7 @@
 package com.grupo2.projeto.controller;
 
 import com.grupo2.projeto.dto.ConteudoDTO;
-import com.grupo2.projeto.dto.UtilizadorAuthDTO;
 import com.grupo2.projeto.exception.*;
-import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.ConteudoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +18,7 @@ public class ConteudoController
     @Autowired
     private ConteudoService service;
 
-   // @PreAuthorize("hasAuthority('ROLE_ALUNO')")
+    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @PostMapping("/criar")
     public ResponseEntity<ConteudoDTO> createConteudo(@RequestBody ConteudoDTO conteudoDTO)
     {
@@ -49,11 +47,9 @@ public class ConteudoController
     @PostMapping("/aceitarConteudo/{idConteudo}")
     public ResponseEntity<Object> acceptConteudo(@PathVariable("idConteudo") Long idConteudo)
     {
-        UtilizadorAuthDTO docente = LoginContext.getCurrent();
-
         try
         {
-            ConteudoDTO conteudoUpdate = service.acceptConteudo(docente.getId(), idConteudo);
+            ConteudoDTO conteudoUpdate = service.acceptConteudo(idConteudo);
             return new ResponseEntity<>(conteudoUpdate, HttpStatus.OK);
         } catch (OptionalVazioException e)
         {
@@ -70,16 +66,16 @@ public class ConteudoController
     {
         try
         {
-            Optional<ConteudoDTO> dto = service.rejeitarConteudo(idConteudo);
-            if (dto.isEmpty())
-            {
-                throw new IdInvalidoException("O id da proposta " + idConteudo + " e invalido.");
-            }
-            return new ResponseEntity<>(dto.get(), HttpStatus.OK);
+            ConteudoDTO dto = service.rejeitarConteudo(idConteudo);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         catch (AtualizacaoInvalidaException e)
         {
-            throw new AtualizacaoInvalidaException(e.getMessage());
+            throw e;
+        }
+        catch (IdInvalidoException e)
+        {
+            throw e;
         }
     }
 }
