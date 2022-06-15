@@ -1,6 +1,7 @@
 package com.grupo2.edicaouc.controller;
 
 import com.grupo2.edicaouc.dto.AnoLetivoDTO;
+import com.grupo2.edicaouc.dto.UtilizadorDTO;
 import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 

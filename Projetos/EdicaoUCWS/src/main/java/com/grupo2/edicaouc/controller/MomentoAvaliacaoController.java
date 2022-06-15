@@ -6,6 +6,7 @@ import com.grupo2.edicaouc.service.MomentoAvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +16,7 @@ public class MomentoAvaliacaoController
     @Autowired
     private MomentoAvaliacaoService service;
 
-    //@PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/criar")
     public ResponseEntity<Object> criarMomento(@RequestBody MomentoAvaliacaoDTO dto)
     {

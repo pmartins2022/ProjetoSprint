@@ -32,8 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/momento/criar").permitAll()
-                //.antMatchers("").authenticated()
+                .antMatchers("/edicaoUC/**", "/anoLetivo/**", "/momento/**", "/uc/**").permitAll()
+                .antMatchers("/edicaoUC/criar", "edicaoUC/inscrever/{edicaoUCID}," +
+                        "/anoLetivo/criar", "momento/criar", "/uc/criar").authenticated()
                 .and()
                 .httpBasic()
                 .realmName("EdicaoUCWS")
