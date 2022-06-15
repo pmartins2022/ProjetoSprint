@@ -1,6 +1,7 @@
 package com.grupo2.projeto.repository.rest;
 
 import com.grupo2.projeto.dto.UtilizadorAuthDTO;
+import com.grupo2.projeto.dto.UtilizadorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,5 +24,18 @@ public class UtilizadorRestRepository
         });
 
         return spec.bodyToMono(UtilizadorAuthDTO.class).block();
+    }
+
+    public Optional<UtilizadorDTO> findByOrientadorID(Long idOrientador)
+    {
+        UtilizadorDTO dto = WebClient.create("http://localhost:8085/utilizador/orientador"+idOrientador).get().
+                retrieve().bodyToMono(UtilizadorDTO.class).block();
+
+        if (dto == null)
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(dto);
     }
 }

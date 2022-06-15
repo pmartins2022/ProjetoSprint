@@ -1,30 +1,95 @@
 package com.grupo2.projeto.model;
 
+import com.detectlanguage.errors.APIError;
+import com.grupo2.projeto.exception.AtualizacaoInvalidaException;
+import com.grupo2.projeto.exception.ValidacaoInvalidaException;
+
+import java.util.*;
+
 public class Conteudo
 {
     private Long id;
-
+    private Long idProjeto;
     private String titulo;
-
+    private String caminhoDocumento;
     private String documento;
-
     private String linguagemDocumento;
 
-    public Conteudo() {}
+    private EstadoConteudo estadoConteudo;
 
-    public Conteudo(Long id, String titulo, String documento, String linguagemDocumento)
+    public Conteudo()
     {
-        this.id = id;
-        this.titulo = titulo;
-        this.documento = documento;
-        this.linguagemDocumento = linguagemDocumento;
     }
 
-    public Conteudo(String titulo, String documento, String linguagemDocumento)
+    private void detetarLingua()
     {
+        try
+        {
+            List<String> strings = Arrays.stream(documento.split("\n")).toList();
+
+            if (strings.size() == 0)
+            {
+                throw new ValidacaoInvalidaException("O FICHEIRO TEM QUE TER TEXTO");
+            }
+
+            Optional<String> s = strings.stream().filter(linha -> linha.split(" ").length > 5).findFirst();
+
+            String linha = "";
+
+            if (s.isEmpty())
+            {
+                Random r = new Random();
+                linha = strings.get(r.nextInt(0, strings.size()));
+            } else
+            {
+                linha = s.get();
+            }
+
+            this.linguagemDocumento = DetetorLinguagem.detetar(linha).toUpperCase(Locale.ROOT);
+        } catch (APIError e)
+        {
+            throw new ValidacaoInvalidaException("DEU ERRO NA API - " + e.getMessage());
+        }
+    }
+
+    public Conteudo(Long id, Long idProjeto, String titulo, String caminhoDocumento, String documento, String linguagemDocumento, EstadoConteudo estadoConteudo)
+    {
+        this.id = id;
+        this.idProjeto = idProjeto;
         this.titulo = titulo;
-        this.documento = documento;
-        this.linguagemDocumento = linguagemDocumento;
+
+        if (documento == null)
+        {
+            throw new ValidacaoInvalidaException("O DOCUMENTO NAO PODE SER NULO");
+        }
+        else
+        {
+            this.documento = documento;
+        }
+
+        if (linguagemDocumento == null)
+        {
+            detetarLingua();
+        } else
+        {
+            this.documento = documento;
+            this.linguagemDocumento = linguagemDocumento;
+        }
+
+        if (this.caminhoDocumento == null)
+        {
+            this.caminhoDocumento = caminhoDocumento;
+        }
+
+        this.caminhoDocumento = String.valueOf(documento.hashCode() + System.currentTimeMillis());
+
+        if (estadoConteudo == null)
+        {
+            this.estadoConteudo = EstadoConteudo.PENDENTE;
+        } else
+        {
+            this.estadoConteudo = estadoConteudo;
+        }
     }
 
     public Long getId()
@@ -62,8 +127,42 @@ public class Conteudo
         return linguagemDocumento;
     }
 
+    public String getCaminhoDocumento()
+    {
+        return caminhoDocumento;
+    }
+
     public void setLinguagemDocumento(String linguagemDocumento)
     {
         this.linguagemDocumento = linguagemDocumento;
+    }
+
+    public EstadoConteudo getEstadoConteudo()
+    {
+        return estadoConteudo;
+    }
+
+    public void setEstadoConteudo(EstadoConteudo estadoConteudo)
+    {
+        this.estadoConteudo = estadoConteudo;
+    }
+
+    public Long getIdProjeto()
+    {
+        return idProjeto;
+    }
+
+    public void setIdProjeto(Long idProjeto)
+    {
+        this.idProjeto = idProjeto;
+    }
+
+    public void rejeitarConteudo() throws AtualizacaoInvalidaException
+    {
+        if (estadoConteudo != EstadoConteudo.APROVADO)
+        {
+            throw new AtualizacaoInvalidaException("Nao e possivel mudar o estado da conteudo. Ja se encontra " + this.estadoConteudo.name());
+        }
+        this.estadoConteudo = EstadoConteudo.REJEITADO;
     }
 }
