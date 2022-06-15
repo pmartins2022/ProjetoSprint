@@ -132,7 +132,7 @@ public class PropostaRepository
 
     public List<Proposta> findAllByEstado(Long estado)
     {
-        List<PropostaJPA> list = jpaRepository.findAllByEstado(estado);
+        List<PropostaJPA> list = jpaRepository.findAllByEstadoAtual(estado);
 
         return list.stream().map(mapper::toModel).toList();
     }

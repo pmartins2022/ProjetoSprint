@@ -181,24 +181,21 @@ public class PropostaController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/aceitarOrientacao/{id}")
-    public ResponseEntity<Object> aceitarOrientacao( @PathVariable("id") Long propostaID,
-                                                    @RequestParam("orientador") Long orientadorID, HttpServletRequest request) throws Exception
+    @GetMapping("/rejeitarProposta/{id}")
+    public ResponseEntity<Object> rejectProposta(@PathVariable("id") Long propostaID)
     {
-        String encoded =  request.getHeader(SecurityUtils.AUTH);
-        ConviteDTO conviteDTO = service.acceptOrientacaoProposta(propostaID, orientadorID, encoded);
-        return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
+        try
+        {
+            service.rejectProposta(propostaID);
+            return ResponseEntity.ok(null);
+        } catch (IdInvalidoException e)
+        {
+            throw new IdInvalidoException(e.getMessage());
+        } catch (AtualizacaoInvalidaException e)
+        {
+            throw new AtualizacaoInvalidaException(e.getMessage());
+        }
     }
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/rejeitarOrientacao/{id}")
-    public ResponseEntity<Object> rejeitarOrientacao( @PathVariable("id") Long propostaID,
-                                                     @RequestParam("orientador") Long orientadorID, HttpServletRequest request) throws Exception
-    {
-        String encoded =  request.getHeader(SecurityUtils.AUTH);
-        ConviteDTO conviteDTO = service.rejectOrientacaoProposta(propostaID,orientadorID, encoded);
-        return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
-    }
-
 
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @PostMapping("/candidatarAlunoProposta/{propostaID}")
@@ -253,26 +250,6 @@ public class PropostaController
         } catch (ValidacaoInvalidaException e)
         {
             throw e;
-        }
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
-    @PostMapping("/criarConvite")
-    public ResponseEntity<Object> criarConvite(@RequestBody ConviteDTO convite) throws Exception
-    {
-        try
-        {
-            ConviteDTO conviteDTO = service.createConvite(convite);
-            return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
-        } catch (OptionalVazioException e)
-        {
-            throw new OptionalVazioException(e.getMessage());
-        } catch (ValidacaoInvalidaException e)
-        {
-            throw new ValidacaoInvalidaException(e.getMessage());
-        } catch (IdInvalidoException e)
-        {
-            throw new IdInvalidoException(e.getMessage());
         }
     }
 

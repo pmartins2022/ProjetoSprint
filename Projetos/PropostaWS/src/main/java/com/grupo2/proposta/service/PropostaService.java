@@ -524,4 +524,25 @@ public class PropostaService
 
         return list.stream().map(mapper::toDTO).toList();
     }
+
+    public void rejectProposta(Long propostaID)
+    {
+        //encontrar e validar proposta
+        Optional<Proposta> proposta = repository.findById(propostaID);
+        if (proposta.isEmpty())
+        {
+            throw new IdInvalidoException("Id de proposta " + propostaID + " nao existe.");
+        }
+
+        if (proposta.get().getEstadoAtual() != PropostaEstado.CANDIDATURA)
+        {
+            throw new AtualizacaoInvalidaException("Esta proposta nao pode ser rejeitada. Ja se encontra "+proposta.get().getEstadoAtual().name());
+        }
+
+        //invalidar as inscricoes (candidaturas) de todos os alunos a esta proposta
+        propostaCandidaturaRepo.invalidarTodasCandidaturas(propostaID);
+
+        //invalidar os convites de todos os alunos
+        conviteRepository.invalidarTodosConvites(propostaID);
+    }
 }
