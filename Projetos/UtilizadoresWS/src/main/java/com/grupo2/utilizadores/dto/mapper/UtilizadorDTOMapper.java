@@ -5,6 +5,7 @@ import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.model.factory.UtilizadorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
@@ -47,6 +48,11 @@ public class UtilizadorDTOMapper
     {
         return new UtilizadorAuthDTO(user.getId(),
                 user.getUsername(), user.getPassword(), user.getTipoUtilizador().toString());
+    }
+
+    public UtilizadorAuthDTO toAuthDTO(UserDetails user)
+    {
+        return new UtilizadorAuthDTO(-1L, user.getUsername(), user.getPassword(), user.getAuthorities().stream().findFirst().get().getAuthority());
     }
 }
 
