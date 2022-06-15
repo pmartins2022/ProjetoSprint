@@ -17,7 +17,6 @@ import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
 import com.grupo2.proposta.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.events.EventTarget;
 
 import java.util.List;
 import java.util.Optional;
@@ -231,7 +230,7 @@ public class PropostaService
             throw new IdInvalidoException("O ID introduzido nao é um orientador.");
         }
 
-        Optional<Convite> convite = Optional.empty(); //conviteRepository.findByDocenteAndProposta(orientadorID,propostaID);
+        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID, propostaID);
         if (convite.isEmpty())
         {
             throw new IdInvalidoException("O Orientador "+orientadorID+" não tem nenhum convite para a proposta "+propostaID);
@@ -258,7 +257,7 @@ public class PropostaService
             throw new IdInvalidoException("O ID introduzido nao é um orientador.");
         }
 
-        Optional<Convite> convite = Optional.empty(); //conviteRepository.findByDocenteAndProposta(orientadorID, propostaID);
+        Optional<Convite> convite = conviteRepository.findByDocenteAndProposta(orientadorID, propostaID);
         if (convite.isEmpty()) {
             throw new IdInvalidoException("O Orientador " + orientadorID + " não tem nenhum convite para a proposta " + propostaID);
         }
@@ -434,29 +433,40 @@ public class PropostaService
         conviteRepository.atualizar(convite);
     }
 
-    public PropostaCandidaturaDTO acceptAlunoCandidaturaProposta(Long idUtilizador, Long idProposta, Long idAluno)
+    public PropostaCandidaturaDTO acceptAlunoCandidaturaProposta(Long idUtilizador, PropostaCandidaturaIDDTO propostaCandidaturaID)
     {
 
-        Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findByID(idProposta, idAluno);
+        Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findByID(candidaturaDTOMapper.toModelID(propostaCandidaturaID));
 
         if (propostaCandidatura.isEmpty())
         {
-            throw new OptionalVazioException("Não existe candidatura com estes IDs: " + idProposta + " e " + idAluno);
+            throw new OptionalVazioException("Não existe candidatura com estes IDs: " + propostaCandidaturaID.getIdProposta()
+                    + " e " + propostaCandidaturaID.getIdAluno());
         }
 
         Optional<EdicaoUCDTO> edicaoUCDTO = edicaoUCRestRepository.findByRucID(idUtilizador);
 
         if (edicaoUCDTO.isEmpty())
         {
-            throw new OptionalVazioException(idUtilizador + " não é RUC.");
+            throw new OptionalVazioException(idUtilizador + " não é RUC de nenhuma EdiçãoUC.");
         }
-//docente   idPropostaCanditura - idAluno -idProposta-edicaoUC   se +é RUC desta edicaoUC
-        //ver se é RUC desta Proposta /EdicaoUC  idProposta !!!!!!!!!!!!!!!!!!!!!!!
+
+        Optional<Proposta> proposta = repository.findByedicaoUCId(edicaoUCDTO.get().getId());
+
+        if (proposta.isEmpty())
+        {
+            throw new OptionalVazioException(idUtilizador + " não tem propostas na sua EdiçãoUC.");
+        }
+
+        /*if (propostaCandidaturaID.getIdProposta() != proposta.get().getId())
+        {
+            throw new ValidacaoInvalidaException("Não é RUC deste proposta em específico.");
+        }*/
 
         if (propostaCandidatura.get().getEstado().ordinal() != 0)
         {
-            throw new ValidacaoInvalidaException("Candidatura tem que estar em fase "+ EstadoCandidatura.PENDENTE +
-                    "e encontra-se em fase "+ propostaCandidatura.get().getEstado().name());
+            throw new ValidacaoInvalidaException("Candidatura tem que estar em fase " + EstadoCandidatura.PENDENTE +
+                    "e encontra-se em fase " + propostaCandidatura.get().getEstado().name());
         }
 
         propostaCandidatura.get().setEstado(EstadoCandidatura.ACEITE);
@@ -464,5 +474,54 @@ public class PropostaService
         PropostaCandidatura updated = propostaCandidaturaRepo.updateAndSave(propostaCandidatura.get());
 
         return candidaturaDTOMapper.toDTO(updated);
+    }
+
+    public PropostaCandidaturaDTO rejectAlunoCandidaturaProposta(Long idUtilizador, PropostaCandidaturaIDDTO propostaCandidaturaID)
+    {
+        Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findByID(candidaturaDTOMapper.toModelID(propostaCandidaturaID));
+
+        if (propostaCandidatura.isEmpty())
+        {
+            throw new OptionalVazioException("Não existe candidatura com estes IDs: " + propostaCandidaturaID.getIdProposta()
+                    + " e " + propostaCandidaturaID.getIdAluno());
+        }
+
+        Optional<EdicaoUCDTO> edicaoUCDTO = edicaoUCRestRepository.findByRucID(idUtilizador);
+
+        if (edicaoUCDTO.isEmpty())
+        {
+            throw new OptionalVazioException(idUtilizador + " não é RUC de nenhuma EdiçãoUC.");
+        }
+
+        Optional<Proposta> proposta = repository.findByedicaoUCId(edicaoUCDTO.get().getId());
+
+        if (proposta.isEmpty())
+        {
+            throw new OptionalVazioException(idUtilizador + " não tem propostas na sua EdiçãoUC.");
+        }
+
+        /*if (propostaCandidaturaID.getIdProposta() != proposta.get().getId())
+        {
+            throw new ValidacaoInvalidaException("Não é RUC deste proposta em específico.");
+        }*/
+
+        if (propostaCandidatura.get().getEstado().ordinal() != 0)
+        {
+            throw new ValidacaoInvalidaException("Candidatura tem que estar em fase " + EstadoCandidatura.PENDENTE +
+                    "e encontra-se em fase " + propostaCandidatura.get().getEstado().name());
+        }
+
+        propostaCandidatura.get().setEstado(EstadoCandidatura.REJEITADO);
+
+        PropostaCandidatura updated = propostaCandidaturaRepo.updateAndSave(propostaCandidatura.get());
+
+        return candidaturaDTOMapper.toDTO(updated);
+    }
+
+    public List<PropostaDTO> findAllByEstado(Long estado)
+    {
+        List<Proposta> list = repository.findAllByEstado(estado);
+
+        return list.stream().map(mapper::toDTO).toList();
     }
 }

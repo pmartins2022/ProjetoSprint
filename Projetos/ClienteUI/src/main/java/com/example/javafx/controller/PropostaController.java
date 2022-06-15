@@ -57,18 +57,19 @@ public class PropostaController
 
     public List<PropostaDTO> findAllPropostaCandidatura()
     {
-        return propostaService.findAllPropostaOrganizacao();
+        return propostaService.findAllPropostaCandidatura();
     }
 
-    public Boolean acceptCandidaturaProposta(Long idPropostaCandidatura)
+    public Boolean acceptCandidaturaProposta(Long idProjeto, Long idAluno)
     {
-        propostaService.acceptCandidaturaProposta(idPropostaCandidatura);
+        propostaService.acceptCandidaturaProposta(idProjeto, idAluno);
+
         return true;
     }
 
-    public Boolean rejectCandidaturaProposta(Long idPropostaCandidatura)
+    public Boolean rejectCandidaturaProposta(Long idProjeto, Long idAluno)
     {
-        propostaService.rejectCandidaturaProposta(idPropostaCandidatura);
+        propostaService.rejectCandidaturaProposta(idProjeto, idAluno);
         return true;
     }
 }

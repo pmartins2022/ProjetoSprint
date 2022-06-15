@@ -1,19 +1,13 @@
 package com.example.javafx.service;
 
-import com.example.javafx.dto.EdicaoUCDTO;
-import com.example.javafx.dto.OrganizacaoDTO;
-import com.example.javafx.dto.PropostaDTO;
-import com.example.javafx.dto.UnidadeCurricularDTO;
-import com.example.javafx.exception.ErrorDetail;
+import com.example.javafx.dto.*;
+import com.example.javafx.dto.factory.PropostaCandidaturaIDDTOFactory;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.repository.rest.EdicaoUCRestRepo;
 import com.example.javafx.repository.rest.OrganizacaoRestRepo;
 import com.example.javafx.repository.rest.PropostaRestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
@@ -31,6 +25,9 @@ public class PropostaService
 
     @Autowired
     private PropostaRestRepo propostaRestRepo;
+
+    @Autowired
+    private PropostaCandidaturaIDDTOFactory idFactory;
 
     /**
      * Obter lista de todas as organizações.
@@ -65,18 +62,28 @@ public class PropostaService
         return propostaRestRepo.createProposta(dto);
     }
 
-    public List<PropostaDTO> findAllPropostaOrganizacao()
+    public List<PropostaDTO> findAllPropostaCandidatura()
     {
-        return propostaRestRepo.findAllPropostaOrganizacao();
+        return propostaRestRepo.findAllPropostaCandidatura();
     }
 
-    public void acceptCandidaturaProposta(Long idPropostaCandidatura)
+    public Boolean acceptCandidaturaProposta(Long idProjeto, Long idAluno)
     {
+        PropostaCandidaturaIDDTO id = idFactory.createPropostaCandidaturaIDDTO(idProjeto, idAluno);
 
+        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.acceptCandidaturaProposta(id);
+
+        //validação??
+        return true;
     }
 
-    public void rejectCandidaturaProposta(Long idPropostaCandidatura)
+    public Boolean rejectCandidaturaProposta(Long idProjeto, Long idAluno)
     {
+        PropostaCandidaturaIDDTO id = idFactory.createPropostaCandidaturaIDDTO(idProjeto, idAluno);
 
+        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.rejectCandidaturaProposta(id);
+
+//validação??
+        return true;
     }
 }

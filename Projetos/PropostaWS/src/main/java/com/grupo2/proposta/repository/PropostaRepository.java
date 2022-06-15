@@ -119,4 +119,21 @@ public class PropostaRepository
         return listaModel;
     }
 
+    public Optional<Proposta> findByedicaoUCId(Long id)
+    {
+        Optional<PropostaJPA> found = jpaRepository.findByedicaoUCId(id);
+
+        if (found.isEmpty())
+        {
+            return Optional.empty();
+        }
+        return Optional.of(mapper.toModel(found.get()));
+    }
+
+    public List<Proposta> findAllByEstado(Long estado)
+    {
+        List<PropostaJPA> list = jpaRepository.findAllByEstado(estado);
+
+        return list.stream().map(mapper::toModel).toList();
+    }
 }

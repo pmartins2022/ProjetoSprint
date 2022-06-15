@@ -85,11 +85,9 @@ public class PropostaCandidaturaRepo
         return mapper.toModel(jpaRepository.save(jpa));
     }
 
-    public Optional<PropostaCandidatura> findByID(Long propostaID, Long alunoId)
+    public Optional<PropostaCandidatura> findByID(PropostaCandidaturaID propostaCandidaturaID)
     {
-        PropostaCandidaturaID id = factory.create(propostaID, alunoId);
-
-        Optional<PropostaCandidaturaJPA> propostaCandidaturaJPA = jpaRepository.findById(id);
+        Optional<PropostaCandidaturaJPA> propostaCandidaturaJPA = jpaRepository.findById(propostaCandidaturaID);
 
         if (propostaCandidaturaJPA.isEmpty())
         {

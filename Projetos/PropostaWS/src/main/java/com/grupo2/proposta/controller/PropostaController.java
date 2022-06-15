@@ -221,14 +221,31 @@ public class PropostaController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PostMapping("/aceitarCandidaturaAluno/{idProposta}/{idAluno}")
-    public ResponseEntity<Object> acceptAlunoCandidaturaProposta(@PathVariable("idProposta") Long idProposta,
-                                                                 @PathVariable("idAluno") Long idAluno)
+    @PostMapping("/aceitarCandidaturaAluno")
+    public ResponseEntity<Object> acceptAlunoCandidaturaProposta(@RequestBody PropostaCandidaturaIDDTO propostaCandidaturaID)
     {
         UtilizadorAuthDTO utilizadorAuthDTO = LoginContext.getCurrent();
         try
         {
-            PropostaCandidaturaDTO cand = service.acceptAlunoCandidaturaProposta(utilizadorAuthDTO.getId(), idProposta, idAluno);
+            PropostaCandidaturaDTO cand = service.acceptAlunoCandidaturaProposta(utilizadorAuthDTO.getId(), propostaCandidaturaID);
+            return new ResponseEntity<>(cand, HttpStatus.CREATED);
+        } catch (OptionalVazioException e)
+        {
+            throw e;
+        } catch (ValidacaoInvalidaException e)
+        {
+            throw e;
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PostMapping("/rejeitarCandidaturaAluno")
+    public ResponseEntity<Object> rejectAlunoCandidaturaProposta(@RequestBody PropostaCandidaturaIDDTO propostaCandidaturaID)
+    {
+        UtilizadorAuthDTO utilizadorAuthDTO = LoginContext.getCurrent();
+        try
+        {
+            PropostaCandidaturaDTO cand = service.rejectAlunoCandidaturaProposta(utilizadorAuthDTO.getId(), propostaCandidaturaID);
             return new ResponseEntity<>(cand, HttpStatus.CREATED);
         } catch (OptionalVazioException e)
         {
@@ -257,5 +274,13 @@ public class PropostaController
         {
             throw new IdInvalidoException(e.getMessage());
         }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<PropostaDTO>> findAllByEstado(@RequestParam("estado") Long estado)
+    {
+        List<PropostaDTO> list = service.findAllByEstado(estado);
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
