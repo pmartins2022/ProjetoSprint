@@ -1,5 +1,7 @@
 package com.grupo2.organizacao.dto;
 
+import java.util.Objects;
+
 /**
  * Classe DTO da organizacao
  */
@@ -19,10 +21,15 @@ public class OrganizacaoDTO
     private Integer nif;
 
     /**
-     * Inicializa OrganizacaoDTO se parametros
+     * Inicializa OrganizacaoDTO sem parametros
      */
     public OrganizacaoDTO()
     {
+    }
+
+    public OrganizacaoDTO(Integer nif)
+    {
+        this.nif = nif;
     }
 
     /**
@@ -101,5 +108,20 @@ public class OrganizacaoDTO
     public void setNif(Integer nif)
     {
         this.nif = nif;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrganizacaoDTO that = (OrganizacaoDTO) o;
+        return denominacao.equals(that.denominacao) && nif.equals(that.nif);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, denominacao, nif);
     }
 }

@@ -7,11 +7,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Optional;
 
 /**
- * Classe de NifRestController do projeto. Possui endpoints para findByNif
+ * Classe de NifRestRepository do projeto. Possui endpoints para findByNif
  */
 @Controller
-public class NifRestController {
-
+public class NifRestRepository
+{
     /**
      * Encontrar nif noutro serviço
      * @param nif e o nif

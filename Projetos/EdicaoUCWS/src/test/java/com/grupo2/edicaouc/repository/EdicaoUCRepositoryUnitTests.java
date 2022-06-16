@@ -10,12 +10,14 @@ import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
 import com.grupo2.edicaouc.model.EdicaoUC;
+import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
 import com.grupo2.edicaouc.service.AnoLetivoService;
 import com.grupo2.edicaouc.service.EdicaoUCService;
 import com.grupo2.edicaouc.service.UnidadeCurricularService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,16 +39,20 @@ import static org.mockito.Mockito.when;
 class EdicaoUCRepositoryUnitTests
 {
     @MockBean
-    EdicaoUCRepository repository;
+    private EdicaoUCRepository repository;
 
     @MockBean
-    EdicaoUCDTOMapper mapper;
+    private EdicaoUCDTOMapper mapper;
 
     @MockBean
     private UnidadeCurricularService ucService;
 
     @MockBean
     private AnoLetivoService anoLetivoService;
+
+    @MockBean
+    private UtilizadorRestRepository utilizadorRestRepository;
+
     @InjectMocks
     EdicaoUCService service;
 
@@ -70,6 +76,11 @@ class EdicaoUCRepositoryUnitTests
         when(anoLetivoService.findByID(edicaoUCMOCK.getAnoLetivoCode())).thenReturn(Optional.of(new AnoLetivoDTO()));
         when(repository.saveEdicaoUC(edicaoUCMOCK)).thenReturn(edicaoUCMOCK);
         when(mapper.toDTO(edicaoUCMOCK)).thenReturn(dtoMOCK);
+
+        when(dtoMOCK.getRucID()).thenReturn(1L);
+
+        when(utilizadorRestRepository.isRole("ROLE_DOCENTE",dtoMOCK.getRucID())).thenReturn(true);
+
         //act
         EdicaoUCDTO saved = service.createEdicaoUC(dtoMOCK);
         //assert

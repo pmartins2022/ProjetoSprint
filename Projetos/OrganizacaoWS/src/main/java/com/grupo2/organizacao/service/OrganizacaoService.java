@@ -4,10 +4,9 @@ import com.grupo2.organizacao.dto.NifDTO;
 import com.grupo2.organizacao.dto.OrganizacaoDTO;
 import com.grupo2.organizacao.dto.mapper.OrganizacaoDTOMapper;
 import com.grupo2.organizacao.exception.OptionalVazioException;
-import com.grupo2.organizacao.exception.ValidacaoInvalidaException;
 import com.grupo2.organizacao.model.Organizacao;
 import com.grupo2.organizacao.repository.OrganizacaoRepository;
-import com.grupo2.organizacao.repository.rest.NifRestController;
+import com.grupo2.organizacao.repository.rest.NifRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,7 @@ public class OrganizacaoService
      * O RESTController a ser utilizado por este Service.
      */
     @Autowired
-    private NifRestController nifRestController;
+    private NifRestRepository nifRestRepository;
 
     /**
      * Endpoint que possibilita encontrar o organizacao por id existente.
@@ -56,17 +55,19 @@ public class OrganizacaoService
     }
 
     /**
-     * Endpoint que possibilita crear e gravar o organizacao existente.
+     * Endpoint que possibilita criar e gravar o organizacao existente.
      * @param dto um objeto com os dados
      * @return uma organizacao criada e guardado
      */
     public OrganizacaoDTO createAndSave(OrganizacaoDTO dto)
     {
-        Optional<NifDTO> nifDTO = nifRestController.findByNif(dto.getNif());
+        Optional<NifDTO> nifDTO = nifRestRepository.findByNif(dto.getNif());
 
         if (nifDTO.isEmpty()){
             throw new OptionalVazioException("Nif não existe no Servidor ");
         }
+
+        dto.setDenominacao(nifDTO.get().getName());
 
         Organizacao organizacao = mapper.toModel(dto);
         Organizacao saved = repository.save(organizacao);

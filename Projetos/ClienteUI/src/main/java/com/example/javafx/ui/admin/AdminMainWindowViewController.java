@@ -1,9 +1,8 @@
 package com.example.javafx.ui.admin;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import org.springframework.stereotype.Controller;
-
-import java.awt.event.ActionEvent;
 
 @Controller
 public class AdminMainWindowViewController

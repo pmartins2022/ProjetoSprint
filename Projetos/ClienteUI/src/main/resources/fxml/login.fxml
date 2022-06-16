@@ -47,7 +47,7 @@
                </font>
             </Button>
             <Label fx:id="labelErro" layoutX="73.0" layoutY="228.0" text="Dados de acesso incorretos" />
-            <Button fx:id="close" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="267.0" layoutY="-1.0" mnemonicParsing="false" onAction="#close" style="-fx-background-color: #23527B; -fx-background-radius: 0;" text="X" textFill="WHITE">
+            <Button fx:id="close" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="267.0" layoutY="-1.0" mnemonicParsing="false" onAction="#closeWindow" style="-fx-background-color: #23527B; -fx-background-radius: 0;" text="X" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>

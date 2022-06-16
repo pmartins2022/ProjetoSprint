@@ -49,9 +49,8 @@ public class UtilizadorRestRepository
         WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/find?username=" + username).
                 build().get().retrieve();
 
-        spec.onStatus(HttpStatus::is4xxClientError, clientResponse -> {
-            throw new IllegalArgumentException(clientResponse.statusCode().getReasonPhrase());
-        });
+        spec.onStatus(HttpStatus::is4xxClientError,
+                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
         return spec.bodyToMono(UtilizadorAuthDTO.class).block();
     }

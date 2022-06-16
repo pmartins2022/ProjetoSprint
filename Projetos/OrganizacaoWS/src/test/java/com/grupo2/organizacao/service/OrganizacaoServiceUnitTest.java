@@ -6,7 +6,7 @@ import com.grupo2.organizacao.dto.mapper.OrganizacaoDTOMapper;
 import com.grupo2.organizacao.exception.OptionalVazioException;
 import com.grupo2.organizacao.model.Organizacao;
 import com.grupo2.organizacao.repository.OrganizacaoRepository;
-import com.grupo2.organizacao.repository.rest.NifRestController;
+import com.grupo2.organizacao.repository.rest.NifRestRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -34,7 +34,7 @@ class OrganizacaoServiceUnitTest
     OrganizacaoDTOMapper mapper;
 
     @MockBean
-    NifRestController nifRestController;
+    NifRestRepository nifRestRepository;
 
     @InjectMocks
     OrganizacaoService service;
@@ -80,7 +80,7 @@ class OrganizacaoServiceUnitTest
         when(mapper.toModel(mockOrganizacaoDTO)).thenReturn(mockOrganizacao);
         when(mapper.toDTO(mockOrganizacao)).thenReturn(mockOrganizacaoDTO);
 
-        when(nifRestController.findByNif(mockOrganizacaoDTO.getNif())).thenReturn(Optional.of(mockNifDTO));
+        when(nifRestRepository.findByNif(mockOrganizacaoDTO.getNif())).thenReturn(Optional.of(mockNifDTO));
         when(repository.save(mockOrganizacao)).thenReturn(mockOrganizacao);
 
         OrganizacaoDTO saveOrganizacao = service.createAndSave(mockOrganizacaoDTO);
@@ -93,7 +93,7 @@ class OrganizacaoServiceUnitTest
     {
         OrganizacaoDTO mockOrganizacaoDTO = mock(OrganizacaoDTO.class);
 
-        when(nifRestController.findByNif(1)).thenReturn(Optional.empty());
+        when(nifRestRepository.findByNif(1)).thenReturn(Optional.empty());
 
         assertThrows(OptionalVazioException.class,()->service.createAndSave(mockOrganizacaoDTO));
     }
