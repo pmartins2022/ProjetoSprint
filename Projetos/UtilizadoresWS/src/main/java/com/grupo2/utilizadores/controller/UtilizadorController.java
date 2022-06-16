@@ -66,7 +66,7 @@ public class UtilizadorController
 
         if (utilizadorDTO.isEmpty())
         {
-            return ResponseEntity.notFound().build();
+            throw new OptionalVazioException("Não existe Utilizador com essas credencias.");
         }
 
         return ResponseEntity.ok(utilizadorDTO.get());

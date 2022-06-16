@@ -190,9 +190,9 @@ public class PropostaService
 
     public PropostaDTO acceptCandidaturaProposta(Long idDocente, Long idProposta)
     {
-        Optional<EdicaoUCDTO> ruc = edicaoUCRestRepository.findByRucID(idDocente);
+        List<EdicaoUCDTO> rucEdicaoList = edicaoUCRestRepository.findByRucID(idDocente);
 
-        if (ruc.isEmpty())
+        if (rucEdicaoList.isEmpty())
         {
             throw new OptionalVazioException(idDocente + " não é um RUC.");
         }
@@ -435,7 +435,6 @@ public class PropostaService
 
     public PropostaCandidaturaDTO acceptAlunoCandidaturaProposta(Long idUtilizador, PropostaCandidaturaIDDTO propostaCandidaturaID)
     {
-
         Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findByID(candidaturaDTOMapper.toModelID(propostaCandidaturaID));
 
         if (propostaCandidatura.isEmpty())
@@ -444,33 +443,42 @@ public class PropostaService
                     + " e " + propostaCandidaturaID.getIdAluno());
         }
 
-        Optional<EdicaoUCDTO> edicaoUCDTO = edicaoUCRestRepository.findByRucID(idUtilizador);
-
-        if (edicaoUCDTO.isEmpty())
-        {
-            throw new OptionalVazioException(idUtilizador + " não é RUC de nenhuma EdiçãoUC.");
-        }
-
-        Optional<Proposta> proposta = repository.findByEdicaoUCId(edicaoUCDTO.get().getId());
-
-        if (proposta.isEmpty())
-        {
-            throw new OptionalVazioException(idUtilizador + " não tem propostas na sua EdiçãoUC.");
-        }
-
-        /*if (propostaCandidaturaID.getIdProposta() != proposta.get().getId())
-        {
-            throw new ValidacaoInvalidaException("Não é RUC deste proposta em específico.");
-        }*/
-
         if (propostaCandidatura.get().getEstado().ordinal() != 0)
         {
             throw new ValidacaoInvalidaException("Candidatura tem que estar em fase " + EstadoCandidatura.PENDENTE +
                     "e encontra-se em fase " + propostaCandidatura.get().getEstado().name());
         }
 
-        propostaCandidatura.get().setEstado(EstadoCandidatura.ACEITE);
+        Optional<EdicaoUCDTO> edicaoUCDTO = edicaoUCRestRepository.findByRucIDAndEstadoEdicaoUC(idUtilizador);
 
+        if (edicaoUCDTO.isEmpty())
+        {
+            throw new OptionalVazioException(idUtilizador + " não é RUC de nenhuma EdiçãoUC ativa.");
+        }
+
+        List<Proposta> propostaList = repository.findByEdicaoUCId(edicaoUCDTO.get().getId());
+
+        if (propostaList.isEmpty())
+        {
+            throw new OptionalVazioException(idUtilizador + " não tem propostas na sua EdiçãoUC.");
+        }
+
+        boolean isPropostaInList = false;
+        for (Proposta p : propostaList
+        )
+        {
+            if (p.getId() == propostaCandidaturaID.getIdProposta())
+            {
+                isPropostaInList = true;
+            }
+        }
+
+        if (!isPropostaInList)
+        {
+            throw new ValidacaoInvalidaException("Esta proposta não está ao encargo do RUC " + idUtilizador);
+        }
+
+        propostaCandidatura.get().setEstado(EstadoCandidatura.ACEITE);
         PropostaCandidatura updated = propostaCandidaturaRepo.updateAndSave(propostaCandidatura.get());
 
         return candidaturaDTOMapper.toDTO(updated);
@@ -486,30 +494,41 @@ public class PropostaService
                     + " e " + propostaCandidaturaID.getIdAluno());
         }
 
-        Optional<EdicaoUCDTO> edicaoUCDTO = edicaoUCRestRepository.findByRucID(idUtilizador);
-
-        if (edicaoUCDTO.isEmpty())
-        {
-            throw new OptionalVazioException(idUtilizador + " não é RUC de nenhuma EdiçãoUC.");
-        }
-
-        Optional<Proposta> proposta = repository.findByEdicaoUCId(edicaoUCDTO.get().getId());
-
-        if (proposta.isEmpty())
-        {
-            throw new OptionalVazioException(idUtilizador + " não tem propostas na sua EdiçãoUC.");
-        }
-
-        /*if (propostaCandidaturaID.getIdProposta() != proposta.get().getId())
-        {
-            throw new ValidacaoInvalidaException("Não é RUC deste proposta em específico.");
-        }*/
-
         if (propostaCandidatura.get().getEstado().ordinal() != 0)
         {
             throw new ValidacaoInvalidaException("Candidatura tem que estar em fase " + EstadoCandidatura.PENDENTE +
                     "e encontra-se em fase " + propostaCandidatura.get().getEstado().name());
         }
+
+        Optional<EdicaoUCDTO> edicaoUCDTO = edicaoUCRestRepository.findByRucIDAndEstadoEdicaoUC(idUtilizador);
+
+        if (edicaoUCDTO.isEmpty())
+        {
+            throw new OptionalVazioException(idUtilizador + " não é RUC de nenhuma EdiçãoUC ativa.");
+        }
+
+        List<Proposta> propostaList = repository.findByEdicaoUCId(edicaoUCDTO.get().getId());
+
+        if (propostaList.isEmpty())
+        {
+            throw new OptionalVazioException(idUtilizador + " não tem propostas na sua EdiçãoUC.");
+        }
+
+        boolean isPropostaInList = false;
+        for (Proposta p : propostaList
+        )
+        {
+            if (p.getId() == propostaCandidaturaID.getIdProposta())
+            {
+                isPropostaInList = true;
+            }
+        }
+
+        if (!isPropostaInList)
+        {
+            throw new ValidacaoInvalidaException("Esta proposta não está ao encargo do RUC " + idUtilizador);
+        }
+
 
         propostaCandidatura.get().setEstado(EstadoCandidatura.REJEITADO);
 

@@ -21,6 +21,7 @@ public class ProjetoJPA
     /*
     Id da proposta
      */
+	@Column(unique = true)
     private Long propostaId;
     /*
     Id do Estudante

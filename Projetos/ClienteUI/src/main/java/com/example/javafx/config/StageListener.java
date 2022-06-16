@@ -29,7 +29,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
     private final ApplicationContext ac;
 
     public StageListener(@Value("${spring.application.ui.title}") String stageTitle,
-                         @Value("classpath:/fxml/main-window-view.fxml") Resource resource,
+                         @Value("classpath:/fxml/login.fxml") Resource resource,
                          ApplicationContext ac)
     {
         this.STAGE_TITLE = stageTitle;
@@ -56,7 +56,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
 
             Scene scene;
 
-            scene = new Scene(root,800,600);
+            scene = new Scene(root,520,400);
 
             stage.setScene(scene);
             stage.setTitle(STAGE_TITLE);

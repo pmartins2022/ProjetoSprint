@@ -7,6 +7,7 @@ import com.grupo2.utilizadores.exception.ErroGeralException;
 import com.grupo2.utilizadores.exception.OptionalVazioException;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.repository.UtilizadorRepository;
+import com.grupo2.utilizadores.security.UtilizadorUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class UtilizadorService
      */
     @Autowired
     private UtilizadorDTOMapper mapper;
+
+    @Autowired
+    private UtilizadorUserDetailsService userDetailsService;
 
     public UtilizadorDTO registar(UtilizadorDTO utilizadorDTO)
     {
@@ -80,6 +84,13 @@ public class UtilizadorService
 
     public Optional<UtilizadorAuthDTO> findByUsername(String username)
     {
+        Optional<UtilizadorAuthDTO> userInMemory = userDetailsService.findInMemory(username);
+
+        if (userInMemory.isPresent())
+        {
+            return userInMemory;
+        }
+
         Optional<Utilizador> username1 = repository.findByUsername(username);
 
         if (username1.isPresent())

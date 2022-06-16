@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,16 +108,29 @@ public class EdicaoUCController
     }
 
     @GetMapping("/ruc/{rucID}")
-    public ResponseEntity<Object> findByRucID(@PathVariable(name = "rucID") Long rucID)
+    public ResponseEntity<List<EdicaoUCDTO>> findByRucID(@PathVariable(name = "rucID") Long rucID)
     {
-        Optional<EdicaoUCDTO> dto = service.findByRucID(rucID);
+        List<EdicaoUCDTO> dtoList = service.findByRucID(rucID);
 
-        if (dto.isPresent())
+        if (dtoList.isEmpty())
         {
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+            return new ResponseEntity<>(dtoList, HttpStatus.OK);
         }
 
         throw new OptionalVazioException("Nao encontrou edicao UC com id " + rucID);
+    }
+
+    @GetMapping("/ruc/{rucID}/active")
+    public ResponseEntity<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(@PathVariable(name = "rucID") Long rucID)
+    {
+        Optional<EdicaoUCDTO> dto = service.findByRucIDAndEstadoEdicaoUC(rucID, 1L);
+
+        if (dto.isPresent())
+        {
+            return new ResponseEntity<>(dto.get(), HttpStatus.OK);
+        }
+
+        throw new OptionalVazioException(rucID + " não tem nenhuma EdiçãoUC Ativa");
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
@@ -142,9 +156,11 @@ public class EdicaoUCController
     @PatchMapping("/ativarEdicao/{edicaoUCID}")
     public ResponseEntity<Object> ativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
     {
+        UtilizadorDTO utilizador = LoginContext.getCurrent();
+
         try
         {
-            EdicaoUCDTO dto = service.activarEdicao(edicaoUCID);
+            EdicaoUCDTO dto = service.activarEdicao(utilizador.getId(), edicaoUCID);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
@@ -155,6 +171,9 @@ public class EdicaoUCController
         catch (ErroGeralException e)
         {
             throw new ErroGeralException(e.getMessage());
+        } catch (ValidationException e)
+        {
+            throw new RuntimeException(e);
         }
 
     }

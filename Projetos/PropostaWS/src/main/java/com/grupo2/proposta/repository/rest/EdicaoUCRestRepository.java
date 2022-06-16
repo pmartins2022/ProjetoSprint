@@ -1,10 +1,13 @@
 package com.grupo2.proposta.repository.rest;
 
 import com.grupo2.proposta.dto.EdicaoUCDTO;
-import com.grupo2.proposta.dto.UtilizadorDTO;
+import com.grupo2.proposta.exception.ErrorDetail;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -31,16 +34,37 @@ public class EdicaoUCRestRepository
         return Optional.of(dto);
     }
 
-   public Optional<EdicaoUCDTO> findByRucID(Long rucID)
+    public List<EdicaoUCDTO> findByRucID(Long rucID)
     {
-        EdicaoUCDTO dto = WebClient.create("http://localhost:8081/edicaoUC/ruc/"+rucID).get().
-                retrieve().bodyToMono(EdicaoUCDTO.class).block();
+        WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/edicaoUC/ruc/" + rucID).get().
+                retrieve();
 
-        if (dto == null)
+        responseSpec.onStatus(HttpStatus::is4xxClientError,
+                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+        return responseSpec.bodyToMono(new ParameterizedTypeReference<List<EdicaoUCDTO>>()
         {
-            return Optional.empty();
-        }
+        }).block();
 
-        return Optional.of(dto);
+    }
+
+
+    public Optional<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(Long rucID)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = (WebClient.ResponseSpec) WebClient.create("http://localhost:8081/edicaoUC/ruc/"+rucID+"/active").get().
+                    retrieve().bodyToMono(EdicaoUCDTO.class).block();
+
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return Optional.ofNullable(responseSpec.bodyToMono(EdicaoUCDTO.class).block());
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
     }
 }

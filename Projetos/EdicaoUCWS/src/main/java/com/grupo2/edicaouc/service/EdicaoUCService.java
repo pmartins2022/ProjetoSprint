@@ -16,6 +16,7 @@ import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -155,8 +156,9 @@ public class EdicaoUCService
         return edicaoUCAlunoDTOMapper.toDTO(saved);
     }
 
-    public EdicaoUCDTO activarEdicao(Long edicaoUCID)
+    public EdicaoUCDTO activarEdicao(Long utilizadorID, Long edicaoUCID) throws ValidationException
     {
+
         Optional<EdicaoUC> optionalEdicaoUC = repository.findById(edicaoUCID);
 
         if (optionalEdicaoUC.isEmpty())
@@ -164,19 +166,30 @@ public class EdicaoUCService
             throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
         }
 
-        if (optionalEdicaoUC.get().getEstadoEdicaoUC() == EstadoEdicaoUC.ATIVA)
+        List<EdicaoUC> listEdicaoUC = repository.findByRucID(utilizadorID);
+
+        Optional<EdicaoUC> found = Optional.empty();
+
+        for (EdicaoUC e : listEdicaoUC
+        )
         {
-            throw new ErroGeralException(edicaoUCID + " ja esta ativo.");
+            if (e.getEstadoEdicaoUC() == EstadoEdicaoUC.PENDENTE && e.getId() == edicaoUCID)
+            {
+                e.activateEdicaoUC();
+                found = Optional.of(e);
+                listEdicaoUC.remove(e);
+            }
         }
 
-        if (optionalEdicaoUC.get().getEstadoEdicaoUC() == EstadoEdicaoUC.DESATIVA)
+        if (found.isEmpty())
         {
-            throw new ErroGeralException(edicaoUCID+" não pode ser ativada.");
+            throw new ValidationException("Não existe nenhuma EdiçãoUC em fase PENDENTE e com esse id " + edicaoUCID);
         }
 
-        optionalEdicaoUC.get().activateEdicaoUC();
+        listEdicaoUC.forEach(EdicaoUC::deactivateEdicaoUC);
+        listEdicaoUC.forEach(edicaoUC -> repository.saveEdicaoUC(edicaoUC));
 
-        EdicaoUC saved = repository.ativarEdicao(optionalEdicaoUC.get());
+        EdicaoUC saved = repository.ativarEdicao(found.get());
 
         return mapper.toDTO(saved);
     }
@@ -207,15 +220,22 @@ public class EdicaoUCService
         return mapper.toDTO(saved);
     }
 
-    public Optional<EdicaoUCDTO> findByRucID(Long rucID)
+    public List<EdicaoUCDTO> findByRucID(Long rucID)
     {
-        Optional<EdicaoUC> edicao = repository.findByRucID(rucID);
+        List<EdicaoUC> edicaoList = repository.findByRucID(rucID);
 
-        if (edicao.isPresent())
+        return edicaoList.stream().map(mapper::toDTO).toList();
+    }
+
+    public Optional<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(Long rucID, Long estado)
+    {
+        Optional<EdicaoUC> found = repository.findByRucIDAndEstadoEdicaoUC(rucID, estado);
+
+        if (found.isEmpty())
         {
-            return Optional.of(mapper.toDTO(edicao.get()));
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        return Optional.of(mapper.toDTO(found.get()));
     }
 }

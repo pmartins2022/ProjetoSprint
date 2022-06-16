@@ -86,7 +86,6 @@ public class EdicaoUCRepository
 
     public EdicaoUC ativarEdicao(EdicaoUC edicaoUC)
     {
-        System.out.println(edicaoUC);
         EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
 
         jpaRepository.deleteById(edicaoUC.getId());
@@ -105,9 +104,16 @@ public class EdicaoUCRepository
         return mapper.toModel(jpaRepository.save(jpa));
     }
 
-    public Optional<EdicaoUC> findByRucID(Long rucID)
+    public List<EdicaoUC> findByRucID(Long rucID)
     {
-        Optional<EdicaoUCJPA> jpa = jpaRepository.findByRucID(rucID);
+        List<EdicaoUCJPA> jpa = jpaRepository.findByRucID(rucID);
+
+        return jpa.stream().map(mapper::toModel).toList();
+    }
+
+    public Optional<EdicaoUC> findByRucIDAndEstadoEdicaoUC(Long rucID, Long estado)
+    {
+        Optional<EdicaoUCJPA> jpa = jpaRepository.findByRucIDAndEstadoEdicaoUC(rucID, estado);
 
         if (jpa.isPresent())
         {

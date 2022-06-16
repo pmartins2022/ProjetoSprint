@@ -1,8 +1,6 @@
 package com.example.javafx.ui;
 
 import com.example.javafx.controller.*;
-import com.example.javafx.dto.AnoLetivoDTO;
-import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -10,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -64,7 +61,7 @@ public class MainWindowViewController
 
         Stage stage = new Stage();
         stage.setTitle("Create Ano Letivo");
-        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createAnoLetivo-window-view.fxml"));
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ADMIN/createAnoLetivo-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
         //stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
@@ -107,7 +104,7 @@ public class MainWindowViewController
     {
         Stage stage = new Stage();
         stage.setTitle("Create Edicao UC");
-        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createEdicaoUC-window-view.fxml"));
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ADMIN/createEdicaoUC-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
         //stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
@@ -129,7 +126,7 @@ public class MainWindowViewController
 
         Stage stage = new Stage();
         stage.setTitle("Create Unidade Curricular");
-        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/createUnidadeCurricular-window-view.fxml"));
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ADMIN/createUnidadeCurricular-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
         //stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
@@ -150,7 +147,7 @@ public class MainWindowViewController
     {
         Stage stage = new Stage();
         stage.setTitle("Consultar Unidade Curricular");
-        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/consultarUC-window-view.fxml"));
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ADMIN/consultarUC-window-view.fxml"));
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
         //stage.initOwner(((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow());
