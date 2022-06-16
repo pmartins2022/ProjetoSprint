@@ -3,6 +3,8 @@ package com.grupo2.proposta.model;
 import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.ValidacaoInvalidaException;
 
+import java.util.Objects;
+
 /**
  * Classe que representa uma proposta de um projeto.
  */
@@ -221,5 +223,20 @@ public class Proposta
     public void aceitarPropostaProjeto()
     {
         this.estadoAtual = PropostaEstado.EM_PROJETO;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Proposta proposta = (Proposta) o;
+        return utilizadorId.equals(proposta.utilizadorId) && organizacaoId.equals(proposta.organizacaoId) && titulo.equals(proposta.titulo) && problema.equals(proposta.problema) && objetivo.equals(proposta.objetivo) && edicaoUCId.equals(proposta.edicaoUCId) && estadoAtual == proposta.estadoAtual;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, utilizadorId, organizacaoId, titulo, problema, objetivo, edicaoUCId, estadoAtual);
     }
 }

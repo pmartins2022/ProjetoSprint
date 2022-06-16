@@ -451,7 +451,7 @@ public class PropostaService
             throw new OptionalVazioException(idUtilizador + " não é RUC de nenhuma EdiçãoUC.");
         }
 
-        Optional<Proposta> proposta = repository.findByedicaoUCId(edicaoUCDTO.get().getId());
+        Optional<Proposta> proposta = repository.findByEdicaoUCId(edicaoUCDTO.get().getId());
 
         if (proposta.isEmpty())
         {
@@ -493,7 +493,7 @@ public class PropostaService
             throw new OptionalVazioException(idUtilizador + " não é RUC de nenhuma EdiçãoUC.");
         }
 
-        Optional<Proposta> proposta = repository.findByedicaoUCId(edicaoUCDTO.get().getId());
+        Optional<Proposta> proposta = repository.findByEdicaoUCId(edicaoUCDTO.get().getId());
 
         if (proposta.isEmpty())
         {

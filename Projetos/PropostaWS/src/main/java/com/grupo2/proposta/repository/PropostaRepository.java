@@ -26,12 +26,12 @@ public class PropostaRepository
     private PropostaJPAMapper mapper;
 
     /**
-     * Criar uma nova proposta. Necessita de validar os dados de utilizador e edicaoUC externamente.
+     * Criar uma nova proposta.
      * @param proposta Proposta a ser criada
      * @return Proposta criada
      * @throws BaseDadosException Se ocorrerem erros relativos a base de dados
      */
-    public Proposta save(Proposta proposta) throws BaseDadosException
+    public Proposta save(Proposta proposta)
     {
         PropostaJPA jpa = mapper.toJPA(proposta);
 
@@ -106,7 +106,7 @@ public class PropostaRepository
     }
 
     /**
-     * Obter todas as propostas por id de organizacao.
+     * Obter todas as propostas por nif de organizacao.
      * @param dto NIF da organizacao
      * @return Lista de propostas
      */
@@ -119,15 +119,11 @@ public class PropostaRepository
         return listaModel;
     }
 
-    public Optional<Proposta> findByedicaoUCId(Long id)
+    public List<Proposta> findByEdicaoUCId(Long id)
     {
-        Optional<PropostaJPA> found = jpaRepository.findByedicaoUCId(id);
+        List<PropostaJPA> found = jpaRepository.findAllByedicaoUCId(id);
 
-        if (found.isEmpty())
-        {
-            return Optional.empty();
-        }
-        return Optional.of(mapper.toModel(found.get()));
+        return found.stream().map(mapper::toModel).toList();
     }
 
     public List<Proposta> findAllByEstado(Long estado)
