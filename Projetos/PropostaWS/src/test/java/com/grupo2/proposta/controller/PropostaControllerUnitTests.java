@@ -6,6 +6,7 @@ import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
 import com.grupo2.proposta.exception.IdInvalidoException;
 import com.grupo2.proposta.exception.ListaVaziaException;
+import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ class PropostaControllerUnitTests
 
         when(service.createProposta(prop)).thenReturn(prop);
 
-        ResponseEntity<PropostaDTO> proposta = controller.createCandidaturaProposta(prop,request);
+        ResponseEntity<PropostaDTO> proposta = controller.createCandidaturaProposta(prop);
 
         assertEquals(proposta.getStatusCode(), HttpStatus.CREATED);
     }
@@ -61,7 +62,7 @@ class PropostaControllerUnitTests
 
         when(service.createProposta(prop)).thenThrow(BaseDadosException.class);
 
-        assertThrows(BaseDadosException.class,()->controller.createCandidaturaProposta(prop,request));
+        assertThrows(BaseDadosException.class,()->controller.createCandidaturaProposta(prop));
     }
 
 //    @Test
@@ -152,10 +153,13 @@ class PropostaControllerUnitTests
     public void shouldListByNif()
     {
         PropostaDTO prop = mock(PropostaDTO.class);
+        HttpServletRequest request = mock(HttpServletRequest.class);
+
+        when(request.getHeader(SecurityUtils.AUTH)).thenReturn("O");
 
         List<PropostaDTO> list = List.of(prop,prop,prop);
 
-        when(service.findByNif(1,"")).thenReturn(list);
+        when(service.findByNif(1,"O")).thenReturn(list);
 
         ResponseEntity<Object> entity = controller.listbyNif(1,request);
 

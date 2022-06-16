@@ -1,107 +1,366 @@
 
 package com.grupo2.proposta.controller;
 
-import com.grupo2.proposta.dto.PropostaDTO;
-import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
-import com.grupo2.proposta.exception.IdInvalidoException;
-import com.grupo2.proposta.exception.ListaVaziaException;
-import com.grupo2.proposta.jpa.PropostaJPA;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grupo2.proposta.dto.*;
+import com.grupo2.proposta.exception.*;
+import com.grupo2.proposta.model.EstadoCandidatura;
 import com.grupo2.proposta.model.PropostaEstado;
-import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
+import com.grupo2.proposta.security.LoginContext;
+import com.grupo2.proposta.service.PropostaService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
 class PropostaControllerIntegrationTests
 {
+    @MockBean
+    private PropostaService service;
+
+    @MockBean
+    private HttpServletRequest request;
+
+    private static MockedStatic<LoginContext> loginContext;
+
     @Autowired
-    PropostaController controller;
+    private MockMvc mockMvc;
+
     @Autowired
-    PropostaJPARepository jpaRepository;
+    private ObjectMapper objectMapper;
 
-    @Test
-    public void shouldFindById()
+    @BeforeEach
+    void setUp()
     {
-        PropostaJPA proposta = new PropostaJPA(1L, 1L, 1L,
-                "AAAAAAAAAA", "AAAAAAAAAA", "AAAAAAAAAA",
-                1L, PropostaEstado.APROVADO);
+        MockitoAnnotations.openMocks(this);
+    }
 
-        PropostaJPA save = jpaRepository.save(proposta);
-
-        ResponseEntity<Object> response = controller.listbyIdUtilizador(1L);
-
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertTrue(response.getBody() instanceof List);
-        assertEquals(1, ((List) response.getBody()).size());
+    @BeforeAll
+    static void setUpBeforeClass()
+    {
+        loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
     }
 
     @Test
-    public void shouldNotFindById()
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldCreateCandidaturaProposta() throws Exception
     {
-        assertThrows(ListaVaziaException.class,()->controller.listbyIdUtilizador(99L));
+
+        PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
+        when(service.createProposta(dto)).thenReturn(dto);
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        PropostaDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), PropostaDTO.class);
+
+        assertEquals(dto, responseDto);
+    }
+
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldNotCreateCandidaturaProposta_ValidacaoInvalida() throws Exception
+    {
+        PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
+        when(service.createProposta(dto)).thenThrow(new ValidacaoInvalidaException());
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
     }
 
     @Test
-    public void shouldFindAllByTitulo()
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldNotCreateCandidaturaProposta_BaseDadosException() throws Exception
     {
-        PropostaJPA proposta = new PropostaJPA(1L, 20L, 1L,
-                "AAAAAAAACC", "AAAAAAAAAA", "AAAAAAAAAA",
-                1L, PropostaEstado.APROVADO);
+        PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
+        when(service.createProposta(dto)).thenThrow(new BaseDadosException());
 
-        jpaRepository.save(proposta);
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+    }
 
-        ResponseEntity<Object> response = controller.listbyTitulo("AAAAAAAACC");
 
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertTrue(response.getBody() instanceof List);
-        assertEquals(1, ((List) response.getBody()).size());
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldListByIdUtilizador() throws Exception
+    {
+        PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
+
+        when(service.findByIdUtilizador(1L)).thenReturn(List.of(dto,dto,dto));
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/proposta/listarPorId/{id}",1L)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PropostaDTO> responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), List.class);
+        assertEquals(3, responseDto.size());
     }
 
     @Test
-    public void shouldNotFindByTitulo()
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldNotListByIdUtilizador_Empty() throws Exception
     {
-       assertThrows(ListaVaziaException.class,()->controller.listbyTitulo("AAAAAAAACC"));
+        when(service.findByIdUtilizador(1L)).thenReturn(List.of());
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/proposta/listarPorId/{id}",1L)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
     }
 
     @Test
-    public void shouldRejectProposta()
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldListByTitulo() throws Exception
     {
-        PropostaJPA proposta = new PropostaJPA(1L, 20L, 1L,
-                "AAAAAAAACC", "AAAAAAAAAA", "AAAAAAAAAA",
-                1L, PropostaEstado.CANDIDATURA);
+        PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
 
-        PropostaJPA save = jpaRepository.save(proposta);
+        when(service.findByTitulo("titulo")).thenReturn(List.of(dto,dto,dto));
 
-        ResponseEntity<PropostaDTO> response = controller.rejectCandidaturaProposta(save.getId());
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/proposta/listarPorTitulo?titulo=titulo")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<PropostaDTO> responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), List.class);
+        assertEquals(3, responseDto.size());
     }
 
     @Test
-    public void shouldNotRejectProposta_InvalidID()
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldNotListByTitulo_Empty() throws Exception
     {
-        assertThrows(IdInvalidoException.class, ()->controller.rejectCandidaturaProposta(99L));
+        when(service.findByTitulo("titulo")).thenReturn(List.of());
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/proposta/listarPorTitulo?titulo=titulo")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
     }
 
     @Test
-    public void shouldNotRejectProposta_InvalidUpdate()
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldListByNif() throws Exception
     {
-        PropostaJPA proposta = new PropostaJPA(1L, 20L, 1L,
-                "AAAAAAAACC", "AAAAAAAAAA", "AAAAAAAAAA",
-                1L, PropostaEstado.APROVADO);
+        PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
 
-        PropostaJPA save = jpaRepository.save(proposta);
+        when(service.findByNif(123456789,null)).thenReturn(List.of(dto,dto,dto));
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.rejectCandidaturaProposta(save.getId()));
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/proposta/listarPorNif/{nif}",123456789)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PropostaDTO> responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), List.class);
+        assertEquals(3, responseDto.size());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldNotListByNif_Empty() throws Exception
+    {
+        when(service.findByNif(123456789,null)).thenReturn(List.of());
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/proposta/listarPorNif/{nif}",123456789)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldFindAllByEstado() throws Exception
+    {
+        PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
+
+        //when(request.getHeader(SecurityUtils.AUTH)).thenReturn("1");
+        when(service.findAllByEstado(0L)).thenReturn(List.of(dto,dto,dto));
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/proposta?estado=0")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PropostaDTO> responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), List.class);
+        assertEquals(3, responseDto.size());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldAcceptAlunoCandidaturaProposta() throws Exception
+    {
+        PropostaCandidaturaIDDTO id = new PropostaCandidaturaIDDTO(1L, 1L);
+        PropostaCandidaturaDTO dto = new PropostaCandidaturaDTO(1L,1L, EstadoCandidatura.ACEITE);
+
+        UtilizadorAuthDTO curr = new UtilizadorAuthDTO(1L,"admin","admin","ROLE_DOCENTE");
+
+        loginContext.when(LoginContext::getCurrent).thenReturn(curr);
+
+        when(service.acceptAlunoCandidaturaProposta(1L,id)).thenReturn(dto);
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/aceitarCandidaturaAluno")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(id)))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldRejectAlunoCandidaturaProposta() throws Exception
+    {
+        PropostaCandidaturaIDDTO id = new PropostaCandidaturaIDDTO(1L, 1L);
+        PropostaCandidaturaDTO dto = new PropostaCandidaturaDTO(1L,1L, EstadoCandidatura.REJEITADO);
+
+        UtilizadorAuthDTO curr = new UtilizadorAuthDTO(1L,"admin","admin","ROLE_DOCENTE");
+
+        loginContext.when(LoginContext::getCurrent).thenReturn(curr);
+
+        when(service.rejectAlunoCandidaturaProposta(1L,id)).thenReturn(dto);
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/rejeitarCandidaturaAluno")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(id)))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_ALUNO")
+    public void shouldCandidatarAlunoProposta() throws Exception
+    {
+        PropostaCandidaturaDTO dto = new PropostaCandidaturaDTO(1L,1L, EstadoCandidatura.PENDENTE);
+
+        when(service.candidatarAlunoProposta(1L)).thenReturn(dto);
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/candidatarAlunoProposta/{propostaID}",1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        PropostaCandidaturaDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), PropostaCandidaturaDTO.class);
+        assertEquals(dto, responseDto);
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldAcceptProposta() throws Exception
+    {
+        ProjetoDTO proj = new ProjetoDTO(1L,2L,1L);
+
+        when(service.acceptProposta(1L, 1L,2L)).thenReturn(proj);
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/aceitarProposta/1?orientador=1&aluno=2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ProjetoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), ProjetoDTO.class);
+
+        assertEquals(proj, responseDto);
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldRejectProposta() throws Exception
+    {
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/rejeitarProposta/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldAcceptCandidaturaProposta() throws Exception
+    {
+        PropostaDTO prop = new PropostaDTO(1L,1L,"titulo","problema","objetivo",1L,PropostaEstado.APROVADO);
+
+        UtilizadorAuthDTO curr = new UtilizadorAuthDTO(1L,"admin","admin","ROLE_DOCENTE");
+
+        loginContext.when(LoginContext::getCurrent).thenReturn(curr);
+
+        when(service.acceptCandidaturaProposta(1L, 1L)).thenReturn(prop);
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/aceitarCandidatura/{idProposta}",1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        PropostaDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), PropostaDTO.class);
+
+        assertEquals(prop, responseDto);
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_DOCENTE")
+    public void shouldRejectCandidaturaProposta() throws Exception
+    {
+        PropostaDTO prop = new PropostaDTO(1L,1L,"titulo","problema","objetivo",1L,PropostaEstado.APROVADO);
+
+        UtilizadorAuthDTO curr = new UtilizadorAuthDTO(1L,"admin","admin","ROLE_DOCENTE");
+
+        loginContext.when(LoginContext::getCurrent).thenReturn(curr);
+
+        when(service.rejeitarProposta(1L)).thenReturn(Optional.of(prop));
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.post("/proposta/rejeitarCandidatura/{id}",1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        PropostaDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), PropostaDTO.class);
+
+        assertEquals(prop, responseDto);
     }
 }

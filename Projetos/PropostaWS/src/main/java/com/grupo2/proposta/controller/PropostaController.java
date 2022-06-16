@@ -3,6 +3,7 @@ package com.grupo2.proposta.controller;
 
 import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.exception.*;
+import com.grupo2.proposta.model.PropostaEstado;
 import com.grupo2.proposta.security.LoginContext;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
@@ -35,7 +36,7 @@ public class PropostaController
      */
     @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE','ROLE_ALUNO')")
     @PostMapping("/create")
-    public ResponseEntity<PropostaDTO> createCandidaturaProposta(@RequestBody PropostaDTO dto, HttpServletRequest request)
+    public ResponseEntity<PropostaDTO> createCandidaturaProposta(@RequestBody PropostaDTO dto)
     {
         try
         {
@@ -115,7 +116,7 @@ public class PropostaController
      * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/rejeitarCandidatura/{id}")
+    @PostMapping("/rejeitarCandidatura/{id}")
     public ResponseEntity<PropostaDTO> rejectCandidaturaProposta(@PathVariable(name = "id") Long id)
     {
         try
@@ -163,7 +164,7 @@ public class PropostaController
      * @return projeto, ou um erro se os dados estiverem invalidos.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/aceitarProposta/{id}")
+    @PostMapping("/aceitarProposta/{id}")
     public ResponseEntity<Object> acceptProposta(@PathVariable("id") Long propostaID,
                                                  @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
     {
@@ -181,7 +182,7 @@ public class PropostaController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/rejeitarProposta/{id}")
+    @PostMapping("/rejeitarProposta/{id}")
     public ResponseEntity<Object> rejectProposta(@PathVariable("id") Long propostaID)
     {
         try
@@ -204,7 +205,7 @@ public class PropostaController
         try
         {
             PropostaCandidaturaDTO cand = service.candidatarAlunoProposta(propostaID);
-            return new ResponseEntity<>(cand, HttpStatus.CREATED);
+            return new ResponseEntity<>(cand, HttpStatus.OK);
         } catch (OptionalVazioException e)
         {
             throw new OptionalVazioException(e.getMessage());
@@ -225,7 +226,7 @@ public class PropostaController
         try
         {
             PropostaCandidaturaDTO cand = service.acceptAlunoCandidaturaProposta(utilizadorAuthDTO.getId(), propostaCandidaturaID);
-            return new ResponseEntity<>(cand, HttpStatus.CREATED);
+            return new ResponseEntity<>(cand, HttpStatus.OK);
         } catch (OptionalVazioException e)
         {
             throw e;
@@ -243,7 +244,7 @@ public class PropostaController
         try
         {
             PropostaCandidaturaDTO cand = service.rejectAlunoCandidaturaProposta(utilizadorAuthDTO.getId(), propostaCandidaturaID);
-            return new ResponseEntity<>(cand, HttpStatus.CREATED);
+            return new ResponseEntity<>(cand, HttpStatus.OK);
         } catch (OptionalVazioException e)
         {
             throw e;
@@ -253,6 +254,7 @@ public class PropostaController
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("")
     public ResponseEntity<List<PropostaDTO>> findAllByEstado(@RequestParam("estado") Long estado)
     {

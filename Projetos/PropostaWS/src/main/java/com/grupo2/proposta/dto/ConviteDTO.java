@@ -2,6 +2,8 @@ package com.grupo2.proposta.dto;
 
 import com.grupo2.proposta.model.EstadoConvite;
 
+import java.util.Objects;
+
 public class ConviteDTO
 {
     private Long idAluno;
@@ -64,5 +66,20 @@ public class ConviteDTO
     public void setEstado(EstadoConvite estado)
     {
         this.estado = estado;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConviteDTO that = (ConviteDTO) o;
+        return idDocente.equals(that.idDocente) && idProposta.equals(that.idProposta) && estado == that.estado;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(idAluno, idDocente, idProposta, estado);
     }
 }

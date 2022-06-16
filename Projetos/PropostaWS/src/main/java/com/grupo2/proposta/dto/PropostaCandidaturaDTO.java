@@ -2,6 +2,8 @@ package com.grupo2.proposta.dto;
 
 import com.grupo2.proposta.model.EstadoCandidatura;
 
+import java.util.Objects;
+
 public class PropostaCandidaturaDTO
 {
     private Long idProposta;
@@ -47,5 +49,20 @@ public class PropostaCandidaturaDTO
     public void setEstado(EstadoCandidatura estado)
     {
         this.estado = estado;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PropostaCandidaturaDTO that = (PropostaCandidaturaDTO) o;
+        return idProposta.equals(that.idProposta) && idAluno.equals(that.idAluno) && estado == that.estado;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(idProposta, idAluno, estado);
     }
 }

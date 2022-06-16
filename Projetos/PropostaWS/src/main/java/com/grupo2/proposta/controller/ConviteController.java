@@ -22,7 +22,7 @@ public class ConviteController
     private PropostaService service;
 
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
-    @GetMapping("/criar")
+    @PostMapping("/create")
     public ResponseEntity<Object> criarConvite(@RequestBody ConviteDTO convite) throws Exception
     {
         try
@@ -42,7 +42,7 @@ public class ConviteController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/aceitarOrientacao/{id}")
+    @PostMapping("/aceitarOrientacao/{id}")
     public ResponseEntity<Object> aceitarOrientacao( @PathVariable("id") Long propostaID,
                                                      @RequestParam("orientador") Long orientadorID, HttpServletRequest request) throws Exception
     {
@@ -50,8 +50,9 @@ public class ConviteController
         ConviteDTO conviteDTO = service.acceptOrientacaoProposta(propostaID, orientadorID, encoded);
         return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
     }
+
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/rejeitarOrientacao/{id}")
+    @PostMapping("/rejeitarOrientacao/{id}")
     public ResponseEntity<Object> rejeitarOrientacao( @PathVariable("id") Long propostaID,
                                                       @RequestParam("orientador") Long orientadorID, HttpServletRequest request) throws Exception
     {
