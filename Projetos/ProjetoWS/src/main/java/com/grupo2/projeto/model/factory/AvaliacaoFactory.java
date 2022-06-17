@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AvaliacaoFactory
 {
-    public Avaliacao createAvaliacao(Long id, Long idMomentoAvaliacao, Long idProjeto, Long conteudo, int nota)
+    public Avaliacao createAvaliacao(Long id,Long idProjeto, Long idMomentoAvaliacao,
+                                     Long presidenteId, Long orientadorId, Long arguenteId,Long conteudo, int nota)
     {
-        return new Avaliacao(id, idMomentoAvaliacao, idProjeto, conteudo, nota);
+        return new Avaliacao(id, idProjeto,idMomentoAvaliacao,presidenteId,orientadorId,arguenteId, conteudo, nota);
     }
 }

@@ -14,6 +14,12 @@ public class AvaliacaoJPA
 
     private Long idMomentoAvaliacao;
 
+    private Long presidenteId;
+
+    private Long orientadorId;
+
+    private Long arguenteId;
+
     private Long idProjeto;
 
     @ManyToOne
@@ -23,18 +29,25 @@ public class AvaliacaoJPA
 
     public AvaliacaoJPA () {}
 
-    public AvaliacaoJPA(Long id, Long idMomentoAvaliacao, Long idProjeto, ConteudoJPA conteudo, int nota)
+    public AvaliacaoJPA(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId,Long arguenteId,  Long idProjeto, ConteudoJPA conteudo, int nota)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
+        this.presidenteId = presidenteId;
+        this.orientadorId = orientadorId;
+        this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
         this.nota = nota;
+
     }
 
-    public AvaliacaoJPA(Long idMomentoAvaliacao, Long idProjeto, ConteudoJPA conteudo, int nota)
+    public AvaliacaoJPA(Long idMomentoAvaliacao, Long presidenteId, Long orientadorId,Long arguenteId, Long idProjeto, ConteudoJPA conteudo, int nota)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
+        this.presidenteId = presidenteId;
+        this.orientadorId = orientadorId;
+        this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
         this.nota = nota;
@@ -48,6 +61,18 @@ public class AvaliacaoJPA
     public Long getIdMomentoAvaliacao()
     {
         return idMomentoAvaliacao;
+    }
+
+    public Long getPresidenteId() {
+        return presidenteId;
+    }
+
+    public Long getOrientadorId() {
+        return orientadorId;
+    }
+
+    public Long getArguenteId() {
+        return arguenteId;
     }
 
     public Long getIdProjeto()

@@ -8,6 +8,12 @@ public class AvaliacaoDTO
 
     private Long idMomentoAvaliacao;
 
+    private Long presidenteId;
+
+    private Long orientadorId;
+
+    private Long arguenteId;
+
     private Long idProjeto;
 
     private Long idConteudo;
@@ -16,18 +22,24 @@ public class AvaliacaoDTO
 
     public AvaliacaoDTO(){}
 
-    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long idProjeto, Long idConteudo, int nota)
+    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, int nota)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
+        this.presidenteId = presidenteId;
+        this.orientadorId = orientadorId;
+        this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
         this.nota = nota;
     }
 
-    public AvaliacaoDTO(Long idMomentoAvaliacao, Long idProjeto, Long idConteudo, int nota)
+    public AvaliacaoDTO(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, int nota)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
+        this.presidenteId = presidenteId;
+        this.orientadorId = orientadorId;
+        this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
         this.nota = nota;
@@ -51,6 +63,38 @@ public class AvaliacaoDTO
     public void setIdMomentoAvaliacao(Long idMomentoAvaliacao)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
+    }
+
+    public Long getPresidenteId() {
+        return presidenteId;
+    }
+
+    public void setPresidenteId(Long presidenteId) {
+        this.presidenteId = presidenteId;
+    }
+
+    public Long getOrientadorId() {
+        return orientadorId;
+    }
+
+    public void setOrientadorId(Long orientadorId) {
+        this.orientadorId = orientadorId;
+    }
+
+    public Long getArguenteId() {
+        return arguenteId;
+    }
+
+    public void setArguenteId(Long arguenteId) {
+        this.arguenteId = arguenteId;
+    }
+
+    public Long getIdConteudo() {
+        return idConteudo;
+    }
+
+    public void setIdConteudo(Long idConteudo) {
+        this.idConteudo = idConteudo;
     }
 
     public Long getIdProjeto()
@@ -84,13 +128,15 @@ public class AvaliacaoDTO
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "AvaliacaoDTO{" +
                 "id=" + id +
                 ", idMomentoAvaliacao=" + idMomentoAvaliacao +
+                ", presidenteId=" + presidenteId +
+                ", orientadorId=" + orientadorId +
+                ", arguenteId=" + arguenteId +
                 ", idProjeto=" + idProjeto +
-                ", conteudo=" + idConteudo +
+                ", idConteudo=" + idConteudo +
                 ", nota=" + nota +
                 '}';
     }

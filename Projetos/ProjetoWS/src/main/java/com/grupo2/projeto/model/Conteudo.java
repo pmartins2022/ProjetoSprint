@@ -3,9 +3,12 @@ package com.grupo2.projeto.model;
 import com.detectlanguage.errors.APIError;
 import com.grupo2.projeto.exception.AtualizacaoInvalidaException;
 import com.grupo2.projeto.exception.ValidacaoInvalidaException;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class Conteudo
 {
     private Long id;

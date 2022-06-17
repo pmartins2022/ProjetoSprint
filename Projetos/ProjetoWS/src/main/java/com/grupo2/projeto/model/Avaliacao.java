@@ -8,6 +8,12 @@ public class Avaliacao
 
     private Long idMomentoAvaliacao;
 
+    private Long presidenteId;
+
+    private Long orientadorId;
+
+    private Long arguenteId;
+
     private Long idProjeto;
 
     private Long conteudo;
@@ -16,18 +22,24 @@ public class Avaliacao
 
     public Avaliacao () {}
 
-    public Avaliacao(Long id, Long idMomentoAvaliacao, Long idProjeto, Long conteudo, int nota)
+    public Avaliacao(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo, int nota)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
+        this.presidenteId = presidenteId;
+        this.orientadorId = orientadorId;
+        this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
         this.nota = nota;
     }
 
-    public Avaliacao(Long idMomentoAvaliacao, Long idProjeto, Long conteudo, int nota)
+    public Avaliacao(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo, int nota)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
+        this.presidenteId = presidenteId;
+        this.orientadorId = orientadorId;
+        this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
         this.nota = nota;
@@ -51,6 +63,30 @@ public class Avaliacao
     public void setIdMomentoAvaliacao(Long idMomentoAvaliacao)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
+    }
+
+    public Long getPresidenteId() {
+        return presidenteId;
+    }
+
+    public void setPresidenteId(Long presidenteId) {
+        this.presidenteId = presidenteId;
+    }
+
+    public Long getOrientadorId() {
+        return orientadorId;
+    }
+
+    public void setOrientadorId(Long orientadorId) {
+        this.orientadorId = orientadorId;
+    }
+
+    public Long getArguenteId() {
+        return arguenteId;
+    }
+
+    public void setArguenteId(Long arguenteId) {
+        this.arguenteId = arguenteId;
     }
 
     public Long getIdProjeto()

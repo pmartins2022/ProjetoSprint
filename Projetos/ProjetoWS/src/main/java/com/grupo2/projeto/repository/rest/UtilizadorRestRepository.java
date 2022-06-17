@@ -28,7 +28,7 @@ public class UtilizadorRestRepository
 
     public Optional<UtilizadorDTO> findByOrientadorID(Long idOrientador)
     {
-        UtilizadorDTO dto = WebClient.create("http://localhost:8085/utilizador/orientador"+idOrientador).get().
+        UtilizadorDTO dto = WebClient.create("http://localhost:8085/utilizador/orientador/"+idOrientador).get().
                 retrieve().bodyToMono(UtilizadorDTO.class).block();
 
         if (dto == null)
@@ -38,4 +38,16 @@ public class UtilizadorRestRepository
 
         return Optional.of(dto);
     }
+
+    public Optional<UtilizadorDTO> findById(Long id)
+    {
+        UtilizadorDTO dto = WebClient.create("http://localhost:8085/utilizador/"+id).get().
+                retrieve().bodyToMono(UtilizadorDTO.class).block();
+        if (dto == null)
+        {
+            return Optional.empty();
+        }
+        return Optional.of(dto);
+    }
+
 }

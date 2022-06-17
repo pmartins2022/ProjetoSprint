@@ -18,12 +18,12 @@ public class AvaliacaoDTOMapper
     public Avaliacao toModel(AvaliacaoDTO avaliacaoDTO)
     {
         return avaliacaoFactory.createAvaliacao(avaliacaoDTO.getId(),avaliacaoDTO.getIdProjeto(),
-                avaliacaoDTO.getIdMomentoAvaliacao(),avaliacaoDTO.getConteudo(), avaliacaoDTO.getNota());
+                avaliacaoDTO.getIdMomentoAvaliacao(), avaliacaoDTO.getPresidenteId(), avaliacaoDTO.getOrientadorId(), avaliacaoDTO.getArguenteId(), avaliacaoDTO.getConteudo(), avaliacaoDTO.getNota());
     }
 
     public AvaliacaoDTO toDTO(Avaliacao avaliacao)
     {
         return new AvaliacaoDTO(avaliacao.getId(),avaliacao.getIdProjeto(),
-                avaliacao.getIdMomentoAvaliacao(),avaliacao.getConteudo(), avaliacao.getNota());
+                avaliacao.getIdMomentoAvaliacao(), avaliacao.getPresidenteId(), avaliacao.getOrientadorId(), avaliacao.getArguenteId(), avaliacao.getConteudo(), avaliacao.getNota());
     }
 }

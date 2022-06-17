@@ -3,6 +3,7 @@ package com.grupo2.projeto.controller;
 
 import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.exception.ErroGeralException;
+import com.grupo2.projeto.exception.ListaVaziaException;
 import com.grupo2.projeto.service.AvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -42,5 +44,17 @@ public class AvaliacaoController
         {
             throw new ErroGeralException("Nao existe nenhuma avaliacao com esse ID");
         }
+    }
+    @GetMapping("/listar")
+    public ResponseEntity<Object> listAllMomentoAvaliacao()
+    {
+        List<AvaliacaoDTO> lista = service.findAll();
+
+        if (lista.isEmpty())
+        {
+            throw new ListaVaziaException("Não existem Momentos de Avaliação");
+        }
+
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 }

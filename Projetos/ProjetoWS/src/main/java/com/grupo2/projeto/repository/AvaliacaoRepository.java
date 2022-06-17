@@ -10,6 +10,7 @@ import com.grupo2.projeto.repository.jpa.AvaliacaoJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,9 +25,9 @@ public class AvaliacaoRepository
     @Autowired
     private ConteudoJPAMapper conteudoJPAMapper;
 
-    public Avaliacao saveProjeto(Avaliacao avaliacao, Conteudo cont)
+    public Avaliacao saveAvaliacao(Avaliacao avaliacao, Conteudo cont)
     {
-        AvaliacaoJPA jpa = new AvaliacaoJPA(avaliacao.getId(),avaliacao.getIdMomentoAvaliacao(),avaliacao.getIdProjeto(),conteudoJPAMapper.toJpa(cont), avaliacao.getNota());
+        AvaliacaoJPA jpa = new AvaliacaoJPA(avaliacao.getId(),avaliacao.getIdMomentoAvaliacao(), avaliacao.getPresidenteId(), avaliacao.getOrientadorId(), avaliacao.getArguenteId(), avaliacao.getIdProjeto(),conteudoJPAMapper.toJpa(cont), avaliacao.getNota());
 
         AvaliacaoJPA saved = repository.save(jpa);
 
@@ -47,4 +48,10 @@ public class AvaliacaoRepository
             return Optional.empty();
         }
     }
+
+    public List<Avaliacao> findAll() {
+            List<AvaliacaoJPA> listaJPA = repository.findAll();
+            return listaJPA.stream().map(mapper::toModel).toList();
+    }
+
 }

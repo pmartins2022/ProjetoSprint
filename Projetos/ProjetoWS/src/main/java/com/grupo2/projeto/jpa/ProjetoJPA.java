@@ -1,9 +1,6 @@
 package com.grupo2.projeto.jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Classe JPA de projeto
