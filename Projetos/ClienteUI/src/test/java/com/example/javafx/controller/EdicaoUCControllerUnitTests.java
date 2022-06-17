@@ -1,5 +1,6 @@
 package com.example.javafx.controller;
 
+import com.example.javafx.controller.admin.EdicaoUCController;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.dto.UnidadeCurricularDTO;

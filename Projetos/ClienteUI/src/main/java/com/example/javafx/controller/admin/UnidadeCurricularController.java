@@ -1,4 +1,4 @@
-package com.example.javafx.controller;
+package com.example.javafx.controller.admin;
 
 import com.example.javafx.dto.UnidadeCurricularDTO;
 import com.example.javafx.exception.RestPostException;

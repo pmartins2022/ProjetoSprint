@@ -24,7 +24,7 @@ public class UnidadeCurricularRestRepo
      */
     public List<UnidadeCurricularDTO> findAll()
     {
-        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8086/uc/listar").get()
+        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/uc/listar").get()
                 .retrieve();
 
         responseSpec.onStatus(HttpStatus::is4xxClientError,

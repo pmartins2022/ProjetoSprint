@@ -24,16 +24,53 @@ class UtilizadorRepositoryIntegrationTests
     private UtilizadorRepository repository;
 
     @Test
-    public void shouldCreateValidUtilizador()
+    public void shouldSaveValidUtilizador()
     {
         Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com","username","pass",
                 TipoUtilizador.DOCENTE);
 
         Utilizador saved = repository.save(utilizador);
 
-        assertEquals(saved, utilizador);
+        Optional<Utilizador> utilizadorSaved = repository.findByID(saved.getId());
+
+        assertEquals(utilizador, utilizadorSaved.get());
+    }
+//id null, username e pass únicos
+    @Test
+    public void shouldNotSaveValidUtilizador_IDExists()
+    {
+        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com","username","pass",
+                TipoUtilizador.DOCENTE);
+
+        Utilizador utilizador1 = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com","username","pass",
+                TipoUtilizador.DOCENTE);
+
+        repository.save(utilizador);
+
+        assertThrows(ErroGeralException.class, ()-> repository.save(utilizador1));
     }
 
+    @Test
+    public void shouldNotSaveValidUtilizador_EmailExists()
+    {
+        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com","username","pass",
+                TipoUtilizador.DOCENTE);
+
+        Utilizador utilizador1 = new Utilizador(2L, "nome", "sobrenome", "email@gmail.com","username","pass",
+                TipoUtilizador.DOCENTE);
+
+        repository.save(utilizador);
+
+        assertThrows(ErroGeralException.class, ()-> repository.save(utilizador1));
+    }
+
+    /*
+
+    public List<Utilizador> findAll()
+    {
+        return jpaRepository.findAll().stream().map(mapper::toModel).toList();
+    }
+     */
 
     @Test
     public void shouldFindByIDUtilizador_Exists()

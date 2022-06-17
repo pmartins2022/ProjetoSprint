@@ -1,11 +1,11 @@
 package com.example.javafx.controller;
 
+import com.example.javafx.controller.admin.UnidadeCurricularController;
 import com.example.javafx.dto.UnidadeCurricularDTO;
 import com.example.javafx.service.UnidadeCurricularService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

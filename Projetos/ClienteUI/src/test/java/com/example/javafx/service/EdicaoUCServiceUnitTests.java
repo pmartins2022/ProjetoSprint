@@ -1,6 +1,5 @@
 package com.example.javafx.service;
 
-import com.example.javafx.controller.UnidadeCurricularController;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.dto.UnidadeCurricularDTO;

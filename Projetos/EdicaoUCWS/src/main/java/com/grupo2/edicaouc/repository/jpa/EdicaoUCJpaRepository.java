@@ -1,6 +1,7 @@
 package com.grupo2.edicaouc.repository.jpa;
 
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface EdicaoUCJpaRepository extends JpaRepository<EdicaoUCJPA, Long>
     List<EdicaoUCJPA> findByRucID(Long rucID);
 
     Optional<EdicaoUCJPA> findByRucIDAndEstadoEdicaoUC(Long rucID, Long estado);
+
+    Optional<EdicaoUCJPA> findByEstadoEdicaoUC(EstadoEdicaoUC ativa);
 }

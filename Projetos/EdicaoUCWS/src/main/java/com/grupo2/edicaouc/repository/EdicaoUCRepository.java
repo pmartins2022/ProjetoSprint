@@ -4,6 +4,7 @@ import com.grupo2.edicaouc.exception.BaseDadosException;
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
 import com.grupo2.edicaouc.model.EdicaoUC;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.repository.jpa.EdicaoUCJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -121,5 +122,17 @@ public class EdicaoUCRepository
         }
 
         return Optional.empty();
+    }
+
+    public Optional<EdicaoUC> findByEstadoEdicaoUC(EstadoEdicaoUC ativa)
+    {
+        Optional<EdicaoUCJPA> edicaoAtiva = jpaRepository.findByEstadoEdicaoUC(ativa);
+
+        if (edicaoAtiva.isEmpty())
+        {
+            Optional.empty();
+        }
+
+        return Optional.of(mapper.toModel(edicaoAtiva.get()));
     }
 }

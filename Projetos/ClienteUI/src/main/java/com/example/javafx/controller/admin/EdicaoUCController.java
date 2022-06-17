@@ -1,4 +1,4 @@
-package com.example.javafx.controller;
+package com.example.javafx.controller.admin;
 
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;

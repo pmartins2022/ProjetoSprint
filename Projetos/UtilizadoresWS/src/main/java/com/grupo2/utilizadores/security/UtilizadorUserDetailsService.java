@@ -48,7 +48,7 @@ public class UtilizadorUserDetailsService implements UserDetailsService
                         .username("admin")
                         .password("admin")
                         .roles("ADMIN")
-                        .build(),
+                        .build()/*,
                 builder()
                         .passwordEncoder(p::encode)
                         .username("docente1")
@@ -96,7 +96,7 @@ public class UtilizadorUserDetailsService implements UserDetailsService
                         .username("aluno4")
                         .password("aluno4")
                         .roles("ALUNO")
-                        .build()
+                        .build()*/
         );
 
         return inMemoryUserDetailsManager;

@@ -1,6 +1,9 @@
 package com.example.javafx.ui;
 
 import com.example.javafx.controller.*;
+import com.example.javafx.controller.admin.AnoLetivoController;
+import com.example.javafx.controller.admin.EdicaoUCController;
+import com.example.javafx.controller.admin.UnidadeCurricularController;
 import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

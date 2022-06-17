@@ -28,7 +28,7 @@ public class EdicaoUCRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8082/edicaoUC/criar").post().
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/edicaoUC/criar").post().
                     body(BodyInserters.fromValue(edicaoUCDTO)).retrieve();
 
 

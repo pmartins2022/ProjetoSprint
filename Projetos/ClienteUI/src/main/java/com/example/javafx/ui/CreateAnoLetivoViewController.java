@@ -1,6 +1,6 @@
 package com.example.javafx.ui;
 
-import com.example.javafx.controller.AnoLetivoController;
+import com.example.javafx.controller.admin.AnoLetivoController;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.ui.utils.AlertBuilder;

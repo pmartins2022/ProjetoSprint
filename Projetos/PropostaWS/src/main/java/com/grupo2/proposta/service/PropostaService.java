@@ -443,7 +443,7 @@ public class PropostaService
                     + " e " + propostaCandidaturaID.getIdAluno());
         }
 
-        if (propostaCandidatura.get().getEstado().ordinal() != 0)
+        if (propostaCandidatura.get().getEstado() != EstadoCandidatura.PENDENTE)
         {
             throw new ValidacaoInvalidaException("Candidatura tem que estar em fase " + EstadoCandidatura.PENDENTE +
                     "e encontra-se em fase " + propostaCandidatura.get().getEstado().name());
@@ -467,7 +467,7 @@ public class PropostaService
         for (Proposta p : propostaList
         )
         {
-            if (p.getId() == propostaCandidaturaID.getIdProposta())
+            if (p.getId().equals(propostaCandidaturaID.getIdProposta()))
             {
                 isPropostaInList = true;
             }

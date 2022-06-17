@@ -22,7 +22,7 @@ public class OrganizacaoRestRepo
      */
     public List<OrganizacaoDTO> findAll()
     {
-        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/organizacao/listar").get()
+        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8082/organizacao/listar").get()
                 .retrieve();
 
         responseSpec.onStatus(HttpStatus::is4xxClientError,

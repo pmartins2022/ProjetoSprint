@@ -166,32 +166,30 @@ public class EdicaoUCService
             throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
         }
 
-        List<EdicaoUC> listEdicaoUC = repository.findByRucID(utilizadorID);
+        Optional<EdicaoUC> edicaoActive = repository.findByEstadoEdicaoUC(EstadoEdicaoUC.ATIVA);
 
-        Optional<EdicaoUC> found = Optional.empty();
-
-        for (EdicaoUC e : listEdicaoUC
-        )
+        if (edicaoActive.isPresent())
         {
-            if (e.getEstadoEdicaoUC() == EstadoEdicaoUC.PENDENTE && e.getId() == edicaoUCID)
-            {
-                e.activateEdicaoUC();
-                found = Optional.of(e);
-                listEdicaoUC.remove(e);
-            }
+            edicaoActive.get().deactivateEdicaoUC();
+            repository.desativarEdicao(edicaoActive.get());
         }
 
-        if (found.isEmpty())
+        Optional<EdicaoUC> edicaoToActivate = repository.findById(edicaoUCID);
+
+        if (edicaoToActivate.isEmpty())
         {
-            throw new ValidationException("Não existe nenhuma EdiçãoUC em fase PENDENTE e com esse id " + edicaoUCID);
+            throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
         }
 
-        listEdicaoUC.forEach(EdicaoUC::deactivateEdicaoUC);
-        listEdicaoUC.forEach(edicaoUC -> repository.saveEdicaoUC(edicaoUC));
+        if (edicaoToActivate.get().getEstadoEdicaoUC() != EstadoEdicaoUC.PENDENTE)
+        {
+            throw new ValidationException("EdiçãoUC não está em fase PENDENTE");
+        }
 
-        EdicaoUC saved = repository.ativarEdicao(found.get());
+        edicaoToActivate.get().activateEdicaoUC();
+        EdicaoUC edicaoUC = repository.ativarEdicao(edicaoToActivate.get());
 
-        return mapper.toDTO(saved);
+        return mapper.toDTO(edicaoUC);
     }
 
     public EdicaoUCDTO desativarEdicao(Long edicaoUCID)
