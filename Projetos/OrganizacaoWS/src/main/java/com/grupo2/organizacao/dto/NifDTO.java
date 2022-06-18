@@ -5,13 +5,9 @@ package com.grupo2.organizacao.dto;
  */
 public class NifDTO
 {
-    /**
-     * numero do nif
-     */
+
     private int nr;
-    /**
-     * name do portador do nif
-     */
+
     private String name;
 
     /**

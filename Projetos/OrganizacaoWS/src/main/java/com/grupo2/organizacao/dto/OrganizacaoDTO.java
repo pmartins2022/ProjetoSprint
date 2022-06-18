@@ -7,17 +7,11 @@ import java.util.Objects;
  */
 public class OrganizacaoDTO
 {
-    /**
-     * o id da organizacao
-     */
+
     private Long id;
-    /**
-     *  a denominacao da organizacao
-     */
+
     private String denominacao;
-    /**
-     *  op nif da organizcao
-     */
+
     private Integer nif;
 
     /**
@@ -27,6 +21,10 @@ public class OrganizacaoDTO
     {
     }
 
+    /**
+     * Inicializa e nif da OrganizacaoDTO com e nif
+     * @param nif e a nif da OrganizacaoDTO
+     */
     public OrganizacaoDTO(Integer nif)
     {
         this.nif = nif;
@@ -110,6 +108,11 @@ public class OrganizacaoDTO
         this.nif = nif;
     }
 
+    /**
+     * Compara dois objetos do tipo OrganizacaoDTO
+     * @param o e um objeto do tipo OrganizacaoDTO
+     * @return true se forem iguais e false se nao forem iguais
+     */
     @Override
     public boolean equals(Object o)
     {

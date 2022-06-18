@@ -5,17 +5,11 @@ package com.grupo2.organizacao.exception;
  */
 public class ErrorDetail
 {
-    /**
-     * title do ErroDetail
-     */
+
     private String title;
-    /**
-     * satatus do ErroDetail
-     */
+
     private int status;
-    /**
-     * detail do ErroDetail
-     */
+
     private String detail;
 
     /**

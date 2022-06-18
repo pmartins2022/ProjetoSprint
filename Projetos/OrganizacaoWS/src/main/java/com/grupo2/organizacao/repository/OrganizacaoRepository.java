@@ -16,15 +16,10 @@ import java.util.Optional;
 @Repository
 public class OrganizacaoRepository
 {
-    /**
-     * O repositoryJPA a ser utilizado por este Repository.
-     */
+
     @Autowired
     private OrganizacaoJPARepository jpaRepository;
 
-    /**
-     * O repositoryJPAMapper a ser utilizado por este Repository.
-     */
     @Autowired
     private OrganizacaoJPAMapper mapper;
 

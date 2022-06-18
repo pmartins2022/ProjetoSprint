@@ -20,9 +20,7 @@ import java.util.Optional;
 @RequestMapping("/organizacao")
 public class OrganizacaoController
 {
-    /**
-     * O serviço a ser utilizado por este REST Controller.
-     */
+
     @Autowired
     private OrganizacaoService service;
 

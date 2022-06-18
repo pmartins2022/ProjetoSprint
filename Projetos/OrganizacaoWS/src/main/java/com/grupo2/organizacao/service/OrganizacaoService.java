@@ -19,21 +19,13 @@ import java.util.Optional;
 @Service
 public class OrganizacaoService
 {
-    /**
-     * O repository a ser utilizado por este Service.
-     */
+
     @Autowired
     private OrganizacaoRepository repository;
 
-    /**
-     * O mapper a ser utilizado por este Service.
-     */
     @Autowired
     private OrganizacaoDTOMapper mapper;
 
-    /**
-     * O RESTController a ser utilizado por este Service.
-     */
     @Autowired
     private NifRestRepository nifRestRepository;
 

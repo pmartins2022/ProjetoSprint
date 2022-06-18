@@ -9,22 +9,13 @@ import java.util.Objects;
  */
 public class Organizacao
 {
-    /**
-     * Id do Organizacao
-     */
+
     private Long id;
-    /**
-     * denominacao do Organizacao
-     */
+
     private String denominacao;
-    /**
-     * nif do Organizacao
-     */
+
     private Integer nif;
 
-    /**
-     * Variavel auxiliar para validacao da denominacao
-     */
     private static final int DENOMINACAO_MIN_NUM_CHARACTERS = 3;
 
     /**
@@ -124,6 +115,11 @@ public class Organizacao
         this.nif = nif;
     }
 
+    /**
+     * Compara dois objetos do tipo Organizacao
+     * @param o e um objeto do tipo Organizacao
+     * @return true se forem iguais e false se nao forem iguais
+     */
     @Override
     public boolean equals(Object o)
     {

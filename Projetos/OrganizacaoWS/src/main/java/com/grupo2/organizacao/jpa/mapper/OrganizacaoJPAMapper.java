@@ -12,11 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizacaoJPAMapper
 {
-    /**
-     * O factory a ser utilizado por este JPA Mapper.
-     */
+
     @Autowired
-    OrganizacaoFactory organizacaoFactory;
+    private OrganizacaoFactory organizacaoFactory;
 
     /**
      * Fazer a conversao para classe de dominio.
