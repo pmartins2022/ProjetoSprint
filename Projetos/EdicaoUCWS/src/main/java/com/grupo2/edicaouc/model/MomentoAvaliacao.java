@@ -1,5 +1,7 @@
 package com.grupo2.edicaouc.model;
 
+import java.util.Objects;
+
 public class MomentoAvaliacao
 {
     private Long id;
@@ -29,5 +31,20 @@ public class MomentoAvaliacao
     public void setDenominacao(String denominacao)
     {
         this.denominacao = denominacao;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MomentoAvaliacao that = (MomentoAvaliacao) o;
+        return denominacao.equals(that.denominacao);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, denominacao);
     }
 }

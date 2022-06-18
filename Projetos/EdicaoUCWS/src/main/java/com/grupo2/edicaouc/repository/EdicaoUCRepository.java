@@ -91,8 +91,6 @@ public class EdicaoUCRepository
 
         jpaRepository.deleteById(edicaoUC.getId());
 
-        System.out.println(jpa);
-
         return mapper.toModel(jpaRepository.save(jpa));
     }
 
@@ -130,7 +128,7 @@ public class EdicaoUCRepository
 
         if (edicaoAtiva.isEmpty())
         {
-            Optional.empty();
+            return Optional.empty();
         }
 
         return Optional.of(mapper.toModel(edicaoAtiva.get()));

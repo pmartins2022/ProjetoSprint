@@ -51,8 +51,6 @@ public class AnoLetivoRepository
     {
         List<AnoLetivoJPA> lista = repository.findAll();
 
-        List<AnoLetivo> listaModel = lista.stream().map(mapper::toModel).toList();
-
-        return listaModel;
+        return lista.stream().map(mapper::toModel).toList();
     }
 }

@@ -1,31 +1,20 @@
 package com.grupo2.edicaouc.repository;
 
-import com.grupo2.edicaouc.controller.EdicaoUCController;
-import com.grupo2.edicaouc.dto.AnoLetivoDTO;
-import com.grupo2.edicaouc.dto.EdicaoUCDTO;
-import com.grupo2.edicaouc.dto.UnidadeCurricularDTO;
-import com.grupo2.edicaouc.dto.mapper.EdicaoUCDTOMapper;
-import com.grupo2.edicaouc.exception.BaseDadosException;
-import com.grupo2.edicaouc.exception.ListaVaziaException;
-import com.grupo2.edicaouc.exception.OptionalVazioException;
+import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
 import com.grupo2.edicaouc.model.EdicaoUC;
-import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
-import com.grupo2.edicaouc.service.AnoLetivoService;
-import com.grupo2.edicaouc.service.EdicaoUCService;
-import com.grupo2.edicaouc.service.UnidadeCurricularService;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
+import com.grupo2.edicaouc.repository.jpa.EdicaoUCJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,29 +22,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
 @SpringBootTest
 @Transactional
 class EdicaoUCRepositoryUnitTests
 {
     @MockBean
-    private EdicaoUCRepository repository;
+    private EdicaoUCJpaRepository jpaRepository;
 
     @MockBean
-    private EdicaoUCDTOMapper mapper;
-
-    @MockBean
-    private UnidadeCurricularService ucService;
-
-    @MockBean
-    private AnoLetivoService anoLetivoService;
-
-    @MockBean
-    private UtilizadorRestRepository utilizadorRestRepository;
+    private EdicaoUCJPAMapper mapper;
 
     @InjectMocks
-    EdicaoUCService service;
-
+    private EdicaoUCRepository repository;
 
     @BeforeEach
     public void setup()
@@ -63,77 +41,171 @@ class EdicaoUCRepositoryUnitTests
         MockitoAnnotations.openMocks(this);
     }
 
-
     @Test
-    public void shouldCreateEdicaoUC()
+    public void shouldSaveEdicaoUC()
     {
-        //arrange
-        EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
-        EdicaoUC edicaoUCMOCK = mock(EdicaoUC.class);
+        EdicaoUC edicaoUC = mock(EdicaoUC.class);
+        EdicaoUCJPA jpa = mock(EdicaoUCJPA.class);
 
-        when(mapper.toModel(dtoMOCK)).thenReturn(edicaoUCMOCK);
-        when(ucService.findBySigla(edicaoUCMOCK.getUCCode())).thenReturn(Optional.of(new UnidadeCurricularDTO()));
-        when(anoLetivoService.findByID(edicaoUCMOCK.getAnoLetivoCode())).thenReturn(Optional.of(new AnoLetivoDTO()));
-        when(repository.saveEdicaoUC(edicaoUCMOCK)).thenReturn(edicaoUCMOCK);
-        when(mapper.toDTO(edicaoUCMOCK)).thenReturn(dtoMOCK);
+        when(jpaRepository.save(jpa)).thenReturn(jpa);
 
-        when(dtoMOCK.getRucID()).thenReturn(1L);
+        when(mapper.toJPA(edicaoUC)).thenReturn(jpa);
+        when(mapper.toModel(jpa)).thenReturn(edicaoUC);
 
-        when(utilizadorRestRepository.isRole("ROLE_DOCENTE",dtoMOCK.getRucID())).thenReturn(true);
+        EdicaoUC uc = repository.saveEdicaoUC(edicaoUC);
 
-        //act
-        EdicaoUCDTO saved = service.createEdicaoUC(dtoMOCK);
-        //assert
-        assertEquals(saved, dtoMOCK);
+        assertEquals(edicaoUC, uc);
     }
 
     @Test
-    public void shouldFindAllEdicaoUCByUCCode()
+    public void shouldFindAllEdicaoByUCCode()
     {
-        EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
-        EdicaoUC edicaoUCMOCK = mock(EdicaoUC.class);
-        List<EdicaoUC> list = List.of(edicaoUCMOCK, edicaoUCMOCK);
+        EdicaoUCJPA jpa = mock(EdicaoUCJPA.class);
+        EdicaoUC edicaoUC = mock(EdicaoUC.class);
 
-        when(repository.findAllEdicaoByUCCode("PTA")).thenReturn(list);
-        when(mapper.toDTO(edicaoUCMOCK)).thenReturn(dtoMOCK);
+        when(jpaRepository.findAllByucCode("UCCode")).thenReturn(List.of(jpa));
 
-        List<EdicaoUCDTO> ucdtoList = service.findAllEdicaoByUCCode("PTA");
+        when(mapper.toModel(jpa)).thenReturn(edicaoUC);
 
-        assertEquals(ucdtoList.size(), list.size());
-    }
+        List<EdicaoUC> code = repository.findAllEdicaoByUCCode("UCCode");
 
-    @Test
-    public void shouldNotFindAllEdicaoUCByUCCode()
-    {
-        when(repository.findAllEdicaoByUCCode("PTA")).thenReturn(List.of());
-
-        List<EdicaoUCDTO> ucdtoList = service.findAllEdicaoByUCCode("PTA");
-
-        assertTrue(ucdtoList.isEmpty());
+        assertEquals(1, code.size());
     }
 
     @Test
     public void shouldFindById()
     {
-        EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
-        EdicaoUC edicaoUCMOCK = mock(EdicaoUC.class);
+        EdicaoUC edicaoUC = mock(EdicaoUC.class);
+        EdicaoUCJPA mock = mock(EdicaoUCJPA.class);
 
-        when(repository.findById(1L)).thenReturn(Optional.of(edicaoUCMOCK));
-        when(mapper.toDTO(edicaoUCMOCK)).thenReturn(dtoMOCK);
+        when(jpaRepository.findById(1L)).thenReturn(Optional.of(mock));
+        when(mapper.toModel(mock)).thenReturn(edicaoUC);
 
-        Optional<EdicaoUCDTO> found = service.findById(1L);
+        Optional<EdicaoUC> id = repository.findById(1L);
 
-        assertEquals(found.get(), dtoMOCK);
+        assertTrue(id.isPresent());
+        assertEquals(edicaoUC, id.get());
     }
 
     @Test
-    public void shouldNotFindById_NotExists()
+    public void shouldNotFindById()
     {
-        when(repository.findById(1L)).thenReturn(Optional.empty());
+        when(jpaRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Optional<EdicaoUCDTO> found = service.findById(1L);
+        Optional<EdicaoUC> id = repository.findById(1L);
 
-        assertEquals(found, Optional.empty());
+        assertTrue(id.isEmpty());
     }
 
+    @Test
+    public void shouldFindAll()
+    {
+        EdicaoUC edicaoUC = mock(EdicaoUC.class);
+        EdicaoUCJPA mock = mock(EdicaoUCJPA.class);
+
+        when(jpaRepository.findAll()).thenReturn(List.of(mock));
+        when(mapper.toModel(mock)).thenReturn(edicaoUC);
+
+        List<EdicaoUC> all = repository.findAll();
+
+        assertEquals(1, all.size());
+    }
+
+    @Test
+    public void shouldAtivarEdicao()
+    {
+        EdicaoUC edicaoUC = mock(EdicaoUC.class);
+        EdicaoUCJPA jpa = mock(EdicaoUCJPA.class);
+
+
+        when(edicaoUC.getId()).thenReturn(1L);
+        when(mapper.toJPA(edicaoUC)).thenReturn(jpa);
+        when(mapper.toModel(jpa)).thenReturn(edicaoUC);
+        when(jpaRepository.save(jpa)).thenReturn(jpa);
+
+
+        EdicaoUC uc = repository.ativarEdicao(edicaoUC);
+    }
+
+    @Test
+    public void shouldDesativarEdicao()
+    {
+        EdicaoUC edicaoUC = mock(EdicaoUC.class);
+        EdicaoUCJPA jpa = mock(EdicaoUCJPA.class);
+
+
+        when(edicaoUC.getId()).thenReturn(1L);
+        when(mapper.toJPA(edicaoUC)).thenReturn(jpa);
+        when(mapper.toModel(jpa)).thenReturn(edicaoUC);
+        when(jpaRepository.save(jpa)).thenReturn(jpa);
+
+
+        EdicaoUC uc = repository.desativarEdicao(edicaoUC);
+    }
+
+    @Test
+    public void shouldFindByRucID()
+    {
+        EdicaoUC edicaoUC = mock(EdicaoUC.class);
+        EdicaoUCJPA jpa = mock(EdicaoUCJPA.class);
+
+        when(jpaRepository.findByRucID(1L)).thenReturn(List.of(jpa));
+
+        when(mapper.toModel(jpa)).thenReturn(edicaoUC);
+
+        List<EdicaoUC> list = repository.findByRucID(1L);
+
+        assertEquals(1, list.size());
+    }
+
+    @Test
+    public void shouldFindByRucIDAndEstadoEdicaoUC()
+    {
+        EdicaoUCJPA mock = mock(EdicaoUCJPA.class);
+        EdicaoUC edicaoUC = mock(EdicaoUC.class);
+
+        when(jpaRepository.findByRucIDAndEstadoEdicaoUC(1L, 1L)).thenReturn(Optional.of(mock));
+
+        when(mapper.toModel(mock)).thenReturn(edicaoUC);
+
+        Optional<EdicaoUC> optional = repository.findByRucIDAndEstadoEdicaoUC(1L, 1L);
+
+        assertTrue(optional.isPresent());
+        assertEquals(edicaoUC, optional.get());
+    }
+
+    @Test
+    public void shouldNotFindByRucIDAndEstadoEdicaoUC()
+    {
+        when(jpaRepository.findByRucIDAndEstadoEdicaoUC(1L, 1L)).thenReturn(Optional.empty());
+
+        Optional<EdicaoUC> optional = repository.findByRucIDAndEstadoEdicaoUC(1L, 1L);
+
+        assertTrue(optional.isEmpty());
+    }
+
+    @Test
+    public void shouldFindByEstadoEdicaoUC()
+    {
+        EdicaoUCJPA edicaoUC = mock(EdicaoUCJPA.class);
+        EdicaoUC mock = mock(EdicaoUC.class);
+
+        when(jpaRepository.findByEstadoEdicaoUC(EstadoEdicaoUC.ATIVA)).thenReturn(Optional.of(edicaoUC));
+        when(mapper.toModel(edicaoUC)).thenReturn(mock);
+
+        Optional<EdicaoUC> uc = repository.findByEstadoEdicaoUC(EstadoEdicaoUC.ATIVA);
+
+        assertTrue(uc.isPresent());
+        assertEquals(mock, uc.get());
+    }
+
+    @Test
+    public void shouldNotFindByEstadoEdicaoUC()
+    {
+        when(jpaRepository.findByEstadoEdicaoUC(EstadoEdicaoUC.ATIVA)).thenReturn(Optional.empty());
+
+        Optional<EdicaoUC> uc = repository.findByEstadoEdicaoUC(EstadoEdicaoUC.ATIVA);
+
+        assertTrue(uc.isEmpty());
+    }
 }
