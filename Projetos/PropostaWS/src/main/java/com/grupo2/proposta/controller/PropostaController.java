@@ -3,7 +3,6 @@ package com.grupo2.proposta.controller;
 
 import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.exception.*;
-import com.grupo2.proposta.model.PropostaEstado;
 import com.grupo2.proposta.security.LoginContext;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
@@ -40,7 +39,7 @@ public class PropostaController
     {
         try
         {
-            PropostaDTO proposta = service.createProposta(dto);
+            PropostaDTO proposta = service.createCandidaturaProposta(dto);
 
             return new ResponseEntity<>(proposta, HttpStatus.CREATED);
         } catch (ValidacaoInvalidaException e)
@@ -121,7 +120,7 @@ public class PropostaController
     {
         try
         {
-            Optional<PropostaDTO> dto = service.rejeitarProposta(id);
+            Optional<PropostaDTO> dto = service.rejeitarCandidaturaProposta(id);
             if (dto.isEmpty())
             {
                 throw new IdInvalidoException("O id da proposta " + id + " e invalido.");

@@ -1,6 +1,5 @@
 package com.grupo2.proposta.controller;
 
-import com.grupo2.proposta.dto.ProjetoDTO;
 import com.grupo2.proposta.dto.PropostaDTO;
 import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
@@ -48,7 +47,7 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
-        when(service.createProposta(prop)).thenReturn(prop);
+        when(service.createCandidaturaProposta(prop)).thenReturn(prop);
 
         ResponseEntity<PropostaDTO> proposta = controller.createCandidaturaProposta(prop);
 
@@ -60,7 +59,7 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
-        when(service.createProposta(prop)).thenThrow(BaseDadosException.class);
+        when(service.createCandidaturaProposta(prop)).thenThrow(BaseDadosException.class);
 
         assertThrows(BaseDadosException.class,()->controller.createCandidaturaProposta(prop));
     }
@@ -126,7 +125,7 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
-        when(service.rejeitarProposta(1L)).thenReturn(Optional.of(prop));
+        when(service.rejeitarCandidaturaProposta(1L)).thenReturn(Optional.of(prop));
 
         ResponseEntity<PropostaDTO> response = controller.rejectCandidaturaProposta(1L);
 
@@ -136,7 +135,7 @@ class PropostaControllerUnitTests
     @Test
     public void shouldNotRejectProposta_invalidId()
     {
-        when(service.rejeitarProposta(1L)).thenReturn(Optional.empty());
+        when(service.rejeitarCandidaturaProposta(1L)).thenReturn(Optional.empty());
 
         assertThrows(IdInvalidoException.class,()->controller.rejectCandidaturaProposta(1L));
     }
@@ -144,7 +143,7 @@ class PropostaControllerUnitTests
     @Test
     public void shouldNotRejectProposta_invalid()
     {
-        when(service.rejeitarProposta(1L)).thenThrow(AtualizacaoInvalidaException.class);
+        when(service.rejeitarCandidaturaProposta(1L)).thenThrow(AtualizacaoInvalidaException.class);
 
         assertThrows(AtualizacaoInvalidaException.class,()->controller.rejectCandidaturaProposta(1L));
     }

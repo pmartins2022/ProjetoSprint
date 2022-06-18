@@ -1,26 +1,34 @@
 package com.grupo2.proposta.service;
 
-import com.grupo2.proposta.dto.OrganizacaoDTO;
-import com.grupo2.proposta.dto.ProjetoDTO;
-import com.grupo2.proposta.dto.PropostaDTO;
-import com.grupo2.proposta.dto.UtilizadorDTO;
+import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.dto.factory.ProjetoDTOFactory;
+import com.grupo2.proposta.dto.mapper.ConviteDTOMapper;
+import com.grupo2.proposta.dto.mapper.PropostaCandidaturaDTOMapper;
 import com.grupo2.proposta.dto.mapper.PropostaDTOMapper;
 import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
 import com.grupo2.proposta.exception.BaseDadosException;
-import com.grupo2.proposta.exception.IdInvalidoException;
-import com.grupo2.proposta.model.Proposta;
-import com.grupo2.proposta.model.TipoUtilizador;
+import com.grupo2.proposta.exception.OptionalVazioException;
+import com.grupo2.proposta.model.*;
+import com.grupo2.proposta.model.factory.ConviteIDFactory;
+import com.grupo2.proposta.repository.ConviteRepository;
+import com.grupo2.proposta.repository.PropostaCandidaturaRepo;
 import com.grupo2.proposta.repository.PropostaRepository;
+import com.grupo2.proposta.repository.rest.EdicaoUCRestRepository;
+import com.grupo2.proposta.repository.rest.OrganizacaoRestRepository;
 import com.grupo2.proposta.repository.rest.ProjetoRestRepository;
 import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
+import com.grupo2.proposta.security.LoginContext;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@Transactional
 class PropostaServiceUnitTests
 {
     @MockBean
@@ -40,6 +49,22 @@ class PropostaServiceUnitTests
     private PropostaDTOMapper mapper;
     @MockBean
     private ProjetoDTOFactory projetoDTOFactory;
+    @MockBean
+    private OrganizacaoRestRepository organizacaoRestRepository;
+    @MockBean
+    private ConviteRepository conviteRepository;
+    @MockBean
+    private EdicaoUCRestRepository edicaoUCRestRepository;
+    @MockBean
+    private ConviteDTOMapper conviteDTOMapper;
+    @MockBean
+    private PropostaCandidaturaRepo propostaCandidaturaRepo;
+    @MockBean
+    private PropostaCandidaturaDTOMapper candidaturaDTOMapper;
+    @MockBean
+    private ConviteIDFactory conviteIDFactory;
+
+    private static MockedStatic<LoginContext> loginContext;
 
     @InjectMocks
     private PropostaService service;
@@ -50,19 +75,36 @@ class PropostaServiceUnitTests
         MockitoAnnotations.openMocks(this);
     }
 
+    @BeforeAll
+    static void setUpBeforeClass()
+    {
+        loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
+    }
+
     @Test
     public void shouldCreateProposta()
     {
         PropostaDTO prop = mock(PropostaDTO.class);
-
         Proposta proposta = mock(Proposta.class);
+
+        UtilizadorDTO utilizadorDTO = mock(UtilizadorDTO.class);
+        OrganizacaoDTO organizacaoDTO = mock(OrganizacaoDTO.class);
+        EdicaoUCDTO edicaoUCDTO = mock(EdicaoUCDTO.class);
+
+        when(proposta.getUtilizadorId()).thenReturn(1L);
+        when(proposta.getOrganizacaoId()).thenReturn(1L);
+        when(proposta.getEdicaoUCId()).thenReturn(1L);
 
         when(mapper.toModel(prop)).thenReturn(proposta);
         when(mapper.toDTO(proposta)).thenReturn(prop);
 
+        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
+        when(organizacaoRestRepository.findById(1L)).thenReturn(Optional.of(organizacaoDTO));
+        when(edicaoUCRestRepository.findById(1L)).thenReturn(Optional.of(edicaoUCDTO));
+
         when(repository.save(proposta)).thenReturn(proposta);
 
-        PropostaDTO dto = service.createProposta(prop);
+        PropostaDTO dto = service.createCandidaturaProposta(prop);
 
         assertEquals(prop, dto);
     }
@@ -79,115 +121,58 @@ class PropostaServiceUnitTests
 
         when(repository.save(proposta)).thenThrow(BaseDadosException.class);
 
-        assertThrows(BaseDadosException.class, () -> service.createProposta(prop));
+        assertThrows(BaseDadosException.class, () -> service.createCandidaturaProposta(prop));
     }
 
-    //@Test
-//    public void shouldAcceptProposta()
-//    {
-//        Proposta proposta = mock(Proposta.class);
-//
-//        UtilizadorDTO utilizadorDTO = mock(UtilizadorDTO.class);
-//        UtilizadorDTO utilizadorDTOAl = mock(UtilizadorDTO.class);
-//
-//        Proposta projetoDTO = mock(Proposta.class);
-//
-//        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-//
-//        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
-//        when(utilizadorRestRepository.findById(2L)).thenReturn(Optional.of(utilizadorDTOAl));
-//
-//        when(utilizadorDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.ORIENTADOR);
-//        when(utilizadorDTOAl.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
-//
-//        when(projetoDTOFactory.createProjeto(1L, 1L, 2L)).thenReturn(projetoDTO);
-//        when(repository.save(projetoDTO)).thenReturn(projetoDTO);
-//
-//        PropostaDTO acceptProposta = service.acceptCandidaturaProposta(1L, 1L);
-//
-//        assertEquals(acceptProposta, projetoDTO);
-//    }
-//
-//    @Test
-//    public void shouldNotAcceptProposta_invalidID()
-//    {
-//        when(repository.findById(1L)).thenReturn(Optional.empty());
-//        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
-//    }
-//
-//    @Test
-//    public void shouldNotAcceptProposta_invalidUpdate()
-//    {
-//        Proposta proposta = mock(Proposta.class);
-//
-//        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-//
-//        doThrow(new AtualizacaoInvalidaException()).when(proposta).aprovarProposta();
-//
-//        assertThrows(AtualizacaoInvalidaException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
-//    }
-//
-//    @Test
-//    public void shouldNotAcceptProposta_invalidUserIdOrientador()
-//    {
-//        Proposta proposta = mock(Proposta.class);
-//
-//        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-//        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.empty());
-//
-//        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
-//    }
-//
-//    @Test
-//    public void shouldNotAcceptProposta_invalidUserIdAlun()
-//    {
-//        Proposta proposta = mock(Proposta.class);
-//
-//        UtilizadorDTO orDto = mock(UtilizadorDTO.class);
-//
-//        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-//        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.of(orDto));
-//        when(orDto.getTipoUtilizador()).thenReturn(TipoUtilizador.ORIENTADOR);
-//        when(utilizadorRestRepository.findById(2L, "aaa")).thenReturn(Optional.empty());
-//
-//        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
-//    }
-//
-//    @Test
-//    public void shouldNotAcceptProposta_wrongUserTypeOrientador()
-//    {
-//        Proposta proposta = mock(Proposta.class);
-//        UtilizadorDTO orientadorDTO = mock(UtilizadorDTO.class);
-//
-//        when(orientadorDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
-//
-//        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.of(orientadorDTO));
-//
-//        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-//
-//        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
-//    }
-//
-//    @Test
-//    public void shouldNotAcceptProposta_wrongUserTypeAluno()
-//    {
-//        Proposta proposta = mock(Proposta.class);
-//        UtilizadorDTO alunoDTO = mock(UtilizadorDTO.class);
-//        UtilizadorDTO orDTO = mock(UtilizadorDTO.class);
-//
-//        when(orDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.ORIENTADOR);
-//        when(alunoDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
-//
-//        when(utilizadorRestRepository.findById(1L, "aaa")).thenReturn(Optional.of(orDTO));
-//        when(utilizadorRestRepository.findById(2L, "aaa")).thenReturn(Optional.of(alunoDTO));
-//
-//        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-//
-//        assertThrows(IdInvalidoException.class, () -> service.acceptCandidaturaProposta(1L, 1L, 2L));
-//    }
+    @Test
+    public void shouldAcceptCandidaturaProposta()
+    {
+        Proposta proposta = mock(Proposta.class);
+        PropostaDTO mock = mock(PropostaDTO.class);
+
+        UtilizadorDTO utilizadorDTO = mock(UtilizadorDTO.class);
+        UtilizadorDTO utilizadorDTOAl = mock(UtilizadorDTO.class);
+
+        EdicaoUCDTO edicaoUCDTO = mock(EdicaoUCDTO.class);
+
+        when(edicaoUCRestRepository.findByRucID(1L)).thenReturn(List.of(edicaoUCDTO));
+        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
+
+        when(proposta.getEdicaoUCId()).thenReturn(1L);
+        when(proposta.getEstadoAtual()).thenReturn(PropostaEstado.CANDIDATURA);
+        when(edicaoUCDTO.getId()).thenReturn(1L);
+
+        when(repository.save(proposta)).thenReturn(proposta);
+
+        when(mapper.toDTO(proposta)).thenReturn(mock);
+
+        PropostaDTO acceptProposta = service.acceptCandidaturaProposta(1L, 1L);
+
+        assertEquals(mock, acceptProposta);
+    }
 
     @Test
-    public void shouldRejectProposta()
+    public void shouldNotAcceptCandidaturaProposta_invalidRUCID()
+    {
+        when(edicaoUCRestRepository.findByRucID(1L)).thenReturn(List.of());
+
+        assertThrows(OptionalVazioException.class, () -> service.acceptCandidaturaProposta(1L, 1L));
+    }
+
+    @Test
+    public void shouldNotAcceptCandidaturaProposta_invalidPropostaID()
+    {
+        EdicaoUCDTO dto = mock(EdicaoUCDTO.class);
+
+        when(edicaoUCRestRepository.findByRucID(1L)).thenReturn(List.of(dto));
+
+        when(repository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(OptionalVazioException.class, () -> service.acceptCandidaturaProposta(1L, 1L));
+    }
+
+    @Test
+    public void shouldRejectCandidaturaProposta()
     {
         PropostaDTO propDTO = mock(PropostaDTO.class);
         Proposta prop = mock(Proposta.class);
@@ -198,7 +183,7 @@ class PropostaServiceUnitTests
 
         when(mapper.toDTO(prop)).thenReturn(propDTO);
 
-        Optional<PropostaDTO> proposta = service.rejeitarProposta(1L);
+        Optional<PropostaDTO> proposta = service.rejeitarCandidaturaProposta(1L);
 
         assertTrue(proposta.isPresent());
 
@@ -210,7 +195,7 @@ class PropostaServiceUnitTests
     {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
-        Optional<PropostaDTO> optional = service.rejeitarProposta(1L);
+        Optional<PropostaDTO> optional = service.rejeitarCandidaturaProposta(1L);
 
         assertTrue(optional.isEmpty());
     }
@@ -224,7 +209,7 @@ class PropostaServiceUnitTests
 
         doThrow(new AtualizacaoInvalidaException()).when(prop).reprovarProposta();
 
-        assertThrows(AtualizacaoInvalidaException.class,()->service.rejeitarProposta(1L));
+        assertThrows(AtualizacaoInvalidaException.class,()->service.rejeitarCandidaturaProposta(1L));
     }
 
     @Test
@@ -271,7 +256,13 @@ class PropostaServiceUnitTests
 
         when(mapper.toDTO(prop)).thenReturn(propDTO);
 
-        List<PropostaDTO> saved = service.findByNif(1,"");
+        when(organizacaoRestRepository.findByNIF(1234,"")).thenReturn(Optional.of(dto));
+
+        when(repository.findByNif(dto)).thenReturn(list);
+
+        when(mapper.toDTO(prop)).thenReturn(propDTO);
+
+        List<PropostaDTO> saved = service.findByNif(1234,"");
 
         assertEquals(list.size(),saved.size());
     }
@@ -279,13 +270,9 @@ class PropostaServiceUnitTests
     @Test
     public void shouldFindByNif_Empty()
     {
-        List<Proposta> list = List.of();
-
         OrganizacaoDTO org = mock(OrganizacaoDTO.class);
 
-        when(org.getNif()).thenReturn(1L);
-
-        when(repository.findByNif(org)).thenReturn(list);
+        when(organizacaoRestRepository.findById(1L)).thenReturn(Optional.of(org));
 
         List<PropostaDTO> nif = service.findByNif(1,"");
 
@@ -320,4 +307,224 @@ class PropostaServiceUnitTests
 
         assertTrue(aaa.isEmpty());
     }
+
+    @Test
+    public void shouldAcceptOrientacaoProposta()
+    {
+        UtilizadorDTO utilizadorDTO = mock(UtilizadorDTO.class);
+        Convite convite = mock(Convite.class);
+        ConviteDTO conviteDTO = mock(ConviteDTO.class);
+
+        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
+        when(conviteRepository.findByDocenteAndProposta(1L,1L)).thenReturn(Optional.of(convite));
+        when(conviteDTOMapper.toDTO(convite)).thenReturn(conviteDTO);
+        when(utilizadorDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
+        when(convite.getEstado()).thenReturn(EstadoConvite.PENDENTE);
+
+        ConviteDTO dto = service.acceptOrientacaoProposta(1L, 1L, "");
+
+        assertEquals(dto,conviteDTO);
+    }
+
+    @Test
+    public void shouldRejectOrientacaoProposta()
+    {
+        UtilizadorDTO utilizadorDTO = mock(UtilizadorDTO.class);
+        Convite convite = mock(Convite.class);
+        ConviteDTO conviteDTO = mock(ConviteDTO.class);
+
+        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
+        when(conviteRepository.findByDocenteAndProposta(1L,1L)).thenReturn(Optional.of(convite));
+        when(conviteDTOMapper.toDTO(convite)).thenReturn(conviteDTO);
+        when(utilizadorDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
+        when(convite.getEstado()).thenReturn(EstadoConvite.PENDENTE);
+
+        ConviteDTO dto = service.rejectOrientacaoProposta(1L, 1L, "");
+
+        assertEquals(dto,conviteDTO);
+    }
+
+    @Test
+    public void shouldCreateConvite()
+    {
+        Convite conv = mock(Convite.class);
+        ConviteDTO conviteDTO = mock(ConviteDTO.class);
+        Proposta proposta = mock(Proposta.class);
+        UtilizadorDTO alunoDTO = mock(UtilizadorDTO.class);
+        UtilizadorDTO docenteDTO = mock(UtilizadorDTO.class);
+
+        when(proposta.getEstadoAtual()).thenReturn(PropostaEstado.APROVADO);
+
+        when(conviteDTO.getIdProposta()).thenReturn(1L);
+        when(conviteDTO.getIdAluno()).thenReturn(1L);
+
+        when(alunoDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
+        when(docenteDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
+
+        when(propostaCandidaturaRepo.isIncrito(conviteDTO.getIdProposta(), conviteDTO.getIdAluno())).thenReturn(true);
+
+        when(repository.findById(conviteDTO.getIdProposta())).thenReturn(Optional.of(proposta));
+
+        when(utilizadorRestRepository.findById(conviteDTO.getIdAluno())).thenReturn(Optional.of(alunoDTO));
+        when(utilizadorRestRepository.findById(conviteDTO.getIdDocente())).thenReturn(Optional.of(docenteDTO));
+
+        when(conviteDTOMapper.toModel(conviteDTO)).thenReturn(conv);
+
+        when(conviteRepository.createAndSaveConvite(conv)).thenReturn(conv);
+
+        when(conviteDTOMapper.toDTO(conv)).thenReturn(conviteDTO);
+
+        ConviteDTO convite = service.createConvite(conviteDTO);
+
+        assertEquals(convite,conviteDTO);
+    }
+
+    @Test
+    public void shouldCandidatarAlunoProposta()
+    {
+        Proposta proposta = mock(Proposta.class);
+        PropostaCandidatura propostaCandidatura = mock(PropostaCandidatura.class);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
+        UtilizadorAuthDTO utilizadorAuthDTO = mock(UtilizadorAuthDTO.class);
+
+        when(utilizadorAuthDTO.getId()).thenReturn(1L);
+
+        when(proposta.getEstadoAtual()).thenReturn(PropostaEstado.APROVADO);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
+
+        loginContext.when(LoginContext::getCurrent).thenReturn(utilizadorAuthDTO);
+
+        when(propostaCandidaturaRepo.isAlunoInscrito(1L)).thenReturn(false);
+
+        when(propostaCandidaturaRepo.createAndSave(1L, 1L)).thenReturn(propostaCandidatura);
+
+        when(candidaturaDTOMapper.toDTO(propostaCandidatura)).thenReturn(propostaCandidaturaDTO);
+
+        PropostaCandidaturaDTO dto = service.candidatarAlunoProposta(1L);
+
+        assertEquals(dto,propostaCandidaturaDTO);
+    }
+
+    @Test
+    public void shouldAcceptProposta()
+    {
+        Proposta proposta = mock(Proposta.class);
+        PropostaDTO propostaDTO = mock(PropostaDTO.class);
+        ConviteID conviteID = mock(ConviteID.class);
+        Convite convite = mock(Convite.class);
+        ProjetoDTO projetoDTO = mock(ProjetoDTO.class);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
+        when(proposta.getEstadoAtual()).thenReturn(PropostaEstado.APROVADO);
+
+        when(utilizadorRestRepository.isRole("ROLE_ORIENTADOR", 1L)).thenReturn(true);
+        when(utilizadorRestRepository.isRole("ROLE_ALUNO", 2L)).thenReturn(true);
+        when(conviteIDFactory.create(2L,1L,1L)).thenReturn(conviteID);
+        when(conviteRepository.findById(conviteID)).thenReturn(Optional.of(convite));
+        when(convite.getEstado()).thenReturn(EstadoConvite.ACEITE);
+
+        when(projetoDTOFactory.createProjeto(1L,2L,1L)).thenReturn(projetoDTO);
+        when(projetoRestRepository.create(projetoDTO)).thenReturn(projetoDTO);
+
+        ProjetoDTO proj = service.acceptProposta(1L, 1L, 2L);
+
+        assertEquals(proj,projetoDTO);
+    }
+
+    @Test
+    public void shouldAcceptAlunoCandidaturaProposta()
+    {
+        PropostaCandidaturaIDDTO propostaCandidaturaIDDTO = mock(PropostaCandidaturaIDDTO.class);
+        PropostaCandidaturaID propostaCandidaturaID = mock(PropostaCandidaturaID.class);
+        PropostaCandidatura propostaCandidatura = mock(PropostaCandidatura.class);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
+
+        Proposta proposta = mock(Proposta.class);
+
+        when(proposta.getId()).thenReturn(1L);
+        when(propostaCandidaturaID.getIdProposta()).thenReturn(1L);
+        when(propostaCandidaturaIDDTO.getIdProposta()).thenReturn(1L);
+
+        List<Proposta> list = List.of(proposta);
+
+        EdicaoUCDTO edicaoUCDTO = mock(EdicaoUCDTO.class);
+
+        when(edicaoUCDTO.getId()).thenReturn(1L);
+
+        when(candidaturaDTOMapper.toModelID(propostaCandidaturaIDDTO)).thenReturn(propostaCandidaturaID);
+        when(propostaCandidaturaRepo.findByID(propostaCandidaturaID)).thenReturn(Optional.of(propostaCandidatura));
+        when(propostaCandidatura.getEstado()).thenReturn(EstadoCandidatura.PENDENTE);
+
+        when(edicaoUCRestRepository.findByRucIDAndEstadoEdicaoUC(1L)).thenReturn(Optional.of(edicaoUCDTO));
+
+        when(repository.findByEdicaoUCId(1L)).thenReturn(list);
+
+        when(propostaCandidaturaRepo.updateAndSave(propostaCandidatura)).thenReturn(propostaCandidatura);
+
+        when(candidaturaDTOMapper.toDTO(propostaCandidatura)).thenReturn(propostaCandidaturaDTO);
+
+        PropostaCandidaturaDTO candidaturaDTO = service.acceptAlunoCandidaturaProposta(1L, propostaCandidaturaIDDTO);
+
+        assertEquals(candidaturaDTO,propostaCandidaturaDTO);
+    }
+
+    @Test
+    public void shouldARejectAlunoCandidaturaProposta()
+    {
+        PropostaCandidaturaIDDTO propostaCandidaturaIDDTO = mock(PropostaCandidaturaIDDTO.class);
+        PropostaCandidaturaID propostaCandidaturaID = mock(PropostaCandidaturaID.class);
+        PropostaCandidatura propostaCandidatura = mock(PropostaCandidatura.class);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
+
+        Proposta proposta = mock(Proposta.class);
+
+        when(proposta.getId()).thenReturn(1L);
+        when(propostaCandidaturaID.getIdProposta()).thenReturn(1L);
+        when(propostaCandidaturaIDDTO.getIdProposta()).thenReturn(1L);
+
+
+        List<Proposta> list = List.of(proposta);
+
+        EdicaoUCDTO edicaoUCDTO = mock(EdicaoUCDTO.class);
+
+        when(edicaoUCDTO.getId()).thenReturn(1L);
+
+        when(candidaturaDTOMapper.toModelID(propostaCandidaturaIDDTO)).thenReturn(propostaCandidaturaID);
+        when(propostaCandidaturaRepo.findByID(propostaCandidaturaID)).thenReturn(Optional.of(propostaCandidatura));
+        when(propostaCandidatura.getEstado()).thenReturn(EstadoCandidatura.PENDENTE);
+
+        when(edicaoUCRestRepository.findByRucIDAndEstadoEdicaoUC(1L)).thenReturn(Optional.of(edicaoUCDTO));
+
+        when(repository.findByEdicaoUCId(1L)).thenReturn(list);
+
+        when(propostaCandidaturaRepo.updateAndSave(propostaCandidatura)).thenReturn(propostaCandidatura);
+
+        when(candidaturaDTOMapper.toDTO(propostaCandidatura)).thenReturn(propostaCandidaturaDTO);
+
+        PropostaCandidaturaDTO candidaturaDTO = service.rejectAlunoCandidaturaProposta(1L, propostaCandidaturaIDDTO);
+
+        assertEquals(candidaturaDTO,propostaCandidaturaDTO);
+    }
+
+    @Test
+    public void shouldFindAllByEstado()
+    {
+        Proposta proposta = mock(Proposta.class);
+        when(repository.findAllByEstado(1L)).thenReturn(List.of(proposta));
+        List<PropostaDTO> estado = service.findAllByEstado(1L);
+        assertEquals(1, estado.size());
+    }
+
+    @Test
+    public void shouldRejectProposta()
+    {
+        Proposta proposta = mock(Proposta.class);
+
+        when(proposta.getEstadoAtual()).thenReturn(PropostaEstado.CANDIDATURA);
+        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
+
+        assertDoesNotThrow(()->service.rejectProposta(1L));
+    }
+
 }

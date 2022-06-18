@@ -5,7 +5,7 @@ package com.grupo2.proposta.model;
  */
 public enum TipoUtilizador
 {
-    ORIENTADOR,
+    ADMINISTRADOR,
     DOCENTE,
     ALUNO
 }

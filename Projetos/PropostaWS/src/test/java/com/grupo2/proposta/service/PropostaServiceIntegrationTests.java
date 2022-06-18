@@ -56,7 +56,7 @@ class PropostaServiceIntegrationTests
         PropostaJPA p = new PropostaJPA(1L,1L,1L,"AAAAAAAAAA","BBBBBBBBBB","CCCCCCCCCC",1L,PropostaEstado.CANDIDATURA);
         PropostaJPA save = jpaRepository.save(p);
 
-        Optional<PropostaDTO> dto = service.rejeitarProposta(save.getId());
+        Optional<PropostaDTO> dto = service.rejeitarCandidaturaProposta(save.getId());
 
         assertTrue(dto.isPresent());
         assertEquals(PropostaEstado.REPROVADO,dto.get().getEstadoAtual());
@@ -65,7 +65,7 @@ class PropostaServiceIntegrationTests
     @Test
     public void shouldNotRejectProposta_InvalidID()
     {
-        Optional<PropostaDTO> dto = service.rejeitarProposta(99L);
+        Optional<PropostaDTO> dto = service.rejeitarCandidaturaProposta(99L);
         assertTrue(dto.isEmpty());
     }
 
@@ -75,7 +75,7 @@ class PropostaServiceIntegrationTests
         PropostaJPA p = new PropostaJPA(1L,1L,1L,"AAAAAAAAAA","BBBBBBBBBB","CCCCCCCCCC",1L,PropostaEstado.APROVADO);
         PropostaJPA save = jpaRepository.save(p);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->service.rejeitarProposta(save.getId()));
+        assertThrows(AtualizacaoInvalidaException.class,()->service.rejeitarCandidaturaProposta(save.getId()));
     }
 
     @Test

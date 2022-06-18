@@ -70,7 +70,7 @@ class PropostaControllerIntegrationTests
     {
 
         PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
-        when(service.createProposta(dto)).thenReturn(dto);
+        when(service.createCandidaturaProposta(dto)).thenReturn(dto);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/proposta/create")
@@ -90,7 +90,7 @@ class PropostaControllerIntegrationTests
     public void shouldNotCreateCandidaturaProposta_ValidacaoInvalida() throws Exception
     {
         PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
-        when(service.createProposta(dto)).thenThrow(new ValidacaoInvalidaException());
+        when(service.createCandidaturaProposta(dto)).thenThrow(new ValidacaoInvalidaException());
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/proposta/create")
@@ -105,7 +105,7 @@ class PropostaControllerIntegrationTests
     public void shouldNotCreateCandidaturaProposta_BaseDadosException() throws Exception
     {
         PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
-        when(service.createProposta(dto)).thenThrow(new BaseDadosException());
+        when(service.createCandidaturaProposta(dto)).thenThrow(new BaseDadosException());
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/proposta/create")
@@ -351,7 +351,7 @@ class PropostaControllerIntegrationTests
 
         loginContext.when(LoginContext::getCurrent).thenReturn(curr);
 
-        when(service.rejeitarProposta(1L)).thenReturn(Optional.of(prop));
+        when(service.rejeitarCandidaturaProposta(1L)).thenReturn(Optional.of(prop));
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/proposta/rejeitarCandidatura/{id}",1L)
