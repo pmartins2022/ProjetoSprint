@@ -25,6 +25,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
@@ -67,6 +68,10 @@ public class LoginViewController
     @Autowired
     private UtilizadorRestRepository utilizadorRestRepository;
 
+
+
+
+
     public void closeWindow(ActionEvent actionEvent)
     {
         username.getScene().getWindow().fireEvent(
@@ -78,18 +83,22 @@ public class LoginViewController
         JavaFXUtils.setJanelaLogin(this);
 
         //fazer login
-        System.out.println("Login: "+username.getText()+" , "+password.getText());
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         try
         {
             UtilizadorAuthDTO username1 = utilizadorRestRepository.findByUsername(username.getText());
 
-            if (!username1.getPassword().equals(password.getText()))
+            System.out.println("Login: "+username1.getUsername()+" , "+username1.getPassword());
+
+            if (!encoder.matches(password.getText(), username1.getPassword()))
             {
                 AlertBuilder.showAlert(Alert.AlertType.ERROR,"ERRRRRRO!","NADA DISSO","CREDENCIAIS ERRADAS");
                 return;
             }
 
-            UtilizadorAuthDTO user = new UtilizadorAuthDTO(username1.getId(), username1.getUsername(), password.getText(), username1.getTipoUtilizador());
+            UtilizadorAuthDTO user = new UtilizadorAuthDTO(username1.getId(), username1.getUsername(), username1.getPassword(), username1.getTipoUtilizador());
             LoginContext.setUser(user);
 
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "!!!", "DEU", "FEZ LOGIN " + user);
