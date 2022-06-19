@@ -1,10 +1,8 @@
 package com.grupo2.proposta.controller;
 
-import com.grupo2.proposta.dto.PropostaDTO;
-import com.grupo2.proposta.exception.AtualizacaoInvalidaException;
-import com.grupo2.proposta.exception.BaseDadosException;
-import com.grupo2.proposta.exception.IdInvalidoException;
-import com.grupo2.proposta.exception.ListaVaziaException;
+import com.grupo2.proposta.dto.*;
+import com.grupo2.proposta.exception.*;
+import com.grupo2.proposta.model.PropostaCandidaturaID;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,37 +62,37 @@ class PropostaControllerUnitTests
         assertThrows(BaseDadosException.class,()->controller.createCandidaturaProposta(prop));
     }
 
-//    @Test
-//    public void shouldAcceptProposta_valid()
-//    {
-//        ProjetoDTO prop = mock(ProjetoDTO.class);
-//
-//        when(service.acceptCandidaturaProposta(1L, 1L, 1L)).thenReturn(prop);
-//
-//        ResponseEntity<Object> objectResponseEntity = controller.acceptProposta(1L, 1L, 1L);
-//
-//        assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
-//    }
+    @Test
+    public void shouldAcceptProposta_valid()
+    {
+        PropostaDTO prop = mock(PropostaDTO.class);
 
-//    @Test
-//    public void shouldNotAcceptProposta_invalidId()
-//    {
-//        ProjetoDTO prop = mock(ProjetoDTO.class);
-//
-//        when(service.acceptCandidaturaProposta(1L, 1L, 1L)).thenThrow(IdInvalidoException.class);
-//
-//        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L, 1L));
-//    }
-//
-//    @Test
-//    public void shouldNotAcceptProposta_invalidAtualizacao()
-//    {
-//        ProjetoDTO prop = mock(ProjetoDTO.class);
-//
-//        when(service.acceptCandidaturaProposta(1L, 1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
-//
-//        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L, 1L));
-//    }
+        when(service.acceptCandidaturaProposta(1L, 1L)).thenReturn(prop);
+
+        ResponseEntity<Object> objectResponseEntity = controller.acceptProposta(1L, 1L, 1L);
+
+        assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
+    }
+
+    @Test
+    public void shouldNotAcceptProposta_invalidId()
+    {
+        PropostaDTO prop = mock(PropostaDTO.class);
+
+        when(service.acceptCandidaturaProposta(1L, 1L)).thenThrow(IdInvalidoException.class);
+
+        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L, 1L));
+    }
+
+    @Test
+    public void shouldNotAcceptProposta_invalidAtualizacao()
+    {
+        PropostaDTO prop = mock(PropostaDTO.class);
+
+        when(service.acceptCandidaturaProposta(1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
+
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L, 1L));
+    }
 
     @Test
     public void shouldListById()
@@ -198,4 +196,103 @@ class PropostaControllerUnitTests
 
         assertThrows(ListaVaziaException.class,()->controller.listbyTitulo("AAA"));
     }
+
+    @Test
+    public void shouldFindAll()
+    {
+        PropostaDTO prop = mock(PropostaDTO.class);
+        List<PropostaDTO> list = List.of(prop,prop,prop);
+
+        when(service.findAllByEstado(1L)).thenReturn(list);
+
+        ResponseEntity<List<PropostaDTO>> responseEntity = controller.findAllByEstado(1L);
+
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+    }
+
+   /* @Test
+    public void shouldAcceptAluno()
+    {
+        UtilizadorAuthDTO alunoDTO = mock(UtilizadorAuthDTO.class);
+        PropostaCandidaturaIDDTO propostaCandidaturaID = mock(PropostaCandidaturaIDDTO.class);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
+
+        when(service.acceptAlunoCandidaturaProposta(1L, propostaCandidaturaID)).thenReturn(propostaCandidaturaDTO);
+
+        ResponseEntity<Object> objectResponseEntity = controller.acceptAlunoCandidaturaProposta(propostaCandidaturaID);
+
+        assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
+    }*/
+
+   /* @Test
+    public void shouldNotAcceptAluno()
+    {
+        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
+        PropostaCandidaturaIDDTO propostaCandidaturaID = mock(PropostaCandidaturaIDDTO.class);
+
+        when(service.acceptAlunoCandidaturaProposta(1L, propostaCandidaturaID)).thenReturn(propostaCandidaturaDTO);
+
+        assertThrows(IdInvalidoException.class,()->controller.rejectAlunoCandidaturaProposta(propostaCandidaturaID));
+    }*/
+
+   /* @Test
+    public void shouldRejectAluno()
+    {
+        PropostaCandidaturaIDDTO propostaCandidaturaID = mock(PropostaCandidaturaIDDTO.class);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
+
+        when(service.rejectAlunoCandidaturaProposta(1L, propostaCandidaturaID)).thenReturn(propostaCandidaturaDTO);
+
+        ResponseEntity<Object> objectResponseEntity = controller.rejectAlunoCandidaturaProposta(propostaCandidaturaID);
+
+        assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
+    }*/
+
+    /*@Test
+    public void shouldNotRejectAluno()
+    {
+        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
+        PropostaCandidaturaIDDTO propostaCandidaturaID = mock(PropostaCandidaturaIDDTO.class);
+
+        when(service.rejectAlunoCandidaturaProposta(1L, propostaCandidaturaID)).thenReturn(propostaCandidaturaDTO);
+
+        assertThrows(IdInvalidoException.class,()->controller.rejectAlunoCandidaturaProposta(propostaCandidaturaID));
+    }*/
+
+    @Test
+    public void shouldCandidatarAluno()
+    {
+        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
+
+        when(service.candidatarAlunoProposta(1L)).thenReturn(propostaCandidaturaDTO);
+
+        ResponseEntity<Object> objectResponseEntity = controller.candidatarAlunoProposta(1L);
+
+        assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
+    }
+
+    @Test
+    public void shouldNotCandidatarAluno_empty()
+    {
+        when(service.candidatarAlunoProposta(1L)).thenThrow(OptionalVazioException.class);
+
+        assertThrows(OptionalVazioException.class,()->controller.candidatarAlunoProposta(1L));
+    }
+
+    @Test
+    public void shouldNotCandidatarAluno_invalid()
+    {
+        when(service.candidatarAlunoProposta(1L)).thenThrow(ValidacaoInvalidaException.class);
+
+        assertThrows(ValidacaoInvalidaException.class,()->controller.candidatarAlunoProposta(1L));
+    }
+
+    @Test
+    public void shouldNotCandidatarAluno_notUdate()
+    {
+        when(service.candidatarAlunoProposta(1L)).thenThrow(AtualizacaoInvalidaException.class);
+
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.candidatarAlunoProposta(1L));
+    }
+
 }
