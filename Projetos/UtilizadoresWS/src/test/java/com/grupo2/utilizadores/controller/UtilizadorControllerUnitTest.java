@@ -121,7 +121,7 @@ class UtilizadorControllerUnitTest {
     {
         UtilizadorDTO utilizadorDTOMOCK = mock(UtilizadorDTO.class);
 
-        when(service.isRole("papel", 1L)).thenReturn(utilizadorDTOMOCK.getTipoUtilizador(), utilizadorDTOMOCK.getId());
+        when(service.isRole("papel", 1L)).thenReturn();
 
         ResponseEntity<Boolean> responseEntity = controller.isRole("papel", 1L);
 
