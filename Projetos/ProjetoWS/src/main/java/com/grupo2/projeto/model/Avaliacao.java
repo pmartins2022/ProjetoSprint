@@ -123,8 +123,32 @@ public class Avaliacao
     public boolean equals(Object o)
     {
         if (this == o) return true;
-        if (!(o instanceof Avaliacao)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Avaliacao avaliacao = (Avaliacao) o;
-        return getNota() == avaliacao.getNota() && getId().equals(avaliacao.getId()) && getIdMomentoAvaliacao().equals(avaliacao.getIdMomentoAvaliacao()) && getIdProjeto().equals(avaliacao.getIdProjeto()) && getConteudo().equals(avaliacao.getConteudo());
+        return nota == avaliacao.nota && idMomentoAvaliacao.equals(avaliacao.idMomentoAvaliacao)
+                && presidenteId.equals(avaliacao.presidenteId) && orientadorId.equals(avaliacao.orientadorId)
+                && arguenteId.equals(avaliacao.arguenteId) && idProjeto.equals(avaliacao.idProjeto)
+                && conteudo.equals(avaliacao.conteudo);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, idMomentoAvaliacao, presidenteId, orientadorId, arguenteId, idProjeto, conteudo, nota);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Avaliacao{" +
+                "id=" + id +
+                ", idMomentoAvaliacao=" + idMomentoAvaliacao +
+                ", presidenteId=" + presidenteId +
+                ", orientadorId=" + orientadorId +
+                ", arguenteId=" + arguenteId +
+                ", idProjeto=" + idProjeto +
+                ", conteudo=" + conteudo +
+                ", nota=" + nota +
+                '}';
     }
 }

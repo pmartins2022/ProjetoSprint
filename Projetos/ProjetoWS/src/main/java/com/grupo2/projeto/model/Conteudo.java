@@ -79,12 +79,15 @@ public class Conteudo
             this.linguagemDocumento = linguagemDocumento;
         }
 
-        if (this.caminhoDocumento == null)
+        if (caminhoDocumento == null)
+        {
+            this.caminhoDocumento = String.valueOf(documento.hashCode() + System.currentTimeMillis());
+        }
+        else
         {
             this.caminhoDocumento = caminhoDocumento;
         }
 
-        this.caminhoDocumento = String.valueOf(documento.hashCode() + System.currentTimeMillis());
 
         if (estadoConteudo == null)
         {
@@ -167,5 +170,34 @@ public class Conteudo
             throw new AtualizacaoInvalidaException("Nao e possivel mudar o estado da conteudo. Ja se encontra " + this.estadoConteudo.name());
         }
         this.estadoConteudo = EstadoConteudo.REJEITADO;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Conteudo conteudo = (Conteudo) o;
+        return idProjeto.equals(conteudo.idProjeto) && titulo.equals(conteudo.titulo) && caminhoDocumento.equals(conteudo.caminhoDocumento) && documento.equals(conteudo.documento) && linguagemDocumento.equals(conteudo.linguagemDocumento) && estadoConteudo == conteudo.estadoConteudo;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, idProjeto, titulo, caminhoDocumento, documento, linguagemDocumento, estadoConteudo);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Conteudo{" +
+                "id=" + id +
+                ", idProjeto=" + idProjeto +
+                ", titulo='" + titulo + '\'' +
+                ", caminhoDocumento='" + caminhoDocumento + '\'' +
+                ", documento='" + documento + '\'' +
+                ", linguagemDocumento='" + linguagemDocumento + '\'' +
+                ", estadoConteudo=" + estadoConteudo +
+                '}';
     }
 }
