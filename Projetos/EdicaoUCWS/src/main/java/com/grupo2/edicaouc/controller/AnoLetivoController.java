@@ -23,7 +23,7 @@ import java.util.Optional;
  * Classe REST Controller de ano letivo. Possui endpoints para createAnoLetivo, findBySigla, listAnoLetivo.
  */
 @RestController
-@RequestMapping("anoLetivo")
+@RequestMapping("/anoLetivo")
 public class AnoLetivoController
 {
 

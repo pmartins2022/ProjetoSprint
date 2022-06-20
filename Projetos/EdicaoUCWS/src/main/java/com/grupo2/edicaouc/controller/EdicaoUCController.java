@@ -20,7 +20,7 @@ import java.util.Optional;
  * Class REST Controller de Edição de Unidade Curricular. Possui endpoints para createEdicaoUC, findAllEdicaoByUCCode e findById.
  */
 @RestController
-@RequestMapping("edicaoUC")
+@RequestMapping("/edicaoUC")
 public class EdicaoUCController
 {
     /**
