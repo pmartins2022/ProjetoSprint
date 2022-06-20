@@ -85,7 +85,7 @@ public class PropostaService
     {
         PropostaCandidaturaIDDTO id = idFactory.createPropostaCandidaturaIDDTO(idProjeto, idAluno);
 
-        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.rejectCandidaturaProposta(id);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.rejectCandidaturaAlunoProposta(id);
 
         return true;
     }

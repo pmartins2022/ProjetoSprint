@@ -74,9 +74,6 @@ public class PropostaRestRepo
     {
         try
         {
-            //WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/aceitarCandidaturaAluno").post().
-              //      body(BodyInserters.fromValue(propostaCandidaturaID)).header("Authorization", LoginContext.getToken())
-                //    .retrieve();
             WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/aceitarCandidaturaAluno").post()
                     .header("Authorization", LoginContext.getToken())
                     .body(BodyInserters.fromValue(propostaCandidaturaID)).retrieve();
