@@ -41,9 +41,12 @@ public class UnidadeCurricularController
      * @param index indice da unidade curricular.
      * @return Unidade curricular.
      */
-    public UnidadeCurricularDTO getFromLista(int index)
-    {
-        return lista.get(index);
+    public UnidadeCurricularDTO getFromLista(int index) {
+        if (index < 0) {
+            return null;
+        } else {
+            return lista.get(index);
+        }
     }
 
     /**
