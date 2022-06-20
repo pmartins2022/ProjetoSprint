@@ -62,28 +62,64 @@ public class PropostaService
         return propostaRestRepo.createProposta(dto);
     }
 
-    public List<PropostaDTO> findAllPropostaCandidatura()
+    public List<PropostaDTO> findAllPropostaByEstadoAtual(Integer estado)
     {
-        return propostaRestRepo.findAllPropostaCandidatura();
+        return propostaRestRepo.findAllPropostaByEstadoAtual(estado);
     }
 
-    public Boolean acceptCandidaturaProposta(Long idProjeto, Long idAluno)
+    public Boolean acceptCandidaturaAlunoProposta(Long idProjeto, Long idAluno)
     {
         PropostaCandidaturaIDDTO id = idFactory.createPropostaCandidaturaIDDTO(idProjeto, idAluno);
 
-        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.acceptCandidaturaProposta(id);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.acceptCandidaturaAlunoProposta(id);
 
         //validação??
         return true;
     }
 
-    public Boolean rejectCandidaturaProposta(Long idProjeto, Long idAluno)
+    public Boolean rejectCandidaturaAlunoProposta(Long idProjeto, Long idAluno)
     {
         PropostaCandidaturaIDDTO id = idFactory.createPropostaCandidaturaIDDTO(idProjeto, idAluno);
 
-        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.rejectCandidaturaProposta(id);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.rejectCandidaturaAlunoProposta(id);
 
 //validação??
         return true;
     }
+
+    public Boolean acceptCandidaturaProposta(Long idProposta)
+    {
+        PropostaDTO propostaDTO = propostaRestRepo.acceptCandidaturaProposta(idProposta);
+        if (propostaDTO.getEstadoAtual() != PropostaEstado.APROVADO)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean rejectCandidaturaProposta(Long idProposta)
+    {
+        PropostaDTO propostaDTO = propostaRestRepo.rejectCandidaturaProposta(idProposta);
+        if (propostaDTO.getEstadoAtual() != PropostaEstado.APROVADO)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public ProjetoDTO acceptProposta(Long idProposta, Long alunoID)
+    {
+        ProjetoDTO projetoDTO = propostaRestRepo.acceptProposta(idProposta, alunoID);
+
+        return projetoDTO;
+    }
+
+    public boolean rejectProposta(Long idProposta, Long alunoID)
+    {
+        return propostaRestRepo.rejectProposta(idProposta, alunoID);
+    }
+
+
 }

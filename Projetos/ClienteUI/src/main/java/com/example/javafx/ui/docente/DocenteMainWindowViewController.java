@@ -3,12 +3,18 @@ package com.example.javafx.ui.docente;
 import com.example.javafx.controller.PropostaController;
 import com.example.javafx.controller.docente.DocenteController;
 import com.example.javafx.controller.docente.ProjetoController;
+import com.example.javafx.dto.AvaliacaoDTO;
+import com.example.javafx.dto.PropostaDTO;
+import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.model.LoginContext;
+import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Controller
 public class DocenteMainWindowViewController
@@ -27,10 +33,10 @@ public class DocenteMainWindowViewController
     public ChoiceBox conviteChoice;
     public Button aceitarProposta;
     public Button rejeitarPropostaButton;
-    public ChoiceBox propostaChoice;
+    public ChoiceBox<PropostaDTO> propostaChoice;
     public Button aceitarCandidatura;
     public Button rejeitarCandidaturaButton;
-    public ChoiceBox candidaturaChoice;
+    public ChoiceBox<PropostaDTO> candidaturaChoice;
     public Button confirmarECriarPropostaID;
     public TextField idMomentoAvaliacaoText;
     public TextField idArguenteText;
@@ -40,12 +46,14 @@ public class DocenteMainWindowViewController
     public TextField idPresidenteText;
     public Button aceitarConteudoButton;
     public Button rejeitarConteudoButton;
-    public ChoiceBox conteudoChoice;
+    public ChoiceBox<String> conteudoChoice;
     public TextArea docenteDTOText;
     public TabPane docentePaneID;
     public TabPane rucPaneID;
     public TabPane orientadorPaneID;
     public TabPane mainPaneID;
+    public TextField alunoIDTxt;
+    public Button confirmarECriarAvaliacao;
 
     private DocenteController docenteController  ;
     private PropostaController propostaController;
@@ -131,33 +139,121 @@ public class DocenteMainWindowViewController
     {
     }
 
-    public void iniciarGerirProposta()
-    {
-    }
 
-    public void aceitarProposta(ActionEvent actionEvent)
+    private void iniciarGerirCandidaturaProposta()
     {
-    }
-
-    public void rejeitarProposta(ActionEvent actionEvent)
-    {
+        try
+        {
+            List<PropostaDTO> list = propostaController.findAllPropostaCandidatura();
+            candidaturaChoice.getItems().addAll(list);
+            candidaturaChoice.getSelectionModel().selectFirst();
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
     public void aceitarCandidatura(ActionEvent actionEvent)
     {
+        try
+        {
+            propostaController.acceptCandidaturaProposta(candidaturaChoice.getSelectionModel().getSelectedItem());
+
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
-    public void confirmarECriarProposta(ActionEvent actionEvent)
+    public void rejeitarCandidatura(ActionEvent actionEvent)
     {
+        try
+        {
+            propostaController.rejectCandidaturaProposta(candidaturaChoice.getSelectionModel().getSelectedItem());
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+
+    }
+
+    public void iniciarGerirProposta()
+    {
+        try
+        {
+            List<PropostaDTO> list = propostaController.findAllPropostaAprovado();
+            propostaChoice.getItems().addAll(list);
+            propostaChoice.getSelectionModel().selectFirst();
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+    public void aceitarProposta(ActionEvent actionEvent)
+    {
+        try
+        {
+            PropostaDTO selected = propostaChoice.getSelectionModel().getSelectedItem();
+            propostaController.acceptProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
+            propostaChoice.getItems().remove(selected);
+
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+    public void rejeitarProposta(ActionEvent actionEvent)
+    {
+        try
+        {
+            PropostaDTO selected = propostaChoice.getSelectionModel().getSelectedItem();
+            propostaController.rejectProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
+            propostaChoice.getItems().remove(selected);
+
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+    private void iniciarDefinirJuriAvaliacao()
+    {
+        System.out.println("Definir júri");
+    }
+
+    public void confirmarECriarAvaliacao(ActionEvent actionEvent)
+    {
+        AvaliacaoDTO avaliacaoDTO = projetoController.createAvaliacao(idMomentoAvaliacaoText.getText(), idOrientadorText.getText(),
+                idPresidenteText.getText(), idArguenteText.getText(),
+                idProjetoText.getText(), idConteudoText.getText());
+
+        AlertBuilder.showAlert(Alert.AlertType.ERROR, "Definir Júri", "Avaliação Criada", avaliacaoDTO.toString());
     }
 
     public void aceitarConteudo(ActionEvent actionEvent)
     {
     }
 
-    public void rejeitarCandidatura(ActionEvent actionEvent)
-    {
-    }
 
     public void rejeitarConteudo(ActionEvent actionEvent)
     {
@@ -170,16 +266,22 @@ public class DocenteMainWindowViewController
         switch (t1.intValue())
         {
             case 0 -> iniciarTabHome();
-            //case 1 -> iniciarTabCriarEdicaoUC();
-            //case 2 -> iniciarTabCriarAnoLetivo();
-            //case 3 -> iniciarTabCriarUnidadeCurricular();
+            case 1 ->
+            {
+                docentePaneID.getSelectionModel().select(0);
+                iniciarCriarProposta();
+            }
+            case 2 ->
+            {
+                rucPaneID.getSelectionModel().select(0);
+                iniciarGerirProposta();
+            }//case 3 -> iniciarTabCriarUnidadeCurricular();
             //case 4 -> iniciarTabConsultarUC();
         }
     }
 
     public void docenteTabPaneChanged(Number t1)
     {
-        System.out.println("Tab pane selecionado: "+t1);
 
         switch (t1.intValue())
         {
@@ -189,24 +291,24 @@ public class DocenteMainWindowViewController
             //case 3 -> iniciarTabCriarUnidadeCurricular();
             //case 4 -> iniciarTabConsultarUC();
         }
+
     }
 
     public void rucTabPaneChanged(Number t1)
     {
-        System.out.println("Tab pane selecionado: "+t1);
-
         switch (t1.intValue())
         {
             case 0 -> iniciarGerirProposta();
-            //case 1 -> iniciarTabCriarEdicaoUC();
-            //case 2 -> iniciarTabCriarAnoLetivo();
-            //case 3 -> iniciarTabCriarUnidadeCurricular();
-            //case 4 -> iniciarTabConsultarUC();
+            case 1 -> iniciarGerirCandidaturaProposta();
+            case 2 -> iniciarDefinirJuriAvaliacao();
         }
     }
+
 
     private void iniciarTabHome()
     {
         docenteDTOText.setText(LoginContext.getCurrentUser().toString());
     }
+
+
 }

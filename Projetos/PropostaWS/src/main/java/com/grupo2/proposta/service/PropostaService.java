@@ -564,7 +564,7 @@ public class PropostaService
         return candidaturaDTOMapper.toDTO(updated);
     }
 
-    public List<PropostaDTO> findAllByEstado(Long estado)
+    public List<PropostaDTO> findAllByEstado(Integer estado)
     {
         List<Proposta> list = repository.findAllByEstado(estado);
 

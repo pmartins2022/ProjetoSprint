@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class UtilizadoresWsApplication
@@ -22,25 +23,28 @@ public class UtilizadoresWsApplication
     @Bean
     public CommandLineRunner demo(UtilizadorService service)
     {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String pass =  encoder.encode("password");
+
         return (args) ->
         {
             service.createAndSave(new UtilizadorDTO("nome", "sobrenome", "uti@gmail.com", "aluno",
-                    "password", TipoUtilizador.ALUNO));
+                  pass , TipoUtilizador.ALUNO));
             service.createAndSave(new UtilizadorDTO("nome", "sobrenome", "uti1@gmail.com", "utiUsername1",
-                    "password", TipoUtilizador.ALUNO));
+                    pass, TipoUtilizador.ALUNO));
             service.createAndSave(new UtilizadorDTO("nome", "sobrenome", "uti2@gmail.com", "utiUsername2",
-                    "password", TipoUtilizador.ALUNO));
+                    pass, TipoUtilizador.ALUNO));
             service.createAndSave(new UtilizadorDTO("nome", "sobrenome", "uti3@gmail.com", "utiUsername3",
-                    "password", TipoUtilizador.ALUNO));
+                    pass, TipoUtilizador.ALUNO));
 
             service.createAndSave(new UtilizadorDTO("nome", "sobrenome", "uti4@gmail.com", "docente",
-                    "password", TipoUtilizador.DOCENTE));
+                    pass, TipoUtilizador.DOCENTE));
             service.createAndSave(new UtilizadorDTO( "nome", "sobrenome", "uti5@gmail.com", "utiUsername5",
-                    "password", TipoUtilizador.DOCENTE));
+                    pass, TipoUtilizador.DOCENTE));
             service.createAndSave(new UtilizadorDTO( "nome", "sobrenome", "uti6@gmail.com", "utiUsername6",
-                    "password", TipoUtilizador.DOCENTE));
+                    pass, TipoUtilizador.DOCENTE));
             service.createAndSave(new UtilizadorDTO("nome", "sobrenome", "uti7@gmail.com", "utiUsername7",
-                    "password", TipoUtilizador.DOCENTE));
+                    pass, TipoUtilizador.DOCENTE));
 
         };
     }

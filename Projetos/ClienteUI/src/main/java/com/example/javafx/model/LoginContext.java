@@ -10,14 +10,20 @@ public class LoginContext
     private static UtilizadorAuthDTO currentUser;
     private static String token;
 
-    public static void setUser(UtilizadorAuthDTO user)
+    public static void setUser(UtilizadorAuthDTO user, String pass)
     {
         currentUser = user;
-        token = Base64Utils.encodeToString(user.getUsername().getBytes())+":"+Base64Utils.encodeToString(user.getPassword().getBytes());
+        byte[] t = (user.getUsername()+":"+pass).getBytes();
+        token = Base64Utils.encodeToString(t);
     }
 
     public static UtilizadorAuthDTO getCurrentUser()
     {
         return currentUser;
+    }
+
+    public static String getToken()
+    {
+        return "Basic "+token;
     }
 }

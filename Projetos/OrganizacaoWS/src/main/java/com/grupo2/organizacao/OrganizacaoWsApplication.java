@@ -19,7 +19,11 @@ public class OrganizacaoWsApplication {
 	{
 		return (args) ->
 		{
-			//service.createAndSave(new OrganizacaoDTO(500000135));
+			service.createAndSave(new OrganizacaoDTO(500000135));
+			service.createAndSave(new OrganizacaoDTO(500000235));
+			service.createAndSave(new OrganizacaoDTO(500000335));
+			service.createAndSave(new OrganizacaoDTO(500000435));
+			service.createAndSave(new OrganizacaoDTO(500000535));
 		};
 	}
 }
