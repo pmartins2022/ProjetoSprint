@@ -1,14 +1,12 @@
 package com.grupo2.proposta.repository;
 
-import com.grupo2.proposta.jpa.ConviteJPA;
 import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
-import com.grupo2.proposta.jpa.mapper.ConviteJPAMapper;
 import com.grupo2.proposta.jpa.mapper.PropostaCandidaturaJPAMapper;
-import com.grupo2.proposta.model.Convite;
-import com.grupo2.proposta.model.ConviteID;
+import com.grupo2.proposta.model.EstadoCandidatura;
 import com.grupo2.proposta.model.PropostaCandidatura;
 import com.grupo2.proposta.model.PropostaCandidaturaID;
-import com.grupo2.proposta.repository.jpa.ConviteJPARepository;
+import com.grupo2.proposta.model.factory.PropostaCandidaturaIDFactory;
+import com.grupo2.proposta.model.factory.PropostaCandidaturaJPAFactory;
 import com.grupo2.proposta.repository.jpa.PropostaCandidaturaJPARepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +31,13 @@ class PropostaCandidaturaRepoUnitTest
     private PropostaCandidaturaJPARepository jpaRepository;
 
     @MockBean
+    private PropostaCandidaturaIDFactory propostaCandidaturaIDFactory;
+
+    @MockBean
     private PropostaCandidaturaJPAMapper mapper;
+
+    @MockBean
+    private PropostaCandidaturaJPAFactory propostaCandidaturaJPAFactory;
 
     @InjectMocks
     private PropostaCandidaturaRepo repository;
@@ -44,7 +48,7 @@ class PropostaCandidaturaRepoUnitTest
         MockitoAnnotations.openMocks(this);
     }
 
-    /*@Test
+    @Test
     public void shouldIsInscrito()
     {
         PropostaCandidatura propostaCandidatura = mock(PropostaCandidatura.class);
@@ -53,28 +57,51 @@ class PropostaCandidaturaRepoUnitTest
 
         when(jpaRepository.findById(propostaCandidaturaID)).thenReturn(Optional.of(jpa));
         when(mapper.toModel(jpa)).thenReturn(propostaCandidatura);
+        when(propostaCandidaturaIDFactory.create(propostaCandidaturaID.getIdProposta(), propostaCandidaturaID.getIdAluno())).thenReturn(propostaCandidaturaID);
 
-        Optional<PropostaCandidatura> save = repository.isIncrito(propostaCandidaturaID.getIdAluno(), propostaCandidaturaID.getIdProposta());
+        boolean save = repository.isIncrito(propostaCandidaturaID.getIdProposta(), propostaCandidaturaID.getIdAluno());
 
-        assertTrue(id.isPresent());
-        assertEquals(convite, id.get());
-    }*/
+        assertTrue(save);
+    }
 
-    /*@Test
+    @Test
+    public void shouldNotIsInscrito()
+    {
+        PropostaCandidatura propostaCandidatura = mock(PropostaCandidatura.class);
+        PropostaCandidaturaID propostaCandidaturaID = mock(PropostaCandidaturaID.class);
+        PropostaCandidaturaJPA jpa = mock(PropostaCandidaturaJPA.class);
+
+        when(jpaRepository.findById(propostaCandidaturaID)).thenReturn(Optional.of(jpa));
+        when(mapper.toModel(jpa)).thenReturn(propostaCandidatura);
+
+        boolean save = repository.isIncrito(propostaCandidaturaID.getIdProposta(), propostaCandidaturaID.getIdAluno());
+
+        assertFalse(save);
+    }
+
+    @Test
     public void shouldCreateAndSavePropostaCandidatura()
     {
+        PropostaCandidaturaID propostaCandidaturaID = mock(PropostaCandidaturaID.class);
         PropostaCandidatura propostaCandidatura = mock(PropostaCandidatura.class);
         PropostaCandidaturaJPA jpa = mock(PropostaCandidaturaJPA.class);
 
+        when(propostaCandidatura.getIdProposta()).thenReturn(1L);
+        when(propostaCandidatura.getIdAluno()).thenReturn(1L);
+
+        when(propostaCandidaturaIDFactory.create(propostaCandidatura.getIdProposta(), propostaCandidatura.getIdAluno()))
+                .thenReturn(propostaCandidaturaID);
+        when(propostaCandidaturaJPAFactory.create(propostaCandidaturaID,EstadoCandidatura.PENDENTE)).thenReturn(jpa);
+
         when(jpaRepository.save(jpa)).thenReturn(jpa);
 
-        when(mapper.toJPA(propostaCandidatura)).thenReturn(jpa);
         when(mapper.toModel(jpa)).thenReturn(propostaCandidatura);
 
-        PropostaCandidatura save = repository.createAndSave(propostaCandidatura.getIdProposta(), propostaCandidatura.getIdProposta());
+
+        PropostaCandidatura save = repository.createAndSave(propostaCandidatura.getIdProposta(), propostaCandidatura.getIdAluno());
 
         assertEquals(propostaCandidatura, save);
-    }*/
+    }
 
     @Test
     public void shouldFindById()
@@ -92,7 +119,7 @@ class PropostaCandidaturaRepoUnitTest
         assertEquals(propostaCandidatura, id.get());
     }
 
-    /*@Test
+    @Test
     public void shouldNotFindById()
     {
         PropostaCandidaturaID propostaCandidaturaID = mock(PropostaCandidaturaID.class);
@@ -102,5 +129,5 @@ class PropostaCandidaturaRepoUnitTest
         Optional<PropostaCandidatura> id = repository.findByID(propostaCandidaturaID);
 
         assertTrue(id.isEmpty());
-    }*/
+    }
 }

@@ -1,9 +1,9 @@
 package com.example.javafx.model;
-
-import com.example.javafx.dto.UtilizadorAuthDTO;
 import io.netty.handler.codec.base64.Base64;
 import io.netty.handler.codec.base64.Base64Encoder;
 import org.springframework.util.Base64Utils;
+
+import com.example.javafx.dto.UtilizadorAuthDTO;
 
 public class LoginContext
 {
@@ -19,5 +19,10 @@ public class LoginContext
     public static UtilizadorAuthDTO getCurrentUser()
     {
         return currentUser;
+    }
+
+    public static String getToken()
+    {
+        return token;
     }
 }

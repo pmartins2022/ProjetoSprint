@@ -5,6 +5,7 @@ import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.dto.mapper.UtilizadorDTOMapper;
 import com.grupo2.utilizadores.exception.ErroGeralException;
 import com.grupo2.utilizadores.exception.OptionalVazioException;
+import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.repository.UtilizadorRepository;
 import com.grupo2.utilizadores.security.UtilizadorUserDetailsService;
@@ -115,5 +116,10 @@ public class UtilizadorService
     public List<UtilizadorDTO> findAll()
     {
         return repository.findAll().stream().map(mapper::toDTO).toList();
+    }
+
+    public List<UtilizadorDTO> findAllDocentes()
+    {
+        return findAll().stream().filter(utilizadorDTO -> utilizadorDTO.getTipoUtilizador() == TipoUtilizador.DOCENTE).toList();
     }
 }

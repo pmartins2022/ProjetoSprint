@@ -8,6 +8,7 @@ import com.grupo2.proposta.model.EstadoCandidatura;
 import com.grupo2.proposta.model.PropostaCandidatura;
 import com.grupo2.proposta.model.PropostaCandidaturaID;
 import com.grupo2.proposta.model.factory.PropostaCandidaturaIDFactory;
+import com.grupo2.proposta.model.factory.PropostaCandidaturaJPAFactory;
 import com.grupo2.proposta.repository.jpa.PropostaCandidaturaJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,11 @@ public class PropostaCandidaturaRepo
     private PropostaCandidaturaJPAMapper mapper;
 
     @Autowired
+    private PropostaCandidaturaJPAFactory propostaCandidaturaJPAFactory;
+
+    @Autowired
     private PropostaCandidaturaIDFactory factory;
+
 
     /**
      * Verificar se o aluno esta inscrito nesta proposta
@@ -35,7 +40,7 @@ public class PropostaCandidaturaRepo
      */
     public boolean isIncrito(Long idProposta, Long idAluno)
     {
-        PropostaCandidaturaID id = new PropostaCandidaturaID(idProposta, idAluno);
+        PropostaCandidaturaID id = factory.create(idProposta, idAluno);
 
         Optional<PropostaCandidaturaJPA> candidaturaJPA = jpaRepository.findById(id);
 
@@ -69,7 +74,7 @@ public class PropostaCandidaturaRepo
     public PropostaCandidatura createAndSave(Long propostaID, Long alunoId)
     {
         PropostaCandidaturaID id = factory.create(propostaID, alunoId);
-        PropostaCandidaturaJPA jpa = new PropostaCandidaturaJPA(id, EstadoCandidatura.PENDENTE);
+        PropostaCandidaturaJPA jpa = propostaCandidaturaJPAFactory.create(id, EstadoCandidatura.PENDENTE);
 
         return mapper.toModel(jpaRepository.save(jpa));
     }
@@ -91,7 +96,7 @@ public class PropostaCandidaturaRepo
 
         if (propostaCandidaturaJPA.isEmpty())
         {
-            Optional.empty();
+            return Optional.empty();
         }
 
         return Optional.of(mapper.toModel(propostaCandidaturaJPA.get()));

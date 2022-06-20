@@ -18,4 +18,6 @@ public interface PropostaJPARepository extends JpaRepository<PropostaJPA,Long>
     List<PropostaJPA> findAllByedicaoUCId(Long id);
 
     List<PropostaJPA> findAllByEstadoAtual(Long i);
+
+    PropostaJPA findByEstadoAtual(Long estado);
 }

@@ -67,14 +67,16 @@ class UtilizadorControllerUnitTest {
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
-   /* @Test
+    @Test
     public void shouldNotRegistarUtilizador() {
         UtilizadorDTO utilizadorDTOMOCK = mock(UtilizadorDTO.class);
 
-        when(service.registar(utilizadorDTOMOCK)).thenReturn(IllegalArgumentException.class);
+        when(service.registar(utilizadorDTOMOCK)).thenThrow(IllegalArgumentException.class);
 
-        assertThrows(IllegalArgumentException.class,()->controller.registar(utilizadorDTOMOCK));
-    }*/
+        ResponseEntity<?> registar = controller.registar(utilizadorDTOMOCK);
+
+        assertSame(registar.getStatusCode(), HttpStatus.BAD_REQUEST);
+    }
 
     @Test
     public void shouldFindByUsername() {
@@ -116,25 +118,43 @@ class UtilizadorControllerUnitTest {
         assertThrows(ListaVaziaException.class, () -> controller.listAll());
     }
 
-   /* @Test
+   @Test
     public void shouldIsRole()
     {
-        UtilizadorDTO utilizadorDTOMOCK = mock(UtilizadorDTO.class);
-
-        when(service.isRole("papel", 1L)).thenReturn();
+        when(service.isRole("papel", 1L)).thenReturn(true);
 
         ResponseEntity<Boolean> responseEntity = controller.isRole("papel", 1L);
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-    }*/
+    }
 
-   /* @Test
+   @Test
     public void shouldNotIsRole()
     {
         UtilizadorDTO utilizadorDTOMOCK = mock(UtilizadorDTO.class);
 
-        when(service.isRole("papel", 1L)).thenReturn(OptionalVazioException.class);
+        when(service.isRole("papel", 1L)).thenThrow(OptionalVazioException.class);
 
-        assertThrows(OptionalVazioException.class,()->controller.isRole(utilizadorDTOMOCK));
-    }*/
+        assertThrows(OptionalVazioException.class,()->controller.isRole("papel", 1L));
+    }
+
+    @Test
+    public void shouldFindByDocente() {
+        UtilizadorDTO utilizadorDTOMOCK = mock(UtilizadorDTO.class);
+        List<UtilizadorDTO> list = List.of(utilizadorDTOMOCK, utilizadorDTOMOCK, utilizadorDTOMOCK);
+
+        when(service.findAllDocentes()).thenReturn(list);
+
+        ResponseEntity<Object> responseEntity = controller.findAllDocentes();
+
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    public void shouldNotFindByDocente()
+    {
+        when(service.findAll()).thenReturn(List.of());
+
+        assertThrows(ListaVaziaException.class, () -> controller.findAllDocentes());
+    }
 }

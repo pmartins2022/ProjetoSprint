@@ -1,7 +1,8 @@
 package com.example.javafx.controller.aluno;
 
-import com.example.javafx.model.LoginContext;
 import org.springframework.stereotype.Controller;
+import com.example.javafx.model.LoginContext;
+
 
 @Controller
 public class AlunoController
