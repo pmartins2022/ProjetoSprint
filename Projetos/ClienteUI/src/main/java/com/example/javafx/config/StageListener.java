@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,6 +62,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent>
             stage.setScene(scene);
             stage.setTitle(STAGE_TITLE);
             stage.setResizable(false);
+            stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
         }
         catch (IOException e)

@@ -3,6 +3,7 @@ package com.example.javafx.repository.rest;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.dto.UnidadeCurricularDTO;
 import com.example.javafx.exception.RestPostException;
+import com.example.javafx.model.LoginContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -45,8 +46,9 @@ public class UnidadeCurricularRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8086/uc/criar").post().
-                    body(BodyInserters.fromValue(unidadeCurricularDTO)).retrieve();
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/uc/criar").post()
+                    .header("Authorization", LoginContext.getToken())
+                    .body(BodyInserters.fromValue(unidadeCurricularDTO)).retrieve();
 
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,

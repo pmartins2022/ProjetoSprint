@@ -62,11 +62,8 @@ public class UtilizadorAuthDTO
     @Override
     public String toString()
     {
-        return "UtilizadorDTO{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", tipoUtilizador=" + tipoUtilizador +
-                '}';
+        return "ID: " + id +
+                "\nUsername: " + username +
+                "\nTipo de Utilizador: " + tipoUtilizador ;
     }
 }
