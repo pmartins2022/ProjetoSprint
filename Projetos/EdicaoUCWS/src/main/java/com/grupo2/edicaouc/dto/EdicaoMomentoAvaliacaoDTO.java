@@ -34,4 +34,13 @@ public class EdicaoMomentoAvaliacaoDTO
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
     }
+
+    @Override
+    public String toString()
+    {
+        return "EdicaoMomentoAvaliacaoDTO{" +
+                "idEdicao=" + idEdicao +
+                ", idMomentoAvaliacao=" + idMomentoAvaliacao +
+                '}';
+    }
 }

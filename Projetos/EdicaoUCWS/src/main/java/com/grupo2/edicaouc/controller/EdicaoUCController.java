@@ -43,14 +43,15 @@ public class EdicaoUCController
             EdicaoUCDTO edicaoUC = service.createEdicaoUC(edicaoUCDTO);
             return new ResponseEntity<>(edicaoUC, HttpStatus.CREATED);
 
-        }
-        catch (BaseDadosException e)
+        } catch (BaseDadosException e)
         {
             throw new BaseDadosException(e.getMessage());
-        }
-        catch (OptionalVazioException e)
+        } catch (OptionalVazioException e)
         {
             throw new OptionalVazioException(e.getMessage());
+        } catch (ErroGeralException e)
+        {
+            throw new ErroGeralException(e.getMessage());
         }
     }
 
@@ -112,12 +113,12 @@ public class EdicaoUCController
     {
         List<EdicaoUCDTO> dtoList = service.findByRucID(rucID);
 
-        if (dtoList.isEmpty())
+        if (!dtoList.isEmpty())
         {
             return new ResponseEntity<>(dtoList, HttpStatus.OK);
         }
 
-        throw new OptionalVazioException("Nao encontrou edicao UC com id " + rucID);
+        throw new ListaVaziaException("Nao encontrou edicaoUC com RucID de " + rucID);
     }
 
     @GetMapping("/ruc/{rucID}/active")

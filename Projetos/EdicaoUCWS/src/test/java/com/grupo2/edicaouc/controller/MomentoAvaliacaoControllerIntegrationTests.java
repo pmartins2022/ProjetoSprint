@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,8 +41,6 @@ class MomentoAvaliacaoControllerIntegrationTests
     @MockBean
     private HttpServletRequest request;
 
-    private static MockedStatic<LoginContext> loginContext;
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -54,40 +53,35 @@ class MomentoAvaliacaoControllerIntegrationTests
         MockitoAnnotations.openMocks(this);
     }
 
-    @BeforeAll
-    static void setUpBeforeClass()
-    {
-        loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
-    }
-
-
     @Test
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")
     public void shouldCreateMomento() throws Exception
     {
         MomentoAvaliacaoDTO dto = new MomentoAvaliacaoDTO(1L, "denominacao");
-        when(service.createAndSaveMomentoAvaliacao(dto)).thenReturn(dto);
+        when(service.createAndSaveMomentoAvaliacao(any(MomentoAvaliacaoDTO.class))).thenReturn(dto);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/momento/criar")
+                        .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        MomentoAvaliacaoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(),
-                MomentoAvaliacaoDTO.class);
-        assertEquals(dto, responseDto);
+        MomentoAvaliacaoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), MomentoAvaliacaoDTO.class);
+        assertEquals(dto.toString(), responseDto.toString());
     }
+
 
     @Test
     public void shouldCreateEdicaoMomento() throws Exception
     {
         EdicaoMomentoAvaliacaoDTO dto = new EdicaoMomentoAvaliacaoDTO(1L, 1L);
-        when(service.createAndSaveEdicaoMomentoAvaliacao(dto)).thenReturn(dto);
+        when(service.createAndSaveEdicaoMomentoAvaliacao(any(EdicaoMomentoAvaliacaoDTO.class))).thenReturn(dto);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/momento/criar/edicaoMomento")
+                        .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
@@ -95,6 +89,6 @@ class MomentoAvaliacaoControllerIntegrationTests
 
         EdicaoMomentoAvaliacaoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(),
                 EdicaoMomentoAvaliacaoDTO.class);
-        assertEquals(dto, responseDto);
+        assertEquals(dto.toString(), responseDto.toString());
     }
 }

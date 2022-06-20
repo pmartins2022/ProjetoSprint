@@ -34,4 +34,13 @@ public class MomentoAvaliacaoDTO
     {
         this.denominacao = denominacao;
     }
+
+    @Override
+    public String toString()
+    {
+        return "MomentoAvaliacaoDTO{" +
+                "id=" + id +
+                ", denominacao='" + denominacao + '\'' +
+                '}';
+    }
 }

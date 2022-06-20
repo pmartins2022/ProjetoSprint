@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,7 +63,7 @@ class UnidadeCurricularControllerIntegrationTests
     public void shouldCreateUC() throws Exception
     {
         UnidadeCurricularDTO dto = new UnidadeCurricularDTO("sigla", "denominacao");
-        when(service.createAndSaveUnidadeCurricular(dto)).thenReturn(dto);
+        when(service.createAndSaveUnidadeCurricular(any(UnidadeCurricularDTO.class))).thenReturn(dto);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/uc/criar")
@@ -74,7 +75,7 @@ class UnidadeCurricularControllerIntegrationTests
 
         UnidadeCurricularDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(),
                 UnidadeCurricularDTO.class);
-        assertEquals(dto, responseDto);
+        assertEquals(dto.toString(), responseDto.toString());
     }
 
     @Test
@@ -82,7 +83,7 @@ class UnidadeCurricularControllerIntegrationTests
     public void shouldNotCreateUC_Exists() throws Exception
     {
         UnidadeCurricularDTO dto = new UnidadeCurricularDTO("sigla", "denominacao");
-        when(service.createAndSaveUnidadeCurricular(dto)).thenThrow(ErroGeralException.class);
+        when(service.createAndSaveUnidadeCurricular(any(UnidadeCurricularDTO.class))).thenThrow(ErroGeralException.class);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/uc/criar")
@@ -94,10 +95,10 @@ class UnidadeCurricularControllerIntegrationTests
 
     @Test
     @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_ADMIN")
-    public void shouldCreateUC_InvalidAtributtes() throws Exception
+    public void shouldNotCreateUC_InvalidAtributtes() throws Exception
     {
         UnidadeCurricularDTO dto = new UnidadeCurricularDTO("sigla", "denominacao");
-        when(service.createAndSaveUnidadeCurricular(dto)).thenThrow(ValidacaoInvalidaException.class);
+        when(service.createAndSaveUnidadeCurricular(any(UnidadeCurricularDTO.class))).thenThrow(ValidacaoInvalidaException.class);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/uc/criar")
@@ -114,15 +115,15 @@ class UnidadeCurricularControllerIntegrationTests
         when(service.findBySigla("sigla")).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.post("/uc/{sigla}", "sigla")
+                .perform(MockMvcRequestBuilders.get("/uc/{sigla}", "sigla")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andReturn();
 
         UnidadeCurricularDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(),
                 UnidadeCurricularDTO.class);
-        assertEquals(dto, responseDto);
+        assertEquals(dto.toString(), responseDto.toString());
     }
 
     @Test
@@ -147,7 +148,7 @@ class UnidadeCurricularControllerIntegrationTests
         when(service.update("sigla", "denominacao")).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.put("/uc/{sigla}/?denominacao=", "sigla", "denominacao")
+                .perform(MockMvcRequestBuilders.put("/uc/sigla?denominacao=denominacao")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();

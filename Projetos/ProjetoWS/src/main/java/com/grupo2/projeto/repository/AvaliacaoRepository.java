@@ -2,6 +2,7 @@ package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.jpa.AvaliacaoJPA;
 import com.grupo2.projeto.jpa.ConteudoJPA;
+import com.grupo2.projeto.jpa.factory.AvaliacaoJPAFactory;
 import com.grupo2.projeto.jpa.mapper.AvaliacaoJPAMapper;
 import com.grupo2.projeto.jpa.mapper.ConteudoJPAMapper;
 import com.grupo2.projeto.model.Avaliacao;
@@ -25,9 +26,14 @@ public class AvaliacaoRepository
     @Autowired
     private ConteudoJPAMapper conteudoJPAMapper;
 
+    @Autowired
+    private AvaliacaoJPAFactory factory;
+
     public Avaliacao saveAvaliacao(Avaliacao avaliacao, Conteudo cont)
     {
-        AvaliacaoJPA jpa = new AvaliacaoJPA(avaliacao.getId(),avaliacao.getIdMomentoAvaliacao(), avaliacao.getPresidenteId(), avaliacao.getOrientadorId(), avaliacao.getArguenteId(), avaliacao.getIdProjeto(),conteudoJPAMapper.toJpa(cont), avaliacao.getNota());
+        ConteudoJPA conteudoJPA = conteudoJPAMapper.toJpa(cont);
+
+        AvaliacaoJPA jpa = factory.create(avaliacao.getId(),avaliacao.getIdMomentoAvaliacao(), avaliacao.getPresidenteId(), avaliacao.getOrientadorId(), avaliacao.getArguenteId(), avaliacao.getIdProjeto(),conteudoJPA, avaliacao.getNota());
 
         AvaliacaoJPA saved = repository.save(jpa);
 

@@ -4,6 +4,7 @@ package com.grupo2.projeto.controller;
 import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.exception.ErroGeralException;
 import com.grupo2.projeto.exception.ListaVaziaException;
+import com.grupo2.projeto.exception.OptionalVazioException;
 import com.grupo2.projeto.service.AvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class AvaliacaoController
             return new ResponseEntity<>(avaliacaoDTO, HttpStatus.OK);
         } else
         {
-            throw new ErroGeralException("Nao existe nenhuma avaliacao com esse ID");
+            throw new OptionalVazioException("Nao existe nenhuma avaliacao com esse ID");
         }
     }
     @GetMapping("/listar")

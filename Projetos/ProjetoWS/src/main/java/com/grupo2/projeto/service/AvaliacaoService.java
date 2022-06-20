@@ -93,10 +93,6 @@ public class AvaliacaoService
             throw new ValidacaoInvalidaException("O Docente não é Orientador do Projeto");
         }
 
- 
-
-
-
         Avaliacao avaliacao = mapper.toModel(avaliacaoDTO);
 
         Avaliacao savedAvaliacao = repository.saveAvaliacao(avaliacao, cont.get());

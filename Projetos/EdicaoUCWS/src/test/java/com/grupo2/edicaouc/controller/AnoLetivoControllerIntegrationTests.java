@@ -43,8 +43,6 @@ class AnoLetivoControllerIntegrationTests
     @MockBean
     private HttpServletRequest request;
 
-    private static MockedStatic<LoginContext> loginContext;
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -55,12 +53,6 @@ class AnoLetivoControllerIntegrationTests
     void setUp()
     {
         MockitoAnnotations.openMocks(this);
-    }
-
-    @BeforeAll
-    static void setUpBeforeClass()
-    {
-        loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
     }
 
 

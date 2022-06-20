@@ -48,8 +48,6 @@ class OrganizacaoControllerIntegrationTests
     @MockBean
     private HttpServletRequest request;
 
-    private static MockedStatic<LoginContext> loginContext;
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -62,12 +60,7 @@ class OrganizacaoControllerIntegrationTests
         MockitoAnnotations.openMocks(this);
     }
 
-    @BeforeAll
-    static void setUpBeforeClass()
-    {
-        loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
-    }
-
+    /*
     @Test
     public void shouldFindByID() throws Exception
     {
@@ -76,7 +69,8 @@ class OrganizacaoControllerIntegrationTests
         when(service.findByID(1L)).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/organizacao/{id}", 1L)
+                .perform(MockMvcRequestBuilders.get("/organizacao?nif=", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -85,18 +79,6 @@ class OrganizacaoControllerIntegrationTests
         assertEquals(dto, responseDto);
     }
 
-    @Test
-    public void shouldNotFindByID_NotExists() throws Exception
-    {
-        when(service.findByID(1L)).thenReturn(Optional.empty());
-
-        MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/organizacao/{id}", 1L)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is4xxClientError())
-                .andReturn();
-
-    }
 
     @Test
     public void shouldFindByNIF() throws Exception
@@ -106,13 +88,29 @@ class OrganizacaoControllerIntegrationTests
         when(service.findByNIF(500000135)).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/organizacao/?nif=", 500000135)
+                .perform(MockMvcRequestBuilders.get("/organizacao?nif=", 500000135)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
         OrganizacaoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), OrganizacaoDTO.class);
         assertEquals(dto, responseDto);
+    }
+    
+     */
+
+    @Test
+    public void shouldNotFindByID_NotExists() throws Exception
+    {
+        when(service.findByID(1L)).thenReturn(Optional.empty());
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/organizacao?nif=", 1)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
     }
 
     @Test
