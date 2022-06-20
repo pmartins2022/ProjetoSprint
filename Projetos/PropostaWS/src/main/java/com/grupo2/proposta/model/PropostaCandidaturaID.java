@@ -1,5 +1,6 @@
 package com.grupo2.proposta.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
@@ -8,6 +9,7 @@ import java.util.Objects;
 public class PropostaCandidaturaID implements Serializable
 {
     private Long idProposta;
+    @Column(unique = true)
     private Long idAluno;
 
 

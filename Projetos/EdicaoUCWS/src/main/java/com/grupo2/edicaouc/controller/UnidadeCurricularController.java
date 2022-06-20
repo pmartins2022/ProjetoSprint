@@ -19,7 +19,7 @@ import java.util.Optional;
  * Classe REST Controller de Unidade Curricular. Possui endpoints para findByID, createAndSaveUnidadeCurricular, updateDenominacao e listAll.
  */
 @RestController
-@RequestMapping("uc")
+@RequestMapping("/uc")
 public class UnidadeCurricularController
 {
     /**

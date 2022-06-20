@@ -99,7 +99,7 @@ public class LoginViewController
             }
 
             UtilizadorAuthDTO user = new UtilizadorAuthDTO(username1.getId(), username1.getUsername(), username1.getPassword(), username1.getTipoUtilizador());
-            LoginContext.setUser(user);
+            LoginContext.setUser(user, password.getText());
 
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "!!!", "DEU", "FEZ LOGIN " + user);
 

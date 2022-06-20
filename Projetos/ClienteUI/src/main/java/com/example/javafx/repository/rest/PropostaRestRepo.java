@@ -1,5 +1,6 @@
 package com.example.javafx.repository.rest;
 
+import com.example.javafx.dto.ProjetoDTO;
 import com.example.javafx.dto.ConviteDTO;
 import com.example.javafx.dto.PropostaCandidaturaDTO;
 import com.example.javafx.dto.PropostaCandidaturaIDDTO;
@@ -48,11 +49,12 @@ public class PropostaRestRepo
         }
     }
 
-    public List<PropostaDTO> findAllPropostaCandidatura()
+    public List<PropostaDTO> findAllPropostaByEstadoAtual(Integer estado)
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/?estado=0L").get().retrieve();
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/?estado=" + estado)
+                    .get().header("Authorization", LoginContext.getToken()).retrieve();
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
@@ -67,7 +69,8 @@ public class PropostaRestRepo
         }
     }
 
-    public PropostaCandidaturaDTO acceptCandidaturaProposta(PropostaCandidaturaIDDTO propostaCandidaturaID)
+
+    public PropostaCandidaturaDTO acceptCandidaturaAlunoProposta(PropostaCandidaturaIDDTO propostaCandidaturaID)
     {
         try
         {
@@ -87,7 +90,7 @@ public class PropostaRestRepo
         }
     }
 
-    public PropostaCandidaturaDTO rejectCandidaturaProposta(PropostaCandidaturaIDDTO propostaCandidaturaID)
+    public PropostaCandidaturaDTO rejectCandidaturaAlunoProposta(PropostaCandidaturaIDDTO propostaCandidaturaID)
     {
         try
         {
@@ -139,6 +142,82 @@ public class PropostaRestRepo
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(PropostaDTO.class).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+public PropostaDTO acceptCandidaturaProposta(Long idProposta)
+{
+    try
+    {
+        WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/aceitarCandidatura/" + idProposta).post()
+                .header("Authorization", LoginContext.getToken()).retrieve();
+        
+        responseSpec.onStatus(HttpStatus::is4xxClientError,
+                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+        return responseSpec.bodyToMono(PropostaDTO.class).block();
+    }
+    catch (RestPostException e)
+    {
+        throw new RestPostException(e.getMessage());
+    }
+}
+
+    public PropostaDTO rejectCandidaturaProposta(Long idProposta)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/rejeitarCandidatura/" + idProposta).post()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
+
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return responseSpec.bodyToMono(PropostaDTO.class).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+    public ProjetoDTO acceptProposta(Long idProposta, Long alunoID)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/aceitarProposta/" + idProposta
+                    + "?aluno=" + alunoID).post()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
+
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return responseSpec.bodyToMono(ProjetoDTO.class).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+    public boolean rejectProposta(Long idProposta, Long alunoID)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/rejeitarProposta" + idProposta).post()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return true;
+           // return responseSpec.bodyToMono().block();
         }
         catch (RestPostException e)
         {

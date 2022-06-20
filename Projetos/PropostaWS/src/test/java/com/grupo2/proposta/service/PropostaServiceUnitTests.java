@@ -511,8 +511,8 @@ class PropostaServiceUnitTests
     public void shouldFindAllByEstado()
     {
         Proposta proposta = mock(Proposta.class);
-        when(repository.findAllByEstado(1L)).thenReturn(List.of(proposta));
-        List<PropostaDTO> estado = service.findAllByEstado(1L);
+        when(repository.findAllByEstado(1)).thenReturn(List.of(proposta));
+        List<PropostaDTO> estado = service.findAllByEstado(1);
         assertEquals(1, estado.size());
     }
 

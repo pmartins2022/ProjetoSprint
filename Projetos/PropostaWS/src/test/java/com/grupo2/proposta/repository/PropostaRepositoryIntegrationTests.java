@@ -8,6 +8,7 @@ import com.grupo2.proposta.model.factory.PropostaFactory;
 import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,20 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
 class PropostaRepositoryIntegrationTests
 {
+
+
+
+
+
+
+
+
+    /*
     @Autowired
     PropostaRepository repository;
 
@@ -176,6 +187,6 @@ class PropostaRepositoryIntegrationTests
         List<Proposta> list = repository.findByEdicaoUCId(1L);
 
         assertEquals(1, list.size());
-    }
+    }*/
 
 }

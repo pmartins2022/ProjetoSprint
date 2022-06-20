@@ -115,7 +115,7 @@ public class PropostaController
      * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PostMapping("/rejeitarCandidatura/{id}")
+    @PutMapping("/rejeitarCandidatura/{id}")
     public ResponseEntity<PropostaDTO> rejectCandidaturaProposta(@PathVariable(name = "id") Long id)
     {
         try
@@ -139,9 +139,10 @@ public class PropostaController
      * @return objeto, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aceitada.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PostMapping("/aceitarCandidatura/{idProposta}")
+    @PutMapping("/aceitarCandidatura/{idProposta}")
     public ResponseEntity<Object> acceptCandidaturaProposta(@PathVariable("idProposta") Long idProposta)
     {
+        System.out.println("Entrei");
         //Estado da Proposta -CANDIDATURA   -vai ficar APROVADO
         UtilizadorAuthDTO docente = LoginContext.getCurrent();
 
@@ -156,24 +157,22 @@ public class PropostaController
         {
             throw e;
         }
-
     }
 
     /**
      * Endpoint que possibilita aceitar uma proposta.
      * @param propostaID o id da proposta
-     * @param orientadorID o id do orientador
      * @param alunoID o id do aluno
      * @return objeto ou um erro se os dados estiverem invalidos.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/aceitarProposta/{id}")
-    public ResponseEntity<Object> acceptProposta(@PathVariable("id") Long propostaID,
-                                                 @RequestParam("orientador") Long orientadorID, @RequestParam("aluno") Long alunoID)
+    public ResponseEntity<Object> acceptProposta(@PathVariable("id") Long propostaID, @RequestParam("aluno") Long alunoID)
     {
+        UtilizadorAuthDTO utilizadorAuthDTO = LoginContext.getCurrent();
         try
         {
-            ProjetoDTO projetoDTO = service.acceptProposta(propostaID, orientadorID, alunoID);
+            ProjetoDTO projetoDTO = service.acceptProposta(propostaID, utilizadorAuthDTO.getId(), alunoID);
             return new ResponseEntity<>(projetoDTO, HttpStatus.OK);
         } catch (IdInvalidoException e)
         {
@@ -284,9 +283,15 @@ public class PropostaController
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("")
-    public ResponseEntity<List<PropostaDTO>> findAllByEstado(@RequestParam("estado") Long estado)
+    public ResponseEntity<List<PropostaDTO>> findAllByEstado(@RequestParam("estado") Integer estado)
     {
+
         List<PropostaDTO> list = service.findAllByEstado(estado);
+
+        if (list.isEmpty())
+        {
+            throw new ListaVaziaException("Não há propostas em fase CANDIDATURA");
+        }
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
