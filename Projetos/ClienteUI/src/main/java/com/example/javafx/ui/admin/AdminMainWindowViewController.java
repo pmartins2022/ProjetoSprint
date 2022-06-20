@@ -106,11 +106,9 @@ public class AdminMainWindowViewController
 
     public void createAnoLetivo(ActionEvent actionEvent)
     {
-
         if (siglaAnoLetivo.getText().isEmpty())
         {
             AlertBuilder.showAlert(Alert.AlertType.WARNING,"Atenção","Atenção", "Preencha o campo Sigla");
-            return;
         }
         try
         {
@@ -200,7 +198,7 @@ public class AdminMainWindowViewController
                         textUC.clear();
                     }
                     else{
-                    textUC.setText(var.toStringText());
+                        textUC.setText(var.toStringText());
                     }
 
                 }

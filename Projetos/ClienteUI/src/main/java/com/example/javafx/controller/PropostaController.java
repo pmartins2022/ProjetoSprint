@@ -1,10 +1,14 @@
 package com.example.javafx.controller;
 
+import com.example.javafx.dto.ConviteDTO;
 import com.example.javafx.dto.ProjetoDTO;
 import com.example.javafx.dto.PropostaDTO;
+import com.example.javafx.dto.UtilizadorDTO;
 import com.example.javafx.dto.factory.PropostaDTOFactory;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.service.PropostaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 

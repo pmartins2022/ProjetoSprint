@@ -33,10 +33,13 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea fx:id="textHomeTxt" layoutX="65.0" layoutY="73.0" prefHeight="200.0" prefWidth="448.0" />
-                        <Label layoutX="215.0" layoutY="35.0" prefHeight="38.0" prefWidth="149.0" text="Informações">
+                        <TextArea fx:id="textHomeTxt" layoutX="65.0" layoutY="73.0" prefHeight="200.0" prefWidth="448.0">
                            <font>
-                              <Font size="26.0" />
+                              <Font size="14.0" />
+                           </font></TextArea>
+                        <Label layoutX="215.0" layoutY="35.0" prefHeight="38.0" prefWidth="175.0" text="Informações">
+                           <font>
+                              <Font name="System Bold" size="26.0" />
                            </font>
                         </Label>
                      </children></AnchorPane>
@@ -98,8 +101,10 @@
                         </FlowPane>
                         <FlowPane alignment="CENTER" hgap="130.0" prefHeight="223.0" prefWidth="579.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#createEdicaoUC" prefHeight="25.0" prefWidth="100.0" text="Criar " />
-                              <Button mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="100.0" text="Cancelar" />
+                              <Button mnemonicParsing="false" onAction="#createEdicaoUC" prefHeight="39.0" prefWidth="320.0" style="-fx-background-color: #23527B;" text="Criar Edição de Unidade Curricular" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font></Button>
                            </children>
                         </FlowPane>
                      </children>
@@ -108,21 +113,21 @@
           </Tab>
             <Tab text="Criar Ano Letivo">
                <content>
-                  <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="237.0" prefWidth="600.0">
+                  <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="319.0" prefWidth="580.0">
                      <top>
                         <Label text="Criar Ano Letivo" textAlignment="CENTER" BorderPane.alignment="CENTER">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                            <BorderPane.margin>
-                              <Insets top="20.0" />
+                              <Insets top="50.0" />
                            </BorderPane.margin>
                         </Label>
                      </top>
                      <center>
                         <VBox prefHeight="153.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="73.0" prefWidth="600.0">
+                              <HBox alignment="CENTER" prefHeight="135.0" prefWidth="580.0">
                                  <children>
                                     <Label contentDisplay="CENTER" text="Sigla:" textAlignment="CENTER">
                                        <font>
@@ -132,38 +137,22 @@
                                           <Insets right="20.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="siglaText">
+                                    <TextField fx:id="siglaAnoLetivo" promptText="YYYY-YYYY">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </TextField>
                                  </children>
                               </HBox>
-                              <Label text="Formatação a usar: YYYY-YYYY">
-                                 <VBox.margin>
-                                    <Insets left="40.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="System Italic" size="12.0" />
-                                 </font>
-                              </Label>
                            </children>
                         </VBox>
                      </center>
                      <bottom>
-                        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                        <HBox alignment="CENTER" prefHeight="88.0" prefWidth="580.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#createAnoLetivo" prefWidth="150.0" text="Criar Ano Letivo">
+                              <Button mnemonicParsing="false" onAction="#createAnoLetivo" prefHeight="39.0" prefWidth="179.0" style="-fx-background-color: #23527B;" text="Criar Ano Letivo" textFill="WHITE">
                                  <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="20.0" right="20.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#closeWindow" prefWidth="150.0" text="Fechar">
-                                 <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold" size="18.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets left="20.0" right="20.0" />
@@ -191,15 +180,13 @@
                      <bottom>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#createUnidadeCurricular" prefWidth="150.0" text="Criar Unidade Curricular">
+                              <Button mnemonicParsing="false" onAction="#createUnidadeCurricular" prefHeight="39.0" prefWidth="244.0" style="-fx-background-color: #23527B;" text="Criar Unidade Curricular" textFill="WHITE">
                                  <HBox.margin>
                                     <Insets left="20.0" right="20.0" />
                                  </HBox.margin>
-                              </Button>
-                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#closeWindow" prefWidth="150.0" text="Fechar">
-                                 <HBox.margin>
-                                    <Insets left="20.0" right="20.0" />
-                                 </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
                               </Button>
                            </children>
                         </HBox>
@@ -215,7 +202,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <TextField fx:id="siglaText1" GridPane.columnIndex="1">
+                              <TextField fx:id="siglaUCText" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="20.0" right="20.0" />
                                  </GridPane.margin>
@@ -236,7 +223,7 @@
                                     <Insets right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="denominacaoText" layoutX="330.0" layoutY="19.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <TextField fx:id="denominacaoUCText" layoutX="330.0" layoutY="19.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="20.0" right="20.0" />
                                  </GridPane.margin>
@@ -249,11 +236,11 @@
             </Tab>
             <Tab text="Consultar UC">
                <content>
-                  <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="600.0">
+                  <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="581.0">
                      <top>
                         <Label text="Consultar uma Unidade Curricular" BorderPane.alignment="CENTER">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                            <BorderPane.margin>
                               <Insets top="20.0" />
@@ -263,7 +250,7 @@
                      <center>
                         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                              <HBox alignment="CENTER" prefHeight="82.0" prefWidth="566.0">
                                  <children>
                                     <Label text="Selecionar:">
                                        <HBox.margin>
@@ -277,7 +264,10 @@
                                     </ChoiceBox>
                                  </children>
                               </HBox>
-                              <TextArea fx:id="textUC" prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea fx:id="textUC" prefHeight="200.0" prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                                 </VBox.margin></TextArea>
                            </children>
                         </VBox>
                      </center>
