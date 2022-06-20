@@ -5,6 +5,8 @@ import io.netty.handler.codec.base64.Base64;
 import io.netty.handler.codec.base64.Base64Encoder;
 import org.springframework.util.Base64Utils;
 
+import com.example.javafx.dto.UtilizadorAuthDTO;
+
 public class LoginContext
 {
     private static UtilizadorAuthDTO currentUser;
@@ -21,6 +23,7 @@ public class LoginContext
     {
         return currentUser;
     }
+    
 
     public static String getToken()
     {

@@ -18,7 +18,8 @@ import java.util.Optional;
 
 /**
  * Classe REST Controller de Proposta. Possui endpoints para createProposta, listbyIdUtilizador, listbyTitulo,
- * listbyNif, aprovarProposta, rejeitarProposta
+ * listbyNif, aprovarProposta, rejeitarProposta, acceptCandidaturaProposta, rejectCandidaturaProposta, rejectProposta,
+ * acceptProposta, candidatarAlunoProposta, rejectAlunoCandidaturaProposta, acceptAlunoCandidaturaProposta, findAllByEstado
  */
 @RestController
 @RequestMapping("/proposta")
@@ -109,8 +110,7 @@ public class PropostaController
     }
 
     /**
-     * Endpoint que possibilita rejeitar uma candidatura a proposta.
-     *
+     * Endpoint que possibilita rejeitar uma candidatura a proposta
      * @param id o id da proposta
      * @return proposta, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aprovada/rejeitada.
      */
@@ -133,6 +133,11 @@ public class PropostaController
         }
     }
 
+    /**
+     * Endpoint que possibilita aceitar uma candidatura a proposta
+     * @param idProposta o id da proposta
+     * @return objeto, ou um erro se os dados estiverem invalidos ou se a proposta ja tiver sido aceitada.
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PutMapping("/aceitarCandidatura/{idProposta}")
     public ResponseEntity<Object> acceptCandidaturaProposta(@PathVariable("idProposta") Long idProposta)
@@ -155,11 +160,10 @@ public class PropostaController
     }
 
     /**
-     * Endpoint que possibilita a criação de Projeto.
-     *
+     * Endpoint que possibilita aceitar uma proposta.
      * @param propostaID o id da proposta
      * @param alunoID o id do aluno
-     * @return projeto, ou um erro se os dados estiverem invalidos.
+     * @return objeto ou um erro se os dados estiverem invalidos.
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/aceitarProposta/{id}")
@@ -179,6 +183,11 @@ public class PropostaController
         }
     }
 
+    /**
+     * Endpoint que possibilita rejeitar uma proposta.
+     * @param propostaID o id da proposta
+     * @return uma objeto ou um erro se os dados estiverem invalidos.
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/rejeitarProposta/{id}")
     public ResponseEntity<Object> rejectProposta(@PathVariable("id") Long propostaID)
@@ -196,6 +205,11 @@ public class PropostaController
         }
     }
 
+    /**
+     * Endpoint que possibilita uma aluno candidatar-se a uma proposta
+     * @param propostaID o id da proposta
+     * @return um objeto ou um erro se os dados estiverem invalidos.
+     */
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @PostMapping("/candidatarAlunoProposta/{propostaID}")
     public ResponseEntity<Object> candidatarAlunoProposta(@PathVariable(name = "propostaID") Long propostaID)
@@ -216,6 +230,11 @@ public class PropostaController
         }
     }
 
+    /**
+     * Endpoint que possibilita aceitar um aluno
+     * @param propostaCandidaturaID objeto do tipo propostaCandidaturaID
+     * @return um objeto ou um erro se os dados estiverem invalidos.
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/aceitarCandidaturaAluno")
     public ResponseEntity<Object> acceptAlunoCandidaturaProposta(@RequestBody PropostaCandidaturaIDDTO propostaCandidaturaID)
@@ -234,6 +253,11 @@ public class PropostaController
         }
     }
 
+    /**
+     * Endpoint que possibilita rejeitar um aluno
+     * @param propostaCandidaturaID objeto do tipo propostaCandidaturaID
+     * @return um objeto ou um erro se os dados estiverem invalidos.
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/rejeitarCandidaturaAluno")
     public ResponseEntity<Object> rejectAlunoCandidaturaProposta(@RequestBody PropostaCandidaturaIDDTO propostaCandidaturaID)
@@ -252,6 +276,11 @@ public class PropostaController
         }
     }
 
+    /**
+     * Endpoint que possibilita listar todas as propostas por estado
+     * @param estado e o estado da proposta
+     * @return lista de PropostasDTO
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("")
     public ResponseEntity<List<PropostaDTO>> findAllByEstado(@RequestParam("estado") Integer estado)
@@ -266,4 +295,14 @@ public class PropostaController
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
+    @GetMapping("/propostaAluno")
+    public ResponseEntity<PropostaDTO> findByEstadoAndAlunoid(@RequestParam("estado") Long estado)
+    {
+        PropostaDTO list = service.findByEstadoAndAlunoid(estado);
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }

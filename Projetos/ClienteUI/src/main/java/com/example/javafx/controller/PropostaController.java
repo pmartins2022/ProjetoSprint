@@ -5,8 +5,6 @@ import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.dto.factory.PropostaDTOFactory;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.service.PropostaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -21,6 +19,8 @@ public class PropostaController
 
     @Autowired
     private PropostaDTOFactory propostaDTOFactory;
+
+    private PropostaDTO current;
 
     /**
      * Buscar a lista de organizações.
@@ -100,5 +100,26 @@ public class PropostaController
         }
 
         return true;
+    }
+
+    public PropostaDTO findByEstadoAndAlunoid()
+    {
+        current = propostaService.findByEstadoAndAlunoid();
+        return current;
+    }
+
+    public UtilizadorDTO findAllDocente()
+    {
+        return propostaService.findAllDocente();
+    }
+
+    public PropostaDTO getCurrent()
+    {
+        return current;
+    }
+
+    public ConviteDTO createConvite(ConviteDTO dto)
+    {
+        return propostaService.createConvite(dto);
     }
 }

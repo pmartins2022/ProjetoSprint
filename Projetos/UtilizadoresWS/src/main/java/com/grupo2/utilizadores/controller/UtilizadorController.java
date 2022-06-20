@@ -95,4 +95,14 @@ public class UtilizadorController
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/docentes")
+    public ResponseEntity<Object> findAllDocentes()
+    {
+        List<UtilizadorDTO> lista = service.findAllDocentes();
+
+        if (lista.isEmpty()) throw new ListaVaziaException("Nao ha docentes");
+
+        return ResponseEntity.ok(lista);
+    }
+
 }

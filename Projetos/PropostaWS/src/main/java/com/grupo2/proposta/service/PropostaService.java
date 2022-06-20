@@ -595,4 +595,12 @@ public class PropostaService
 
         repository.atualizarProposta(proposta.get());
     }
+
+
+    public PropostaDTO findByEstadoAndAlunoid(Long estado)
+    {
+        Proposta proposta = repository.findByEstadoAndAlunoid(estado);
+
+        return mapper.toDTO(proposta);
+    }
 }

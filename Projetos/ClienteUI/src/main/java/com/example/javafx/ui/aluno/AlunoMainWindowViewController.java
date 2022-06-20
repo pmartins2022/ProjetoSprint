@@ -2,8 +2,11 @@ package com.example.javafx.ui.aluno;
 
 import com.example.javafx.controller.PropostaController;
 import com.example.javafx.controller.aluno.AlunoController;
+import com.example.javafx.dto.ConviteDTO;
 import com.example.javafx.dto.PropostaDTO;
+import com.example.javafx.dto.UtilizadorDTO;
 import com.example.javafx.exception.ErrorDetail;
+import com.example.javafx.model.LoginContext;
 import com.example.javafx.ui.utils.AlertBuilder;
 import com.example.javafx.ui.utils.JavaFXUtils;
 import javafx.fxml.FXML;
@@ -25,9 +28,9 @@ public class AlunoMainWindowViewController
     public ChoiceBox<String> edicaoChoice;
     public TabPane alunoPane;
     public Button logOutButton;
-    public ChoiceBox docenteChoiceBox;
+    public ChoiceBox<UtilizadorDTO> docenteChoiceBox;
     public TextArea txtPropostaInfo;
-    public ChoiceBox propostaChoiceBox;
+    public ChoiceBox<PropostaDTO> propostaChoiceBox;
     public TextArea alunoDTOText;
     public Button createPropostaButton;
     private AlunoController alunoController;
@@ -125,6 +128,22 @@ public class AlunoMainWindowViewController
 
     public void createConvite(ActionEvent actionEvent)
     {
+        try
+        {
+            ConviteDTO dto = new ConviteDTO(LoginContext.getCurrentUser().getId(),
+                    (long) docenteChoiceBox.getSelectionModel().getSelectedIndex(), propostaController.getCurrent().getId());
+
+            ConviteDTO convite = propostaController.createConvite(dto);
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Convite criada com sucesso. " + convite.toString());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+        }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
     public void createCandidatura(ActionEvent actionEvent)
@@ -139,6 +158,46 @@ public class AlunoMainWindowViewController
         {
             case 0 -> iniciarTabHome();
             case 1 -> iniciarTabCriarProposta();
+            case 2 -> iniciarTabCriarCandidatura();
+            case 3 -> iniciarTabCriarConviteOrientacao();
+        }
+    }
+
+    private void iniciarTabCriarCandidatura()
+    {
+        try
+        {
+            propostaChoiceBox.getItems().addAll(propostaController.findAllPropostaCandidatura());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+            createPropostaButton.setDisable(true);
+        }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+            createPropostaButton.setDisable(true);
+        }
+    }
+
+    private void iniciarTabCriarConviteOrientacao()
+    {
+        try
+        {
+            PropostaDTO dto = propostaController.findByEstadoAndAlunoid();
+            txtPropostaInfo.setText(dto.toString());
+            docenteChoiceBox.getItems().addAll(propostaController.findAllDocente());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+            createPropostaButton.setDisable(true);
+        }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+            createPropostaButton.setDisable(true);
         }
     }
 

@@ -6,10 +6,12 @@ import com.example.javafx.exception.RestPostException;
 import com.example.javafx.repository.rest.EdicaoUCRestRepo;
 import com.example.javafx.repository.rest.OrganizacaoRestRepo;
 import com.example.javafx.repository.rest.PropostaRestRepo;
+import com.example.javafx.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Classe service para uma Proposta.
@@ -25,6 +27,9 @@ public class PropostaService
 
     @Autowired
     private PropostaRestRepo propostaRestRepo;
+
+    @Autowired
+    private UtilizadorRestRepository utilizadorRestRepository;
 
     @Autowired
     private PropostaCandidaturaIDDTOFactory idFactory;
@@ -73,7 +78,6 @@ public class PropostaService
 
         PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.acceptCandidaturaAlunoProposta(id);
 
-        //validação??
         return true;
     }
 
@@ -81,9 +85,8 @@ public class PropostaService
     {
         PropostaCandidaturaIDDTO id = idFactory.createPropostaCandidaturaIDDTO(idProjeto, idAluno);
 
-        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.rejectCandidaturaAlunoProposta(id);
+        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.rejectCandidaturaProposta(id);
 
-//validação??
         return true;
     }
 
@@ -122,4 +125,21 @@ public class PropostaService
     }
 
 
+
+    public ConviteDTO createConvite(ConviteDTO conviteDTO)
+    {
+        ConviteDTO convite = propostaRestRepo.createAndSaveConvite(conviteDTO);
+
+        return convite;
+    }
+
+    public PropostaDTO findByEstadoAndAlunoid()
+    {
+        return propostaRestRepo.findByEstadoAndAlunoid();
+    }
+
+    public UtilizadorDTO findAllDocente()
+    {
+        return utilizadorRestRepository.findAllDocente();
+    }
 }

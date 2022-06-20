@@ -1,6 +1,6 @@
-package com.grupo2.proposta.dto;
+package com.example.javafx.dto;
 
-import com.grupo2.proposta.model.EstadoConvite;
+import com.example.javafx.model.EstadoConvite;
 
 import java.util.Objects;
 

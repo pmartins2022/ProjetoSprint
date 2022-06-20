@@ -3,11 +3,14 @@ package com.grupo2.proposta.controller;
 import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.exception.*;
 import com.grupo2.proposta.model.PropostaCandidaturaID;
+import com.grupo2.proposta.security.LoginContext;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -31,6 +34,8 @@ class PropostaControllerUnitTests
     @MockBean
     private HttpServletRequest request;
 
+    private static MockedStatic<LoginContext> loginContext;
+
     @InjectMocks
     private PropostaController controller;
 
@@ -38,6 +43,12 @@ class PropostaControllerUnitTests
     public void setup()
     {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @BeforeAll
+    static void setUpBeforeClass()
+    {
+        loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
     }
 
     @Test
@@ -79,7 +90,7 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
-        when(service.acceptCandidaturaProposta(1L, 1L)).thenThrow(IdInvalidoException.class);
+        when(service.acceptProposta(1L, 1L, 1L)).thenThrow(IdInvalidoException.class);
 
         assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L));
     }
@@ -89,7 +100,7 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
-        when(service.acceptCandidaturaProposta(1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
+        when(service.acceptProposta(1L, 1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
 
         assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L));
     }
@@ -210,7 +221,7 @@ class PropostaControllerUnitTests
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
-   /* @Test
+   @Test
     public void shouldAcceptAluno()
     {
         UtilizadorAuthDTO alunoDTO = mock(UtilizadorAuthDTO.class);
@@ -219,45 +230,28 @@ class PropostaControllerUnitTests
 
         when(service.acceptAlunoCandidaturaProposta(1L, propostaCandidaturaID)).thenReturn(propostaCandidaturaDTO);
 
+        loginContext.when(LoginContext::getCurrent).thenReturn(alunoDTO);
+
         ResponseEntity<Object> objectResponseEntity = controller.acceptAlunoCandidaturaProposta(propostaCandidaturaID);
 
         assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
-    }*/
+    }
 
-   /* @Test
-    public void shouldNotAcceptAluno()
-    {
-        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
-        PropostaCandidaturaIDDTO propostaCandidaturaID = mock(PropostaCandidaturaIDDTO.class);
-
-        when(service.acceptAlunoCandidaturaProposta(1L, propostaCandidaturaID)).thenReturn(propostaCandidaturaDTO);
-
-        assertThrows(IdInvalidoException.class,()->controller.rejectAlunoCandidaturaProposta(propostaCandidaturaID));
-    }*/
-
-   /* @Test
+   @Test
     public void shouldRejectAluno()
     {
+        UtilizadorAuthDTO alunoDTO = mock(UtilizadorAuthDTO.class);
         PropostaCandidaturaIDDTO propostaCandidaturaID = mock(PropostaCandidaturaIDDTO.class);
         PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
 
         when(service.rejectAlunoCandidaturaProposta(1L, propostaCandidaturaID)).thenReturn(propostaCandidaturaDTO);
+
+        loginContext.when(LoginContext::getCurrent).thenReturn(alunoDTO);
 
         ResponseEntity<Object> objectResponseEntity = controller.rejectAlunoCandidaturaProposta(propostaCandidaturaID);
 
         assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
-    }*/
-
-    /*@Test
-    public void shouldNotRejectAluno()
-    {
-        PropostaCandidaturaDTO propostaCandidaturaDTO = mock(PropostaCandidaturaDTO.class);
-        PropostaCandidaturaIDDTO propostaCandidaturaID = mock(PropostaCandidaturaIDDTO.class);
-
-        when(service.rejectAlunoCandidaturaProposta(1L, propostaCandidaturaID)).thenReturn(propostaCandidaturaDTO);
-
-        assertThrows(IdInvalidoException.class,()->controller.rejectAlunoCandidaturaProposta(propostaCandidaturaID));
-    }*/
+    }
 
     @Test
     public void shouldCandidatarAluno()
