@@ -20,6 +20,7 @@ public class EdicaoUcwsApplication {
 		SpringApplication.run(EdicaoUcwsApplication.class, args);
 	}
 
+	/*
 	@Bean
 	public CommandLineRunner demo(EdicaoUCService edicaoUCService, AnoLetivoService anoLetivoService, UnidadeCurricularService ucService)
 	{
@@ -42,4 +43,5 @@ public class EdicaoUcwsApplication {
 			edicaoUCService.createEdicaoUC(new EdicaoUCDTO("ZTA", "2001-2002", 5L));
 		};
 	}
+	 */
 }

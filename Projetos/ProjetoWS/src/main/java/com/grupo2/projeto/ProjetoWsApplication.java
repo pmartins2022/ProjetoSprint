@@ -10,6 +10,7 @@ import com.grupo2.projeto.service.ProjetoService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class ProjetoWsApplication
@@ -19,7 +20,8 @@ public class ProjetoWsApplication
 	{
 		SpringApplication.run(ProjetoWsApplication.class, args);
 	}
-
+/*
+	@Bean
 	public CommandLineRunner demo(ProjetoService service, AvaliacaoService avaliacaoService, ConteudoService conteudoService)
 	{
 		return (args) ->
@@ -40,4 +42,6 @@ public class ProjetoWsApplication
 			conteudoService.createAndSave(new ConteudoDTO(4L, 4L, "TITULOASDADS", null, "Texto do documento", "PT", EstadoConteudo.APROVADO));
 		};
 	}
+
+ */
 }

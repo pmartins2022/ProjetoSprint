@@ -21,6 +21,7 @@ public class PropostaWsApplication
         SpringApplication.run(PropostaWsApplication.class, args);
     }
 
+    /*
     @Bean
     public CommandLineRunner demo(PropostaService service)
     {
@@ -40,7 +41,8 @@ public class PropostaWsApplication
             service.createConvite(new ConviteDTO(2L, 7L, 2L, EstadoConvite.PENDENTE));
             service.createConvite(new ConviteDTO(3L, 8L, 3L, EstadoConvite.PENDENTE));
             service.createConvite(new ConviteDTO(4L, 5L, 3L, EstadoConvite.PENDENTE));
-            //service.createConvite(new ConviteDTO(1L, 6L, 1L, EstadoConvite.PENDENTE));
+
         };
     }
+     */
 }
