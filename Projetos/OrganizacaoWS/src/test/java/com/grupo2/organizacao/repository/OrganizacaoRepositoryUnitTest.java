@@ -1,9 +1,12 @@
 package com.grupo2.organizacao.repository;
 
+import com.grupo2.organizacao.dto.NifDTO;
+import com.grupo2.organizacao.dto.OrganizacaoDTO;
 import com.grupo2.organizacao.jpa.OrganizacaoJPA;
 import com.grupo2.organizacao.jpa.mapper.OrganizacaoJPAMapper;
 import com.grupo2.organizacao.model.Organizacao;
 import com.grupo2.organizacao.repository.jpa.OrganizacaoJPARepository;
+import com.grupo2.organizacao.repository.rest.NifRestRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,6 +32,9 @@ class OrganizacaoRepositoryUnitTest
     @MockBean
     OrganizacaoJPAMapper mapper;
 
+    @MockBean
+    NifRestRepository nifRestRepository;
+
     @InjectMocks
     OrganizacaoRepository repository;
 
@@ -37,6 +43,8 @@ class OrganizacaoRepositoryUnitTest
     {
         MockitoAnnotations.openMocks(this);
     }
+
+    
 
     @Test
     public void shouldCreateValidOrganizacao()
