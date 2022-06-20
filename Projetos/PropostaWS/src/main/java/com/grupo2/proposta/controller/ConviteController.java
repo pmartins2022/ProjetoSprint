@@ -13,7 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * Classe REST Controller de Proposta. Possui endpoints para criarConvite, aceitarOrientacao, rejeitarOrientacao
+ */
 @RestController
 @RequestMapping("/convite")
 public class ConviteController
@@ -21,6 +23,12 @@ public class ConviteController
     @Autowired
     private PropostaService service;
 
+    /**
+     * Endpoint que criar um convite
+     * @param convite objeto do tipo ConviteDTO
+     * @return um objeto ou um erro se os dados estiverem invalidos.
+     * @throws Exception
+     */
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @PostMapping("/create")
     public ResponseEntity<Object> criarConvite(@RequestBody ConviteDTO convite) throws Exception
@@ -41,6 +49,14 @@ public class ConviteController
         }
     }
 
+    /**
+     * Endpoint que permite a um docenta aceitar uma orientacao
+     * @param propostaID e o id da proposta
+     * @param orientadorID e o id do orientador
+     * @param request
+     * @return um objeto ou um erro se os dados estiverem invalidos.
+     * @throws Exception
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/aceitarOrientacao/{id}")
     public ResponseEntity<Object> aceitarOrientacao( @PathVariable("id") Long propostaID,
@@ -51,6 +67,14 @@ public class ConviteController
         return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
     }
 
+    /**
+     * Endpoint que permite a um docenta rejeitar uma orientacao
+     * @param propostaID e o id da proposta
+     * @param orientadorID e o id do orientador
+     * @param request
+     * @return um objeto ou um erro se os dados estiverem invalidos.
+     * @throws Exception
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/rejeitarOrientacao/{id}")
     public ResponseEntity<Object> rejeitarOrientacao( @PathVariable("id") Long propostaID,

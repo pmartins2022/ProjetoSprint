@@ -115,21 +115,4 @@ class ConviteRepositoryUnitTest
         assertTrue(id.isEmpty());
     }
 
-    /*@Test
-    public void shouldUpdate()
-    {
-        Convite convite = mock(Convite.class);
-        ConviteID conviteID = mock(ConviteID.class);
-        ConviteJPA jpa = mock(ConviteJPA.class);
-
-
-        when(conviteID.getIdproposta()).thenReturn(1L);
-        when(mapper.toJPA(convite)).thenReturn(jpa);
-        when(mapper.toModel(jpa)).thenReturn(convite);
-        when(jpaRepository.save(jpa)).thenReturn(jpa);
-
-
-        Convite save = repository.atualizar(convite);
-    }*/
-
 }
