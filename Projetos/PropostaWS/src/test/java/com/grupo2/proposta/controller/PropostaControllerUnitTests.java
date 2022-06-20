@@ -80,7 +80,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptCandidaturaProposta(1L, 1L)).thenReturn(prop);
 
-        ResponseEntity<Object> objectResponseEntity = controller.acceptProposta(1L, 1L, 1L);
+        ResponseEntity<Object> objectResponseEntity = controller.acceptProposta(1L, 1L);
 
         assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
     }
@@ -92,7 +92,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptProposta(1L, 1L, 1L)).thenThrow(IdInvalidoException.class);
 
-        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L, 1L));
+        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L));
     }
 
     @Test
@@ -102,7 +102,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptProposta(1L, 1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L, 1L));
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L));
     }
 
     @Test
@@ -214,9 +214,9 @@ class PropostaControllerUnitTests
         PropostaDTO prop = mock(PropostaDTO.class);
         List<PropostaDTO> list = List.of(prop,prop,prop);
 
-        when(service.findAllByEstado(1L)).thenReturn(list);
+        when(service.findAllByEstado(1)).thenReturn(list);
 
-        ResponseEntity<List<PropostaDTO>> responseEntity = controller.findAllByEstado(1L);
+        ResponseEntity<List<PropostaDTO>> responseEntity = controller.findAllByEstado(1);
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }

@@ -64,13 +64,6 @@ class UtilizadorRepositoryIntegrationTests
         assertThrows(ErroGeralException.class, ()-> repository.save(utilizador1));
     }
 
-    /*
-
-    public List<Utilizador> findAll()
-    {
-        return jpaRepository.findAll().stream().map(mapper::toModel).toList();
-    }
-     */
 
     @Test
     public void shouldFindByIDUtilizador_Exists()

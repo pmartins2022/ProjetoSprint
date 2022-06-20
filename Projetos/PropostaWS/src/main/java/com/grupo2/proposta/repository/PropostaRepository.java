@@ -5,6 +5,7 @@ import com.grupo2.proposta.exception.BaseDadosException;
 import com.grupo2.proposta.jpa.PropostaJPA;
 import com.grupo2.proposta.jpa.mapper.PropostaJPAMapper;
 import com.grupo2.proposta.model.Proposta;
+import com.grupo2.proposta.model.PropostaEstado;
 import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -126,9 +127,11 @@ public class PropostaRepository
         return found.stream().map(mapper::toModel).toList();
     }
 
-    public List<Proposta> findAllByEstado(Long estado)
+    public List<Proposta> findAllByEstado(Integer estado)
     {
-        List<PropostaJPA> list = jpaRepository.findAllByEstadoAtual(estado);
+        PropostaEstado value = PropostaEstado.values()[estado];
+
+        List<PropostaJPA> list = jpaRepository.findAllByEstadoAtual(value);
 
         return list.stream().map(mapper::toModel).toList();
     }

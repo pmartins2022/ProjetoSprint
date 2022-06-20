@@ -216,7 +216,7 @@ class PropostaControllerIntegrationTests
         PropostaDTO dto = new PropostaDTO(1L, 1L, "titulo", "problema", "objetivo", 1L, PropostaEstado.CANDIDATURA);
 
         //when(request.getHeader(SecurityUtils.AUTH)).thenReturn("1");
-        when(service.findAllByEstado(0L)).thenReturn(List.of(dto,dto,dto));
+        when(service.findAllByEstado(0)).thenReturn(List.of(dto,dto,dto));
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.get("/proposta?estado=0")

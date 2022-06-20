@@ -14,12 +14,19 @@ public class OrganizacaoWsApplication {
 		SpringApplication.run(OrganizacaoWsApplication.class, args);
 	}
 
+	/*
 	@Bean
 	public CommandLineRunner demo(OrganizacaoService service)
 	{
 		return (args) ->
 		{
-			//service.createAndSave(new OrganizacaoDTO(500000135));
+			service.createAndSave(new OrganizacaoDTO(500000135));
+			service.createAndSave(new OrganizacaoDTO(500000235));
+			service.createAndSave(new OrganizacaoDTO(500000335));
+			service.createAndSave(new OrganizacaoDTO(500000435));
+			service.createAndSave(new OrganizacaoDTO(500000535));
 		};
 	}
+
+	 */
 }

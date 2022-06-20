@@ -1,12 +1,9 @@
 package com.example.javafx.controller;
 
-import com.example.javafx.dto.ConviteDTO;
-import com.example.javafx.dto.UtilizadorDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
+import com.example.javafx.dto.ProjetoDTO;
 import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.dto.factory.PropostaDTOFactory;
+import com.example.javafx.exception.RestPostException;
 import com.example.javafx.service.PropostaService;
 
 import java.util.List;
@@ -62,19 +59,46 @@ public class PropostaController
 
     public List<PropostaDTO> findAllPropostaCandidatura()
     {
-        return propostaService.findAllPropostaCandidatura();
+        return propostaService.findAllPropostaByEstadoAtual(0);
     }
 
-    public Boolean acceptCandidaturaProposta(Long idProjeto, Long idAluno)
+    public Boolean acceptCandidaturaProposta(PropostaDTO propostaDTO)
     {
-        propostaService.acceptCandidaturaProposta(idProjeto, idAluno);
+        if (!propostaService.acceptCandidaturaProposta(propostaDTO.getId()))
+        {
+            throw new RestPostException("Ocorreu um erro ao aceitar a candidatura");
+        }
 
         return true;
     }
 
-    public Boolean rejectCandidaturaProposta(Long idProjeto, Long idAluno)
+    public Boolean rejectCandidaturaProposta(PropostaDTO propostaDTO)
     {
-        propostaService.rejectCandidaturaProposta(idProjeto, idAluno);
+        if (!propostaService.rejectCandidaturaProposta(propostaDTO.getId()))
+        {
+            throw new RestPostException("Ocorreu um erro ao aceitar a candidatura");
+        }
+
+        return true;
+    }
+
+    public List<PropostaDTO> findAllPropostaAprovado()
+    {
+        return propostaService.findAllPropostaByEstadoAtual(1);
+    }
+
+    public ProjetoDTO acceptProposta(Long idProposta, String alunoID)
+    {
+        return propostaService.acceptProposta(idProposta, Long.parseLong(alunoID));
+    }
+
+    public Boolean rejectProposta(Long idProposta, String alunoID)
+    {
+        if (!propostaService.rejectProposta(idProposta, Long.parseLong(alunoID)))
+        {
+            throw new RestPostException("Ocorreu um erro ao aceitar Proposta");
+        }
+
         return true;
     }
 
