@@ -10,7 +10,7 @@ public class PropostaCandidaturaJPAMapper
 {
     public PropostaCandidatura toModel(PropostaCandidaturaJPA jpa)
     {
-        return new PropostaCandidatura(jpa.getId().getIdProposta(), jpa.getId().getIdAluno(), jpa.getEstado());
+        return new PropostaCandidatura(jpa.getId().getidproposta(), jpa.getId().getIdaluno(), jpa.getEstado());
     }
 
     public PropostaCandidaturaJPA toJPA(PropostaCandidatura cand)

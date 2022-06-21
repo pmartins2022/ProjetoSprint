@@ -221,4 +221,62 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
             throw new RestPostException(e.getMessage());
         }
     }
+
+    public List<ConviteDTO> getConvites()
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/convite/findAtivos").get()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<ConviteDTO>>()
+            {
+            }).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+    public ConviteDTO aceitarOrientacao(ConviteDTO conviteDTO)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/convite/aceitarOrientacao").post()
+                    .header("Authorization", LoginContext.getToken())
+                    .body(BodyInserters.fromValue(conviteDTO)).retrieve();
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return responseSpec.bodyToMono(ConviteDTO.class).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+    public ConviteDTO rejeitarOrientacao(ConviteDTO conviteDTO)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/convite/rejeitarOrientacao").post()
+                    .header("Authorization", LoginContext.getToken())
+                    .body(BodyInserters.fromValue(conviteDTO)).retrieve();
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return responseSpec.bodyToMono(ConviteDTO.class).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
 }

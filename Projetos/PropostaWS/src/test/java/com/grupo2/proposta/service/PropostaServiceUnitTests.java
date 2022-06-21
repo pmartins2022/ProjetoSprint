@@ -321,7 +321,7 @@ class PropostaServiceUnitTests
         when(utilizadorDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
         when(convite.getEstado()).thenReturn(EstadoConvite.PENDENTE);
 
-        ConviteDTO dto = service.acceptOrientacaoProposta(1L, 1L, "");
+        ConviteDTO dto = service.acceptOrientacaoProposta(conviteDTO, "");
 
         assertEquals(dto,conviteDTO);
     }
@@ -339,7 +339,7 @@ class PropostaServiceUnitTests
         when(utilizadorDTO.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
         when(convite.getEstado()).thenReturn(EstadoConvite.PENDENTE);
 
-        ConviteDTO dto = service.rejectOrientacaoProposta(1L, 1L, "");
+        ConviteDTO dto = service.rejectOrientacaoProposta(conviteDTO, "");
 
         assertEquals(dto,conviteDTO);
     }
@@ -443,7 +443,7 @@ class PropostaServiceUnitTests
         Proposta proposta = mock(Proposta.class);
 
         when(proposta.getId()).thenReturn(1L);
-        when(propostaCandidaturaID.getIdProposta()).thenReturn(1L);
+        when(propostaCandidaturaID.getidproposta()).thenReturn(1L);
         when(propostaCandidaturaIDDTO.getIdProposta()).thenReturn(1L);
 
         List<Proposta> list = List.of(proposta);
@@ -480,7 +480,7 @@ class PropostaServiceUnitTests
         Proposta proposta = mock(Proposta.class);
 
         when(proposta.getId()).thenReturn(1L);
-        when(propostaCandidaturaID.getIdProposta()).thenReturn(1L);
+        when(propostaCandidaturaID.getidproposta()).thenReturn(1L);
         when(propostaCandidaturaIDDTO.getIdProposta()).thenReturn(1L);
 
 

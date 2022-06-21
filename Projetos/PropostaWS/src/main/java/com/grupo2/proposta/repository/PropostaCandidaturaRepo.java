@@ -1,7 +1,5 @@
 package com.grupo2.proposta.repository;
 
-import com.grupo2.proposta.exception.IdInvalidoException;
-import com.grupo2.proposta.exception.OptionalVazioException;
 import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
 import com.grupo2.proposta.jpa.mapper.PropostaCandidaturaJPAMapper;
 import com.grupo2.proposta.model.EstadoCandidatura;
@@ -62,7 +60,7 @@ public class PropostaCandidaturaRepo
 
         List<PropostaCandidaturaJPA> candidaturasAluno =
                 lista.stream().filter(obj ->
-                        obj.getId().getIdAluno().equals(idAluno)).toList();
+                        obj.getId().getIdaluno().equals(idAluno)).toList();
 
         long contagemValido =
                 candidaturasAluno.stream().filter(obj->
@@ -108,8 +106,8 @@ public class PropostaCandidaturaRepo
 
         List<PropostaCandidatura> candidaturasAluno =
                 lista.stream()
-                        .filter(obj -> !obj.getId().getIdAluno().equals(alunoID))
-                        .filter(obj -> obj.getId().getIdProposta().equals(propostaID))
+                        .filter(obj -> !obj.getId().getIdaluno().equals(alunoID))
+                        .filter(obj -> obj.getId().getidproposta().equals(propostaID))
                         .filter(obj -> obj.getEstado() == EstadoCandidatura.PENDENTE)
                         .map(mapper::toModel).toList();
 
@@ -124,12 +122,24 @@ public class PropostaCandidaturaRepo
 
         List<PropostaCandidatura> candidaturasAluno =
                 lista.stream()
-                        .filter(obj -> obj.getId().getIdProposta().equals(propostaID))
+                        .filter(obj -> obj.getId().getidproposta().equals(propostaID))
                         .filter(obj -> obj.getEstado() == EstadoCandidatura.PENDENTE)
                         .map(mapper::toModel).toList();
 
         candidaturasAluno.forEach(obj -> obj.setEstado(EstadoCandidatura.REJEITADO));
 
         candidaturasAluno.forEach(obj -> jpaRepository.save(mapper.toJPA(obj)));
+    }
+
+    public Optional<PropostaCandidatura> findPropostaAtivaByAlunoId(Long id, EstadoCandidatura estado)
+    {
+        Optional <PropostaCandidaturaJPA> propostaCandidaturaJPA = jpaRepository.findByIdIdalunoAndEstado(id, estado);
+
+        if (propostaCandidaturaJPA.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(mapper.toModel(propostaCandidaturaJPA.get()));
     }
 }

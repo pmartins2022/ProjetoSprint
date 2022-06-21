@@ -99,4 +99,11 @@ public class ConviteRepository
 
         jpaRepository.save(conviteJPA);
     }
+
+    public List<Convite> findConvitesAtivos(Long id)
+    {
+        List<ConviteJPA> list = jpaRepository.findByIdIddocenteAndEstado(id,EstadoConvite.PENDENTE);
+
+        return list.stream().map(mapper::toModel).toList();
+    }
 }

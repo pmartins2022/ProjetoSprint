@@ -139,4 +139,15 @@ public class ConviteDTO
     {
         return Objects.hash(idAluno, idDocente, idProposta, estado);
     }
+
+    @Override
+    public String toString()
+    {
+        return "ConviteDTO{" +
+                "idAluno=" + idAluno +
+                ", idDocente=" + idDocente +
+                ", idProposta=" + idProposta +
+                ", estado=" + estado +
+                '}';
+    }
 }

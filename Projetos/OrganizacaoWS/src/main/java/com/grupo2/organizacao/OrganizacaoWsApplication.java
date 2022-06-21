@@ -14,7 +14,7 @@ public class OrganizacaoWsApplication {
 		SpringApplication.run(OrganizacaoWsApplication.class, args);
 	}
 
-	/*
+
 	@Bean
 	public CommandLineRunner demo(OrganizacaoService service)
 	{
@@ -27,6 +27,4 @@ public class OrganizacaoWsApplication {
 			service.createAndSave(new OrganizacaoDTO(500000535));
 		};
 	}
-
-	 */
 }

@@ -134,7 +134,7 @@ class ConviteControllerIntegrationTests
     public void shouldAcceptOrientacao() throws Exception
     {
         ConviteDTO conviteDTO = new ConviteDTO(1L,2L,1L);
-        when(service.acceptOrientacaoProposta(1L,2L,null)).thenReturn(conviteDTO);
+        when(service.acceptOrientacaoProposta(conviteDTO,"")).thenReturn(conviteDTO);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/convite/aceitarOrientacao/1?orientador=2")
@@ -152,7 +152,7 @@ class ConviteControllerIntegrationTests
     public void shouldRejectOrientacao() throws Exception
     {
         ConviteDTO conviteDTO = new ConviteDTO(1L,2L,1L);
-        when(service.rejectOrientacaoProposta(1L,2L,null)).thenReturn(conviteDTO);
+        when(service.rejectOrientacaoProposta(conviteDTO,null)).thenReturn(conviteDTO);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/convite/rejeitarOrientacao/1?orientador=2")

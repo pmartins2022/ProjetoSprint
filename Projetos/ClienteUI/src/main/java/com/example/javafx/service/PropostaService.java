@@ -142,4 +142,19 @@ public class PropostaService
     {
         return utilizadorRestRepository.findAllDocente();
     }
+
+    public List<ConviteDTO> getConvites()
+    {
+        return propostaRestRepo.getConvites();
+    }
+
+    public ConviteDTO acceptConvite(ConviteDTO conviteDTO)
+    {
+        return propostaRestRepo.aceitarOrientacao(conviteDTO);
+    }
+
+    public ConviteDTO rejectConvite(ConviteDTO conviteDTO)
+    {
+        return propostaRestRepo.rejeitarOrientacao(conviteDTO);
+    }
 }

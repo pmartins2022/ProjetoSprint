@@ -19,8 +19,7 @@ public class UtilizadoresWsApplication
     {
         SpringApplication.run(UtilizadoresWsApplication.class, args);
     }
-
-    /*
+    
     @Bean
     public CommandLineRunner demo(UtilizadorService service)
     {
@@ -49,6 +48,4 @@ public class UtilizadoresWsApplication
 
         };
     }
-
-     */
 }

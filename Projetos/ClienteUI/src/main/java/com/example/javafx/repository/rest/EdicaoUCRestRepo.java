@@ -51,7 +51,7 @@ public class EdicaoUCRestRepo
      */
     public List<EdicaoUCDTO> findAll()
     {
-        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8082/edicaoUC/listar").get()
+        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/edicaoUC/listar").get()
                 .retrieve();
 
         responseSpec.onStatus(HttpStatus::is4xxClientError,

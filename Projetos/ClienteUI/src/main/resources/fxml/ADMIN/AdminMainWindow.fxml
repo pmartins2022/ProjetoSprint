@@ -7,11 +7,16 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="394.0" prefWidth="579.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.ui.admin.AdminMainWindowViewController">
    <top>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="318.0" text="Administrador" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="318.0" text="Administrador">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#logOut" prefWidth="100.0" text="LogOut" />
+         </children>
+      </HBox>
    </top>
    <center>
       <TabPane fx:id="mainPaneID" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">

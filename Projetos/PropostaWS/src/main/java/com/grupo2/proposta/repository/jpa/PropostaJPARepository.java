@@ -23,5 +23,4 @@ public interface PropostaJPARepository extends JpaRepository<PropostaJPA,Long>
 
     List<PropostaJPA> findAllByEstadoAtual(PropostaEstado propostaEstado);
 
-    Optional <PropostaCandidaturaJPA> findByIdIdAlunoAndEstado(Long id, EstadoCandidatura est);
 }

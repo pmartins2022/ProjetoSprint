@@ -57,9 +57,9 @@ class PropostaCandidaturaRepoUnitTest
 
         when(jpaRepository.findById(propostaCandidaturaID)).thenReturn(Optional.of(jpa));
         when(mapper.toModel(jpa)).thenReturn(propostaCandidatura);
-        when(propostaCandidaturaIDFactory.create(propostaCandidaturaID.getIdProposta(), propostaCandidaturaID.getIdAluno())).thenReturn(propostaCandidaturaID);
+        when(propostaCandidaturaIDFactory.create(propostaCandidaturaID.getidproposta(), propostaCandidaturaID.getIdaluno())).thenReturn(propostaCandidaturaID);
 
-        boolean save = repository.isIncrito(propostaCandidaturaID.getIdProposta(), propostaCandidaturaID.getIdAluno());
+        boolean save = repository.isIncrito(propostaCandidaturaID.getidproposta(), propostaCandidaturaID.getIdaluno());
 
         assertTrue(save);
     }
@@ -74,7 +74,7 @@ class PropostaCandidaturaRepoUnitTest
         when(jpaRepository.findById(propostaCandidaturaID)).thenReturn(Optional.of(jpa));
         when(mapper.toModel(jpa)).thenReturn(propostaCandidatura);
 
-        boolean save = repository.isIncrito(propostaCandidaturaID.getIdProposta(), propostaCandidaturaID.getIdAluno());
+        boolean save = repository.isIncrito(propostaCandidaturaID.getidproposta(), propostaCandidaturaID.getIdaluno());
 
         assertFalse(save);
     }

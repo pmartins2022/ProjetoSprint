@@ -87,9 +87,9 @@ class ConviteControllerUnitTest
     {
         ConviteDTO conviteDTO = mock(ConviteDTO.class);
 
-        when(service.acceptOrientacaoProposta(1L, 1L, request.getAuthType())).thenReturn(conviteDTO);
+        when(service.acceptOrientacaoProposta(conviteDTO, request.getAuthType())).thenReturn(conviteDTO);
 
-        ResponseEntity<Object> save = controller.aceitarOrientacao(1L, 1L, request);
+        ResponseEntity<Object> save = controller.aceitarOrientacao(conviteDTO,request);
 
         assertEquals(save.getStatusCode(), HttpStatus.CREATED);
     }
@@ -99,9 +99,9 @@ class ConviteControllerUnitTest
     {
         ConviteDTO conviteDTO = mock(ConviteDTO.class);
 
-        when(service.rejectOrientacaoProposta(1L, 1L, request.getAuthType())).thenReturn(conviteDTO);
+        when(service.rejectOrientacaoProposta(conviteDTO, request.getAuthType())).thenReturn(conviteDTO);
 
-        ResponseEntity<Object> save = controller.rejeitarOrientacao(1L, 1L, request);
+        ResponseEntity<Object> save = controller.rejeitarOrientacao(conviteDTO, request);
 
         assertEquals(save.getStatusCode(), HttpStatus.CREATED);
     }

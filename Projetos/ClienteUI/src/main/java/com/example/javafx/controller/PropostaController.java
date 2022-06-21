@@ -5,6 +5,7 @@ import com.example.javafx.dto.ProjetoDTO;
 import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.dto.UtilizadorDTO;
 import com.example.javafx.dto.factory.PropostaDTOFactory;
+import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,5 +128,35 @@ public class PropostaController
         return propostaService.createConvite(dto);
     }
 
+    public List<String> getConvites()
+    {
+        List<ConviteDTO> list = propostaService.getConvites();
+
+        return list.stream().map(ConviteDTO::toString).toList();
+    }
+
+    public ConviteDTO acceptConvite(int selectedIndex)
+    {
+        List<ConviteDTO> list = propostaService.getConvites();
+
+        if (selectedIndex < 0 || selectedIndex >= list.size())
+        {
+            throw new ErrorDetail("Errado",400,"Valor selecionado invalido!");
+        }
+
+        return propostaService.acceptConvite(list.get(selectedIndex));
+    }
+
+    public ConviteDTO rejectConvite(int selectedIndex)
+    {
+        List<ConviteDTO> list = propostaService.getConvites();
+
+        if (selectedIndex < 0 || selectedIndex >= list.size())
+        {
+            throw new ErrorDetail("Errado",400,"Valor selecionado invalido!");
+        }
+
+        return propostaService.rejectConvite(list.get(selectedIndex));
+    }
 }
 

@@ -6,10 +6,7 @@ import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
 import com.grupo2.proposta.jpa.PropostaJPA;
 import com.grupo2.proposta.jpa.mapper.PropostaCandidaturaJPAMapper;
 import com.grupo2.proposta.jpa.mapper.PropostaJPAMapper;
-import com.grupo2.proposta.model.EstadoCandidatura;
-import com.grupo2.proposta.model.Proposta;
-import com.grupo2.proposta.model.PropostaCandidatura;
-import com.grupo2.proposta.model.PropostaEstado;
+import com.grupo2.proposta.model.*;
 import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -141,17 +138,5 @@ public class PropostaRepository
         List<PropostaJPA> list = jpaRepository.findAllByEstadoAtual(value);
 
         return list.stream().map(mapper::toModel).toList();
-    }
-
-    public Optional<PropostaCandidatura> findPropostaAtivaByAlunoId(Long id, EstadoCandidatura estado)
-    {
-        Optional <PropostaCandidaturaJPA> propostaCandidaturaJPA = jpaRepository.findByIdIdAlunoAndEstado(id, estado);
-
-        if (propostaCandidaturaJPA.isEmpty())
-        {
-            return Optional.empty();
-        }
-
-        return Optional.of(propostaCandidaturaJPAMapper.toModel(propostaCandidaturaJPA.get()));
     }
 }

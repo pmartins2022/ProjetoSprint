@@ -4,14 +4,17 @@ import com.example.javafx.controller.PropostaController;
 import com.example.javafx.controller.docente.DocenteController;
 import com.example.javafx.controller.docente.ProjetoController;
 import com.example.javafx.dto.AvaliacaoDTO;
+import com.example.javafx.dto.ConviteDTO;
 import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.model.LoginContext;
 import com.example.javafx.ui.utils.AlertBuilder;
+import com.example.javafx.ui.utils.JavaFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.WindowEvent;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -26,11 +29,11 @@ public class DocenteMainWindowViewController
     public TextField tituloText;
     public TextField problemaText;
     public TextField objetivoText;
-    public ChoiceBox organizacaoChoice;
-    public ChoiceBox edicaoChoice;
+    public ChoiceBox<String> organizacaoChoice;
+    public ChoiceBox<String> edicaoChoice;
     public Button aceitarConviteButton;
     public Button rejeitarConviteButton;
-    public ChoiceBox conviteChoice;
+    public ChoiceBox<String> conviteChoice;
     public Button aceitarProposta;
     public Button rejeitarPropostaButton;
     public ChoiceBox<PropostaDTO> propostaChoice;
@@ -58,11 +61,6 @@ public class DocenteMainWindowViewController
     private PropostaController propostaController;
     private ProjetoController projetoController  ;
 
-    @FXML
-    void criarProposta(ActionEvent event)
-    {
-
-    }
 
     @FXML
     void definirJuri(ActionEvent event)
@@ -95,9 +93,10 @@ public class DocenteMainWindowViewController
     }
 
     @FXML
-    void logOut(ActionEvent event)
+    public void logOut(ActionEvent event)
     {
-
+        JavaFXUtils.aparecerJanelaLogin();
+        closeWindow(null);
     }
 
     public void setController(DocenteController docenteController, PropostaController propostaController, ProjetoController projetoController)
@@ -120,22 +119,87 @@ public class DocenteMainWindowViewController
 
     public void createProposta(ActionEvent actionEvent)
     {
+        try
+        {
+            PropostaDTO dto = propostaController.createProposta(Long.parseLong(userIdText.getText()), organizacaoChoice.getSelectionModel().getSelectedIndex()+1, edicaoChoice.getSelectionModel().getSelectedIndex()+1, tituloText.getText(), problemaText.getText(), objetivoText.getText());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Proposta criada com sucesso. " + dto.toString());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+        }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
     public void validateNumberField(KeyEvent keyEvent)
     {
+        if (!keyEvent.getCharacter().matches("[0-9]"))
+        {
+            keyEvent.consume();
+            if (keyEvent.getSource() == userIdText)
+            {
+                userIdText.clear();
+            }
+        }
     }
 
     public void aceitarConvite(ActionEvent actionEvent)
     {
+        try
+        {
+            ConviteDTO dto = propostaController.acceptConvite(conviteChoice.getSelectionModel().getSelectedIndex());
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Sucesso!", "Alteracao realizada com sucesso.", dto.toString());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+        }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
     public void rejeitarConvite(ActionEvent actionEvent)
     {
+        try
+        {
+            ConviteDTO dto = propostaController.rejectConvite(conviteChoice.getSelectionModel().getSelectedIndex());
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Sucesso!", "Alteracao realizada com sucesso.", dto.toString());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+        }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
     public void iniciarCriarProposta()
     {
+        try
+        {
+            userIdText.setText(LoginContext.getCurrentUser().getId().toString());
+
+            organizacaoChoice.getItems().clear();
+            edicaoChoice.getItems().clear();
+
+            organizacaoChoice.getItems().addAll(propostaController.findAllOrganizacao());
+            edicaoChoice.getItems().addAll(propostaController.findAllEdicao());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+        }
+        catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
 
@@ -240,6 +304,21 @@ public class DocenteMainWindowViewController
         System.out.println("Definir júri");
     }
 
+    private void iniciarAceitarRejeitarConvite()
+    {
+        try
+        {
+            conviteChoice.getItems().clear();
+            conviteChoice.getItems().addAll(propostaController.getConvites());
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
     public void confirmarECriarAvaliacao(ActionEvent actionEvent)
     {
         AvaliacaoDTO avaliacaoDTO = projetoController.createAvaliacao(idMomentoAvaliacaoText.getText(), idOrientadorText.getText(),
@@ -285,7 +364,7 @@ public class DocenteMainWindowViewController
         switch (t1.intValue())
         {
             case 0 -> iniciarCriarProposta();
-            //case 1 -> iniciarTabCriarEdicaoUC();
+            case 1 -> iniciarAceitarRejeitarConvite();
             //case 2 -> iniciarTabCriarAnoLetivo();
             //case 3 -> iniciarTabCriarUnidadeCurricular();
             //case 4 -> iniciarTabConsultarUC();
@@ -309,5 +388,9 @@ public class DocenteMainWindowViewController
         docenteDTOText.setText(LoginContext.getCurrentUser().toString());
     }
 
-
+    public void closeWindow(ActionEvent actionEvent)
+    {
+        userIdText.getScene().getWindow().fireEvent(
+                new WindowEvent(userIdText.getScene().getWindow(), javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST));
+    }
 }

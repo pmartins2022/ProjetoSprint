@@ -10,6 +10,7 @@ import com.example.javafx.dto.UnidadeCurricularDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.model.LoginContext;
 import com.example.javafx.ui.utils.AlertBuilder;
+import com.example.javafx.ui.utils.JavaFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -64,9 +65,10 @@ public class AdminMainWindowViewController
     }
 
     @FXML
-    void logOut(ActionEvent event)
+    public void logOut(ActionEvent event)
     {
-
+        JavaFXUtils.aparecerJanelaLogin();
+        closeWindow(null);
     }
 
     public void setController(AdminController adminController, EdicaoUCController edicaoUCController, AnoLetivoController anoLetivoController,

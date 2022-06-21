@@ -8,29 +8,29 @@ import java.util.Objects;
 @Embeddable
 public class PropostaCandidaturaID implements Serializable
 {
-    private Long idProposta;
+    private Long idproposta;
     @Column(unique = true)
-    private Long idAluno;
+    private Long idaluno;
 
 
     public PropostaCandidaturaID()
     {
     }
 
-    public PropostaCandidaturaID(Long idProposta, Long idAluno)
+    public PropostaCandidaturaID(Long idproposta, Long idAluno)
     {
-        this.idProposta = idProposta;
-        this.idAluno = idAluno;
+        this.idproposta = idproposta;
+        this.idaluno = idAluno;
     }
 
-    public Long getIdProposta()
+    public Long getidproposta()
     {
-        return idProposta;
+        return idproposta;
     }
 
-    public Long getIdAluno()
+    public Long getIdaluno()
     {
-        return idAluno;
+        return idaluno;
     }
 
     @Override
@@ -39,12 +39,12 @@ public class PropostaCandidaturaID implements Serializable
         if (this == o) return true;
         if (!(o instanceof PropostaCandidaturaID)) return false;
         PropostaCandidaturaID that = (PropostaCandidaturaID) o;
-        return getIdProposta().equals(that.getIdProposta()) && getIdAluno().equals(that.getIdAluno());
+        return getidproposta().equals(that.getidproposta()) && getIdaluno().equals(that.getIdaluno());
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(getIdProposta(), getIdAluno());
+        return Objects.hash(getidproposta(), getIdaluno());
     }
 }

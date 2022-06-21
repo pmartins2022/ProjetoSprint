@@ -1,13 +1,10 @@
 package com.grupo2.proposta.repository;
 
 import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
-import com.grupo2.proposta.jpa.PropostaJPA;
 import com.grupo2.proposta.model.EstadoCandidatura;
-import com.grupo2.proposta.model.Proposta;
 import com.grupo2.proposta.model.PropostaCandidatura;
 import com.grupo2.proposta.model.PropostaCandidaturaID;
 import com.grupo2.proposta.repository.jpa.PropostaCandidaturaJPARepository;
-import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -132,7 +129,7 @@ class PropostaCandidaturaRepoIntegrationTests
         PropostaCandidaturaJPA save = candidaturaJPARepository.save(candidaturaJPA);
         candidaturaJPARepository.save(candidaturaJPA1);
 
-        repository.invalidarCandidaturas(save.getId().getIdProposta(), save.getId().getIdAluno());
+        repository.invalidarCandidaturas(save.getId().getidproposta(), save.getId().getIdaluno());
 
         Optional<PropostaCandidaturaJPA> propostaCandidaturaJPA1 = candidaturaJPARepository.findById(id1);
 
@@ -149,7 +146,7 @@ class PropostaCandidaturaRepoIntegrationTests
         PropostaCandidaturaJPA save = candidaturaJPARepository.save(candidaturaJPA);
         candidaturaJPARepository.save(candidaturaJPA1);
 
-        repository.invalidarTodasCandidaturas(save.getId().getIdProposta());
+        repository.invalidarTodasCandidaturas(save.getId().getidproposta());
 
         Optional<PropostaCandidaturaJPA> propostaCandidaturaJPA = candidaturaJPARepository.findById(id);
         Optional<PropostaCandidaturaJPA> propostaCandidaturaJPA1 = candidaturaJPARepository.findById(id1);
