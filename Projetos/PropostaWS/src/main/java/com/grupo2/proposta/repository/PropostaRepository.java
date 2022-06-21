@@ -136,10 +136,10 @@ public class PropostaRepository
         return list.stream().map(mapper::toModel).toList();
     }
 
-    public Proposta findByEstadoAndAlunoid(Long estado)
+    /*public Proposta findByEstadoAndAlunoid(Long estado)
     {
         PropostaJPA propostaJPA = jpaRepository.findByEstadoAtual(estado);
 
         return mapper.toModel(propostaJPA);
-    }
+    }*/
 }

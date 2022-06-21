@@ -4,6 +4,7 @@ import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.dto.mapper.UtilizadorDTOMapper;
 import com.grupo2.utilizadores.exception.ErroGeralException;
+import com.grupo2.utilizadores.exception.OptionalVazioException;
 import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.repository.UtilizadorRepository;
@@ -152,10 +153,9 @@ class UtilizadorServiceUnitTests
         assertTrue(authDTO.isPresent());
     }
 
-    @Test
+    /*@Test
     public void shouldReturnTrue_isOfRole()
     {
-        Utilizador utilizadorMOCK = mock(Utilizador.class);
         UtilizadorDTO dtoMOCK = mock(UtilizadorDTO.class);
 
         when(service.findByID(1L)).thenReturn(Optional.of(dtoMOCK));
@@ -169,15 +169,22 @@ class UtilizadorServiceUnitTests
     @Test
     public void shouldReturnFalse_isNotOfRole()
     {
-        Utilizador utilizadorMOCK = mock(Utilizador.class);
         UtilizadorDTO dtoMOCK = mock(UtilizadorDTO.class);
+        when(dtoMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
 
         when(service.findByID(1L)).thenReturn(Optional.of(dtoMOCK));
-        when(dtoMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
 
         Boolean isRole = service.isRole("ROLE_DOCENTE", 1L);
 
         assertTrue(isRole);
+    }*/
+
+    @Test
+    public void shouldReturnFalse_IDNotFound()
+    {
+        when(service.findByID(1L)).thenReturn(Optional.empty());
+
+        assertThrows(OptionalVazioException.class, ()-> service.isRole("ROLE_DOCENTE", 1L));
     }
 
 
@@ -206,20 +213,6 @@ class UtilizadorServiceUnitTests
         assertEquals(0, list.size());
     }
 
-
-    @Test
-    public void shouldFindAllDocentes()
-    {
-        Utilizador utilizadorMOCK = mock(Utilizador.class);
-        UtilizadorDTO dtoMOCK = mock(UtilizadorDTO.class);
-        when(dtoMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
-
-        when(repository.findAll()).thenReturn(List.of(utilizadorMOCK, utilizadorMOCK));
-
-        List<UtilizadorDTO> list = service.findAllDocentes();
-
-        assertEquals(2, list.size());
-    }
 
     @Test
     public void shouldNotFindAllDocentes_Empty()

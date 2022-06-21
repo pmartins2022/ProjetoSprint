@@ -37,7 +37,6 @@ public class DocenteMainWindowViewController
     public Button aceitarCandidatura;
     public Button rejeitarCandidaturaButton;
     public ChoiceBox<PropostaDTO> candidaturaChoice;
-    public Button confirmarECriarPropostaID;
     public TextField idMomentoAvaliacaoText;
     public TextField idArguenteText;
     public TextField idProjetoText;

@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional
 class PropostaRepositoryIntegrationTests
 {
-
     @Autowired
     PropostaRepository repository;
 
@@ -178,6 +177,29 @@ class PropostaRepositoryIntegrationTests
         List<Proposta> list = repository.findByEdicaoUCId(1L);
 
         assertEquals(1, list.size());
+    }
+
+
+    @Test
+    public void shouldFindAllByEstado()
+    {
+        PropostaJPA proposta = new PropostaJPA(1L, 20L, 1L,
+                "AAAAAAAACC", "AAAAAAAAAA", "AAAAAAAAAA",
+                1L, PropostaEstado.APROVADO);
+
+        jpaRepository.save(proposta);
+
+        List<Proposta> list = repository.findAllByEstado(1);
+
+        assertEquals(1, list.size());
+    }
+
+    @Test
+    public void shouldNotFindAllByEstado_Empty()
+    {
+        List<Proposta> list = repository.findAllByEstado(1);
+
+        assertEquals(0, list.size());
     }
 
 }

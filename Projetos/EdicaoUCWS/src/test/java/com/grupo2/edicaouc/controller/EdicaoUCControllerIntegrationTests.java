@@ -154,18 +154,14 @@ class EdicaoUCControllerIntegrationTests
     @Test
     public void shouldNotListAllEdicaoUC_Empty() throws Exception
     {
-        when(service.findAllEdicaoByUCCode("sigla")).thenThrow(ListaVaziaException.class);
+        when(service.findAllEdicaoUC()).thenReturn(List.of());
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.post("/edicaoUC/listar")
+                .perform(MockMvcRequestBuilders.get("/edicaoUC/listar")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andReturn();
-
-        List<EdicaoUCDTO> responseDto = objectMapper.readValue(response.getResponse().getContentAsString(),
-                List.class);
-        assertEquals(0, responseDto.size());
     }
 
     @Test
@@ -191,9 +187,9 @@ class EdicaoUCControllerIntegrationTests
         when(service.findById(1L)).thenThrow(OptionalVazioException.class);
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/edicaoUC/" + 1L)
+                .perform(MockMvcRequestBuilders.get("/edicaoUC/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().is4xxClientError())
                 .andReturn();
     }
 
@@ -257,7 +253,11 @@ class EdicaoUCControllerIntegrationTests
                 .andReturn();
     }
 
-    /*@Test
+
+    /*
+    _________________LOGIN CONTEXT_______________
+
+    @Test
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")
     public void shouldReturnEdicaoUCAlunoDTO() throws Exception
     {
@@ -301,6 +301,9 @@ class EdicaoUCControllerIntegrationTests
                 .andReturn();
     }*/
 
+    /*
+    ____________________LOGIN CONTEXT______________
+
     @Test
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")
     public void shouldReturnEdicaoUCActivated() throws Exception
@@ -318,7 +321,6 @@ class EdicaoUCControllerIntegrationTests
                 EdicaoUCDTO.class);
         assertEquals(dto.toString(), responseDto.toString());
     }
-
     @Test
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")
     public void shouldNotReturnEdicaoUCActivated_InvalidAtributtes() throws Exception
@@ -333,11 +335,11 @@ class EdicaoUCControllerIntegrationTests
                 .andReturn();
     }
 
+
     @Test
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")
     public void shouldNotReturnEdicaoUCActivated_InvalidCredentials() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
         when(service.activarEdicao(1L, 1L)).thenThrow(ErroGeralException.class);
 
         MvcResult response = mockMvc
@@ -346,6 +348,8 @@ class EdicaoUCControllerIntegrationTests
                 .andExpect(status().is4xxClientError())
                 .andReturn();
     }
+
+
 
     @Test
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")
@@ -359,7 +363,7 @@ class EdicaoUCControllerIntegrationTests
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andReturn();
-    }
+    }*/
 
     @Test
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")

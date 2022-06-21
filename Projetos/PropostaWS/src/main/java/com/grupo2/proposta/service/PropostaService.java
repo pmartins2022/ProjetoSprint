@@ -597,10 +597,10 @@ public class PropostaService
     }
 
 
-    public PropostaDTO findByEstadoAndAlunoid(Long estado)
+   /* public PropostaDTO findByEstadoAndAlunoid(Long estado)
     {
         Proposta proposta = repository.findByEstadoAndAlunoid(estado);
 
         return mapper.toDTO(proposta);
-    }
+    }*/
 }
