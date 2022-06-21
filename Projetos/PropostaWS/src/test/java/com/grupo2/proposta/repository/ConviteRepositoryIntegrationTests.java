@@ -90,7 +90,7 @@ class ConviteRepositoryIntegrationTests
         ConviteJPA conviteJPA = new ConviteJPA(conviteID, EstadoConvite.ACEITE);
         jpaRepository.save(conviteJPA);
 
-        Optional<Convite> saved = repository.findById(conviteJPA.getId().getIdproposta(), conviteID.getIdaluno());
+        Optional<Convite> saved = repository.findById(conviteID);
 
         assertEquals(saved, convite);
     }
