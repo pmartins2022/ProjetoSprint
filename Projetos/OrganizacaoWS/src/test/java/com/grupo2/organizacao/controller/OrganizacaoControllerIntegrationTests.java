@@ -60,7 +60,7 @@ class OrganizacaoControllerIntegrationTests
         MockitoAnnotations.openMocks(this);
     }
 
-    /*
+
     @Test
     public void shouldFindByID() throws Exception
     {
@@ -69,8 +69,7 @@ class OrganizacaoControllerIntegrationTests
         when(service.findByID(1L)).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/organizacao?nif=", 1)
-                        .contentType(MediaType.APPLICATION_JSON)
+                .perform(MockMvcRequestBuilders.get("/organizacao/{id}", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -88,8 +87,8 @@ class OrganizacaoControllerIntegrationTests
         when(service.findByNIF(500000135)).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/organizacao?nif=", 500000135)
-                        .contentType(MediaType.APPLICATION_JSON)
+                .perform(MockMvcRequestBuilders.get("/organizacao/")
+                        .param("nif", String.valueOf(500000135))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -97,8 +96,7 @@ class OrganizacaoControllerIntegrationTests
         OrganizacaoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), OrganizacaoDTO.class);
         assertEquals(dto, responseDto);
     }
-    
-     */
+
 
     @Test
     public void shouldNotFindByID_NotExists() throws Exception
@@ -106,7 +104,7 @@ class OrganizacaoControllerIntegrationTests
         when(service.findByID(1L)).thenReturn(Optional.empty());
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/organizacao?nif=", 1)
+                .perform(MockMvcRequestBuilders.get("/organizacao/{id}", 1L)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andReturn();
@@ -119,7 +117,8 @@ class OrganizacaoControllerIntegrationTests
         when(service.findByNIF(500000135)).thenReturn(Optional.empty());
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/organizacao/?nif=", 500000135)
+                .perform(MockMvcRequestBuilders.get("/organizacao/")
+                        .param("nif", String.valueOf(500000135))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andReturn();

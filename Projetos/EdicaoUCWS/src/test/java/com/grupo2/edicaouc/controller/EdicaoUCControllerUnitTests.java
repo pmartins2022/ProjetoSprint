@@ -1,13 +1,17 @@
 package com.grupo2.edicaouc.controller;
 
+import com.grupo2.edicaouc.dto.EdicaoUCAlunoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
-import com.grupo2.edicaouc.exception.BaseDadosException;
-import com.grupo2.edicaouc.exception.ListaVaziaException;
-import com.grupo2.edicaouc.exception.OptionalVazioException;
+import com.grupo2.edicaouc.dto.UtilizadorDTO;
+import com.grupo2.edicaouc.exception.*;
+import com.grupo2.edicaouc.model.EdicaoUCAluno;
+import com.grupo2.edicaouc.security.LoginContext;
 import com.grupo2.edicaouc.service.EdicaoUCService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,11 +19,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
+import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,7 +44,6 @@ class EdicaoUCControllerUnitTests
     {
         MockitoAnnotations.openMocks(this);
     }
-
 
     @Test
     public void shouldCreateEdicaoUC()
@@ -174,80 +179,45 @@ class EdicaoUCControllerUnitTests
         assertThrows(OptionalVazioException.class, () -> controller.findByRucIDAndEstadoEdicaoUC(1L));
     }
 
-    /*
     @Test
     public void shouldReturnEdicaoUCAluno()
     {
-        EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
-        //PRECISO DO LOGIN CONTEXT
-        when(service.addAlunoEdicaoUC(1L, 1L)).thenReturn(Optional.ofNullable(dtoMOCK));
+        EdicaoUCAlunoDTO dtoMOCK = mock(EdicaoUCAlunoDTO.class);
+        UtilizadorDTO utilizadorDTO = mock(UtilizadorDTO.class);
+
+        when(service.addAlunoEdicaoUC(utilizadorDTO, 1L, 1L)).thenReturn(dtoMOCK);
 
         ResponseEntity<?> responseEntity = controller.addAlunoEdicaoUC(1L, 1L);
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
-    _____________________________________________________________________________________________________________________
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PostMapping("/inscrever/{edicaoUCID}")
-    public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
+
+
+    @Test
+    public void shouldDeactivateEdicaoUC() throws ValidationException
     {
-        UtilizadorDTO dto = LoginContext.getCurrent();
-        try
-        {
-            EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto, edicaoUCID, alunoID);
-            return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
-        } catch (ErrorDetail e)
-        {
-            throw e;
-        } catch (ErroGeralException e)
-        {
-            throw e;
-        }
+        EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
+
+        when(service.desativarEdicao(1L)).thenReturn(dtoMOCK);
+
+        ResponseEntity<?> responseEntity = controller.desativarEdicao(1L);
+
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
-
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PatchMapping("/ativarEdicao/{edicaoUCID}")
-    public ResponseEntity<Object> ativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    @Test
+    public void shouldNotDeactivateEdicaoUC_Invalid()
     {
-        UtilizadorDTO utilizador = LoginContext.getCurrent();
+        when(service.desativarEdicao(1L)).thenThrow(ErroGeralException.class);
 
-        try
-        {
-            EdicaoUCDTO dto = service.activarEdicao(utilizador.getId(), edicaoUCID);
-
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        catch (OptionalVazioException e)
-        {
-            throw new OptionalVazioException(e.getMessage());
-        }
-        catch (ErroGeralException e)
-        {
-            throw new ErroGeralException(e.getMessage());
-        } catch (ValidationException e)
-        {
-            throw new RuntimeException(e);
-        }
-
+        assertThrows(ErroGeralException.class, ()-> controller.desativarEdicao(1L));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PatchMapping("/desativarEdicao/{edicaoUCID}")
-    public ResponseEntity<Object> desativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    @Test
+    public void shouldNotDeactivateEdicaoUC_InvalidIDs()
     {
-        try
-        {
-            EdicaoUCDTO dto = service.desativarEdicao(edicaoUCID);
+        when(service.desativarEdicao(1L)).thenThrow(OptionalVazioException.class);
 
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        } catch (OptionalVazioException e)
-        {
-            throw new OptionalVazioException(e.getMessage());
-        } catch (ErroGeralException e)
-        {
-            throw e;
-        }
+        assertThrows(OptionalVazioException.class, ()-> controller.desativarEdicao(1L));
     }
-     */
 }

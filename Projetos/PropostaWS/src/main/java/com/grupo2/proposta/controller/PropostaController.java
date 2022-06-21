@@ -296,13 +296,13 @@ public class PropostaController
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
+ /*   @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @GetMapping("/propostaAluno")
     public ResponseEntity<PropostaDTO> findByEstadoAndAlunoid(@RequestParam("estado") Long estado)
     {
         PropostaDTO list = service.findByEstadoAndAlunoid(estado);
 
         return new ResponseEntity<>(list, HttpStatus.OK);
-    }
+    }*/
 
 }

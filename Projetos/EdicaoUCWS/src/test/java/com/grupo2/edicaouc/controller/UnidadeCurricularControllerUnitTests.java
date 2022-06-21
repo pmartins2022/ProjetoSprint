@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
-class UnidadeCurricularControllerUnitTest
+class UnidadeCurricularControllerUnitTests
 {
     @MockBean
     UnidadeCurricularService service;

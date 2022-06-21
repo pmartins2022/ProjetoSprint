@@ -140,6 +140,7 @@ class UtilizadorRepositoryUnitTests
         UtilizadorJPA jpaMOCK = mock(UtilizadorJPA.class);
         when(jpaMOCK.getUsername()).thenReturn("user");
         Utilizador utilizadorMOCK = mock(Utilizador.class);
+        when(utilizadorMOCK.getUsername()).thenReturn("user");
 
         when(jpaRepository.findByUsername("user")).thenReturn(Optional.of(jpaMOCK));
         when(mapper.toModel(jpaMOCK)).thenReturn(utilizadorMOCK);
