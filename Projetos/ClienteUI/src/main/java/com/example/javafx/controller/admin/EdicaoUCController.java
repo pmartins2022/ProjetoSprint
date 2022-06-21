@@ -61,11 +61,11 @@ public class EdicaoUCController
      * @param anoLetivo indice do ano letivo.
      * @return Edição de uma unidade curricular.
      */
-    public EdicaoUCDTO createEdicaoUC(int uc, int anoLetivo)
+    public EdicaoUCDTO createEdicaoUC(int uc, int anoLetivo, Long rucId)
     {
         UnidadeCurricularDTO ucDTO = listaUC.get(uc);
         AnoLetivoDTO anoLetivoDTO = listaAL.get(anoLetivo);
 
-        return service.createAndSave(ucDTO, anoLetivoDTO);
+        return service.createAndSave(ucDTO, anoLetivoDTO,rucId);
     }
 }

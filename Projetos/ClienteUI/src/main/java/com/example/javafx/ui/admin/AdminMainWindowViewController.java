@@ -30,6 +30,7 @@ public class AdminMainWindowViewController
     public TextArea textHomeTxt;
     public TextField siglaUCText;
     public TextField denominacaoUCText;
+    public TextField rucIdText;
     private AdminController adminController;
 
     private EdicaoUCController edicaoUCController;
@@ -89,7 +90,8 @@ public class AdminMainWindowViewController
     {
         try
         {
-            EdicaoUCDTO edicaoUCDTO = edicaoUCController.createEdicaoUC(txtChoiceBoxUC.getSelectionModel().getSelectedIndex(), txtChoiceBoxAnoLetivo.getSelectionModel().getSelectedIndex());
+            EdicaoUCDTO edicaoUCDTO = edicaoUCController.createEdicaoUC(txtChoiceBoxUC.getSelectionModel().getSelectedIndex(),
+                    txtChoiceBoxAnoLetivo.getSelectionModel().getSelectedIndex(),Long.parseLong(rucIdText.getText()));
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Edição de Unidade Curricular criada com sucesso. " + edicaoUCDTO.toString());
         } catch (ErrorDetail e)
         {

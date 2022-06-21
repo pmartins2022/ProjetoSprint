@@ -66,8 +66,8 @@ public class CreateEdicaoUCViewController
     {
         try
         {
-            EdicaoUCDTO edicaoUCDTO = controller.createEdicaoUC(txtChoiceBoxUC.getSelectionModel().getSelectedIndex(), txtChoiceBoxAnoLetivo.getSelectionModel().getSelectedIndex());
-            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Edição de Unidade Curricular criada com sucesso. " + edicaoUCDTO.toString());
+            //EdicaoUCDTO edicaoUCDTO = controller.createEdicaoUC(txtChoiceBoxUC.getSelectionModel().getSelectedIndex(), txtChoiceBoxAnoLetivo.getSelectionModel().getSelectedIndex());
+            //AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Edição de Unidade Curricular criada com sucesso. " + edicaoUCDTO.toString());
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());

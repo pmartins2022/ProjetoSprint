@@ -9,21 +9,24 @@ public class EdicaoUCDTO
     private String ucCode;
     private String anoLetivoCode;
 
+    private Long rucID;
     public EdicaoUCDTO()
     {
     }
 
-    public EdicaoUCDTO(String ucCode, String anoLetivoCode)
+    public EdicaoUCDTO(String ucCode, String anoLetivoCode, Long rucID)
     {
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
     }
 
-    public EdicaoUCDTO(Long id, String ucCode, String anoLetivoCode)
+    public EdicaoUCDTO(Long id, String ucCode, String anoLetivoCode, Long rucID)
     {
         this.id = id;
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
+        this.rucID = rucID;
     }
 
     public String getUcCode()
@@ -54,6 +57,14 @@ public class EdicaoUCDTO
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public Long getRucID() {
+        return rucID;
+    }
+
+    public void setRucID(Long rucID) {
+        this.rucID = rucID;
     }
 
     @Override
