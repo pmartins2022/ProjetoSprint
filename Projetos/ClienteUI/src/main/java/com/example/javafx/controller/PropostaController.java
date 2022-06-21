@@ -127,10 +127,5 @@ public class PropostaController
         return propostaService.createConvite(dto);
     }
 
-    public PropostaDTO findByEstadoAndAlunoid()
-    {
-        current = propostaService.findByEstadoAndAlunoid();
-        return current;
-    }
 }
 

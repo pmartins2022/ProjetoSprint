@@ -67,9 +67,9 @@ public class PropostaService
         return propostaRestRepo.createProposta(dto);
     }
 
-    public List<PropostaDTO> findAllByEstado(Integer estado)
+    public List<PropostaDTO> findAllPropostaByEstadoAtual(Integer estado)
     {
-        return propostaRestRepo.findAllByEstado(estado);
+        return propostaRestRepo.findAllPropostaByEstadoAtual(estado);
     }
 
     public Boolean acceptCandidaturaAlunoProposta(Long idProjeto, Long idAluno)
