@@ -3,6 +3,7 @@ package com.grupo2.proposta.controller;
 
 import com.grupo2.proposta.dto.*;
 import com.grupo2.proposta.exception.*;
+import com.grupo2.proposta.model.PropostaEstado;
 import com.grupo2.proposta.security.LoginContext;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
@@ -290,19 +291,25 @@ public class PropostaController
 
         if (list.isEmpty())
         {
-            throw new ListaVaziaException("Não há propostas em fase CANDIDATURA");
+            PropostaEstado estadoProposta = PropostaEstado.values()[estado];
+            throw new ListaVaziaException("Não há propostas em fase " + estadoProposta.toString());
         }
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
- /*   @PreAuthorize("hasAuthority('ROLE_ALUNO')")
+    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @GetMapping("/propostaAluno")
-    public ResponseEntity<PropostaDTO> findByEstadoAndAlunoid(@RequestParam("estado") Long estado)
+    public ResponseEntity<PropostaCandidaturaDTO> findByAlunoId()
     {
-        PropostaDTO list = service.findByEstadoAndAlunoid(estado);
+        Optional <PropostaCandidaturaDTO> optional = service.findPropostaAtivaByAlunoId(LoginContext.getCurrent().getId());
 
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }*/
+        if (optional.isEmpty())
+        {
+            throw new OptionalVazioException("O aluno nao tem candidatura ativa");
+        }
+
+        return new ResponseEntity<>(optional.get(), HttpStatus.OK);
+    }
 
 }
