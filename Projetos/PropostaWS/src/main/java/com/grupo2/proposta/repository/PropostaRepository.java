@@ -2,9 +2,13 @@ package com.grupo2.proposta.repository;
 
 import com.grupo2.proposta.dto.OrganizacaoDTO;
 import com.grupo2.proposta.exception.BaseDadosException;
+import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
 import com.grupo2.proposta.jpa.PropostaJPA;
+import com.grupo2.proposta.jpa.mapper.PropostaCandidaturaJPAMapper;
 import com.grupo2.proposta.jpa.mapper.PropostaJPAMapper;
+import com.grupo2.proposta.model.EstadoCandidatura;
 import com.grupo2.proposta.model.Proposta;
+import com.grupo2.proposta.model.PropostaCandidatura;
 import com.grupo2.proposta.model.PropostaEstado;
 import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,9 @@ public class PropostaRepository
 
     @Autowired
     private PropostaJPAMapper mapper;
+
+    @Autowired
+    private PropostaCandidaturaJPAMapper propostaCandidaturaJPAMapper;
 
     /**
      * Criar uma nova proposta.
@@ -136,10 +143,15 @@ public class PropostaRepository
         return list.stream().map(mapper::toModel).toList();
     }
 
-    /*public Proposta findByEstadoAndAlunoid(Long estado)
+    public Optional<PropostaCandidatura> findPropostaAtivaByAlunoId(Long id, EstadoCandidatura estado)
     {
-        PropostaJPA propostaJPA = jpaRepository.findByEstadoAtual(estado);
+        Optional <PropostaCandidaturaJPA> propostaCandidaturaJPA = jpaRepository.findByIdIdAlunoAndEstado(id, estado);
 
-        return mapper.toModel(propostaJPA);
-    }*/
+        if (propostaCandidaturaJPA.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(propostaCandidaturaJPAMapper.toModel(propostaCandidaturaJPA.get()));
+    }
 }

@@ -49,8 +49,8 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @return
+     * Devolve o id do aluno
+     * @return id do aluno
      */
     public Long getIdAluno()
     {
@@ -58,8 +58,8 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @return
+     * Devolve o id do docente
+     * @return o id do docente
      */
     public Long getIdDocente()
     {
@@ -67,8 +67,8 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @return
+     * Devolve o id da proposta
+     * @return o id da proposta
      */
     public Long getIdProposta()
     {
@@ -76,8 +76,8 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @param idAluno
+     *  Modifica o id do aluno
+     * @param idAluno o novo id do aluno
      */
     public void setIdAluno(Long idAluno)
     {
@@ -85,8 +85,8 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @param idDocente
+     * Modifica o id do docente
+     * @param idDocente o novo id do docente
      */
     public void setIdDocente(Long idDocente)
     {
@@ -94,8 +94,8 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @param idProposta
+     * Modifica o id da proposta
+     * @param idProposta novo id da proposta
      */
     public void setIdProposta(Long idProposta)
     {
@@ -103,8 +103,8 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @return
+     * Devolve o estado do convite
+     * @return o estado do convite
      */
     public EstadoConvite getEstado()
     {
@@ -112,8 +112,8 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @param estado
+     * Modifica o estado do convite
+     * @param estado o novo estado do convite
      */
     public void setEstado(EstadoConvite estado)
     {
@@ -121,9 +121,9 @@ public class ConviteDTO
     }
 
     /**
-     *
-     * @param o
-     * @return
+     * Compara dois objetos do tipo ConviteDTO
+     * @param o e um objeto do tipo ConviteDTO
+     * @return true se forem iguais e false se nao forem iguais
      */
     @Override
     public boolean equals(Object o)

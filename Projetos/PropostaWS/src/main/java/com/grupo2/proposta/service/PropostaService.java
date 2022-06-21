@@ -596,11 +596,15 @@ public class PropostaService
         repository.atualizarProposta(proposta.get());
     }
 
-
-   /* public PropostaDTO findByEstadoAndAlunoid(Long estado)
+    public Optional <PropostaCandidaturaDTO> findPropostaAtivaByAlunoId(Long id)
     {
-        Proposta proposta = repository.findByEstadoAndAlunoid(estado);
+        Optional<PropostaCandidatura> propostaCandidatura = repository.findPropostaAtivaByAlunoId(id, EstadoCandidatura.ACEITE);
 
-        return mapper.toDTO(proposta);
-    }*/
+        if (propostaCandidatura.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(candidaturaDTOMapper.toDTO(propostaCandidatura.get())) ;
+    }
 }

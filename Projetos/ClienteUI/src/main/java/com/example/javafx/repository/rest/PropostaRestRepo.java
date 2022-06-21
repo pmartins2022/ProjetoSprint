@@ -136,11 +136,8 @@ public class PropostaRestRepo
         {
             WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/propostaAluno").get()
                     .header("Authorization", LoginContext.getToken()).retrieve();
-
-
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
-
             return responseSpec.bodyToMono(PropostaDTO.class).block();
         }
         catch (RestPostException e)
