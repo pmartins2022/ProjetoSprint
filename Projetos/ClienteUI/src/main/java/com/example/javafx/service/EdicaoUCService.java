@@ -59,9 +59,9 @@ public class EdicaoUCService
      * @return Edição de unidade curricular criada.
      * @throws RestPostException Erro ao criar edição de unidade curricular.
      */
-    public EdicaoUCDTO createAndSave(UnidadeCurricularDTO ucDTO, AnoLetivoDTO anoLetivoDTO) throws RestPostException
+    public EdicaoUCDTO createAndSave(UnidadeCurricularDTO ucDTO, AnoLetivoDTO anoLetivoDTO, Long rucId) throws RestPostException
     {
-        EdicaoUCDTO edicaoUCDTO = factory.createEdicaoUCDTO(ucDTO.getSigla(), anoLetivoDTO.getSigla());
+        EdicaoUCDTO edicaoUCDTO = factory.createEdicaoUCDTO(ucDTO.getSigla(), anoLetivoDTO.getSigla(),rucId);
 
         EdicaoUCDTO saved = edicaoUCRestRepo.createEdicaoUC(edicaoUCDTO);
 
