@@ -89,7 +89,7 @@ public class EdicaoUCRepository
     {
         EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
 
-        jpaRepository.deleteById(edicaoUC.getId());
+        //jpaRepository.deleteById(edicaoUC.getId());
 
         return mapper.toModel(jpaRepository.save(jpa));
     }
@@ -98,7 +98,7 @@ public class EdicaoUCRepository
     {
         EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
 
-        jpaRepository.deleteById(edicaoUC.getId());
+        //jpaRepository.deleteById(edicaoUC.getId());
 
         return mapper.toModel(jpaRepository.save(jpa));
     }

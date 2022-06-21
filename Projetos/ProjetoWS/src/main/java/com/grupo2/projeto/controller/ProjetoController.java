@@ -2,6 +2,7 @@ package com.grupo2.projeto.controller;
 
 import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.exception.ErroGeralException;
+import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,7 @@ public class ProjetoController
     @PostMapping("/criar")
     public ResponseEntity<ProjetoDTO> createProjeto(@RequestBody ProjetoDTO projetoDTO)
     {
+
         ProjetoDTO projetoDTOSaved = service.createAndSave(projetoDTO);
 
         return new ResponseEntity<>(projetoDTOSaved, HttpStatus.CREATED);

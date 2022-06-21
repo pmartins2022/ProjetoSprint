@@ -94,7 +94,7 @@ public class ConviteRepository
     {
         ConviteJPA conviteJPA = mapper.toJPA(convite);
 
-        jpaRepository.deleteById(conviteJPA.getId());
+        //jpaRepository.deleteById(conviteJPA.getId());
 
         jpaRepository.save(conviteJPA);
     }

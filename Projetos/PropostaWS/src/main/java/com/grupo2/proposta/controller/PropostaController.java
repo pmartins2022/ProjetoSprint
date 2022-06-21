@@ -167,8 +167,10 @@ public class PropostaController
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/aceitarProposta/{id}")
-    public ResponseEntity<Object> acceptProposta(@PathVariable("id") Long propostaID, @RequestParam("aluno") Long alunoID)
+    public ResponseEntity<Object> acceptProposta(@PathVariable("id") Long propostaID, @RequestParam("aluno") Long alunoID, HttpServletRequest request)
     {
+        LoginContext.setToken(request.getHeader(SecurityUtils.AUTH));
+
         UtilizadorAuthDTO utilizadorAuthDTO = LoginContext.getCurrent();
         try
         {

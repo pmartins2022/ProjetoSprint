@@ -59,37 +59,6 @@ public class DocenteMainWindowViewController
     private PropostaController propostaController;
     private ProjetoController projetoController;
 
-
-    @FXML
-    void definirJuri(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void gerirCandidatura(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void gerirOrientacao(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void gerirProposta(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void gerirSubmissao(ActionEvent event)
-    {
-
-    }
-
     @FXML
     public void logOut(ActionEvent event)
     {
@@ -329,11 +298,10 @@ public class DocenteMainWindowViewController
         }
     }
 
-    public void aceitarConteudo()
+    public void aceitarConteudo(ActionEvent actionEvent)
     {
         try
         {
-
             projetoController.acceptConteudo(conteudoChoice.getSelectionModel().getSelectedItem().getId());
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Conteúdo Aceite", "Conteúdo Aceite");
             iniciarGerirSubmissao();
@@ -346,7 +314,7 @@ public class DocenteMainWindowViewController
         }
     }
 
-    public void rejeitarConteudo()
+    public void rejeitarConteudo(ActionEvent actionEvent)
     {
         try
         {
@@ -387,22 +355,29 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Confirma e criar uma avaliacao
+     * @param actionEvent evento
+     */
     public void confirmarECriarAvaliacao(ActionEvent actionEvent)
     {
-        AvaliacaoDTO avaliacaoDTO = projetoController.createAvaliacao(idMomentoAvaliacaoText.getText(), idOrientadorText.getText(),
-                idPresidenteText.getText(), idArguenteText.getText(),
-                idProjetoText.getText(), idConteudoText.getText());
+        try
+        {
+            AvaliacaoDTO avaliacaoDTO = projetoController.createAvaliacao(idMomentoAvaliacaoText.getText(), idOrientadorText.getText(),
+                    idPresidenteText.getText(), idArguenteText.getText(),
+                    idProjetoText.getText(), idConteudoText.getText());
 
-        AlertBuilder.showAlert(Alert.AlertType.ERROR, "Definir Júri", "Avaliação Criada", avaliacaoDTO.toString());
-    }
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Definir Júri", "Avaliação Criada", avaliacaoDTO.toString());
+        }catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            conviteChoice.getItems().clear();
+        } catch (Exception e)
+        {
+            conviteChoice.getItems().clear();
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
 
-    public void aceitarConteudo(ActionEvent actionEvent)
-    {
-    }
-
-
-    public void rejeitarConteudo(ActionEvent actionEvent)
-    {
     }
 
     public void mainTabPaneChanged(Number t1)

@@ -42,30 +42,6 @@ public class AdminMainWindowViewController
     private AnoLetivoController anoLetivoController;
 
     @FXML
-    void consultarUC(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void criarAnoLetivo(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void criarEdicaoUC(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void criarUC(ActionEvent event)
-    {
-
-    }
-
-    @FXML
     public void logOut(ActionEvent event)
     {
         JavaFXUtils.aparecerJanelaLogin();
@@ -190,12 +166,10 @@ public class AdminMainWindowViewController
         catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR,"Erro "+e.getStatus(),e.getTitle(),e.getDetail());
-            closeWindow(null);
         }
         catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR,"Erro Fatal","Erro Fatal",e.getMessage());
-            closeWindow(null);
         }
 
         choiceBoxUC.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->
@@ -235,12 +209,10 @@ public class AdminMainWindowViewController
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
-            closeWindow(null);
         }
         catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro fatal", "Erro fatal", e.getMessage());
-            closeWindow(null);
         }
     }
 

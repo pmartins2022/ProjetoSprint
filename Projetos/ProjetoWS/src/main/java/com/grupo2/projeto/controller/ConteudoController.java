@@ -45,7 +45,7 @@ public class ConteudoController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PostMapping("/aceitarConteudo/{idConteudo}")
+    @PatchMapping("/aceitarConteudo/{idConteudo}")
     public ResponseEntity<Object> acceptConteudo(@PathVariable("idConteudo") Long idConteudo)
     {
         try
@@ -62,7 +62,7 @@ public class ConteudoController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/rejeitarConteudo/{id}")
+    @PatchMapping("/rejeitarConteudo/{id}")
     public ResponseEntity<ConteudoDTO> rejectConteudo(@PathVariable("idConteudo") Long idConteudo)
     {
         try

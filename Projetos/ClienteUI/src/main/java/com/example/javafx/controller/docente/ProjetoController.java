@@ -37,15 +37,15 @@ public class ProjetoController
     {
         List<ProjetoDTO> projetoList = service.findAllByOrientadorID(orientadorID);
 
-        List<ConteudoDTO> conteudoList = new ArrayList();
+        List<ConteudoDTO> conteudoList = new ArrayList<>();
 
         for(ProjetoDTO proj: projetoList)
         {
             conteudoList.addAll(service.findAllByIdProjeto(proj.getId()));
         }
 
-        conteudoList.stream()
-                .filter(conteudo -> conteudo.getEstadoConteudo().equals(EstadoConteudo.PENDENTE));
+        conteudoList = conteudoList.stream()
+                .filter(conteudo -> conteudo.getEstadoConteudo().equals(EstadoConteudo.PENDENTE)).toList();
 
         return conteudoList;
     }

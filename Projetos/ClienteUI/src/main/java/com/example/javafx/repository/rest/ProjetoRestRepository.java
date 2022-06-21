@@ -7,6 +7,7 @@ import com.example.javafx.dto.ProjetoDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.model.LoginContext;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -21,8 +22,9 @@ public class ProjetoRestRepository
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/avaliacao/criar").post().
-                    body(BodyInserters.fromValue(avaliacaoDTO)).retrieve();
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/avaliacao/criar").post()
+                            .header("Authorization",LoginContext.getToken())
+                    .body(BodyInserters.fromValue(avaliacaoDTO)).retrieve();
 
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
@@ -40,14 +42,16 @@ public class ProjetoRestRepository
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/projeto/orientadorID/" + orientadorID).post().
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/projeto/orientadorID/" + orientadorID).get().
                     header("Authorization", LoginContext.getToken()).retrieve();
 
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-            return responseSpec.bodyToMono(List.class).block();
+            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<ProjetoDTO>>()
+            {
+            }).block();
         }
         catch (RestPostException e)
         {
@@ -59,14 +63,16 @@ public class ProjetoRestRepository
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/conteudo/projetoID/" + projetoID).post().
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/conteudo/projetoID/" + projetoID).get().
                     header("Authorization", LoginContext.getToken()).retrieve();
 
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-            return responseSpec.bodyToMono(List.class).block();
+            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<ConteudoDTO>>()
+            {
+            }).block();
         }
         catch (RestPostException e)
         {
@@ -78,7 +84,7 @@ public class ProjetoRestRepository
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/projeto/aceitarConteudo/" + conteudoID).post()
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/conteudo/aceitarConteudo/" + conteudoID).patch()
                     .header("Authorization", LoginContext.getToken()).retrieve();
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
@@ -96,7 +102,7 @@ public class ProjetoRestRepository
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/conteudo/rejeitarConteudo/" + conteudoID).post().
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/conteudo/rejeitarConteudo/" + conteudoID).patch().
                     header("Authorization", LoginContext.getToken()).retrieve();
 
 

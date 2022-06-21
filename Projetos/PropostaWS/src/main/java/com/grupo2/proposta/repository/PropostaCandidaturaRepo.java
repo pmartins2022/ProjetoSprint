@@ -89,7 +89,7 @@ public class PropostaCandidaturaRepo
     {
         PropostaCandidaturaID id = factory.create(propostaCandidatura.getIdProposta(), propostaCandidatura.getIdAluno());
 
-        jpaRepository.deleteById(id);
+        //jpaRepository.deleteById(id);
 
         PropostaCandidaturaJPA jpa = mapper.toJPA(propostaCandidatura);
 

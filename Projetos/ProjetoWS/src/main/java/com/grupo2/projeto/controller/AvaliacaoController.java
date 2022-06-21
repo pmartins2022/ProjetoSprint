@@ -2,9 +2,7 @@ package com.grupo2.projeto.controller;
 
 
 import com.grupo2.projeto.dto.AvaliacaoDTO;
-import com.grupo2.projeto.exception.ErroGeralException;
-import com.grupo2.projeto.exception.ListaVaziaException;
-import com.grupo2.projeto.exception.OptionalVazioException;
+import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.service.AvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +24,23 @@ public class AvaliacaoController
     @PostMapping("/criar")
     public ResponseEntity<AvaliacaoDTO> createAvaliacao(@RequestBody AvaliacaoDTO avaliacaoDTO)
     {
-        AvaliacaoDTO avaliacaoDTOSaved = service.createAndSave(avaliacaoDTO);
-
-        return new ResponseEntity<>(avaliacaoDTOSaved, HttpStatus.CREATED);
+        try
+        {
+            AvaliacaoDTO avaliacaoDTOSaved = service.createAndSave(avaliacaoDTO);
+            return new ResponseEntity<>(avaliacaoDTOSaved, HttpStatus.CREATED);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw e;
+        }
+        catch (ValidacaoInvalidaException e)
+        {
+            throw e;
+        }
+        catch (IdInvalidoException e)
+        {
+            throw e;
+        }
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
