@@ -1,8 +1,6 @@
 package com.grupo2.projeto.service;
 
 import com.grupo2.projeto.dto.ConteudoDTO;
-import com.grupo2.projeto.dto.UtilizadorAuthDTO;
-import com.grupo2.projeto.dto.UtilizadorDTO;
 import com.grupo2.projeto.dto.mapper.ConteudoDTOMapper;
 import com.grupo2.projeto.exception.AtualizacaoInvalidaException;
 import com.grupo2.projeto.exception.IdInvalidoException;
@@ -18,6 +16,7 @@ import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -144,5 +143,12 @@ public class ConteudoService
     {
         Conteudo saved = repository.atualizarConteudo(conteudo);
         return mapper.toDTO(saved);
+    }
+
+    public List<ConteudoDTO> findAllByIdProjeto(Long id)
+    {
+        List<Conteudo> list = repository.findAllByIdProjeto(id);
+
+        return list.stream().map(mapper::toDTO).toList();
     }
 }

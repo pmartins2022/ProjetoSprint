@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 /**
  * Classe REST Controller de projeto. Possui endpoints para createProjeto e findById.
@@ -56,5 +57,20 @@ public class ProjetoController
         ProjetoDTO projetoDTOSaved = service.createAndSave(projetoDTO);
 
         return new ResponseEntity<>(projetoDTOSaved, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE')")
+    @GetMapping("/orientadorID/{id}")
+    public ResponseEntity<List<ProjetoDTO>> findAllByOrientadorID(@PathVariable Long id)
+    {
+        List<ProjetoDTO> list = service.findAllByOrientadorId(id);
+
+        if (!list.isEmpty())
+        {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } else
+        {
+            throw new ErroGeralException("Nao existe nenhum projeto com esse orientadorID");
+        }
     }
 }

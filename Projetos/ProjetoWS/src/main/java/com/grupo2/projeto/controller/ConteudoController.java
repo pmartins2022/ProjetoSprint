@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -68,14 +69,26 @@ public class ConteudoController
         {
             ConteudoDTO dto = service.rejeitarConteudo(idConteudo);
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        catch (AtualizacaoInvalidaException e)
+        } catch (AtualizacaoInvalidaException e)
+        {
+            throw e;
+        } catch (IdInvalidoException e)
         {
             throw e;
         }
-        catch (IdInvalidoException e)
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/projetoID/{id}")
+    public ResponseEntity<List<ConteudoDTO>> findAllByIdProjeto(@PathVariable("id") Long id)
+    {
+
+        List<ConteudoDTO> dtoList = service.findAllByIdProjeto(id);
+        if (dtoList.isEmpty())
         {
-            throw e;
+            throw new ListaVaziaException("Não existem conteúdos para esse id de projeto " + id);
         }
+
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 }

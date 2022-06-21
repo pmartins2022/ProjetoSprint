@@ -7,6 +7,7 @@ import com.grupo2.projeto.repository.jpa.ConteudoJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -50,5 +51,12 @@ public class ConteudoRepository
         ConteudoJPA saved = repository.save(jpa);
 
         return mapper.toModel(saved);
+    }
+
+    public List<Conteudo> findAllByIdProjeto(Long id)
+    {
+        List<ConteudoJPA> list = repository.findAllByIdProjeto(id);
+
+        return list.stream().map(mapper::toModel).toList();
     }
 }
