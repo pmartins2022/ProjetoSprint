@@ -124,23 +124,4 @@ class UtilizadorDTOMapperUnitTests
         assertEquals(authDTO.getId(), utilizadorMOCK.getId());
     }
 
-    /*@Test
-    public void shouldConvertValidUtilizadorAuthDTOFromUserDetails_ValidAtributtes()
-    {
-        UtilizadorAuthDTO dtoMOCK = mock(UtilizadorAuthDTO.class);
-        when(dtoMOCK.getId()).thenReturn(1L);
-        when(dtoMOCK.getUsername()).thenReturn("user");
-        when(dtoMOCK.getPassword()).thenReturn("pass");
-        when(dtoMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO.toString());
-
-        UserDetails userDetails = mock(UserDetails.class);
-        when(userDetails.getUsername()).thenReturn("user");
-        when(userDetails.getPassword()).thenReturn("pass");
-        //when(userDetails.getAuthorities()).thenReturn(List.of());
-
-        UtilizadorAuthDTO authDTO = mapper.toAuthDTO(userDetails);
-
-        assertEquals(authDTO.getUsername(), userDetails.getUsername());
-    }*/
-
 }

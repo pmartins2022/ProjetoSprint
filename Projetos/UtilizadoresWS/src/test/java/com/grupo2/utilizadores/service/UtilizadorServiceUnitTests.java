@@ -153,32 +153,6 @@ class UtilizadorServiceUnitTests
         assertTrue(authDTO.isPresent());
     }
 
-    /*@Test
-    public void shouldReturnTrue_isOfRole()
-    {
-        UtilizadorDTO dtoMOCK = mock(UtilizadorDTO.class);
-
-        when(service.findByID(1L)).thenReturn(Optional.of(dtoMOCK));
-        when(dtoMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
-
-        Boolean isRole = service.isRole("ROLE_DOCENTE", 1L);
-
-        assertTrue(isRole);
-    }
-
-    @Test
-    public void shouldReturnFalse_isNotOfRole()
-    {
-        UtilizadorDTO dtoMOCK = mock(UtilizadorDTO.class);
-        when(dtoMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.DOCENTE);
-
-        when(service.findByID(1L)).thenReturn(Optional.of(dtoMOCK));
-
-        Boolean isRole = service.isRole("ROLE_DOCENTE", 1L);
-
-        assertTrue(isRole);
-    }*/
-
     @Test
     public void shouldReturnFalse_IDNotFound()
     {

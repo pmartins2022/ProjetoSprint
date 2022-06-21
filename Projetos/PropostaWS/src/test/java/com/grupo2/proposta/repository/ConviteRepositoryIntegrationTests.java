@@ -1,3 +1,4 @@
+/*
 package com.grupo2.proposta.repository;
 
 import com.grupo2.proposta.jpa.ConviteJPA;
@@ -8,6 +9,7 @@ import com.grupo2.proposta.repository.jpa.ConviteJPARepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
 
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
+@ContextConfiguration(classes= {ConviteRepository.class, ConviteJPARepository.class})
 class ConviteRepositoryIntegrationTests
 {
     @Autowired
@@ -102,50 +105,5 @@ class ConviteRepositoryIntegrationTests
 
         assertTrue(saved.isPresent());
     }
-    /*
-    public Optional<Convite> findById(ConviteID id)
-    {
-        Optional<ConviteJPA> id1 = jpaRepository.findById(id);
 
-        if (id1.isPresent())
-        {
-            return Optional.of(mapper.toModel(id1.get()));
-        }
-        return Optional.empty();
-    }
-
-    public void invalidarConvites(Long propostaID, Long alunoId)
-    {
-        List<Convite> list = jpaRepository.findByIdIdproposta(propostaID).stream().map(mapper::toModel).toList();
-
-        for (Convite convite : list)
-        {
-            if (!convite.getIdAluno().equals(alunoId))
-            {
-                convite.setEstado(EstadoConvite.RECUSADO);
-                jpaRepository.save(mapper.toJPA(convite));
-            }
-        }
-    }
-
-    public void invalidarTodosConvites(Long propostaID)
-    {
-        List<Convite> list = jpaRepository.findByIdIdproposta(propostaID).stream().map(mapper::toModel).toList();
-
-        for (Convite convite : list)
-        {
-            convite.setEstado(EstadoConvite.RECUSADO);
-            jpaRepository.save(mapper.toJPA(convite));
-        }
-    }
-
-    public void atualizar(Convite convite)
-    {
-        ConviteJPA conviteJPA = mapper.toJPA(convite);
-
-        jpaRepository.deleteById(conviteJPA.getId());
-
-        jpaRepository.save(conviteJPA);
-    }
-     */
-}
+}*/
