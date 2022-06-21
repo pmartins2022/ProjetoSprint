@@ -81,33 +81,6 @@ class PropostaServiceUnitTests
         loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
     }
 
-    @Test
-    public void shouldCreateProposta()
-    {
-        PropostaDTO prop = mock(PropostaDTO.class);
-        Proposta proposta = mock(Proposta.class);
-
-        UtilizadorDTO utilizadorDTO = mock(UtilizadorDTO.class);
-        OrganizacaoDTO organizacaoDTO = mock(OrganizacaoDTO.class);
-        EdicaoUCDTO edicaoUCDTO = mock(EdicaoUCDTO.class);
-
-        when(proposta.getUtilizadorId()).thenReturn(1L);
-        when(proposta.getOrganizacaoId()).thenReturn(1L);
-        when(proposta.getEdicaoUCId()).thenReturn(1L);
-
-        when(mapper.toModel(prop)).thenReturn(proposta);
-        when(mapper.toDTO(proposta)).thenReturn(prop);
-
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
-        when(organizacaoRestRepository.findById(1L)).thenReturn(Optional.of(organizacaoDTO));
-        when(edicaoUCRestRepository.findById(1L)).thenReturn(Optional.of(edicaoUCDTO));
-
-        when(repository.save(proposta)).thenReturn(proposta);
-
-        PropostaDTO dto = service.createCandidaturaProposta(prop);
-
-        assertEquals(prop, dto);
-    }
 
     @Test
     public void shouldNotCreateProposta_invalid()

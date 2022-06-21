@@ -44,7 +44,6 @@ class OrganizacaoControllerUnitTest {
 
         List<OrganizacaoDTO> organizacaoListDTO = List.of(organizacaoDTOMOCK,organizacaoDTOMOCK,organizacaoDTOMOCK);
 
-
         when(service.findAll()).thenReturn(organizacaoListDTO);
 
 
@@ -53,7 +52,6 @@ class OrganizacaoControllerUnitTest {
         assertEquals(responseEntity.getStatusCode(),HttpStatus.OK);
 
     }
-
     @Test
     public void shouldGetOrganizacaoByID_Exists()
     {
