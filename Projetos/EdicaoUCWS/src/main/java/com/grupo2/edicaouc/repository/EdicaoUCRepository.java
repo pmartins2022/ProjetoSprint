@@ -110,7 +110,7 @@ public class EdicaoUCRepository
         return jpa.stream().map(mapper::toModel).toList();
     }
 
-    public Optional<EdicaoUC> findByRucIDAndEstadoEdicaoUC(Long rucID, Long estado)
+    public Optional<EdicaoUC> findByRucIDAndEstadoEdicaoUC(Long rucID, EstadoEdicaoUC estado)
     {
         Optional<EdicaoUCJPA> jpa = jpaRepository.findByRucIDAndEstadoEdicaoUC(rucID, estado);
 

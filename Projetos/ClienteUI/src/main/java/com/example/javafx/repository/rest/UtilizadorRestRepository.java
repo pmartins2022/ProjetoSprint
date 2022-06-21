@@ -6,10 +6,12 @@ import com.example.javafx.dto.UtilizadorDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.model.LoginContext;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -70,7 +72,7 @@ public class UtilizadorRestRepository
         return spec.bodyToMono(Boolean.class).block();
     }
 
-    public UtilizadorDTO findAllDocente()
+    public List<UtilizadorDTO> findAllDocente()
     {
         try
         {
@@ -81,7 +83,9 @@ public class UtilizadorRestRepository
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-            return responseSpec.bodyToMono(UtilizadorDTO.class).block();
+            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<UtilizadorDTO>>()
+            {
+            }).block();
         }
         catch (RestPostException e)
         {

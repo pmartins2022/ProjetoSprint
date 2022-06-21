@@ -14,6 +14,7 @@ import com.example.javafx.ui.utils.JavaFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.WindowEvent;
 import org.springframework.stereotype.Controller;
 
 import java.util.Locale;
@@ -106,6 +107,8 @@ public class AdminMainWindowViewController
 
     public void closeWindow(ActionEvent actionEvent)
     {
+        txtChoiceBoxUC.getScene().getWindow().fireEvent(
+                new WindowEvent(txtChoiceBoxUC.getScene().getWindow(), javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
     public void createAnoLetivo(ActionEvent actionEvent)

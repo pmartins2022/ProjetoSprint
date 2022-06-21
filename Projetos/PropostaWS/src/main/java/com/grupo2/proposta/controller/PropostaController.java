@@ -143,7 +143,6 @@ public class PropostaController
     @PutMapping("/aceitarCandidatura/{idProposta}")
     public ResponseEntity<Object> acceptCandidaturaProposta(@PathVariable("idProposta") Long idProposta)
     {
-        System.out.println("Entrei");
         //Estado da Proposta -CANDIDATURA   -vai ficar APROVADO
         UtilizadorAuthDTO docente = LoginContext.getCurrent();
 
@@ -240,10 +239,13 @@ public class PropostaController
     @PostMapping("/aceitarCandidaturaAluno")
     public ResponseEntity<Object> acceptAlunoCandidaturaProposta(@RequestBody PropostaCandidaturaIDDTO propostaCandidaturaID)
     {
+        System.out.println("Entrei");
         UtilizadorAuthDTO utilizadorAuthDTO = LoginContext.getCurrent();
+        System.out.println(utilizadorAuthDTO.getPassword());
         try
         {
             PropostaCandidaturaDTO cand = service.acceptAlunoCandidaturaProposta(utilizadorAuthDTO.getId(), propostaCandidaturaID);
+            System.out.println("depois do service");
             return new ResponseEntity<>(cand, HttpStatus.OK);
         } catch (OptionalVazioException e)
         {
@@ -282,11 +284,10 @@ public class PropostaController
      * @param estado e o estado da proposta
      * @return lista de PropostasDTO
      */
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE','ROLE_ALUNO')")
     @GetMapping("")
     public ResponseEntity<List<PropostaDTO>> findAllByEstado(@RequestParam("estado") Integer estado)
     {
-
         List<PropostaDTO> list = service.findAllByEstado(estado);
 
         if (list.isEmpty())
@@ -312,4 +313,10 @@ public class PropostaController
         return new ResponseEntity<>(optional.get(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/candidaturaPropostas")
+    public ResponseEntity<Object> findAllCandidaturaPropostas()
+    {
+           return new ResponseEntity<>(service.findAllCandidaturaProposta(),HttpStatus.OK);
+    }
 }

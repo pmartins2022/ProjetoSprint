@@ -65,4 +65,14 @@ public class PropostaCandidaturaDTO
     {
         return Objects.hash(idProposta, idAluno, estado);
     }
+
+    @Override
+    public String toString()
+    {
+        return "PropostaCandidaturaDTO{" +
+                "idProposta=" + idProposta +
+                ", idAluno=" + idAluno +
+                ", estado=" + estado +
+                '}';
+    }
 }

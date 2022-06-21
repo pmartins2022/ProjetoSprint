@@ -9,7 +9,6 @@ import java.util.Objects;
 public class PropostaCandidaturaID implements Serializable
 {
     private Long idproposta;
-    @Column(unique = true)
     private Long idaluno;
 
 

@@ -1,6 +1,5 @@
 package com.grupo2.proposta.repository;
 
-import com.grupo2.proposta.dto.ConviteDTO;
 import com.grupo2.proposta.jpa.ConviteJPA;
 import com.grupo2.proposta.jpa.mapper.ConviteJPAMapper;
 import com.grupo2.proposta.model.Convite;
@@ -100,7 +99,7 @@ public class ConviteRepository
         jpaRepository.save(conviteJPA);
     }
 
-    public List<Convite> findConvitesAtivos(Long id)
+    public List<Convite> findConvitesPendentes(Long id)
     {
         List<ConviteJPA> list = jpaRepository.findByIdIddocenteAndEstado(id,EstadoConvite.PENDENTE);
 

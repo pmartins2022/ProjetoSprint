@@ -53,9 +53,8 @@ public class EdicaoUCRestRepository
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = (WebClient.ResponseSpec) WebClient.create("http://localhost:8081/edicaoUC/ruc/"+rucID+"/active").get().
-                    retrieve().bodyToMono(EdicaoUCDTO.class).block();
-
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/edicaoUC/ruc/"+rucID+"/active").get().
+                    retrieve();
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));

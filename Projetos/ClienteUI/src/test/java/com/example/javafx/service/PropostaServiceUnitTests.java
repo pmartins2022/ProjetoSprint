@@ -42,19 +42,6 @@ class PropostaServiceUnitTests
     }
 
     @Test
-    public void shouldFindAllOrganizacao()
-    {
-        OrganizacaoDTO orgMOCK = mock(OrganizacaoDTO.class);
-        List<OrganizacaoDTO> list = List.of(orgMOCK, orgMOCK);
-
-        when(organizacaoRestRepo.findAll()).thenReturn(list);
-
-        List<String> allOrg = service.findAllOrganizacao();
-
-        assertEquals(allOrg.size(), 2);
-    }
-
-    @Test
     public void shouldNotFindAllOrganizacao_Empty()
     {
         when(organizacaoRestRepo.findAll()).thenThrow(RestPostException.class);
@@ -62,19 +49,6 @@ class PropostaServiceUnitTests
         assertThrows(RestPostException.class, () -> service.findAllOrganizacao());
     }
 
-    @Test
-    public void shouldFindAllEdicao()
-    {
-        EdicaoUCDTO edicaoMOCK = mock(EdicaoUCDTO.class);
-        List<EdicaoUCDTO> list = List.of(edicaoMOCK, edicaoMOCK);
-        List<String> stringList = list.stream().map(EdicaoUCDTO::toString).toList();
-
-        when(edicaoUCRestRepo.findAll()).thenReturn(list);
-
-        List<String> allEdicao = service.findAllEdicao();
-
-        assertEquals(allEdicao, stringList);
-    }
 
     @Test
     public void shouldNotFindAllEdicao_Empty()
