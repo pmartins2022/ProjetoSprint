@@ -4,6 +4,7 @@ import com.example.javafx.controller.PropostaController;
 import com.example.javafx.controller.docente.DocenteController;
 import com.example.javafx.controller.docente.ProjetoController;
 import com.example.javafx.dto.AvaliacaoDTO;
+import com.example.javafx.dto.ConteudoDTO;
 import com.example.javafx.dto.ConviteDTO;
 import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.exception.ErrorDetail;
@@ -48,7 +49,7 @@ public class DocenteMainWindowViewController
     public TextField idPresidenteText;
     public Button aceitarConteudoButton;
     public Button rejeitarConteudoButton;
-    public ChoiceBox<String> conteudoChoice;
+    public ChoiceBox<ConteudoDTO> conteudoChoice;
     public TextArea docenteDTOText;
     public TabPane docentePaneID;
     public TabPane rucPaneID;
@@ -57,9 +58,9 @@ public class DocenteMainWindowViewController
     public TextField alunoIDTxt;
     public Button confirmarECriarAvaliacao;
 
-    private DocenteController docenteController  ;
+    private DocenteController docenteController;
     private PropostaController propostaController;
-    private ProjetoController projetoController  ;
+    private ProjetoController projetoController;
 
 
     @FXML
@@ -108,14 +109,10 @@ public class DocenteMainWindowViewController
         mainPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> mainTabPaneChanged(t1));
         docentePaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> docenteTabPaneChanged(t1));
         rucPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> rucTabPaneChanged(t1));
-        orientadorPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> orientadorTabPaneChanged(t1));
 
         iniciarTabHome();
     }
 
-    private void orientadorTabPaneChanged(Number t1)
-    {
-    }
 
     public void createProposta(ActionEvent actionEvent)
     {
@@ -299,6 +296,57 @@ public class DocenteMainWindowViewController
         }
     }
 
+    public void iniciarGerirSubmissao()
+    {
+        try
+        {
+            List<ConteudoDTO> list = projetoController.findAllConteudoOfOrientador(LoginContext.getCurrentUser().getId());
+            conteudoChoice.getItems().addAll(list);
+            conteudoChoice.getSelectionModel().selectFirst();
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+    public void aceitarConteudo()
+    {
+        try
+        {
+            ConteudoDTO selected = conteudoChoice.getSelectionModel().getSelectedItem();
+            projetoController.acceptConteudo(conteudoChoice.getSelectionModel().getSelectedItem().getId());
+            conteudoChoice.getItems().remove(selected);
+
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+    public void rejeitarConteudo()
+    {
+        try
+        {
+            ConteudoDTO selected = conteudoChoice.getSelectionModel().getSelectedItem();
+            projetoController.rejectConteudo(conteudoChoice.getSelectionModel().getSelectedItem().getId());
+            conteudoChoice.getItems().remove(selected);
+
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+
     private void iniciarDefinirJuriAvaliacao()
     {
         System.out.println("Definir júri");
@@ -353,8 +401,8 @@ public class DocenteMainWindowViewController
             {
                 rucPaneID.getSelectionModel().select(0);
                 iniciarGerirProposta();
-            }//case 3 -> iniciarTabCriarUnidadeCurricular();
-            //case 4 -> iniciarTabConsultarUC();
+            }
+            case 3 -> iniciarGerirSubmissao();
         }
     }
 
