@@ -48,4 +48,14 @@ public class PropostaCandidaturaDTO
     {
         this.estado = estado;
     }
+
+    @Override
+    public String toString()
+    {
+        return "PropostaCandidaturaDTO{" +
+                "idProposta=" + idProposta +
+                ", idAluno=" + idAluno +
+                ", estado=" + estado +
+                '}';
+    }
 }

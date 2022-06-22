@@ -1,4 +1,3 @@
-/*
 package com.grupo2.proposta.repository;
 
 import com.grupo2.proposta.jpa.ConviteJPA;
@@ -106,4 +105,4 @@ class ConviteRepositoryIntegrationTests
         assertTrue(saved.isPresent());
     }
 
-}*/
+}

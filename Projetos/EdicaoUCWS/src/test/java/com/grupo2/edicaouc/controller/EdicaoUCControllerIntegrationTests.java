@@ -6,6 +6,7 @@ import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.service.EdicaoUCService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -227,7 +228,7 @@ class EdicaoUCControllerIntegrationTests
     public void shouldListEdicaoUCByRucIDActive() throws Exception
     {
         EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
-        when(service.findByRucIDAndEstadoEdicaoUC(1L, 1L)).thenReturn(Optional.of(dto));
+        when(service.findByRucIDAndEstadoEdicaoUC(1L, EstadoEdicaoUC.ATIVA)).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.get("/edicaoUC/ruc/{rucID}/active", 1L)
@@ -243,7 +244,7 @@ class EdicaoUCControllerIntegrationTests
     @Test
     public void shouldNotListEdicaoUCByRucIDActive_Empty() throws Exception
     {
-        when(service.findByRucIDAndEstadoEdicaoUC(1L, 1L)).thenThrow(OptionalVazioException.class);
+        when(service.findByRucIDAndEstadoEdicaoUC(1L,  EstadoEdicaoUC.ATIVA)).thenThrow(OptionalVazioException.class);
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.get("/edicaoUC/ruc/{rucID}/active", 1L)

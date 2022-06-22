@@ -1,9 +1,6 @@
 package com.example.javafx.controller;
 
-import com.example.javafx.dto.ConviteDTO;
-import com.example.javafx.dto.ProjetoDTO;
-import com.example.javafx.dto.PropostaDTO;
-import com.example.javafx.dto.UtilizadorDTO;
+import com.example.javafx.dto.*;
 import com.example.javafx.dto.factory.PropostaDTOFactory;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
@@ -25,39 +22,42 @@ public class PropostaController
     @Autowired
     private PropostaDTOFactory propostaDTOFactory;
 
-    private PropostaDTO current;
+    private PropostaCandidaturaDTO current;
 
     /**
      * Buscar a lista de organizações.
+     *
      * @return Lista de organizações em formato String.
      */
-    public List<String> findAllOrganizacao()
+    public List<OrganizacaoDTO> findAllOrganizacao()
     {
         return propostaService.findAllOrganizacao();
     }
 
     /**
      * Buscar a lista de edicoes uc.
+     *
      * @return Lista de edicoes uc em formato String.
      */
-    public List<String> findAllEdicao()
+    public List<EdicaoUCDTO> findAllEdicao()
     {
         return propostaService.findAllEdicao();
     }
 
     /**
      * Criar uma proposta
-     * @param userId id de utilizador.
+     *
+     * @param userId        id de utilizador.
      * @param organizacaoId id de organização.
-     * @param edicaoUCId id de edicao uc.
-     * @param tituloText titulo da proposta.
-     * @param problemaText problema da proposta.
-     * @param objetivoText objetivo da proposta.
+     * @param edicaoUCId    id de edicao uc.
+     * @param tituloText    titulo da proposta.
+     * @param problemaText  problema da proposta.
+     * @param objetivoText  objetivo da proposta.
      * @return Proposta criada.
      */
-    public PropostaDTO createProposta(long userId, int organizacaoId, int edicaoUCId, String tituloText, String problemaText, String objetivoText)
+    public PropostaDTO createProposta(Long userId, Long organizacaoId, Long edicaoUCId, String tituloText, String problemaText, String objetivoText)
     {
-        PropostaDTO dto = propostaDTOFactory.create(userId, (long) organizacaoId, tituloText, problemaText, objetivoText, (long) edicaoUCId);
+        PropostaDTO dto = propostaDTOFactory.create(userId, organizacaoId, tituloText, problemaText, objetivoText, edicaoUCId);
 
         return propostaService.saveProposta(dto);
     }
@@ -107,18 +107,18 @@ public class PropostaController
         return true;
     }
 
-    public PropostaDTO findByEstadoAndAlunoid()
+    public PropostaCandidaturaDTO findByEstadoAndAlunoid()
     {
         current = propostaService.findByEstadoAndAlunoid();
         return current;
     }
 
-    public UtilizadorDTO findAllDocente()
+    public List<UtilizadorDTO> findAllDocente()
     {
         return propostaService.findAllDocente();
     }
 
-    public PropostaDTO getCurrent()
+    public PropostaCandidaturaDTO getCurrent()
     {
         return current;
     }
@@ -153,10 +153,15 @@ public class PropostaController
 
         if (selectedIndex < 0 || selectedIndex >= list.size())
         {
-            throw new ErrorDetail("Errado",400,"Valor selecionado invalido!");
+            throw new ErrorDetail("Errado", 400, "Valor selecionado invalido!");
         }
 
         return propostaService.rejectConvite(list.get(selectedIndex));
+    }
+
+    public PropostaCandidaturaDTO createAlunoCandidaturaProposta(Long propostaID)
+    {
+        return propostaService.alunoCandidaturaProposta(propostaID);
     }
 }
 

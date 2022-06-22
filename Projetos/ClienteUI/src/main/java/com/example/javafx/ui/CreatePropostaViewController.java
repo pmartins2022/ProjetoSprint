@@ -1,6 +1,8 @@
 package com.example.javafx.ui;
 
 import com.example.javafx.controller.PropostaController;
+import com.example.javafx.dto.EdicaoUCDTO;
+import com.example.javafx.dto.OrganizacaoDTO;
 import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.ui.utils.AlertBuilder;
@@ -29,10 +31,10 @@ public class CreatePropostaViewController
     public TextField tituloText;
 
     @FXML
-    public ChoiceBox<String> organizacaoChoice;
+    public ChoiceBox<OrganizacaoDTO> organizacaoChoice;
 
     @FXML
-    public ChoiceBox<String> edicaoChoice;
+    public ChoiceBox<EdicaoUCDTO> edicaoChoice;
 
     @FXML
     public TextField userIdText;
@@ -89,7 +91,7 @@ public class CreatePropostaViewController
     {
         try
         {
-            PropostaDTO dto = controller.createProposta(Long.parseLong(userIdText.getText()), organizacaoChoice.getSelectionModel().getSelectedIndex()+1, edicaoChoice.getSelectionModel().getSelectedIndex()+1, tituloText.getText(), problemaText.getText(), objetivoText.getText());
+            PropostaDTO dto = controller.createProposta(Long.parseLong(userIdText.getText()), organizacaoChoice.getSelectionModel().getSelectedItem().getId(), edicaoChoice.getSelectionModel().getSelectedItem().getId(), tituloText.getText(), problemaText.getText(), objetivoText.getText());
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Proposta criada com sucesso. " + dto.toString());
         }
         catch (ErrorDetail e)

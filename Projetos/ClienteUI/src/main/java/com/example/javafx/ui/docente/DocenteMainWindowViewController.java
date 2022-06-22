@@ -3,9 +3,7 @@ package com.example.javafx.ui.docente;
 import com.example.javafx.controller.PropostaController;
 import com.example.javafx.controller.docente.DocenteController;
 import com.example.javafx.controller.docente.ProjetoController;
-import com.example.javafx.dto.AvaliacaoDTO;
-import com.example.javafx.dto.ConviteDTO;
-import com.example.javafx.dto.PropostaDTO;
+import com.example.javafx.dto.*;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.model.LoginContext;
 import com.example.javafx.ui.utils.AlertBuilder;
@@ -29,8 +27,8 @@ public class DocenteMainWindowViewController
     public TextField tituloText;
     public TextField problemaText;
     public TextField objetivoText;
-    public ChoiceBox<String> organizacaoChoice;
-    public ChoiceBox<String> edicaoChoice;
+    public ChoiceBox<OrganizacaoDTO> organizacaoChoice;
+    public ChoiceBox<EdicaoUCDTO> edicaoChoice;
     public Button aceitarConviteButton;
     public Button rejeitarConviteButton;
     public ChoiceBox<String> conviteChoice;
@@ -48,7 +46,7 @@ public class DocenteMainWindowViewController
     public TextField idPresidenteText;
     public Button aceitarConteudoButton;
     public Button rejeitarConteudoButton;
-    public ChoiceBox<String> conteudoChoice;
+    public ChoiceBox<ConteudoDTO> conteudoChoice;
     public TextArea docenteDTOText;
     public TabPane docentePaneID;
     public TabPane rucPaneID;
@@ -57,40 +55,9 @@ public class DocenteMainWindowViewController
     public TextField alunoIDTxt;
     public Button confirmarECriarAvaliacao;
 
-    private DocenteController docenteController  ;
+    private DocenteController docenteController;
     private PropostaController propostaController;
-    private ProjetoController projetoController  ;
-
-
-    @FXML
-    void definirJuri(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void gerirCandidatura(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void gerirOrientacao(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void gerirProposta(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void gerirSubmissao(ActionEvent event)
-    {
-
-    }
+    private ProjetoController projetoController;
 
     @FXML
     public void logOut(ActionEvent event)
@@ -108,20 +75,16 @@ public class DocenteMainWindowViewController
         mainPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> mainTabPaneChanged(t1));
         docentePaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> docenteTabPaneChanged(t1));
         rucPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> rucTabPaneChanged(t1));
-        orientadorPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> orientadorTabPaneChanged(t1));
 
         iniciarTabHome();
     }
 
-    private void orientadorTabPaneChanged(Number t1)
-    {
-    }
 
     public void createProposta(ActionEvent actionEvent)
     {
         try
         {
-            PropostaDTO dto = propostaController.createProposta(Long.parseLong(userIdText.getText()), organizacaoChoice.getSelectionModel().getSelectedIndex()+1, edicaoChoice.getSelectionModel().getSelectedIndex()+1, tituloText.getText(), problemaText.getText(), objetivoText.getText());
+            PropostaDTO dto = propostaController.createProposta(Long.parseLong(userIdText.getText()), organizacaoChoice.getSelectionModel().getSelectedItem().getId(), edicaoChoice.getSelectionModel().getSelectedItem().getId(), tituloText.getText(), problemaText.getText(), objetivoText.getText());
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Proposta criada com sucesso. " + dto.toString());
         }
         catch (ErrorDetail e)
@@ -152,6 +115,7 @@ public class DocenteMainWindowViewController
         {
             ConviteDTO dto = propostaController.acceptConvite(conviteChoice.getSelectionModel().getSelectedIndex());
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Sucesso!", "Alteracao realizada com sucesso.", dto.toString());
+            iniciarAceitarRejeitarConvite();
         }
         catch (ErrorDetail e)
         {
@@ -169,6 +133,7 @@ public class DocenteMainWindowViewController
         {
             ConviteDTO dto = propostaController.rejectConvite(conviteChoice.getSelectionModel().getSelectedIndex());
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Sucesso!", "Alteracao realizada com sucesso.", dto.toString());
+            iniciarAceitarRejeitarConvite();
         }
         catch (ErrorDetail e)
         {
@@ -208,14 +173,18 @@ public class DocenteMainWindowViewController
         try
         {
             List<PropostaDTO> list = propostaController.findAllPropostaCandidatura();
+            candidaturaChoice.getItems().clear();
+
             candidaturaChoice.getItems().addAll(list);
             candidaturaChoice.getSelectionModel().selectFirst();
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            candidaturaChoice.getItems().clear();
         } catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+            candidaturaChoice.getItems().clear();
         }
     }
 
@@ -224,6 +193,8 @@ public class DocenteMainWindowViewController
         try
         {
             propostaController.acceptCandidaturaProposta(candidaturaChoice.getSelectionModel().getSelectedItem());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "Candidatura Proposta", "Candidatura Proposta APROVADA");
+            iniciarGerirCandidaturaProposta();
 
         } catch (ErrorDetail e)
         {
@@ -239,6 +210,8 @@ public class DocenteMainWindowViewController
         try
         {
             propostaController.rejectCandidaturaProposta(candidaturaChoice.getSelectionModel().getSelectedItem());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "Candidatura Proposta", "Candidatura Proposta REJEITADA");
+            iniciarGerirCandidaturaProposta();
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
@@ -254,14 +227,19 @@ public class DocenteMainWindowViewController
         try
         {
             List<PropostaDTO> list = propostaController.findAllPropostaAprovado();
+
+            propostaChoice.getItems().clear();
+
             propostaChoice.getItems().addAll(list);
             propostaChoice.getSelectionModel().selectFirst();
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            propostaChoice.getItems().clear();
         } catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+            propostaChoice.getItems().clear();
         }
     }
 
@@ -269,10 +247,10 @@ public class DocenteMainWindowViewController
     {
         try
         {
-            PropostaDTO selected = propostaChoice.getSelectionModel().getSelectedItem();
-            propostaController.acceptProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
-            propostaChoice.getItems().remove(selected);
 
+            ProjetoDTO projetoDTO = propostaController.acceptProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Proposta Aceite e Projeto Criado", projetoDTO.toString());
+            iniciarGerirProposta();
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
@@ -286,9 +264,9 @@ public class DocenteMainWindowViewController
     {
         try
         {
-            PropostaDTO selected = propostaChoice.getSelectionModel().getSelectedItem();
             propostaController.rejectProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
-            propostaChoice.getItems().remove(selected);
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Proposta Reprovada", "Reprovada");
+            iniciarGerirProposta();
 
         } catch (ErrorDetail e)
         {
@@ -298,6 +276,62 @@ public class DocenteMainWindowViewController
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
         }
     }
+
+    public void iniciarGerirSubmissao()
+    {
+        try
+        {
+            List<ConteudoDTO> list = projetoController.findAllConteudoOfOrientador(LoginContext.getCurrentUser().getId());
+
+            conteudoChoice.getItems().clear();
+
+            conteudoChoice.getItems().addAll(list);
+            conteudoChoice.getSelectionModel().selectFirst();
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            conteudoChoice.getItems().clear();
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+            conteudoChoice.getItems().clear();
+        }
+    }
+
+    public void aceitarConteudo(ActionEvent actionEvent)
+    {
+        try
+        {
+            projetoController.acceptConteudo(conteudoChoice.getSelectionModel().getSelectedItem().getId());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Conteúdo Aceite", "Conteúdo Aceite");
+            iniciarGerirSubmissao();
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+    public void rejeitarConteudo(ActionEvent actionEvent)
+    {
+        try
+        {
+
+            projetoController.rejectConteudo(conteudoChoice.getSelectionModel().getSelectedItem().getId());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Conteúdo Rejeitado", "Conteúdo Rejeitado");
+            iniciarGerirSubmissao();
+
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
 
     private void iniciarDefinirJuriAvaliacao()
     {
@@ -313,28 +347,37 @@ public class DocenteMainWindowViewController
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            conviteChoice.getItems().clear();
         } catch (Exception e)
         {
+            conviteChoice.getItems().clear();
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
         }
     }
 
+    /**
+     * Confirma e criar uma avaliacao
+     * @param actionEvent evento
+     */
     public void confirmarECriarAvaliacao(ActionEvent actionEvent)
     {
-        AvaliacaoDTO avaliacaoDTO = projetoController.createAvaliacao(idMomentoAvaliacaoText.getText(), idOrientadorText.getText(),
-                idPresidenteText.getText(), idArguenteText.getText(),
-                idProjetoText.getText(), idConteudoText.getText());
+        try
+        {
+            AvaliacaoDTO avaliacaoDTO = projetoController.createAvaliacao(idMomentoAvaliacaoText.getText(), idOrientadorText.getText(),
+                    idPresidenteText.getText(), idArguenteText.getText(),
+                    idProjetoText.getText(), idConteudoText.getText());
 
-        AlertBuilder.showAlert(Alert.AlertType.ERROR, "Definir Júri", "Avaliação Criada", avaliacaoDTO.toString());
-    }
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Definir Júri", "Avaliação Criada", avaliacaoDTO.toString());
+        }catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            conviteChoice.getItems().clear();
+        } catch (Exception e)
+        {
+            conviteChoice.getItems().clear();
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
 
-    public void aceitarConteudo(ActionEvent actionEvent)
-    {
-    }
-
-
-    public void rejeitarConteudo(ActionEvent actionEvent)
-    {
     }
 
     public void mainTabPaneChanged(Number t1)
@@ -353,14 +396,13 @@ public class DocenteMainWindowViewController
             {
                 rucPaneID.getSelectionModel().select(0);
                 iniciarGerirProposta();
-            }//case 3 -> iniciarTabCriarUnidadeCurricular();
-            //case 4 -> iniciarTabConsultarUC();
+            }
+            case 3 -> iniciarGerirSubmissao();
         }
     }
 
     public void docenteTabPaneChanged(Number t1)
     {
-
         switch (t1.intValue())
         {
             case 0 -> iniciarCriarProposta();
@@ -381,7 +423,6 @@ public class DocenteMainWindowViewController
             case 2 -> iniciarDefinirJuriAvaliacao();
         }
     }
-
 
     private void iniciarTabHome()
     {

@@ -2,20 +2,18 @@ package com.example.javafx.ui.aluno;
 
 import com.example.javafx.controller.PropostaController;
 import com.example.javafx.controller.aluno.AlunoController;
-import com.example.javafx.dto.ConviteDTO;
-import com.example.javafx.dto.PropostaDTO;
-import com.example.javafx.dto.UtilizadorDTO;
+import com.example.javafx.dto.*;
 import com.example.javafx.exception.ErrorDetail;
+import com.example.javafx.model.EstadoConvite;
 import com.example.javafx.model.LoginContext;
 import com.example.javafx.ui.utils.AlertBuilder;
 import com.example.javafx.ui.utils.JavaFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.WindowEvent;
 import org.springframework.stereotype.Controller;
-
-import javafx.event.ActionEvent;
 
 @Controller
 public class AlunoMainWindowViewController
@@ -24,8 +22,8 @@ public class AlunoMainWindowViewController
     public TextField tituloText;
     public TextField problemaText;
     public TextField objetivoText;
-    public ChoiceBox<String> organizacaoChoice;
-    public ChoiceBox<String> edicaoChoice;
+    public ChoiceBox<OrganizacaoDTO> organizacaoChoice;
+    public ChoiceBox<EdicaoUCDTO> edicaoChoice;
     public TabPane alunoPane;
     public Button logOutButton;
     public ChoiceBox<UtilizadorDTO> docenteChoiceBox;
@@ -113,7 +111,7 @@ public class AlunoMainWindowViewController
     {
         try
         {
-            PropostaDTO dto = propostaController.createProposta(Long.parseLong(userIdText.getText()), organizacaoChoice.getSelectionModel().getSelectedIndex()+1, edicaoChoice.getSelectionModel().getSelectedIndex()+1, tituloText.getText(), problemaText.getText(), objetivoText.getText());
+            PropostaDTO dto = propostaController.createProposta(Long.parseLong(userIdText.getText()), organizacaoChoice.getSelectionModel().getSelectedItem().getId(), edicaoChoice.getSelectionModel().getSelectedItem().getId(), tituloText.getText(), problemaText.getText(), objetivoText.getText());
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Proposta criada com sucesso. " + dto.toString());
         }
         catch (ErrorDetail e)
@@ -131,7 +129,7 @@ public class AlunoMainWindowViewController
         try
         {
             ConviteDTO dto = new ConviteDTO(LoginContext.getCurrentUser().getId(),
-                    (long) docenteChoiceBox.getSelectionModel().getSelectedIndex(), propostaController.getCurrent().getId());
+                    docenteChoiceBox.getSelectionModel().getSelectedItem().getId(), propostaController.getCurrent().getIdProposta(), EstadoConvite.PENDENTE);
 
             ConviteDTO convite = propostaController.createConvite(dto);
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Convite criada com sucesso. " + convite.toString());
@@ -148,6 +146,18 @@ public class AlunoMainWindowViewController
 
     public void createCandidatura(ActionEvent actionEvent)
     {
+        try
+        {
+            propostaController.createAlunoCandidaturaProposta(propostaChoiceBox.getSelectionModel().getSelectedItem().getId());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "SUCESSO Candidatura", "Aluno Candidatura Proposta");
+            iniciarTabAlunoCandidaturaProposta();
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+        } catch (Exception e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 
     public void tabPaneChanged(Number t1)
@@ -158,26 +168,28 @@ public class AlunoMainWindowViewController
         {
             case 0 -> iniciarTabHome();
             case 1 -> iniciarTabCriarProposta();
-            case 2 -> iniciarTabCriarCandidatura();
+            case 2 -> iniciarTabAlunoCandidaturaProposta();
             case 3 -> iniciarTabCriarConviteOrientacao();
         }
     }
 
-    private void iniciarTabCriarCandidatura()
+    private void iniciarTabAlunoCandidaturaProposta()
     {
         try
         {
-            propostaChoiceBox.getItems().addAll(propostaController.findAllPropostaCandidatura());
-        }
-        catch (ErrorDetail e)
+            propostaChoiceBox.getItems().clear();
+
+            propostaChoiceBox.getItems().addAll(propostaController.findAllPropostaAprovado());
+        } catch (ErrorDetail e)
         {
-            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
             createPropostaButton.setDisable(true);
-        }
-        catch (Exception e)
+            propostaChoiceBox.getItems().clear();
+        } catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
             createPropostaButton.setDisable(true);
+            propostaChoiceBox.getItems().clear();
         }
     }
 
@@ -186,18 +198,21 @@ public class AlunoMainWindowViewController
     {
         try
         {
-            PropostaDTO dto = propostaController.findByEstadoAndAlunoid();
+            PropostaCandidaturaDTO dto = propostaController.findByEstadoAndAlunoid();
             txtPropostaInfo.setText(dto.toString());
+            docenteChoiceBox.getItems().clear();
             docenteChoiceBox.getItems().addAll(propostaController.findAllDocente());
         }
         catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro "+e.getStatus(), e.getTitle(), e.getDetail());
+            docenteChoiceBox.getItems().clear();
             createPropostaButton.setDisable(true);
         }
         catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+            docenteChoiceBox.getItems().clear();
             createPropostaButton.setDisable(true);
         }
     }

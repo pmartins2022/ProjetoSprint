@@ -5,6 +5,7 @@ import com.grupo2.edicaouc.dto.EdicaoUCDTO;
 import com.grupo2.edicaouc.dto.UtilizadorDTO;
 import com.grupo2.edicaouc.exception.*;
 import com.grupo2.edicaouc.model.EdicaoUCAluno;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.security.LoginContext;
 import com.grupo2.edicaouc.service.EdicaoUCService;
 import org.junit.jupiter.api.BeforeAll;
@@ -164,7 +165,7 @@ class EdicaoUCControllerUnitTests
     {
         EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
 
-        when(service.findByRucIDAndEstadoEdicaoUC(1L, 1L)).thenReturn(Optional.ofNullable(dtoMOCK));
+        when(service.findByRucIDAndEstadoEdicaoUC(1L,  EstadoEdicaoUC.ATIVA)).thenReturn(Optional.ofNullable(dtoMOCK));
 
         ResponseEntity<EdicaoUCDTO> responseEntity = controller.findByRucIDAndEstadoEdicaoUC(1L);
 
@@ -174,7 +175,7 @@ class EdicaoUCControllerUnitTests
     @Test
     public void shouldNotFindAllByRucIDActive_Empty()
     {
-        when(service.findByRucIDAndEstadoEdicaoUC(1L, 1L)).thenThrow(OptionalVazioException.class);
+        when(service.findByRucIDAndEstadoEdicaoUC(1L,  EstadoEdicaoUC.ATIVA)).thenThrow(OptionalVazioException.class);
 
         assertThrows(OptionalVazioException.class, () -> controller.findByRucIDAndEstadoEdicaoUC(1L));
     }

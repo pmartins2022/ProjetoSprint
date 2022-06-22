@@ -7,6 +7,7 @@ import com.grupo2.edicaouc.dto.mapper.EdicaoUCAlunoDTOMapper;
 import com.grupo2.edicaouc.dto.mapper.EdicaoUCDTOMapper;
 import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
+import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
 import com.grupo2.edicaouc.model.EdicaoUC;
 import com.grupo2.edicaouc.model.EdicaoUCAluno;
 import com.grupo2.edicaouc.model.EstadoEdicaoUC;
@@ -183,7 +184,7 @@ public class EdicaoUCService
 
         if (edicaoToActivate.get().getEstadoEdicaoUC() != EstadoEdicaoUC.PENDENTE)
         {
-            throw new ValidationException("EdiçãoUC não está em fase PENDENTE");
+            throw new ValidacaoInvalidaException("EdiçãoUC não está em fase PENDENTE");
         }
 
         edicaoToActivate.get().activateEdicaoUC();
@@ -225,7 +226,7 @@ public class EdicaoUCService
         return edicaoList.stream().map(mapper::toDTO).toList();
     }
 
-    public Optional<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(Long rucID, Long estado)
+    public Optional<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(Long rucID, EstadoEdicaoUC estado)
     {
         Optional<EdicaoUC> found = repository.findByRucIDAndEstadoEdicaoUC(rucID, estado);
 

@@ -80,7 +80,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptCandidaturaProposta(1L, 1L)).thenReturn(prop);
 
-        ResponseEntity<Object> objectResponseEntity = controller.acceptProposta(1L, 1L);
+        ResponseEntity<Object> objectResponseEntity = controller.acceptProposta(1L, 1L,null);
 
         assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
     }
@@ -92,7 +92,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptProposta(1L, 1L, 1L)).thenThrow(IdInvalidoException.class);
 
-        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L));
+        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L,null));
     }
 
     @Test
@@ -102,7 +102,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptProposta(1L, 1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L));
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L,null));
     }
 
     @Test

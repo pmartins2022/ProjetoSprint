@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Classe service para uma Proposta.
@@ -36,24 +35,22 @@ public class PropostaService
 
     /**
      * Obter lista de todas as organizações.
+     *
      * @return Lista de organizações.
      */
-    public List<String> findAllOrganizacao()
+    public List<OrganizacaoDTO> findAllOrganizacao()
     {
-        List<OrganizacaoDTO> list = repo.findAll();
-
-        return list.stream().map(OrganizacaoDTO::getDenominacao).toList();
+        return repo.findAll();
     }
 
     /**
      * Obter lista de todas as edições.
+     *
      * @return Lista de edições.
      */
-    public List<String> findAllEdicao()
+    public List<EdicaoUCDTO> findAllEdicao()
     {
-        List<EdicaoUCDTO> list = edicaoRepo.findAll();
-
-        return list.stream().map(EdicaoUCDTO::toString).toList();
+        return edicaoRepo.findAll();
     }
 
     /**
@@ -70,24 +67,6 @@ public class PropostaService
     public List<PropostaDTO> findAllPropostaByEstadoAtual(Integer estado)
     {
         return propostaRestRepo.findAllPropostaByEstadoAtual(estado);
-    }
-
-    public Boolean acceptCandidaturaAlunoProposta(Long idProjeto, Long idAluno)
-    {
-        PropostaCandidaturaIDDTO id = idFactory.createPropostaCandidaturaIDDTO(idProjeto, idAluno);
-
-        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.acceptCandidaturaAlunoProposta(id);
-
-        return true;
-    }
-
-    public Boolean rejectCandidaturaAlunoProposta(Long idProjeto, Long idAluno)
-    {
-        PropostaCandidaturaIDDTO id = idFactory.createPropostaCandidaturaIDDTO(idProjeto, idAluno);
-
-        PropostaCandidaturaDTO propostaCandidaturaDTO = propostaRestRepo.rejectCandidaturaAlunoProposta(id);
-
-        return true;
     }
 
     public Boolean acceptCandidaturaProposta(Long idProposta)
@@ -133,12 +112,12 @@ public class PropostaService
         return convite;
     }
 
-    public PropostaDTO findByEstadoAndAlunoid()
+    public PropostaCandidaturaDTO findByEstadoAndAlunoid()
     {
         return propostaRestRepo.findByEstadoAndAlunoid();
     }
 
-    public UtilizadorDTO findAllDocente()
+    public List<UtilizadorDTO> findAllDocente()
     {
         return utilizadorRestRepository.findAllDocente();
     }
@@ -156,5 +135,10 @@ public class PropostaService
     public ConviteDTO rejectConvite(ConviteDTO conviteDTO)
     {
         return propostaRestRepo.rejeitarOrientacao(conviteDTO);
+    }
+
+    public PropostaCandidaturaDTO alunoCandidaturaProposta(Long propostaID)
+    {
+        return propostaRestRepo.alunoCandidaturaProposta(propostaID);
     }
 }

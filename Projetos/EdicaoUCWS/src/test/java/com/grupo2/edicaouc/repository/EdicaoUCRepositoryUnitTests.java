@@ -164,11 +164,11 @@ class EdicaoUCRepositoryUnitTests
         EdicaoUCJPA mock = mock(EdicaoUCJPA.class);
         EdicaoUC edicaoUC = mock(EdicaoUC.class);
 
-        when(jpaRepository.findByRucIDAndEstadoEdicaoUC(1L, 1L)).thenReturn(Optional.of(mock));
+        when(jpaRepository.findByRucIDAndEstadoEdicaoUC(1L,  EstadoEdicaoUC.ATIVA)).thenReturn(Optional.of(mock));
 
         when(mapper.toModel(mock)).thenReturn(edicaoUC);
 
-        Optional<EdicaoUC> optional = repository.findByRucIDAndEstadoEdicaoUC(1L, 1L);
+        Optional<EdicaoUC> optional = repository.findByRucIDAndEstadoEdicaoUC(1L,  EstadoEdicaoUC.ATIVA);
 
         assertTrue(optional.isPresent());
         assertEquals(edicaoUC, optional.get());
@@ -177,9 +177,9 @@ class EdicaoUCRepositoryUnitTests
     @Test
     public void shouldNotFindByRucIDAndEstadoEdicaoUC()
     {
-        when(jpaRepository.findByRucIDAndEstadoEdicaoUC(1L, 1L)).thenReturn(Optional.empty());
+        when(jpaRepository.findByRucIDAndEstadoEdicaoUC(1L,  EstadoEdicaoUC.ATIVA)).thenReturn(Optional.empty());
 
-        Optional<EdicaoUC> optional = repository.findByRucIDAndEstadoEdicaoUC(1L, 1L);
+        Optional<EdicaoUC> optional = repository.findByRucIDAndEstadoEdicaoUC(1L,  EstadoEdicaoUC.ATIVA);
 
         assertTrue(optional.isEmpty());
     }

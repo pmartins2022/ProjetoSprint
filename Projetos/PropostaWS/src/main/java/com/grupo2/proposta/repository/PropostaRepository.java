@@ -68,8 +68,6 @@ public class PropostaRepository
     {
         if (jpaRepository.findById(proposta.getId()).isPresent())
         {
-            jpaRepository.deleteById(proposta.getId());
-
             PropostaJPA jpa = mapper.toJPA(proposta);
 
             PropostaJPA saved = jpaRepository.save(jpa);

@@ -1,5 +1,7 @@
 package com.grupo2.proposta.repository;
 
+import com.grupo2.proposta.dto.PropostaCandidaturaDTO;
+import com.grupo2.proposta.exception.OptionalVazioException;
 import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
 import com.grupo2.proposta.jpa.mapper.PropostaCandidaturaJPAMapper;
 import com.grupo2.proposta.model.EstadoCandidatura;
@@ -72,6 +74,12 @@ public class PropostaCandidaturaRepo
     public PropostaCandidatura createAndSave(Long propostaID, Long alunoId)
     {
         PropostaCandidaturaID id = factory.create(propostaID, alunoId);
+
+        if (jpaRepository.existsById(id))
+        {
+            throw new OptionalVazioException("O aluno ja se tinha candidatado a esta proposta.");
+        }
+
         PropostaCandidaturaJPA jpa = propostaCandidaturaJPAFactory.create(id, EstadoCandidatura.PENDENTE);
 
         return mapper.toModel(jpaRepository.save(jpa));
@@ -81,7 +89,7 @@ public class PropostaCandidaturaRepo
     {
         PropostaCandidaturaID id = factory.create(propostaCandidatura.getIdProposta(), propostaCandidatura.getIdAluno());
 
-        jpaRepository.deleteById(id);
+        //jpaRepository.deleteById(id);
 
         PropostaCandidaturaJPA jpa = mapper.toJPA(propostaCandidatura);
 
@@ -141,5 +149,10 @@ public class PropostaCandidaturaRepo
         }
 
         return Optional.of(mapper.toModel(propostaCandidaturaJPA.get()));
+    }
+
+    public List<PropostaCandidatura> findAll()
+    {
+        return jpaRepository.findAll().stream().map(mapper::toModel).toList();
     }
 }

@@ -4,6 +4,7 @@ import com.grupo2.edicaouc.dto.EdicaoUCAlunoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
 import com.grupo2.edicaouc.dto.UtilizadorDTO;
 import com.grupo2.edicaouc.exception.*;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.security.LoginContext;
 import com.grupo2.edicaouc.service.EdicaoUCService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,7 +125,7 @@ public class EdicaoUCController
     @GetMapping("/ruc/{rucID}/active")
     public ResponseEntity<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(@PathVariable(name = "rucID") Long rucID)
     {
-        Optional<EdicaoUCDTO> dto = service.findByRucIDAndEstadoEdicaoUC(rucID, 1L);
+        Optional<EdicaoUCDTO> dto = service.findByRucIDAndEstadoEdicaoUC(rucID, EstadoEdicaoUC.ATIVA);
 
         if (dto.isPresent())
         {

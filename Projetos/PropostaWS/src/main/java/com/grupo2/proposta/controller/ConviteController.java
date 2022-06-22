@@ -85,9 +85,9 @@ public class ConviteController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/findAtivos")
-    public ResponseEntity<Object> getConvitesAtivos()
+    public ResponseEntity<Object> getConvitesPendentes()
     {
-        List<ConviteDTO> list = service.findConvitesAtivos(LoginContext.getCurrent().getId());
+        List<ConviteDTO> list = service.findConvitesPendentes(LoginContext.getCurrent().getId());
 
         if (list.isEmpty())
         {

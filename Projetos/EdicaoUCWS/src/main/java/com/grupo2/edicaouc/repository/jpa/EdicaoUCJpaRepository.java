@@ -20,7 +20,7 @@ public interface EdicaoUCJpaRepository extends JpaRepository<EdicaoUCJPA, Long>
 
     List<EdicaoUCJPA> findByRucID(Long rucID);
 
-    Optional<EdicaoUCJPA> findByRucIDAndEstadoEdicaoUC(Long rucID, Long estado);
+    Optional<EdicaoUCJPA> findByRucIDAndEstadoEdicaoUC(Long rucID, EstadoEdicaoUC estado);
 
     Optional<EdicaoUCJPA> findByEstadoEdicaoUC(EstadoEdicaoUC ativa);
 }

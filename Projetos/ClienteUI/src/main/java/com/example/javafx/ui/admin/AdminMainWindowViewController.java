@@ -14,6 +14,7 @@ import com.example.javafx.ui.utils.JavaFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.WindowEvent;
 import org.springframework.stereotype.Controller;
 
 import java.util.Locale;
@@ -39,30 +40,6 @@ public class AdminMainWindowViewController
     private UnidadeCurricularController unidadeCurricularController;
 
     private AnoLetivoController anoLetivoController;
-
-    @FXML
-    void consultarUC(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void criarAnoLetivo(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void criarEdicaoUC(ActionEvent event)
-    {
-
-    }
-
-    @FXML
-    void criarUC(ActionEvent event)
-    {
-
-    }
 
     @FXML
     public void logOut(ActionEvent event)
@@ -106,6 +83,8 @@ public class AdminMainWindowViewController
 
     public void closeWindow(ActionEvent actionEvent)
     {
+        txtChoiceBoxUC.getScene().getWindow().fireEvent(
+                new WindowEvent(txtChoiceBoxUC.getScene().getWindow(), javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
     public void createAnoLetivo(ActionEvent actionEvent)
@@ -187,12 +166,10 @@ public class AdminMainWindowViewController
         catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR,"Erro "+e.getStatus(),e.getTitle(),e.getDetail());
-            closeWindow(null);
         }
         catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR,"Erro Fatal","Erro Fatal",e.getMessage());
-            closeWindow(null);
         }
 
         choiceBoxUC.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) ->
@@ -232,12 +209,10 @@ public class AdminMainWindowViewController
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
-            closeWindow(null);
         }
         catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro fatal", "Erro fatal", e.getMessage());
-            closeWindow(null);
         }
     }
 

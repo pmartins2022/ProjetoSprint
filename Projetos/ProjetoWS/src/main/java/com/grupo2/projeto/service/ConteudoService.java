@@ -36,11 +36,6 @@ public class ConteudoService
 
     public ConteudoDTO createAndSave(ConteudoDTO conteudoDTO)
     {
-        if (!LoginContext.getCurrent().getTipoUtilizador().equals("ALUNO"))
-        {
-            throw new IdInvalidoException("Este utilizador nao e aluno");
-        }
-
         Optional<Projeto> id = projetoRepository.findById(conteudoDTO.getProjetoId());
         if (id.isEmpty())
         {
