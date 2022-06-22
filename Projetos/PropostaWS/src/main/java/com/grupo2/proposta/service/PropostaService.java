@@ -129,7 +129,7 @@ public class PropostaService
         return propostaDTOSaved;
     }
 
-    private Optional<PropostaDTO> atualizarProposta(Proposta proposta)
+    public Optional<PropostaDTO> atualizarProposta(Proposta proposta)
     {
         Optional<Proposta> propostaSaved = repository.atualizarProposta(proposta);
 
@@ -311,7 +311,7 @@ public class PropostaService
      * @param estudanteID  Id do estudante
      * @return Projeto criado
      */
-    private ProjetoDTO createProject(Long propostaID, Long orientadorID, Long estudanteID)
+    public ProjetoDTO createProject(Long propostaID, Long orientadorID, Long estudanteID)
     {
         ProjetoDTO projetoDTO = projetoDTOFactory.createProjeto(propostaID, estudanteID,orientadorID);
 
