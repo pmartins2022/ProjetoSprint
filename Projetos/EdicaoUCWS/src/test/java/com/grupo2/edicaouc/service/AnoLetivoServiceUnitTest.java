@@ -6,6 +6,7 @@ import com.grupo2.edicaouc.jpa.AnoLetivoJPA;
 import com.grupo2.edicaouc.jpa.mapper.AnoLetivoJPAMapper;
 import com.grupo2.edicaouc.model.AnoLetivo;
 import com.grupo2.edicaouc.repository.AnoLetivoRepository;
+import com.grupo2.edicaouc.repository.jpa.AnoLetivoJPARepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,38 +25,36 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
-class AnoLetivoServiceUnitTest {
-    @InjectMocks
-    AnoLetivoRepository repository;
-
-
-    @InjectMocks
-    AnoLetivoService service;
+class AnoLetivoServiceUnitTest
+{
     @MockBean
     AnoLetivoJPAMapper mapper;
 
     @MockBean
-    JpaRepository jpaRepository;
+    AnoLetivoJPARepository anoLetivoJPARepository;
+
+    @InjectMocks
+    AnoLetivoRepository repository;
 
     @BeforeEach
     public void setup()
     {
         MockitoAnnotations.openMocks(this);
     }
-//TODO
+
     @Test
-    public void shouldCreateValidAnoLetivo(){
-        AnoLetivo anoLetivoMock = mock(AnoLetivo.class);
-        AnoLetivoJPA anoLetivoJPAMock = mock(AnoLetivoJPA.class);
+    public void shouldCreateValidAnoLetivo()
+    {
+        AnoLetivo al = mock(AnoLetivo.class);
+        AnoLetivoJPA jpa = mock(AnoLetivoJPA.class);
 
-        when(mapper.toModel(anoLetivoJPAMock)).thenReturn(anoLetivoMock);
-        when(mapper.toJpa(anoLetivoMock)).thenReturn(anoLetivoJPAMock);
-        when(repository.findById(anoLetivoMock.getSigla())).thenReturn(Optional.of(anoLetivoMock));
-        when(jpaRepository.save(anoLetivoJPAMock)).thenReturn(anoLetivoJPAMock);
+        when(mapper.toModel(jpa)).thenReturn(al);
+        when(mapper.toJpa(al)).thenReturn(jpa);
 
-        AnoLetivo saved = repository.createAndSaveAnoLetivo(anoLetivoMock);
+        when(al.getSigla()).thenReturn("AAA");
 
-        assertEquals(saved, anoLetivoMock);
+        when(anoLetivoJPARepository.findById("AAA")).thenReturn(Optional.empty());
 
-}
+        repository.createAndSaveAnoLetivo(al);
+    }
 }

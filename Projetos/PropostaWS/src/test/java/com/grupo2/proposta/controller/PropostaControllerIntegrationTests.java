@@ -8,6 +8,7 @@ import com.grupo2.proposta.model.EstadoCandidatura;
 import com.grupo2.proposta.model.PropostaEstado;
 import com.grupo2.proposta.security.LoginContext;
 import com.grupo2.proposta.service.PropostaService;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,6 +63,12 @@ class PropostaControllerIntegrationTests
     static void setUpBeforeClass()
     {
         loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
+    }
+
+    @AfterAll
+    public static void close()
+    {
+        loginContext.close();
     }
 
     @Test
@@ -331,7 +338,7 @@ class PropostaControllerIntegrationTests
         when(service.acceptCandidaturaProposta(1L, 1L)).thenReturn(prop);
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.post("/proposta/aceitarCandidatura/{idProposta}",1L)
+                .perform(MockMvcRequestBuilders.put("/proposta/aceitarCandidatura/{idProposta}",1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -354,7 +361,7 @@ class PropostaControllerIntegrationTests
         when(service.rejeitarCandidaturaProposta(1L)).thenReturn(Optional.of(prop));
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.post("/proposta/rejeitarCandidatura/{id}",1L)
+                .perform(MockMvcRequestBuilders.put("/proposta/rejeitarCandidatura/{id}",1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();

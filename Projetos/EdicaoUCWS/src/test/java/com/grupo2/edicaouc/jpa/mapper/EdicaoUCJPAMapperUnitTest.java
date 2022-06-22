@@ -3,6 +3,7 @@ package com.grupo2.edicaouc.jpa.mapper;
 import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
 import com.grupo2.edicaouc.model.EdicaoUC;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.model.factory.EdicaoUCFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,8 +41,9 @@ class EdicaoUCJPAMapperUnitTest {
         when(edicaoUCJPAMOCK.getUCCode()).thenReturn("MAT");
         when(edicaoUCJPAMOCK.getAnoLetivoCode()).thenReturn("2001-2002");
         when(edicaoUCJPAMOCK.getRucID()).thenReturn(1L);
+        when(edicaoUCJPAMOCK.getEstadoEdicaoUC()).thenReturn(EstadoEdicaoUC.PENDENTE);
 
-        when(factory.createEdicaoUC(1L,"MAT","2001-2002",1L)).thenReturn(edicaoUCMOCK);
+        when(factory.createEdicaoUC(1L,"MAT","2001-2002",1L,EstadoEdicaoUC.PENDENTE)).thenReturn(edicaoUCMOCK);
 
         EdicaoUC edicaoUC = mapper.toModel(edicaoUCJPAMOCK);
         assertEquals(edicaoUC,edicaoUCMOCK);
@@ -50,7 +52,7 @@ class EdicaoUCJPAMapperUnitTest {
     public void shouldNotConvertValidEdicaoUC_InvalidAtributtes()
     {
         EdicaoUCJPA edicaoUCJPAMOCK = mock(EdicaoUCJPA.class);
-        when(factory.createEdicaoUC(edicaoUCJPAMOCK.getId(),edicaoUCJPAMOCK.getUCCode(), edicaoUCJPAMOCK.getAnoLetivoCode(), edicaoUCJPAMOCK.getRucID())).thenThrow(ValidacaoInvalidaException.class);
+        when(factory.createEdicaoUC(edicaoUCJPAMOCK.getId(),edicaoUCJPAMOCK.getUCCode(), edicaoUCJPAMOCK.getAnoLetivoCode(), edicaoUCJPAMOCK.getRucID(),edicaoUCJPAMOCK.getEstadoEdicaoUC())).thenThrow(ValidacaoInvalidaException.class);
 
         assertThrows(ValidacaoInvalidaException.class, () -> mapper.toModel(edicaoUCJPAMOCK));
     }
@@ -76,7 +78,7 @@ class EdicaoUCJPAMapperUnitTest {
     {
         EdicaoUCJPA edicaoUCJPAMOCK = mock(EdicaoUCJPA.class);
 
-        when(factory.createEdicaoUC(edicaoUCJPAMOCK.getId(), edicaoUCJPAMOCK.getUCCode(), edicaoUCJPAMOCK.getAnoLetivoCode(), edicaoUCJPAMOCK.getRucID())).thenThrow(ValidacaoInvalidaException.class);
+        when(factory.createEdicaoUC(edicaoUCJPAMOCK.getId(), edicaoUCJPAMOCK.getUCCode(), edicaoUCJPAMOCK.getAnoLetivoCode(), edicaoUCJPAMOCK.getRucID(), edicaoUCJPAMOCK.getEstadoEdicaoUC())).thenThrow(ValidacaoInvalidaException.class);
 
         assertThrows(ValidacaoInvalidaException.class, () -> mapper.toModel(edicaoUCJPAMOCK));
     }

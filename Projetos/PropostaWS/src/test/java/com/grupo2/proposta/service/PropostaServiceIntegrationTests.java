@@ -35,23 +35,9 @@ import static org.mockito.Mockito.when;
 @Transactional
 class PropostaServiceIntegrationTests
 {
-    @MockBean
-    private EdicaoUCRestRepository edicaoUCRestRepository;
-
-    @MockBean
-    private UtilizadorRestRepository utilizadorRestRepository;
-
-    @MockBean
-    private OrganizacaoRestRepository organizacaoRestRepository;
-
-    @MockBean
-    private ProjetoRestRepository projetoRestRepository;
-
-    @MockBean
-    private ConviteRepository conviteRepository;
-
     @Autowired
-    private PropostaRepository repository;
+    @InjectMocks
+    private PropostaService service;
 
     @Autowired
     private PropostaFactory factory;
@@ -60,15 +46,37 @@ class PropostaServiceIntegrationTests
     private PropostaDTOMapper mapper;
 
     @Autowired
-    private PropostaJPARepository jpaRepository;
+    private PropostaRepository repository;
+
+    @MockBean
+    private OrganizacaoRestRepository organizacaoRestRepository;
 
     @Autowired
-    @InjectMocks
-    private PropostaService service;
+    private ConviteRepository conviteRepository;
+
+    @MockBean
+    private ProjetoRestRepository projetoRestRepository;
+
+    @Autowired
+    private PropostaJPARepository jpaRepository;
+
+    @MockBean
+    private EdicaoUCRestRepository edicaoUCRestRepository;
+
+    @MockBean
+    private UtilizadorRestRepository utilizadorRestRepository;
+
+
     @BeforeEach
     public void setup()
     {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    public void shouldNotAcceptProposta_InvalidID()
+    {
+        assertThrows(OptionalVazioException.class,()->service.acceptCandidaturaProposta(99L,1L));
     }
 
 
@@ -78,9 +86,19 @@ class PropostaServiceIntegrationTests
         PropostaJPA p = new PropostaJPA(1L,1L,1L,"AAAAAAAAAA","BBBBBBBBBB","CCCCCCCCCC",1L,PropostaEstado.APROVADO);
         PropostaJPA save = jpaRepository.save(p);
 
-        when(edicaoUCRestRepository.findByRucID(99L)).thenReturn(List.of());
+        assertThrows(OptionalVazioException.class,()->service.acceptCandidaturaProposta(save.getId(),2L));
+    }
 
-        assertThrows(OptionalVazioException.class,()->service.acceptCandidaturaProposta(99L,1L));
+    @Test
+    public void shouldRejectProposta()
+    {
+        PropostaJPA p = new PropostaJPA(1L,1L,1L,"AAAAAAAAAA","BBBBBBBBBB","CCCCCCCCCC",1L,PropostaEstado.CANDIDATURA);
+        PropostaJPA save = jpaRepository.save(p);
+
+        Optional<PropostaDTO> dto = service.rejeitarCandidaturaProposta(save.getId());
+
+        assertTrue(dto.isPresent());
+        assertEquals(PropostaEstado.REPROVADO,dto.get().getEstadoAtual());
     }
 
     @Test
@@ -166,6 +184,7 @@ class PropostaServiceIntegrationTests
         Proposta proposta = new Proposta(1L, 1L, 1L, "tituloMuitaGiro",
                 "problemaMuitaGrave", "objetivoQueSeVaiRealizando", 1L, PropostaEstado.CANDIDATURA);
 
+
         Proposta save = repository.save(proposta);
 
         when(organizacaoRestRepository.findByNIF(123456789, "encode")).thenReturn(Optional.of(organizacaoDTO));
@@ -230,8 +249,8 @@ class PropostaServiceIntegrationTests
         repository.findById(convite.getIdProposta());
 
 
-        Proposta proposta = new Proposta(1L, 1L, 1L, "tituloMuitaGiro",
-                "problemaMuitaGrave", "objetivoQueSeVaiRealizando", 1L, PropostaEstado.CANDIDATURA);
+        PropostaDTO proposta = new PropostaDTO(1L, 1L, 1L, "tituloMuitaGiro",
+                "problemaMuitaGrave", "objetivoQueSeVaiRealizando", 1L, PropostaEstado.APROVADO);
 
         UtilizadorDTO alunoDTO = new UtilizadorDTO(1L, "nome", "sobrenome", "email@email.pt",
                 TipoUtilizador.ALUNO);
@@ -239,6 +258,8 @@ class PropostaServiceIntegrationTests
         UtilizadorDTO docenteDTO = new UtilizadorDTO(1L, "nome2", "sobrenome2", "email2@email.pt",
                 TipoUtilizador.DOCENTE);
 
+
+        service.createCandidaturaProposta(proposta);
 
         when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(alunoDTO));
         when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(docenteDTO));

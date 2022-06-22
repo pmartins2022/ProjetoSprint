@@ -79,42 +79,6 @@ class PropostaRepositoryUnitTest
     }
 
     @Test
-    public void shouldNotCreateValidProposta()
-    {
-        Proposta propostaMock = mock(Proposta.class);
-
-        when(utilizadorRestRepository.findById(propostaMock.getId())).thenReturn(Optional.empty());
-
-        assertThrows(BaseDadosException.class,()->repository.save(propostaMock));
-    }
-
-    @Test
-    public void shouldNotCreateValidProposta_2()
-    {
-        Proposta propostaMock = mock(Proposta.class);
-        UtilizadorDTO utilizadorDTOMock = mock(UtilizadorDTO.class);
-
-        when(utilizadorRestRepository.findById(propostaMock.getId())).thenReturn(Optional.of(utilizadorDTOMock));
-        when(organizacaoRestRepository.findById(propostaMock.getId())).thenReturn(Optional.empty());
-
-        assertThrows(BaseDadosException.class,()->repository.save(propostaMock));
-    }
-
-    @Test
-    public void shouldNotCreateValidProposta_3()
-    {
-        Proposta propostaMock = mock(Proposta.class);
-        UtilizadorDTO utilizadorDTOMock = mock(UtilizadorDTO.class);
-        OrganizacaoDTO organizacaoDTOMock = mock(OrganizacaoDTO.class);
-
-        when(utilizadorRestRepository.findById(propostaMock.getId())).thenReturn(Optional.of(utilizadorDTOMock));
-        when(organizacaoRestRepository.findById(propostaMock.getId())).thenReturn(Optional.of(organizacaoDTOMock));
-        when(edicaoUCRestRepository.findById(propostaMock.getId())).thenReturn(Optional.empty());
-
-        assertThrows(BaseDadosException.class,()->repository.save(propostaMock));
-    }
-
-    @Test
     public void shouldFindProposta_Exists()
     {
         Proposta propostaMock = mock(Proposta.class);
@@ -211,17 +175,6 @@ class PropostaRepositoryUnitTest
         List<Proposta> listSave = repository.findByNif(organizacaoDTOMock);
 
         assertEquals(listSave,mockList);
-    }
-
-    @Test
-    public void shouldNotFindByNif_Empty()
-    {
-        Proposta propostaMock = mock(Proposta.class);
-
-        when(organizacaoRestRepository.findByNIF(111222333,"")).thenReturn(Optional.empty());
-
-        assertThrows(BaseDadosException.class,()->repository.save(propostaMock));
-
     }
 
     @Test

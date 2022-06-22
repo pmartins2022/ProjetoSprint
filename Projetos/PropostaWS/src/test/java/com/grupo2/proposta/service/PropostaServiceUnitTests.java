@@ -18,6 +18,7 @@ import com.grupo2.proposta.repository.rest.OrganizacaoRestRepository;
 import com.grupo2.proposta.repository.rest.ProjetoRestRepository;
 import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
 import com.grupo2.proposta.security.LoginContext;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,6 +65,7 @@ class PropostaServiceUnitTests
     @MockBean
     private ConviteIDFactory conviteIDFactory;
 
+    @Autowired
     private static MockedStatic<LoginContext> loginContext;
 
     @InjectMocks
@@ -78,7 +80,11 @@ class PropostaServiceUnitTests
     @BeforeAll
     static void setUpBeforeClass()
     {
-        loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
+        try
+        {
+            loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
+        }
+        catch (Exception ignored){}
     }
 
 
@@ -95,6 +101,12 @@ class PropostaServiceUnitTests
         when(repository.save(proposta)).thenThrow(BaseDadosException.class);
 
         assertThrows(BaseDadosException.class, () -> service.createCandidaturaProposta(prop));
+    }
+
+    @AfterAll
+    public static void close()
+    {
+        loginContext.close();
     }
 
     @Test
@@ -288,6 +300,18 @@ class PropostaServiceUnitTests
         Convite convite = mock(Convite.class);
         ConviteDTO conviteDTO = mock(ConviteDTO.class);
 
+        ConviteID id = mock(ConviteID.class);
+
+        when(conviteDTO.getIdDocente()).thenReturn(1L);
+        when(conviteDTO.getIdAluno()).thenReturn(2L);
+        when(conviteDTO.getIdProposta()).thenReturn(1L);
+
+        when(conviteRepository.findById(id)).thenReturn(Optional.of(convite));
+
+        when(convite.getEstado()).thenReturn(EstadoConvite.PENDENTE);
+
+        when(conviteIDFactory.create(2L,1L,1L)).thenReturn(id);
+
         when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
         when(conviteRepository.findByDocenteAndProposta(1L,1L)).thenReturn(Optional.of(convite));
         when(conviteDTOMapper.toDTO(convite)).thenReturn(conviteDTO);
@@ -305,6 +329,18 @@ class PropostaServiceUnitTests
         UtilizadorDTO utilizadorDTO = mock(UtilizadorDTO.class);
         Convite convite = mock(Convite.class);
         ConviteDTO conviteDTO = mock(ConviteDTO.class);
+
+        ConviteID id = mock(ConviteID.class);
+
+        when(conviteDTO.getIdDocente()).thenReturn(1L);
+        when(conviteDTO.getIdAluno()).thenReturn(2L);
+        when(conviteDTO.getIdProposta()).thenReturn(1L);
+
+        when(conviteRepository.findById(id)).thenReturn(Optional.of(convite));
+
+        when(convite.getEstado()).thenReturn(EstadoConvite.PENDENTE);
+
+        when(conviteIDFactory.create(2L,1L,1L)).thenReturn(id);
 
         when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
         when(conviteRepository.findByDocenteAndProposta(1L,1L)).thenReturn(Optional.of(convite));

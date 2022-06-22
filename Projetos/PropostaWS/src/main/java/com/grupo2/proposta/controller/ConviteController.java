@@ -75,7 +75,7 @@ public class ConviteController
      * @throws Exception
      */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PostMapping("/rejeitarOrientacao/{id}")
+    @PostMapping("/rejeitarOrientacao")
     public ResponseEntity<Object> rejeitarOrientacao(@RequestBody ConviteDTO convite, HttpServletRequest request) throws Exception
     {
         String encoded =  request.getHeader(SecurityUtils.AUTH);

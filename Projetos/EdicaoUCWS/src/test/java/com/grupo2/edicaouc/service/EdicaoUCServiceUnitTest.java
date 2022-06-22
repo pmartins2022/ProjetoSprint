@@ -49,25 +49,6 @@ class EdicaoUCServiceUnitTest {
     {
         MockitoAnnotations.openMocks(this);
     }
-    @Test
-    public void shouldCreateValidEdicaoUC()
-    {
-        EdicaoUCDTO edicaoUCDTOMOCK = mock(EdicaoUCDTO.class);
-        EdicaoUC edicaoUCMock = mock(EdicaoUC.class);
-
-        when(mapper.toModel(edicaoUCDTOMOCK)).thenReturn(edicaoUCMock);
-        when(repository.saveEdicaoUC(edicaoUCMock)).thenReturn(edicaoUCMock);
-        when(mapper.toDTO(edicaoUCMock)).thenReturn(edicaoUCDTOMOCK);
-        when(ucService.findBySigla(edicaoUCMock.getUCCode())).thenReturn(Optional.of(new UnidadeCurricularDTO()));
-        when(anoLetivoService.findByID(edicaoUCMock.getAnoLetivoCode())).thenReturn(Optional.of(new AnoLetivoDTO()));
-
-        when(edicaoUCDTOMOCK.getUcCode()).thenReturn("1");
-        when(edicaoUCDTOMOCK.getAnoLetivoCode()).thenReturn("2000-2001");
-
-        EdicaoUCDTO saved = service.createEdicaoUC(edicaoUCDTOMOCK);
-
-        assertEquals(edicaoUCDTOMOCK, saved);
-    }
 
     @Test
     public void shouldFindAllEdicaoByUCCode()

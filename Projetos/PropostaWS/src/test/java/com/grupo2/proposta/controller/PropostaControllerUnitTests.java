@@ -6,6 +6,7 @@ import com.grupo2.proposta.model.PropostaCandidaturaID;
 import com.grupo2.proposta.security.LoginContext;
 import com.grupo2.proposta.security.SecurityUtils;
 import com.grupo2.proposta.service.PropostaService;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,8 +52,14 @@ class PropostaControllerUnitTests
         loginContext = org.mockito.Mockito.mockStatic(LoginContext.class);
     }
 
+    @AfterAll
+    static void close()
+    {
+        loginContext.close();
+    }
+
     @Test
-    public void shouldCreateProposta_valid()
+    public void shouldCreateCandidaturaProposta_valid()
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
@@ -64,7 +71,7 @@ class PropostaControllerUnitTests
     }
 
     @Test
-    public void shouldNotCreateProposta_invalid()
+    public void shouldNotCreateCandidaturaProposta_invalid()
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
@@ -74,13 +81,18 @@ class PropostaControllerUnitTests
     }
 
     @Test
-    public void shouldAcceptProposta_valid()
+    public void shouldAcceptCandidaturaProposta_valid()
     {
         PropostaDTO prop = mock(PropostaDTO.class);
+        UtilizadorAuthDTO utilizadorAuthDTO = mock(UtilizadorAuthDTO.class);
 
         when(service.acceptCandidaturaProposta(1L, 1L)).thenReturn(prop);
 
-        ResponseEntity<Object> objectResponseEntity = controller.acceptProposta(1L, 1L,null);
+        loginContext.when(LoginContext::getCurrent).thenReturn(utilizadorAuthDTO);
+
+        when(utilizadorAuthDTO.getId()).thenReturn(1L);
+
+        ResponseEntity<Object> objectResponseEntity = controller.acceptCandidaturaProposta(1L);
 
         assertEquals(objectResponseEntity.getStatusCode(),HttpStatus.OK);
     }
@@ -90,9 +102,15 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
+        UtilizadorAuthDTO utilizadorAuthDTO = mock(UtilizadorAuthDTO.class);
+
+        loginContext.when(LoginContext::getCurrent).thenReturn(utilizadorAuthDTO);
+
+        when(utilizadorAuthDTO.getId()).thenReturn(1L);
+
         when(service.acceptProposta(1L, 1L, 1L)).thenThrow(IdInvalidoException.class);
 
-        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L,null));
+        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L, null));
     }
 
     @Test
@@ -100,9 +118,15 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
+        UtilizadorAuthDTO utilizadorAuthDTO = mock(UtilizadorAuthDTO.class);
+
+        loginContext.when(LoginContext::getCurrent).thenReturn(utilizadorAuthDTO);
+
+        when(utilizadorAuthDTO.getId()).thenReturn(1L);
+
         when(service.acceptProposta(1L, 1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L,null));
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L, null));
     }
 
     @Test
