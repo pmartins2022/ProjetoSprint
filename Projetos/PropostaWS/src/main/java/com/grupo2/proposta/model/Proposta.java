@@ -10,15 +10,42 @@ import java.util.Objects;
  */
 public class Proposta
 {
+    /**
+     * Id da proposta
+     */
     private Long id;
+    /**
+     * Id do utilizador da proposta
+     */
     private Long utilizadorId;
+    /**
+     * Id da organizacao da proposta
+     */
     private Long organizacaoId;
+    /**
+     * título da proposta
+     */
     private String titulo;
+    /**
+     * problema da proposta
+     */
     private String problema;
+    /**
+     * objetivo da proposta
+     */
     private String objetivo;
+    /**
+     * Id da edicao da proposta
+     */
     private Long edicaoUCId;
+    /**
+     * EstadoAtual da proposta
+     */
     private PropostaEstado estadoAtual;
 
+    /**
+     * tamanho mínimo
+     */
     private static final int MIN_TAMANHO = 10;
 
     /**
@@ -266,8 +293,8 @@ public class Proposta
     }
 
     /**
-     *
-     * @param titulo
+     *Método que valida o título
+     * @param titulo o titulo a ser validado
      */
     private void validateTitulo(String titulo)
     {
@@ -276,8 +303,8 @@ public class Proposta
     }
 
     /**
-     *
-     * @param problema
+     *Método que valida o problema
+     * @param problema o problema a ser validado
      */
     private void validateProblema(String problema)
     {
@@ -286,8 +313,8 @@ public class Proposta
     }
 
     /**
-     *
-     * @param objetivo
+     *Método que valida o objetivo
+     * @param objetivo o objetivo a ser validado
      */
     private void validateObjetivo(String objetivo)
     {
@@ -296,9 +323,9 @@ public class Proposta
     }
 
     /**
-     *
-     * @param str
-     * @param minSize
+     *Método que valida strings tendo como critério o tamanho mínimo possível
+     * @param str string a ser validada
+     * @param minSize critério tamanho mínimo possível
      * @throws ValidacaoInvalidaException
      */
     private void validateString(String str, int minSize) throws ValidacaoInvalidaException
@@ -310,7 +337,7 @@ public class Proposta
     }
 
     /**
-     *
+     *Metodo que atualiza o estado da proposta, ficando EM_PROJETO.
      */
     public void aceitarPropostaProjeto()
     {
@@ -318,9 +345,9 @@ public class Proposta
     }
 
     /**
-     * Verifica se dois objetos são iguias
-     * @param o objeto a ser conparado
-     * @return true ou false, conforma os objetos comparados são iguais ou não
+     * Verifica se dois objetos são iguais
+     * @param o objeto a ser comparado
+     * @return true ou false, conforme o resultado da comparação
      */
     @Override
     public boolean equals(Object o)
@@ -331,6 +358,11 @@ public class Proposta
         return utilizadorId.equals(proposta.utilizadorId) && organizacaoId.equals(proposta.organizacaoId) && titulo.equals(proposta.titulo) && problema.equals(proposta.problema) && objetivo.equals(proposta.objetivo) && edicaoUCId.equals(proposta.edicaoUCId) && estadoAtual == proposta.estadoAtual;
     }
 
+
+    /**
+     * Devolve valor hashcode do objeto
+     * @return valor hashcode
+     */
     @Override
     public int hashCode()
     {
