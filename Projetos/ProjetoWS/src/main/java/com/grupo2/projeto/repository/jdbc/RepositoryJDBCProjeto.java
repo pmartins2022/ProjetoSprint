@@ -44,7 +44,16 @@ public class RepositoryJDBCProjeto implements ProjetoRepository {
     @Override
     public List<Projeto> findAll()
     {
-        return null;
+        return jdbcTemplate.query(
+                "select * from books",
+                (rs, rowNum) ->
+                        new Projeto(
+                                rs.getLong("id"),
+                                rs.getLong("orientadorID"),
+                                rs.getLong("alunoID"),
+                                rs.getLong("seilaID")
+                        )
+        );
     }
 
     @Override
