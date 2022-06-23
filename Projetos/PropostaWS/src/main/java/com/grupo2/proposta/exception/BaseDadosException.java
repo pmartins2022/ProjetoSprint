@@ -9,8 +9,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BaseDadosException extends RuntimeException
 {
+    /**
+     * Inicializa BaseDadosException sem parametros
+     */
     public BaseDadosException(){}
 
+    /**
+     * Inicializa massage de BaseDadosException com massage
+     * @param message e a massage de BaseDadosException
+     */
     public BaseDadosException(String message)
     {
         super(message);

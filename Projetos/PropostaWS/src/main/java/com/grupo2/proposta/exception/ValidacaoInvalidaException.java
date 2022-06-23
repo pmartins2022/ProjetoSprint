@@ -9,8 +9,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ValidacaoInvalidaException extends RuntimeException
 {
+    /**
+     * Inicializa ValidacaoInvalidaException sem parametros
+     */
     public ValidacaoInvalidaException(){}
 
+    /**
+     * Inicializa massage de ValidacaoInvalidaException com massage
+     * @param message e a massage de ValidacaoInvalidaException
+     */
     public ValidacaoInvalidaException(String message)
     {
         super(message);

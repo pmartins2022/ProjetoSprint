@@ -10,10 +10,19 @@ public class PropostaCandidaturaDTO
     private Long idAluno;
     private EstadoCandidatura estado;
 
+    /**
+     * Inicializa PropostaCandidaturaDTO sem parametros
+     */
     public PropostaCandidaturaDTO()
     {
     }
 
+    /**
+     * Inicializa idProposta, idAluno, estado de PropostaCandidaturaDTO com idProposta, idAluno, estado
+     * @param idProposta e idProposta de PropostaCandidaturaDTO
+     * @param idAluno e idAluno de PropostaCandidaturaDTO
+     * @param estado e estado de PropostaCandidaturaDTO
+     */
     public PropostaCandidaturaDTO(Long idProposta, Long idAluno, EstadoCandidatura estado)
     {
         this.idProposta = idProposta;
@@ -21,36 +30,65 @@ public class PropostaCandidaturaDTO
         this.estado = estado;
     }
 
+    /**
+     * Devolve o idProposta de PropostaCandidaturaDTO
+     * @return idProposta de PropostaCandidaturaDTO
+     */
     public Long getIdProposta()
     {
         return idProposta;
     }
 
+    /**
+     *  Modifica o idProposta de PropostaCandidaturaDTO
+     * @param idProposta e a novo idProposta
+     */
     public void setIdProposta(Long idProposta)
     {
         this.idProposta = idProposta;
     }
 
+    /**
+     * Devolve o idAluno de PropostaCandidaturaDTO
+     * @return idAluno de PropostaCandidaturaDTO
+     */
     public Long getIdAluno()
     {
         return idAluno;
     }
 
+    /**
+     * Modifica o idAluno de PropostaCandidaturaDTO
+     * @param idAluno e a novo idAluno
+     */
     public void setIdAluno(Long idAluno)
     {
         this.idAluno = idAluno;
     }
 
+    /**
+     * Devolve o estado de PropostaCandidaturaDTO
+     * @return estado de PropostaCandidaturaDTO
+     */
     public EstadoCandidatura getEstado()
     {
         return estado;
     }
 
+    /**
+     * Modifica o estado de PropostaCandidaturaDTO
+     * @param estado e a novo estado
+     */
     public void setEstado(EstadoCandidatura estado)
     {
         this.estado = estado;
     }
 
+    /**
+     * Verifica se dois objetos são iguias
+     * @param o objeto a ser conparado
+     * @return true ou false, conforma os objetos comparados são iguais ou não
+     */
     @Override
     public boolean equals(Object o)
     {
@@ -66,6 +104,10 @@ public class PropostaCandidaturaDTO
         return Objects.hash(idProposta, idAluno, estado);
     }
 
+    /**
+     * Devolve um PropostaCandidaturaDTO com idProposta, idAluno e estado
+     * @return idProposta, idAluno e estado
+     */
     @Override
     public String toString()
     {

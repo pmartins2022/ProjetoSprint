@@ -9,8 +9,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class IdInvalidoException extends RuntimeException
 {
+    /**
+     * Inicializa IdInvalidoException sem parametros
+     */
     public IdInvalidoException(){}
 
+    /**
+     * Inicializa massage de IdInvalidoException com massage
+     * @param message e a massage de IdInvalidoException
+     */
     public IdInvalidoException(String message)
     {
         super(message);

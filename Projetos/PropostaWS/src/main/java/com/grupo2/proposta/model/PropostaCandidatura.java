@@ -1,5 +1,8 @@
 package com.grupo2.proposta.model;
 
+/**
+ * Entidade que representa uma ConviteID.
+ */
 public class PropostaCandidatura
 {
     private Long idProposta;

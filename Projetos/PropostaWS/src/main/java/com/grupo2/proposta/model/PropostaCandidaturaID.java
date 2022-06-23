@@ -5,6 +5,9 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Entidade que representa uma ConviteID.
+ */
 @Embeddable
 public class PropostaCandidaturaID implements Serializable
 {

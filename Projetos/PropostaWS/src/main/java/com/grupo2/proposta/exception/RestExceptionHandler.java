@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class RestExceptionHandler
 {
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informacao do erro.
+     * @param ex objeto do tipo ValidacaoInvalidaException
+     * @return ResponseEntity erroDetail e um BAD_REQUEST
+     */
     @ExceptionHandler(ValidacaoInvalidaException.class)
     public ResponseEntity<?> handleValidacaoInvalidaException(ValidacaoInvalidaException ex)
     {
@@ -21,6 +26,11 @@ public class RestExceptionHandler
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informacao do erro.
+     * @param ex objeto do tipo BaseDadosException
+     * @return ResponseEntity erroDetail e um BAD_REQUEST
+     */
     @ExceptionHandler(BaseDadosException.class)
     public ResponseEntity<?> handleBaseDadosException(BaseDadosException ex)
     {
@@ -31,6 +41,11 @@ public class RestExceptionHandler
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informacao do erro.
+     * @param ex objeto do tipo IdInvalidoException
+     * @return ResponseEntity erroDetail e um NOT_FOUND
+     */
     @ExceptionHandler(IdInvalidoException.class)
     public ResponseEntity<?> handleIdInvalidoException(IdInvalidoException ex)
     {
@@ -41,6 +56,11 @@ public class RestExceptionHandler
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informacao do erro.
+     * @param ex objeto do tipo AtualizacaoInvalidaException
+     * @return ResponseEntity erroDetail e um BAD_REQUEST
+     */
     @ExceptionHandler(AtualizacaoInvalidaException.class)
     public ResponseEntity<?> handleAtualizacaoInvalidaException(AtualizacaoInvalidaException ex)
     {
@@ -51,6 +71,11 @@ public class RestExceptionHandler
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Chamado automaticamente pelo Spring Boot. Instancia e retorna um response entity com informacao do erro.
+     * @param ex objeto do tipo ListaVaziaException
+     * @return ResponseEntity erroDetail e um NOT_FOUND
+     */
     @ExceptionHandler(ListaVaziaException.class)
     public ResponseEntity<?> handleListaVaziaException(ListaVaziaException ex)
     {

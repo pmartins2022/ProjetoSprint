@@ -81,81 +81,145 @@ public class Proposta
         }
     }
 
+    /**
+     * Devolve o id de Proposta
+     * @return o id de Proposta
+     */
     public Long getId()
     {
         return id;
     }
 
+    /**
+     * Modifica o id de Proposta
+     * @param id o novo id de Proposta
+     */
     public void setId(Long id)
     {
         this.id = id;
     }
 
+    /**
+     * Devolve o utilizadorId de Proposta
+     * @return o utilizadorId de Proposta
+     */
     public Long getUtilizadorId()
     {
         return utilizadorId;
     }
 
+    /**
+     * Modifica o utilizadorId de Proposta
+     * @param utilizadorId o novo utilizadorId de Proposta
+     */
     public void setUtilizadorId(Long utilizadorId)
     {
         this.utilizadorId = utilizadorId;
     }
 
+    /**
+     * Devolve o organizacaoId de Proposta
+     * @return o organizacaoId de Proposta
+     */
     public Long getOrganizacaoId()
     {
         return organizacaoId;
     }
 
+    /**
+     * Modifica o organizacaoId de Proposta
+     * @param organizacaoId o novo organizacaoId de Proposta
+     */
     public void setOrganizacaoId(Long organizacaoId)
     {
         this.organizacaoId = organizacaoId;
     }
 
+    /**
+     * Devolve o titulo de Proposta
+     * @return o titulo de Proposta
+     */
     public String getTitulo()
     {
         return titulo;
     }
 
+    /**
+     * Modifica o titulo de Proposta
+     * @param titulo o novo titulo de Proposta
+     */
     public void setTitulo(String titulo)
     {
         this.titulo = titulo;
     }
 
+    /**
+     * Devolve o problema de Proposta
+     * @return o problema de Proposta
+     */
     public String getProblema()
     {
         return problema;
     }
 
+    /**
+     * Modifica o problema de Proposta
+     * @param problema o novo problema de Proposta
+     */
     public void setProblema(String problema)
     {
         this.problema = problema;
     }
 
+    /**
+     * Devolve o objetivo de Proposta
+     * @return o objetivo de Proposta
+     */
     public String getObjetivo()
     {
         return objetivo;
     }
 
+    /**
+     * Modifica o objetivo de Proposta
+     * @param objetivo o novo objetivo de Proposta
+     */
     public void setObjetivo(String objetivo)
     {
         this.objetivo = objetivo;
     }
 
+    /**
+     * Devolve o edicaoUCId de Proposta
+     * @return o edicaoUCId de Proposta
+     */
     public Long getEdicaoUCId()
     {
         return edicaoUCId;
     }
 
+    /**
+     * Modifica o edicaoUCId de Proposta
+     * @param edicaoUCId o novo edicaoUCId de Proposta
+     */
     public void setEdicaoUCId(Long edicaoUCId)
     {
         this.edicaoUCId = edicaoUCId;
     }
 
+    /**
+     * Devolve o estadoAtual de Proposta
+     * @return o estadoAtual de Proposta
+     */
     public PropostaEstado getEstadoAtual()
     {
         return estadoAtual;
     }
 
+    /**
+     * Modifica o estadoAtual de Proposta
+     * @param estadoAtual o novo estadoAtual de Proposta
+     */
     public void setEstadoAtual(PropostaEstado estadoAtual)
     {
         this.estadoAtual = estadoAtual;
@@ -187,6 +251,13 @@ public class Proposta
         this.estadoAtual = PropostaEstado.REPROVADO;
     }
 
+    /**
+     * Metodo que valida o titulo, o problema e o objetivo
+     * @param titulo o titulo a ser validado
+     * @param problema o problema a ser validado
+     * @param objetivo o objetivo a ser validado
+     * @throws ValidacaoInvalidaException caso 
+     */
     private void validate(String titulo, String problema, String objetivo) throws ValidacaoInvalidaException
     {
         validateTitulo(titulo);
@@ -194,24 +265,42 @@ public class Proposta
         validateProblema(problema);
     }
 
+    /**
+     *
+     * @param titulo
+     */
     private void validateTitulo(String titulo)
     {
         validateString(titulo,MIN_TAMANHO);
         this.titulo = titulo;
     }
 
+    /**
+     *
+     * @param problema
+     */
     private void validateProblema(String problema)
     {
         validateString(problema,MIN_TAMANHO);
         this.problema = problema;
     }
 
+    /**
+     *
+     * @param objetivo
+     */
     private void validateObjetivo(String objetivo)
     {
         validateString(objetivo,MIN_TAMANHO);
         this.objetivo = objetivo;
     }
 
+    /**
+     *
+     * @param str
+     * @param minSize
+     * @throws ValidacaoInvalidaException
+     */
     private void validateString(String str, int minSize) throws ValidacaoInvalidaException
     {
         if (str.trim().length() < minSize)
@@ -220,11 +309,19 @@ public class Proposta
         }
     }
 
+    /**
+     *
+     */
     public void aceitarPropostaProjeto()
     {
         this.estadoAtual = PropostaEstado.EM_PROJETO;
     }
 
+    /**
+     * Verifica se dois objetos são iguias
+     * @param o objeto a ser conparado
+     * @return true ou false, conforma os objetos comparados são iguais ou não
+     */
     @Override
     public boolean equals(Object o)
     {

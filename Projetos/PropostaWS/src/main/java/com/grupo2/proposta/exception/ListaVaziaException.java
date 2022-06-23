@@ -9,8 +9,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class ListaVaziaException extends RuntimeException
 {
+    /**
+     * Inicializa ListaVaziaException sem parametros
+     */
     public ListaVaziaException(){}
 
+    /**
+     * Inicializa massage de ListaVaziaException com massage
+     * @param message e a massage de ListaVaziaException
+     */
     public ListaVaziaException(String message)
     {
         super(message);

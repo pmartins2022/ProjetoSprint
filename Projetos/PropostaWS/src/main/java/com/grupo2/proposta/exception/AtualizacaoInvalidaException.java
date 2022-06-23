@@ -9,8 +9,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class AtualizacaoInvalidaException extends RuntimeException
 {
+    /**
+     * Inicializa AtualizacaoInvalidaException sem parametros
+     */
     public AtualizacaoInvalidaException(){}
 
+    /**
+     * Inicializa massage de AtualizacaoInvalidaException com massage
+     * @param message e a massage de AtualizacaoInvalidaException
+     */
     public AtualizacaoInvalidaException(String message)
     {
         super(message);
