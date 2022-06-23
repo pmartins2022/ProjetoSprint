@@ -3,12 +3,16 @@ package com.grupo2.projeto.jdbcService;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.sql.SQLException;
 
 public class JDBC
 {
+  @Autowired
   DBConnectionHandler dbConnHandler = null;
 
   public JDBC()

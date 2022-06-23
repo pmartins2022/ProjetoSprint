@@ -2,8 +2,12 @@ package com.grupo2.projeto.jdbcService;
 
 import oracle.jdbc.OracleTypes;
 import oracle.jdbc.pool.OracleDataSource;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
+
 
 public class DBConnectionHandler {
 

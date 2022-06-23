@@ -1,10 +1,16 @@
 package com.grupo2.projeto.jdbcService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Repository;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class JDBCProjeto
 {
+  @Autowired
   private JDBC jdbc;
 
   public JDBCProjeto()

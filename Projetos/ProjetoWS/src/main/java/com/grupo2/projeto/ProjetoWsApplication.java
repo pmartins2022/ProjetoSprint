@@ -8,21 +8,25 @@ import com.grupo2.projeto.model.EstadoConteudo;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.ConteudoService;
 import com.grupo2.projeto.service.ProjetoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+
 @SpringBootApplication
 public class ProjetoWsApplication
 {
 
+	@Autowired
+	JDBCProjeto jdbcProjeto;
 	public static void main(String[] args)
 	{
 		SpringApplication.run(ProjetoWsApplication.class, args);
 	}
 	@Bean
-	public CommandLineRunner demo(JDBCProjeto jdbcProjeto)
+	public CommandLineRunner demo()
 	{
 		return (args) ->
 		{
