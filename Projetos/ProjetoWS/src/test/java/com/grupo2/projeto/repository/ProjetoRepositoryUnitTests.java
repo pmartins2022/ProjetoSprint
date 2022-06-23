@@ -1,7 +1,7 @@
 package com.grupo2.projeto.repository;
 
-import com.grupo2.projeto.jpa.ProjetoJPA;
-import com.grupo2.projeto.jpa.mapper.ProjetoJPAMapper;
+import com.grupo2.projeto.dataModel.jpa.ProjetoJPA;
+import com.grupo2.projeto.dataModel.jpa.mapper.ProjetoJPAMapper;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.jpa.ProjetoJPARepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,6 +75,20 @@ class ProjetoRepositoryUnitTests
 
         Optional<Projeto> id = repository.findById(1L);
         assertTrue(id.isEmpty());
+    }
+
+    @Test
+    public void shouldFindAllByIdOrientador()
+    {
+        ProjetoJPA jpaMOCK = mock(ProjetoJPA.class);
+        Projeto conteudoMOCK = mock(Projeto.class);
+
+        when(jpaRepository.findAllByOrientadorId(1L)).thenReturn(List.of(jpaMOCK, jpaMOCK));
+        when(mapper.toModel(jpaMOCK)).thenReturn(conteudoMOCK);
+
+        List<Projeto> conteudo = repository.findAllByOrientadorId(1L);
+
+        assertEquals(2, conteudo.size());
     }
 
 }

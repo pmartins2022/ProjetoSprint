@@ -4,22 +4,36 @@ import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.ConteudoDTO;
 import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.model.EstadoConteudo;
+import com.grupo2.projeto.repository.jdbc.RepositoryJDBCProjeto;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.ConteudoService;
 import com.grupo2.projeto.service.ProjetoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+
 @SpringBootApplication
 public class ProjetoWsApplication
 {
+	@Autowired
+	RepositoryJDBCProjeto repositoryJDBCProjeto;
 
 	public static void main(String[] args)
 	{
 		SpringApplication.run(ProjetoWsApplication.class, args);
 	}
+	@Bean
+	public CommandLineRunner demo()
+	{
+		return (args) ->
+		{
+			repositoryJDBCProjeto.count();
+		};
+	}
+
 /*
 	@Bean
 	public CommandLineRunner demo(ProjetoService service, AvaliacaoService avaliacaoService, ConteudoService conteudoService)

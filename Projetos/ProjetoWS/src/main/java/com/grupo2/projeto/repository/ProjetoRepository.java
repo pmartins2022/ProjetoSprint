@@ -1,7 +1,7 @@
 package com.grupo2.projeto.repository;
 
-import com.grupo2.projeto.jpa.ProjetoJPA;
-import com.grupo2.projeto.jpa.mapper.ProjetoJPAMapper;
+import com.grupo2.projeto.dataModel.jpa.ProjetoJPA;
+import com.grupo2.projeto.dataModel.jpa.mapper.ProjetoJPAMapper;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.jpa.ProjetoJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
