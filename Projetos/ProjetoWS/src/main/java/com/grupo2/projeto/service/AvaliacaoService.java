@@ -121,4 +121,13 @@ public class AvaliacaoService
 
         return listaDTO;
     }
+
+    public List<AvaliacaoDTO> findAllByPresidente(Long presidenteId)
+    {
+        List<Avaliacao> lista = repository.findAllByPresidente(presidenteId);
+
+        List<AvaliacaoDTO> listaDTO = lista.stream().map(mapper::toDTO).toList();
+
+        return listaDTO;
+    }
 }

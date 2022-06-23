@@ -256,7 +256,7 @@ public class Proposta
      * @param titulo o titulo a ser validado
      * @param problema o problema a ser validado
      * @param objetivo o objetivo a ser validado
-     * @throws ValidacaoInvalidaException caso 
+     * @throws ValidacaoInvalidaException caso
      */
     private void validate(String titulo, String problema, String objetivo) throws ValidacaoInvalidaException
     {

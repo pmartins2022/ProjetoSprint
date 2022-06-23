@@ -55,9 +55,17 @@ public class AvaliacaoRepository
         }
     }
 
-    public List<Avaliacao> findAll() {
+    public List<Avaliacao> findAll()
+    {
             List<AvaliacaoJPA> listaJPA = repository.findAll();
+
             return listaJPA.stream().map(mapper::toModel).toList();
     }
 
+    public List<Avaliacao> findAllByPresidente(Long presidenteId)
+    {
+        List<AvaliacaoJPA> listaJPA = repository.findAllByPresidenteId(presidenteId);
+
+        return listaJPA.stream().map(mapper::toModel).toList();
+    }
 }

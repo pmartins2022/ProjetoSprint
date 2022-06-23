@@ -70,4 +70,19 @@ public class AvaliacaoController
 
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/avaliar")
+    public ResponseEntity<Object> avaliarNotaJustificacao(@RequestParam Integer nota, @RequestParam String justificacao,
+                                                          @PathVariable Long presidenteId)
+    {
+        List<AvaliacaoDTO> lista = service.findAllByPresidente(presidenteId);
+
+        if (lista.isEmpty())
+        {
+            throw new ListaVaziaException("Não existem Avaliações");
+        }
+
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
 }
