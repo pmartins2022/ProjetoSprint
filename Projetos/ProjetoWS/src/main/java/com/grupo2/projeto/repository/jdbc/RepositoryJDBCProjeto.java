@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class RepositoryJDBCProjeto implements ProjetoRepository {
+public class RepositoryJDBCProjeto implements ProjetoRepository
+{
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -46,7 +47,8 @@ public class RepositoryJDBCProjeto implements ProjetoRepository {
         return jdbcTemplate.update("DELETE FROM projeto WHERE id=?", id);
     }
 
-    public List<Projeto> findAllAnotherWay() {
+    public List<Projeto> findAllAnotherWay()
+    {
         return jdbcTemplate.query("SELECT * from projeto", BeanPropertyRowMapper.newInstance(Projeto.class));
     }
 
@@ -68,11 +70,13 @@ public class RepositoryJDBCProjeto implements ProjetoRepository {
     @Override
     public Optional<Projeto> findById(Long id)
     {
-        try {
+        try
+        {
             Projeto proj = jdbcTemplate.queryForObject("SELECT * FROM projeto WHERE id=?",
                     BeanPropertyRowMapper.newInstance(Projeto.class), id);
             return Optional.of(proj);
-        } catch (IncorrectResultSizeDataAccessException e) {
+        } catch (IncorrectResultSizeDataAccessException e)
+        {
             System.out.println(e.getMessage());
         }
         return Optional.empty();
@@ -89,7 +93,8 @@ public class RepositoryJDBCProjeto implements ProjetoRepository {
     }*/
 
     @Override
-    public int deleteAll() {
+    public int deleteAll()
+    {
         return jdbcTemplate.update("DELETE from projeto");
     }
 }

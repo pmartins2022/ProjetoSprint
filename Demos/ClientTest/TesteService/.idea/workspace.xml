@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3fc1d782-ea4f-4e0a-a8b8-4fa7242e9cc9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../Projetos/ProjetoWS/src/main/java/com/grupo2/projeto/security/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Projetos/ProjetoWS/src/main/java/com/grupo2/projeto/security/SecurityUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Projetos/ProjetoWS/src/main/java/com/grupo2/projeto/security/UtilizadorUserDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/dto/UtilizadorAuthDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/security/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/security/SecurityUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/security/UtilizadorUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/ProjetoWS/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/ProjetoWS/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/propostaDB.trace.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/propostaDB.trace.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/controller/PropostaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/controller/PropostaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/repository/rest/OrganizacaoRestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/repository/rest/OrganizacaoRestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/repository/rest/UtilizadorRestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/repository/rest/UtilizadorRestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/service/PropostaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/main/java/com/grupo2/proposta/service/PropostaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/test/java/com/grupo2/proposta/controller/PropostaControllerUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/test/java/com/grupo2/proposta/controller/PropostaControllerUnitTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/test/java/com/grupo2/proposta/repository/PropostaRepositoryUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/test/java/com/grupo2/proposta/repository/PropostaRepositoryUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/test/java/com/grupo2/proposta/service/PropostaServiceUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Projetos/PropostaWS/src/test/java/com/grupo2/proposta/service/PropostaServiceUnitTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="23f95259-2362-409e-b932-75941d24e83c" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2AGUSSSS2pbpQ6AchBackeL7cf8" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="F:/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Projetos/PropostaWS" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Pedro\IdeaProjects\ClientTest\TesteService\src\main\java" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dto" />
+      <recent name="model" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="TestServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.pp.app.TestServiceApplication" />
+      <module name="TesteService" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TestServiceApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3fc1d782-ea4f-4e0a-a8b8-4fa7242e9cc9" name="Changes" comment="" />
+      <created>1654635415694</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1654635415694</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

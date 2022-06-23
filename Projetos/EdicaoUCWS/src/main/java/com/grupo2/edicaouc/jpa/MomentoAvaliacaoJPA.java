@@ -10,15 +10,17 @@ public class MomentoAvaliacaoJPA
     @GeneratedValue
     @Column(name = "ma_id")
     private Long id;
+	private Long idEdicao;
     private String denominacao;
 
     public MomentoAvaliacaoJPA()
     {
     }
 
-    public MomentoAvaliacaoJPA(Long id, String denominacao)
+    public MomentoAvaliacaoJPA(Long id, Long idEdicao, String denominacao)
     {
         this.id = id;
+		this.idEdicao = idEdicao;
         this.denominacao = denominacao;
     }
 
@@ -41,4 +43,14 @@ public class MomentoAvaliacaoJPA
     {
         this.denominacao = denominacao;
     }
+	
+	public Long getIdEdicao()
+	{
+		return idEdicao;
+	}
+	
+	public void setIdEdicao(Long idEdicao)
+	{
+		this.idEdicao = idEdicao;
+	}
 }

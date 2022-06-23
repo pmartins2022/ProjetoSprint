@@ -14,7 +14,7 @@ public class MomentoAvaliacaoJPAMapper
 
     public MomentoAvaliacao toModel(MomentoAvaliacaoJPA jpa)
     {
-        return factory.create(jpa.getId(),jpa.getDenominacao());
+        return factory.create(jpa.getId(),jpa.getIdEdicao(), jpa.getDenominacao());
     }
 
     public MomentoAvaliacaoJPA toJPA (MomentoAvaliacao model)
