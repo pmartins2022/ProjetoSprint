@@ -3,6 +3,7 @@ package com.grupo2.projeto;
 import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.ConteudoDTO;
 import com.grupo2.projeto.dto.ProjetoDTO;
+import com.grupo2.projeto.jdbcService.JDBCProjeto;
 import com.grupo2.projeto.model.EstadoConteudo;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.ConteudoService;
@@ -20,6 +21,15 @@ public class ProjetoWsApplication
 	{
 		SpringApplication.run(ProjetoWsApplication.class, args);
 	}
+	@Bean
+	public CommandLineRunner demo(JDBCProjeto jdbcProjeto)
+	{
+		return (args) ->
+		{
+			jdbcProjeto.doSomething();
+		};
+	}
+
 /*
 	@Bean
 	public CommandLineRunner demo(ProjetoService service, AvaliacaoService avaliacaoService, ConteudoService conteudoService)

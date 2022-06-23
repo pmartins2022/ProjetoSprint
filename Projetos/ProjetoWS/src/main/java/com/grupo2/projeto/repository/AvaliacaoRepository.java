@@ -1,10 +1,10 @@
 package com.grupo2.projeto.repository;
 
-import com.grupo2.projeto.jpa.AvaliacaoJPA;
-import com.grupo2.projeto.jpa.ConteudoJPA;
-import com.grupo2.projeto.jpa.factory.AvaliacaoJPAFactory;
-import com.grupo2.projeto.jpa.mapper.AvaliacaoJPAMapper;
-import com.grupo2.projeto.jpa.mapper.ConteudoJPAMapper;
+import com.grupo2.projeto.dataModel.jpa.AvaliacaoJPA;
+import com.grupo2.projeto.dataModel.jpa.ConteudoJPA;
+import com.grupo2.projeto.dataModel.jpa.factory.AvaliacaoJPAFactory;
+import com.grupo2.projeto.dataModel.jpa.mapper.AvaliacaoJPAMapper;
+import com.grupo2.projeto.dataModel.jpa.mapper.ConteudoJPAMapper;
 import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.repository.jpa.AvaliacaoJPARepository;

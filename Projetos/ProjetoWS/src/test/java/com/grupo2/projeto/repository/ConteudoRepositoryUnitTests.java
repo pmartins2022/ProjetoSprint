@@ -1,7 +1,7 @@
 package com.grupo2.projeto.repository;
 
-import com.grupo2.projeto.jpa.ConteudoJPA;
-import com.grupo2.projeto.jpa.mapper.ConteudoJPAMapper;
+import com.grupo2.projeto.dataModel.jpa.ConteudoJPA;
+import com.grupo2.projeto.dataModel.jpa.mapper.ConteudoJPAMapper;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.repository.jpa.ConteudoJPARepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -91,4 +92,21 @@ class ConteudoRepositoryUnitTests
 
         assertEquals(conteudoMOCK, conteudo);
     }
+
+
+    @Test
+    public void shouldFindAllByIdProjeto()
+    {
+        ConteudoJPA jpaMOCK = mock(ConteudoJPA.class);
+        Conteudo conteudoMOCK = mock(Conteudo.class);
+
+
+        when(jpaRepository.findAllByIdProjeto(1L)).thenReturn(List.of(jpaMOCK, jpaMOCK));
+        when(mapper.toModel(jpaMOCK)).thenReturn(conteudoMOCK);
+
+        List<Conteudo> conteudo = repository.findAllByIdProjeto(1L);
+
+        assertEquals(2, conteudo.size());
+    }
+
 }
