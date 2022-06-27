@@ -28,7 +28,7 @@ public class AvaliacaoJPAMapper {
     private Conteudo conteudo;
 
     public Avaliacao toModel(AvaliacaoJPA jpa) {
-        return factory.createAvaliacao(jpa.getId(),jpa.getIdMomentoAvaliacao(), jpa.getPresidenteId(), jpa.getOrientadorId(), jpa.getArguenteId(),jpa.getIdProjeto(), jpa.getConteudo().getId(), jpa.getNota());
+        return factory.createAvaliacao(jpa.getId(),jpa.getIdMomentoAvaliacao(), jpa.getPresidenteId(), jpa.getOrientadorId(), jpa.getArguenteId(),jpa.getIdProjeto(), jpa.getConteudo().getId());
     }
 
     public AvaliacaoJPA toJPA(Avaliacao avaliacao, ConteudoRepository repo, ConteudoJPAMapper mapper)
@@ -44,6 +44,6 @@ public class AvaliacaoJPAMapper {
 
         return new AvaliacaoJPA(avaliacao.getId(),avaliacao.getIdMomentoAvaliacao(),
                 avaliacao.getPresidenteId(), avaliacao.getOrientadorId(),
-                avaliacao.getArguenteId(),avaliacao.getIdProjeto(), conteudo, avaliacao.getNota());
+                avaliacao.getArguenteId(),avaliacao.getIdProjeto(), conteudo);
     }
 }

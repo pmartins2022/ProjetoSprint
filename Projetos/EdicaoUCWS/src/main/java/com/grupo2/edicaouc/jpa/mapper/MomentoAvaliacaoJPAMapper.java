@@ -19,6 +19,6 @@ public class MomentoAvaliacaoJPAMapper
 
     public MomentoAvaliacaoJPA toJPA (MomentoAvaliacao model)
     {
-        return new MomentoAvaliacaoJPA(model.getId(),model.getDenominacao());
+        return new MomentoAvaliacaoJPA(model.getId(), model.getIdEdicao(), model.getDenominacao());
     }
 }

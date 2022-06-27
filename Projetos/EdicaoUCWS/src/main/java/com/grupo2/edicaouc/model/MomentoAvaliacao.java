@@ -5,11 +5,13 @@ import java.util.Objects;
 public class MomentoAvaliacao
 {
     private Long id;
+    private Long idEdicao;
     private String denominacao;
 
-    public MomentoAvaliacao(Long id, String denominacao)
+    public MomentoAvaliacao(Long id, Long idEdicao, String denominacao)
     {
         this.id = id;
+        this.idEdicao = idEdicao;
         this.denominacao = denominacao;
     }
 
@@ -31,6 +33,16 @@ public class MomentoAvaliacao
     public void setDenominacao(String denominacao)
     {
         this.denominacao = denominacao;
+    }
+
+    public Long getIdEdicao()
+    {
+        return idEdicao;
+    }
+
+    public void setIdEdicao(Long idEdicao)
+    {
+        this.idEdicao = idEdicao;
     }
 
     @Override

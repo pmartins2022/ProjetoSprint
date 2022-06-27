@@ -1,6 +1,7 @@
 package com.grupo2.proposta.repository.rest;
 
 import com.grupo2.proposta.dto.ProjetoDTO;
+import com.grupo2.proposta.dto.PropostaDTO;
 import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.ErrorDetail;
 import com.grupo2.proposta.security.LoginContext;
@@ -35,4 +36,18 @@ public class ProjetoRestRepository
             return responseSpec.bodyToMono(ProjetoDTO.class).block();
 
     }
+
+    public void saveProposta(PropostaDTO propostaDTO)
+    {
+        WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8083/tabelas/proposta" ).
+                build().post().header("Authorization", LoginContext.getToken())
+                .body(BodyInserters.fromValue(propostaDTO)).retrieve();
+
+        spec.toBodilessEntity().block();
+
+        spec.onStatus(HttpStatus::is4xxClientError,
+                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+    }
+
 }

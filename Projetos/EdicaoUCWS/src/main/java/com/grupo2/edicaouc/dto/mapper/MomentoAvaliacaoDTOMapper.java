@@ -14,11 +14,11 @@ public class MomentoAvaliacaoDTOMapper
 
     public MomentoAvaliacao toModel(MomentoAvaliacaoDTO dto)
     {
-        return factory.create(dto.getId(),dto.getDenominacao());
+        return factory.create(dto.getId(),dto.getEdicaoUCID(),  dto.getDenominacao());
     }
 
     public MomentoAvaliacaoDTO toDTO(MomentoAvaliacao model)
     {
-        return new MomentoAvaliacaoDTO(model.getId(),model.getDenominacao());
+        return new MomentoAvaliacaoDTO(model.getId(),model.getIdEdicao(), model.getDenominacao());
     }
 }

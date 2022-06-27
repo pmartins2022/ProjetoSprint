@@ -149,6 +149,8 @@ public class UtilizadorUserDetailsService implements UserDetailsService
 
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(authDTO.getTipoUtilizador().toString());
 
+        LoginContext.setCurrentUser(authDTO);
+
         return new User(username, utilizador.get().getPassword(), authorities);
     }
 

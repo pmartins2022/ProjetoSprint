@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 public class AvaliacaoJPAFactory
 {
 
-    public AvaliacaoJPA create(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, ConteudoJPA conteudoJPA, int nota)
+    public AvaliacaoJPA create(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, ConteudoJPA conteudoJPA)
     {
-        return new AvaliacaoJPA(id, idMomentoAvaliacao, presidenteId, orientadorId, arguenteId, idProjeto, conteudoJPA, nota);
+        return new AvaliacaoJPA(id, idMomentoAvaliacao, presidenteId, orientadorId, arguenteId, idProjeto, conteudoJPA);
     }
 }

@@ -3,10 +3,12 @@ package com.grupo2.organizacao.service;
 import com.grupo2.organizacao.dto.NifDTO;
 import com.grupo2.organizacao.dto.OrganizacaoDTO;
 import com.grupo2.organizacao.dto.mapper.OrganizacaoDTOMapper;
+import com.grupo2.organizacao.exception.ErrorDetail;
 import com.grupo2.organizacao.exception.OptionalVazioException;
 import com.grupo2.organizacao.model.Organizacao;
 import com.grupo2.organizacao.repository.OrganizacaoRepository;
 import com.grupo2.organizacao.repository.rest.NifRestRepository;
+import com.grupo2.organizacao.repository.rest.ProjetoRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,9 @@ public class OrganizacaoService
 
     @Autowired
     private NifRestRepository nifRestRepository;
+
+    @Autowired
+    private ProjetoRestRepository projetoRestRepository;
 
     /**
      * Endpoint que possibilita encontrar o organizacao por id existente.
@@ -64,6 +69,16 @@ public class OrganizacaoService
         Organizacao organizacao = mapper.toModel(dto);
         Organizacao saved = repository.save(organizacao);
         OrganizacaoDTO dtoSaved = mapper.toDTO(saved);
+
+        try
+        {
+            projetoRestRepository.saveOrganizacao(dtoSaved);
+        }
+        catch (ErrorDetail e)
+        {
+            System.out.println("EERROR "+e.getTitle()+"   "+e.getDetail());
+        }
+
         return dtoSaved;
     }
 

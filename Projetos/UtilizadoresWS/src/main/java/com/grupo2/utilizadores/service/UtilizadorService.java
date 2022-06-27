@@ -8,6 +8,7 @@ import com.grupo2.utilizadores.exception.OptionalVazioException;
 import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
 import com.grupo2.utilizadores.repository.UtilizadorRepository;
+import com.grupo2.utilizadores.repository.rest.ProjetoRestRepository;
 import com.grupo2.utilizadores.security.UtilizadorUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,6 +37,8 @@ public class UtilizadorService
 
     @Autowired
     private UtilizadorUserDetailsService userDetailsService;
+    @Autowired
+    private ProjetoRestRepository projetoRestRepository;
 
     public UtilizadorDTO registar(UtilizadorDTO utilizadorDTO)
     {
@@ -49,7 +52,12 @@ public class UtilizadorService
         utilizador.setPassword(new BCryptPasswordEncoder().encode(utilizador.getPassword()));
 
         utilizador = repository.save(utilizador);
-        return mapper.toDTO(utilizador);
+
+        UtilizadorDTO dto = mapper.toDTO(utilizador);
+
+        projetoRestRepository.saveUtilizador(dto);
+
+        return dto;
     }
 
     /**
@@ -69,19 +77,6 @@ public class UtilizadorService
         return Optional.empty();
     }
 
-    /**
-     * Endpoint que possibilita criar um utilizador.
-     * @param dto um objeto com os dados do utilizador
-     * @return um utilizador
-     */
-    public UtilizadorDTO createAndSave(UtilizadorDTO dto) throws ErroGeralException
-    {
-        Utilizador utilizador = mapper.toModel(dto);
-
-        Utilizador saved = repository.save(utilizador);
-
-        return mapper.toDTO(saved);
-    }
 
     public Optional<UtilizadorAuthDTO> findByUsername(String username)
     {

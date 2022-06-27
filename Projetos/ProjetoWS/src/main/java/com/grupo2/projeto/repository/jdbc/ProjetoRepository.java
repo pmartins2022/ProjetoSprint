@@ -7,18 +7,18 @@ import java.util.Optional;
 
 public interface ProjetoRepository
 {
-    Integer count();
+   // Integer count();
 
     int save(Projeto Projeto);
 
-    int update(Projeto Projeto);
+    //int update(Projeto Projeto);
 
-    int deleteById(Long id);
+  //  int deleteById(Long id);
 
-    List<Projeto> findAll();
+  //  List<Projeto> findAll();
 
-    Optional<Projeto> findById(Long id);
+   // Optional<Projeto> findById(Long id);
 
-    int deleteAll();
+//    int deleteAll();
 
 }

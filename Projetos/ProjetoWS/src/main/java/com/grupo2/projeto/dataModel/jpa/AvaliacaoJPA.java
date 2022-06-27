@@ -23,11 +23,10 @@ public class AvaliacaoJPA
     @ManyToOne
     private ConteudoJPA conteudo;
 
-    private int nota;
 
     public AvaliacaoJPA () {}
 
-    public AvaliacaoJPA(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId,Long arguenteId,  Long idProjeto, ConteudoJPA conteudo, int nota)
+    public AvaliacaoJPA(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId,Long arguenteId,  Long idProjeto, ConteudoJPA conteudo)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
@@ -36,11 +35,11 @@ public class AvaliacaoJPA
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
-        this.nota = nota;
+
 
     }
 
-    public AvaliacaoJPA(Long idMomentoAvaliacao, Long presidenteId, Long orientadorId,Long arguenteId, Long idProjeto, ConteudoJPA conteudo, int nota)
+    public AvaliacaoJPA(Long idMomentoAvaliacao, Long presidenteId, Long orientadorId,Long arguenteId, Long idProjeto, ConteudoJPA conteudo)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
         this.presidenteId = presidenteId;
@@ -48,7 +47,7 @@ public class AvaliacaoJPA
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
-        this.nota = nota;
+
     }
 
     public Long getId()
@@ -83,8 +82,4 @@ public class AvaliacaoJPA
         return conteudo;
     }
 
-    public int getNota()
-    {
-        return nota;
-    }
 }

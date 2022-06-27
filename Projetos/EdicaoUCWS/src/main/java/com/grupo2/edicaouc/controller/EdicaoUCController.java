@@ -6,13 +6,16 @@ import com.grupo2.edicaouc.dto.UtilizadorDTO;
 import com.grupo2.edicaouc.exception.*;
 import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.security.LoginContext;
+import com.grupo2.edicaouc.security.SecurityUtils;
 import com.grupo2.edicaouc.service.EdicaoUCService;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +40,10 @@ public class EdicaoUCController
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/criar")
-    public ResponseEntity<Object> createEdicao(@RequestBody EdicaoUCDTO edicaoUCDTO)
+    public ResponseEntity<Object> createEdicao(@RequestBody EdicaoUCDTO edicaoUCDTO, HttpServletRequest req)
     {
+        LoginContext.setToken(req.getHeader(SecurityUtils.AUTH));
+
         try
         {
             EdicaoUCDTO edicaoUC = service.createEdicaoUC(edicaoUCDTO);

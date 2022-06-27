@@ -3,7 +3,7 @@ package com.grupo2.organizacao.exception;
 /**
  * Classe ErroDetail
  */
-public class ErrorDetail
+public class ErrorDetail extends RuntimeException
 {
 
     private String title;

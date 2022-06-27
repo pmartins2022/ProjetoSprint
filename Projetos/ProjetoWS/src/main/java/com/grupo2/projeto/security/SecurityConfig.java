@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers("/conteudo/**").authenticated()
+                .antMatchers("/tabelas/**").authenticated()
                 .antMatchers("/projeto/**").authenticated()
                 .and()
                 .httpBasic()

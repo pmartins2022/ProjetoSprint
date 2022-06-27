@@ -2,12 +2,16 @@ package com.grupo2.edicaouc.controller;
 
 import com.grupo2.edicaouc.dto.EdicaoMomentoAvaliacaoDTO;
 import com.grupo2.edicaouc.dto.MomentoAvaliacaoDTO;
+import com.grupo2.edicaouc.security.LoginContext;
+import com.grupo2.edicaouc.security.SecurityUtils;
 import com.grupo2.edicaouc.service.MomentoAvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/momento")
@@ -21,8 +25,10 @@ public class MomentoAvaliacaoController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/criar")
-    public ResponseEntity<Object> criarMomento(@RequestBody MomentoAvaliacaoDTO dto)
+    public ResponseEntity<Object> criarMomento(@RequestBody MomentoAvaliacaoDTO dto, HttpServletRequest req)
     {
+        LoginContext.setToken(req.getHeader(SecurityUtils.AUTH));
+
         MomentoAvaliacaoDTO save = service.createAndSaveMomentoAvaliacao(dto);
 
         return new ResponseEntity<>(save, HttpStatus.CREATED);

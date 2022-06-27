@@ -17,23 +17,23 @@ public class RepositoryJDBCProjeto implements ProjetoRepository
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Override
+    /*    @Override
     public Integer count()
     {
         return jdbcTemplate
                 .queryForObject("select count(*) from projeto", Integer.class);
-    }
+    }*/
 
 
     @Override
     public int save(Projeto projeto)
     {
         return jdbcTemplate.update(
-                "insert into projeto values (?, ?, ?, ?)",
-                projeto.getId(), projeto.getPropostaId(), projeto.getEstudanteId(), projeto.getOrientadorId());
+                "insert into projeto (PROPOSTAID, ALUNOID, ORIENTADORID) values (?, ?, ?)",
+                projeto.getPropostaId(), projeto.getEstudanteId(), projeto.getOrientadorId());
     }
 
-    @Override
+    /*@Override
     public int update(Projeto projeto)
     {
         return jdbcTemplate.update("UPDATE tutorials SET propostaId=? estudanteId=?, orientadorID=? WHERE id=?",
@@ -46,27 +46,27 @@ public class RepositoryJDBCProjeto implements ProjetoRepository
     {
         return jdbcTemplate.update("DELETE FROM projeto WHERE id=?", id);
     }
-
+*/
     public List<Projeto> findAllAnotherWay()
     {
-        return jdbcTemplate.query("SELECT * from projeto", BeanPropertyRowMapper.newInstance(Projeto.class));
+        return jdbcTemplate.query("SELECT * FROM PROJETO", BeanPropertyRowMapper.newInstance(Projeto.class));
     }
 
-    @Override
-    public List<Projeto> findAll()
+
+    public List<Projeto> print()
     {
         return jdbcTemplate.query(
                 "select * from projeto",
                 (rs, rowNum) ->
                         new Projeto(
-                                rs.getLong("id"),
-                                rs.getLong("propostaId"),
-                                rs.getLong("estudanteId"),
+                                rs.getLong("ID"),
+                                rs.getLong("PROPOSTAID"),
+                                rs.getLong("ESTUDANTEID"),
                                 rs.getLong("orientadorId")
                         )
         );
     }
-
+    /*
     @Override
     public Optional<Projeto> findById(Long id)
     {
@@ -82,7 +82,7 @@ public class RepositoryJDBCProjeto implements ProjetoRepository
         return Optional.empty();
     }
 
-  /*
+
    EXEMPLO CONTAING
 
    @Override
@@ -90,11 +90,13 @@ public class RepositoryJDBCProjeto implements ProjetoRepository
     {
         String q = "SELECT * from projeto WHERE titulo LIKE '%" + title + "%' collate binary_ci";
         return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(Projeto.class));
-    }*/
+    }
 
     @Override
     public int deleteAll()
     {
         return jdbcTemplate.update("DELETE from projeto");
     }
+
+   */
 }

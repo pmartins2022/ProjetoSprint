@@ -1,27 +1,40 @@
 package com.grupo2.projeto.model;
 
+import com.grupo2.projeto.dto.PropostaDTO;
+import com.grupo2.projeto.dto.UtilizadorDTO;
+import com.grupo2.projeto.model.annotations.ForeignKey;
+import com.grupo2.projeto.model.annotations.IgnoreField;
+import com.grupo2.projeto.model.annotations.PrimaryKey;
+import com.grupo2.projeto.model.annotations.Table;
+
 import java.util.Objects;
 
 /**
  * Classe de dominio do projeto.
  */
-public class Projeto
+@Table(tableName = "PROJETO")
+public class Projeto extends JDBCTable
 {
     /*
     Id do projeto
      */
+    @IgnoreField
+    @PrimaryKey(generated = true)
     private Long id;
     /*
     Id da proposta
      */
+    @ForeignKey(className = PropostaDTO.class, fieldName = "ID")
     private Long propostaId;
     /*
     Id do Estudante
      */
+    @ForeignKey(className = UtilizadorDTO.class, fieldName = "ID")
     private Long estudanteId;
     /*
     Id do orientador
      */
+    @ForeignKey(className = UtilizadorDTO.class, fieldName = "ID")
     private Long orientadorId;
 
     /**
@@ -129,5 +142,16 @@ public class Projeto
         if (!(o instanceof Projeto)) return false;
         Projeto projeto = (Projeto) o;
         return Objects.equals(getPropostaId(), projeto.getPropostaId()) && Objects.equals(getEstudanteId(), projeto.getEstudanteId()) && Objects.equals(getOrientadorId(), projeto.getOrientadorId());
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Projeto{" +
+                "id=" + id +
+                ", propostaId=" + propostaId +
+                ", estudanteId=" + estudanteId +
+                ", orientadorId=" + orientadorId +
+                '}';
     }
 }

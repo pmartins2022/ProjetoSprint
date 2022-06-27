@@ -1,28 +1,37 @@
 package com.grupo2.projeto.model;
 
+import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
+import com.grupo2.projeto.dto.UtilizadorDTO;
+import com.grupo2.projeto.model.annotations.ForeignKey;
+import com.grupo2.projeto.model.annotations.IgnoreField;
+import com.grupo2.projeto.model.annotations.PrimaryKey;
+import com.grupo2.projeto.model.annotations.Table;
+
 import java.util.Objects;
 
-public class Avaliacao
+@Table(tableName = "AVALIACAO")
+public class Avaliacao extends JDBCTable
 {
+    @IgnoreField
+    @PrimaryKey( generated = true)
     private Long id;
 
+    @ForeignKey( className = MomentoAvaliacaoDTO.class, fieldName = "ID")
     private Long idMomentoAvaliacao;
-
+    @ForeignKey( className = UtilizadorDTO.class, fieldName = "ID")
     private Long presidenteId;
-
+    @ForeignKey( className = UtilizadorDTO.class, fieldName = "ID")
     private Long orientadorId;
-
+    @ForeignKey( className = UtilizadorDTO.class, fieldName = "ID")
     private Long arguenteId;
-
+    @ForeignKey( className = Projeto.class, fieldName = "ID")
     private Long idProjeto;
-
+    @ForeignKey( className = Conteudo.class, fieldName = "ID")
     private Long conteudo;
-
-    private int nota;
 
     public Avaliacao () {}
 
-    public Avaliacao(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo, int nota)
+    public Avaliacao(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
@@ -31,10 +40,9 @@ public class Avaliacao
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
-        this.nota = nota;
     }
 
-    public Avaliacao(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo, int nota)
+    public Avaliacao(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
         this.presidenteId = presidenteId;
@@ -42,7 +50,6 @@ public class Avaliacao
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
-        this.nota = nota;
     }
 
     public Long getId()
@@ -109,23 +116,13 @@ public class Avaliacao
         this.conteudo = conteudo;
     }
 
-    public int getNota()
-    {
-        return nota;
-    }
-
-    public void setNota(int nota)
-    {
-        this.nota = nota;
-    }
-
     @Override
     public boolean equals(Object o)
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Avaliacao avaliacao = (Avaliacao) o;
-        return nota == avaliacao.nota && idMomentoAvaliacao.equals(avaliacao.idMomentoAvaliacao)
+        return idMomentoAvaliacao.equals(avaliacao.idMomentoAvaliacao)
                 && presidenteId.equals(avaliacao.presidenteId) && orientadorId.equals(avaliacao.orientadorId)
                 && arguenteId.equals(avaliacao.arguenteId) && idProjeto.equals(avaliacao.idProjeto)
                 && conteudo.equals(avaliacao.conteudo);
@@ -134,7 +131,7 @@ public class Avaliacao
     @Override
     public int hashCode()
     {
-        return Objects.hash(id, idMomentoAvaliacao, presidenteId, orientadorId, arguenteId, idProjeto, conteudo, nota);
+        return Objects.hash(id, idMomentoAvaliacao, presidenteId, orientadorId, arguenteId, idProjeto, conteudo);
     }
 
     @Override
@@ -148,7 +145,6 @@ public class Avaliacao
                 ", arguenteId=" + arguenteId +
                 ", idProjeto=" + idProjeto +
                 ", conteudo=" + conteudo +
-                ", nota=" + nota +
                 '}';
     }
 }

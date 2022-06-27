@@ -6,6 +6,7 @@ import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
 import com.grupo2.edicaouc.model.UnidadeCurricular;
 import com.grupo2.edicaouc.model.factory.UnidadeCurricularFactory;
 import com.grupo2.edicaouc.repository.UnidadeCurricularRepository;
+import com.grupo2.edicaouc.repository.rest.ProjetoRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,8 @@ public class UnidadeCurricularService
      */
     @Autowired
     private UnidadeCurricularFactory factory;
+    @Autowired
+    private ProjetoRestRepository projetoRestRepository;
 
 
     /**
@@ -70,7 +73,11 @@ public class UnidadeCurricularService
 
         UnidadeCurricular savedUnidadeCurricular = repository.saveUnidadeCurricular(unidadeCurricular);
 
-        return mapper.toDTO(savedUnidadeCurricular);
+        UnidadeCurricularDTO uc = mapper.toDTO(savedUnidadeCurricular);
+
+        projetoRestRepository.saveUnidadeCurricular(uc);
+
+        return uc;
     }
 
     /**

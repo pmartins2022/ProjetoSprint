@@ -38,6 +38,8 @@ public class UtilizadorUserDetailsService implements UserDetailsService
 
         UserDetails userDetails = new User(username, utilizador.getPassword(), authorities);
 
+        System.out.println(userDetails.getUsername() + " - " +userDetails.getPassword());
+
         LoginContext.setCurrent(utilizador);
 
         return userDetails;

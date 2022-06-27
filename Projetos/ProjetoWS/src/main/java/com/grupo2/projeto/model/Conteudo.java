@@ -1,17 +1,25 @@
 package com.grupo2.projeto.model;
 
 import com.detectlanguage.errors.APIError;
+import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
 import com.grupo2.projeto.exception.AtualizacaoInvalidaException;
 import com.grupo2.projeto.exception.ValidacaoInvalidaException;
-import org.springframework.context.annotation.Bean;
+import com.grupo2.projeto.model.annotations.ForeignKey;
+import com.grupo2.projeto.model.annotations.IgnoreField;
+import com.grupo2.projeto.model.annotations.PrimaryKey;
+import com.grupo2.projeto.model.annotations.Table;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
-public class Conteudo
+@Table(tableName = "CONTEUDO")
+public class Conteudo extends JDBCTable
 {
+    @IgnoreField
+    @PrimaryKey(generated = true)
     private Long id;
+    @ForeignKey(className = Projeto.class, fieldName = "ID")
     private Long idProjeto;
     private String titulo;
     private String caminhoDocumento;

@@ -10,6 +10,7 @@ import com.grupo2.edicaouc.model.MomentoAvaliacao;
 import com.grupo2.edicaouc.repository.EdicaoMomentoAvaliacaoRepository;
 import com.grupo2.edicaouc.repository.EdicaoUCRepository;
 import com.grupo2.edicaouc.repository.MomentoAvaliacaoRepository;
+import com.grupo2.edicaouc.repository.rest.ProjetoRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,18 @@ public class MomentoAvaliacaoService
     @Autowired
     private EdicaoMomentoAvaliacaoDTOMapper edicaoAvaliacaoDTOMapper;
 
+    @Autowired
+    private ProjetoRestRepository projetoRestRepository;
+
     public MomentoAvaliacaoDTO createAndSaveMomentoAvaliacao(MomentoAvaliacaoDTO dto)
     {
         MomentoAvaliacao save = repository.createAndSaveMomentoAvaliacao(mapper.toModel(dto));
 
-        return mapper.toDTO(save);
+        MomentoAvaliacaoDTO momentoAvaliacaoDTO = mapper.toDTO(save);
+
+        projetoRestRepository.saveMomentoAvaliacao(momentoAvaliacaoDTO);
+
+        return momentoAvaliacaoDTO;
     }
 
     public EdicaoMomentoAvaliacaoDTO createAndSaveEdicaoMomentoAvaliacao(EdicaoMomentoAvaliacaoDTO dto)

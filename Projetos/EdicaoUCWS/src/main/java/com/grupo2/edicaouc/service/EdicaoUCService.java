@@ -13,6 +13,7 @@ import com.grupo2.edicaouc.model.EdicaoUCAluno;
 import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.repository.EdicaoUCAlunoRepository;
 import com.grupo2.edicaouc.repository.EdicaoUCRepository;
+import com.grupo2.edicaouc.repository.rest.ProjetoRestRepository;
 import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,8 @@ public class EdicaoUCService
 
     @Autowired
     private EdicaoUCAlunoDTOMapper edicaoUCAlunoDTOMapper;
+    @Autowired
+    private ProjetoRestRepository projetoRestRepository;
 
     /**
      * Endpoint que possibilita encontrar o EdicaoUC por ucCode existente.
@@ -93,7 +96,10 @@ public class EdicaoUCService
         EdicaoUC edicaoUC = mapper.toModel(dto);
         EdicaoUC saveEdicaoUC = repository.saveEdicaoUC(edicaoUC);
 
-        return mapper.toDTO(saveEdicaoUC);
+        EdicaoUCDTO edicaoUCDTO = mapper.toDTO(saveEdicaoUC);
+
+        projetoRestRepository.saveEdicaoUC(edicaoUCDTO);
+        return edicaoUCDTO;
     }
 
     /**

@@ -512,13 +512,15 @@ public class PropostaService
 
         //colocar esta proposta como em_projeto
         proposta.get().aceitarPropostaProjeto();
-        atualizarProposta(proposta.get());
+        Optional<PropostaDTO> propostaDTO = atualizarProposta(proposta.get());
 
         //invalidar as inscricoes (candidaturas) dos outros alunos a esta proposta
         propostaCandidaturaRepo.invalidarCandidaturas(propostaID, alunoID);
 
         //invalidar os convites dos outros alunos
         conviteRepository.invalidarConvites(propostaID, alunoID);
+
+        projetoRestRepository.saveProposta(propostaDTO.get());
 
         //criar projeto
         return createProject(propostaID, orientadorID, alunoID);

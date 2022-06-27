@@ -4,12 +4,16 @@ import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.exception.ListaVaziaException;
 import com.grupo2.utilizadores.exception.OptionalVazioException;
+import com.grupo2.utilizadores.security.LoginContext;
+import com.grupo2.utilizadores.security.SecurityUtils;
 import com.grupo2.utilizadores.service.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,10 +30,12 @@ public class UtilizadorController
     @Autowired
     private UtilizadorService service;
 
-    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/registar")
-    public ResponseEntity<?> registar(@RequestBody UtilizadorDTO utilizadorDTO)
+    public ResponseEntity<?> registar(@RequestBody UtilizadorDTO utilizadorDTO, HttpServletRequest req)
     {
+        LoginContext.setToken(req.getHeader(SecurityUtils.AUTH));
+
         try
         {
             UtilizadorDTO dto = service.registar(utilizadorDTO);

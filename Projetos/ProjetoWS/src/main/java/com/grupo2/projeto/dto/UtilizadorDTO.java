@@ -1,12 +1,20 @@
 package com.grupo2.projeto.dto;
 
+import com.grupo2.projeto.model.annotations.IgnoreField;
+import com.grupo2.projeto.model.JDBCTable;
 import com.grupo2.projeto.model.TipoUtilizador;
+import com.grupo2.projeto.model.annotations.PrimaryKey;
+import com.grupo2.projeto.model.annotations.Table;
+import com.grupo2.projeto.model.annotations.Unique;
 
-public class UtilizadorDTO
+@Table(tableName = "UTILIZADOR")
+public class UtilizadorDTO extends JDBCTable
 {
+    @PrimaryKey( generated = false)
     private Long id;
     private String nome;
     private String sobrenome;
+    @Unique
     private String email;
     private TipoUtilizador tipoUtilizador;
 

@@ -3,13 +3,16 @@ package com.grupo2.organizacao.controller;
 import com.grupo2.organizacao.dto.OrganizacaoDTO;
 import com.grupo2.organizacao.exception.ListaVaziaException;
 import com.grupo2.organizacao.exception.OptionalVazioException;
-import com.grupo2.organizacao.exception.ValidacaoInvalidaException;
+import com.grupo2.organizacao.security.LoginContext;
+import com.grupo2.organizacao.security.SecurityUtils;
 import com.grupo2.organizacao.service.OrganizacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,6 +75,17 @@ public class OrganizacaoController
             throw new ListaVaziaException("Nao existem organizacoes");
         }
 
-        return new ResponseEntity<>(list,HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_DOCENTE')")
+    @PostMapping("")
+    public ResponseEntity<OrganizacaoDTO> create(@RequestBody OrganizacaoDTO dto, HttpServletRequest req)
+    {
+        LoginContext.setToken(req.getHeader(SecurityUtils.AUTH));
+
+        OrganizacaoDTO dtoSaved = service.createAndSave(dto);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

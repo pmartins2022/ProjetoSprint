@@ -33,7 +33,7 @@ public class AvaliacaoRepository
     {
         ConteudoJPA conteudoJPA = conteudoJPAMapper.toJpa(cont);
 
-        AvaliacaoJPA jpa = factory.create(avaliacao.getId(),avaliacao.getIdMomentoAvaliacao(), avaliacao.getPresidenteId(), avaliacao.getOrientadorId(), avaliacao.getArguenteId(), avaliacao.getIdProjeto(),conteudoJPA, avaliacao.getNota());
+        AvaliacaoJPA jpa = factory.create(avaliacao.getId(),avaliacao.getIdMomentoAvaliacao(), avaliacao.getPresidenteId(), avaliacao.getOrientadorId(), avaliacao.getArguenteId(), avaliacao.getIdProjeto(),conteudoJPA);
 
         AvaliacaoJPA saved = repository.save(jpa);
 

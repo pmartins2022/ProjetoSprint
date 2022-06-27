@@ -5,6 +5,8 @@ import com.grupo2.edicaouc.exception.ErroGeralException;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
 import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
+import com.grupo2.edicaouc.security.LoginContext;
+import com.grupo2.edicaouc.security.SecurityUtils;
 import com.grupo2.edicaouc.service.UnidadeCurricularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,8 +59,10 @@ public class UnidadeCurricularController
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/criar")
-    public ResponseEntity<UnidadeCurricularDTO> createAndSaveUnidadeCurricular(@RequestBody UnidadeCurricularDTO unidadeCurricularDTO)
+    public ResponseEntity<UnidadeCurricularDTO> createAndSaveUnidadeCurricular(@RequestBody UnidadeCurricularDTO unidadeCurricularDTO, HttpServletRequest req)
     {
+        LoginContext.setToken(req.getHeader(SecurityUtils.AUTH));
+
         try
         {
             UnidadeCurricularDTO dto = service.createAndSaveUnidadeCurricular(unidadeCurricularDTO);
