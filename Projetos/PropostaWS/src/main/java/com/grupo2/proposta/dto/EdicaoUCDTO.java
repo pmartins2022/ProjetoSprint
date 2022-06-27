@@ -5,9 +5,21 @@ package com.grupo2.proposta.dto;
  */
 public class EdicaoUCDTO
 {
+    /**
+     * id da EdicaoUCDTO
+     */
     private Long id;
+    /**
+     * id de unidade curricular
+     */
     private String unidadeCurricularId;
+    /**
+     * id de ano letivo
+     */
     private String anoLetivoId;
+    /**
+     * id de RUC
+     */
     private Long rucID;
 
     /**

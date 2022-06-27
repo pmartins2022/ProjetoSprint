@@ -1,8 +1,18 @@
 package com.grupo2.proposta.dto;
 
+
+/**
+ * Classe ID de PropostaCandiadturaDTO
+ */
 public class PropostaCandidaturaIDDTO
 {
+    /**
+     * id de proposta
+     */
     private Long idProposta;
+    /**
+     * id de aluno
+     */
     private Long idAluno;
 
     /**

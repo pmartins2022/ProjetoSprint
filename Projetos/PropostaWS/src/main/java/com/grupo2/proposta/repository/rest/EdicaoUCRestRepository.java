@@ -34,6 +34,11 @@ public class EdicaoUCRestRepository
         return Optional.of(dto);
     }
 
+    /**
+     * Devolve Lista de EdicaoUCDTO filtrada pelo id de RUC
+     * @param rucID id de RUC
+     * @return Lista de EdicaoUCDTO
+     */
     public List<EdicaoUCDTO> findByRucID(Long rucID)
     {
         WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/edicaoUC/ruc/" + rucID).get().
@@ -48,7 +53,11 @@ public class EdicaoUCRestRepository
 
     }
 
-
+    /**
+     * Devolve EdicaoUCDTO filtrada por id de RUC e estado ou Optional.empty()
+     * @param rucID id de RUC
+     * @return EdicaoUCDTO ou Optional.empty()
+     */
     public Optional<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(Long rucID)
     {
         try

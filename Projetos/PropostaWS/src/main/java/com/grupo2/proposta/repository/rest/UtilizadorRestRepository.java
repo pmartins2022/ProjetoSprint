@@ -18,8 +18,7 @@ public class UtilizadorRestRepository
     /**
      * Tenta obter o utilizador pelo id.
      *
-     * @param id      Id do utilizador
-     * @param encoded
+     * @param id Id de utilizador
      * @return Utilizador ou optional vazio
      */
     public Optional<UtilizadorDTO> findById(Long id)
@@ -45,6 +44,11 @@ public class UtilizadorRestRepository
         }
     }
 
+    /**
+     * Devolve UtilizadorAuthDTO filtrado pelo username
+     * @param username username do UtilizadorAuthDTO
+     * @return UtilizadorAuthDTO
+     */
     public UtilizadorAuthDTO findByUsername(String username)
     {
         WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/find?username=" + username).
@@ -57,7 +61,12 @@ public class UtilizadorRestRepository
         return spec.bodyToMono(UtilizadorAuthDTO.class).block();
     }
 
-
+    /**
+     * Devolve Boolean resultado da comparação entre ROLE pretendido e ROLE obtido pelo id de Utilizador
+     * @param role role pretendido
+     * @param id id do Utilizador
+     * @return Boolen
+     */
     public Boolean isRole(String role, Long id)
     {
         WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/"+role +"/"+id).

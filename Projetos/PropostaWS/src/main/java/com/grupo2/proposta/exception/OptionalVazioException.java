@@ -3,6 +3,9 @@ package com.grupo2.proposta.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * Classe que extends RuntimeException e que se aplica a Optional vazios
+ */
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class OptionalVazioException extends RuntimeException
 {

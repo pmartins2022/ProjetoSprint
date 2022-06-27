@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/momento")
 public class MomentoAvaliacaoController
 {
+    /**
+     * Objeto da classe MomentoAvaliacaoService a ser utilizador pelo MomentoAvaliacaoController
+     */
     @Autowired
     private MomentoAvaliacaoService service;
 

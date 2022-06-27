@@ -26,6 +26,9 @@ import java.util.Optional;
 @RequestMapping("/proposta")
 public class PropostaController
 {
+    /**
+     * Objeto do tipo PropostaService a ser utilizador pelo PropostaController
+     */
     @Autowired
     private PropostaService service;
 
@@ -301,6 +304,10 @@ public class PropostaController
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    /**
+     * Endpoint que possibilita listar a candidatura de um aluno
+     * @return propostaCandidaturaDTO ou erro caso não encontre a candidatura
+     */
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @GetMapping("/propostaAluno")
     public ResponseEntity<PropostaCandidaturaDTO> findByAlunoId()
@@ -315,9 +322,13 @@ public class PropostaController
         return new ResponseEntity<>(optional.get(), HttpStatus.OK);
     }
 
+    /**
+     * Endpoint que possibilita listar todas as propostas em fase de candidatura
+     * @return lista com propostas em fase de candidatura
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/candidaturaPropostas")
-    public ResponseEntity<Object> findAllCandidaturaPropostas()
+    public ResponseEntity<List<PropostaCandidaturaDTO>> findAllCandidaturaPropostas()
     {
            return new ResponseEntity<>(service.findAllCandidaturaProposta(),HttpStatus.OK);
     }

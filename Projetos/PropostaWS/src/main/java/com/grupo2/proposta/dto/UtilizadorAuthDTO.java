@@ -1,10 +1,25 @@
 package com.grupo2.proposta.dto;
 
+/**
+ * Classe DTO que contém informação sobre UtilizadorAuth
+ */
 public class UtilizadorAuthDTO
 {
+    /**
+     * id de UtilizadorAuthDTO
+     */
     private Long id;
+    /**
+     * username de UtilizadorAuthDTO
+     */
     private String username;
+    /**
+     * password de UtilizadorAuthDTO
+     */
     private String password;
+    /**
+     * tipo de utilizador de UtilizadorAuthDTO
+     */
     private String tipoUtilizador;
 
     /**

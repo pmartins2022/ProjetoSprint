@@ -23,7 +23,7 @@ import java.util.Optional;
 public class UnidadeCurricularController
 {
     /**
-     * Objeto da classe UnidadeCurricularService a ser utilizador pelo REST Controller
+     * Objeto da classe UnidadeCurricularService a ser utilizador pelo UnidadeCurricularController
      */
     @Autowired
     private UnidadeCurricularService service;

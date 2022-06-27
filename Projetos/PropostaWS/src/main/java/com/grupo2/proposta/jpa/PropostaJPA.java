@@ -14,14 +14,38 @@ import javax.persistence.Table;
 @Table(name = "Proposta")
 public class PropostaJPA
 {
+    /**
+     * id de PropostaJPA
+     */
     @Id
     @GeneratedValue private Long id;
+    /**
+     * id de utilizador
+     */
     private Long utilizadorId;
+    /**
+     * id de organização
+     */
     private Long organizacaoId;
+    /**
+     * título de PropostaJPA
+     */
     private String titulo;
+    /**
+     * problema de PropostaJPA
+     */
     private String problema;
+    /**
+     * objetivo de PropostaJPA
+     */
     private String objetivo;
+    /**
+     * id de EdicaoUC
+     */
     private Long edicaoUCId;
+    /**
+     * estado de PropostaJPA
+     */
     private PropostaEstado estadoAtual;
 
     /**

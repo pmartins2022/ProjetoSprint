@@ -9,10 +9,22 @@ import java.util.Objects;
  */
 public class ConviteDTO
 {
+    /**
+     * Id do aluno
+     */
     private Long idAluno;
+    /**
+     * Id do docente
+     */
     private Long idDocente;
+    /**
+     * Id da proposta
+     */
     private Long idProposta;
 
+    /**
+     * Estado do Convite
+     */
     private EstadoConvite estado;
 
     /**
@@ -134,6 +146,9 @@ public class ConviteDTO
         return idDocente.equals(that.idDocente) && idProposta.equals(that.idProposta) && estado == that.estado;
     }
 
+    /**
+     * {{@code @Inherit}}
+     */
     @Override
     public int hashCode()
     {

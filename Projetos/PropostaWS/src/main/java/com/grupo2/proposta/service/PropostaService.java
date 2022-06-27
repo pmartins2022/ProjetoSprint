@@ -28,35 +28,64 @@ import java.util.Optional;
 @Service
 public class PropostaService
 {
+    /**
+     * Objeto do tipo PropostaRepository a ser utilizador por PropostaService
+     */
     @Autowired
     private PropostaRepository repository;
+    /**
+     * Objeto do tipo UtilizadorRestRepository a ser utilizador por PropostaService
+     */
     @Autowired
     private UtilizadorRestRepository utilizadorRestRepository;
+    /**
+     * Objeto do tipo ProjetoRestRepository a ser utilizador por PropostaService
+     */
     @Autowired
     private ProjetoRestRepository projetoRestRepository;
+    /**
+     * Objeto do tipo PropostaCandidaturaRepo a ser utilizador por PropostaService
+     */
     @Autowired
     private PropostaCandidaturaRepo propostaCandidaturaRepo;
+    /**
+     * Objeto do tipo PropostaCandidaturaDTOMapper a ser utilizador por PropostaService
+     */
     @Autowired
     private PropostaCandidaturaDTOMapper candidaturaDTOMapper;
-
+    /**
+     * Objeto do tipo PropostaDTOMapper a ser utilizador por PropostaService
+     */
     @Autowired
     private PropostaDTOMapper mapper;
-
+    /**
+     * Objeto do tipo ProjetoDTOFactory a ser utilizador por PropostaService
+     */
     @Autowired
     private ProjetoDTOFactory projetoDTOFactory;
-
+    /**
+     * Objeto do tipo EdicaoUCRestRepository a ser utilizador por PropostaService
+     */
     @Autowired
     private EdicaoUCRestRepository edicaoUCRestRepository;
-
+    /**
+     * Objeto do tipo OrganizacaoRestRepository a ser utilizador por PropostaService
+     */
     @Autowired
     private OrganizacaoRestRepository organizacaoRestRepository;
-
+    /**
+     * Objeto do tipo ConviteRepository a ser utilizador por PropostaService
+     */
     @Autowired
     private ConviteRepository conviteRepository;
-
+    /**
+     * Objeto do tipo ConviteDTOMapper a ser utilizador por PropostaService
+     */
     @Autowired
     private ConviteDTOMapper conviteDTOMapper;
-
+    /**
+     * Objeto do tipo ConviteIDFactory a ser utilizador por PropostaService
+     */
     @Autowired
     private ConviteIDFactory conviteIDFactory;
 
@@ -129,6 +158,11 @@ public class PropostaService
         return propostaDTOSaved;
     }
 
+    /**
+     * Método que permite atualizar uma Proposta
+     * @param proposta proposta atualizada
+     * @return PropostaDTO ou Optional.empty()
+     */
     public Optional<PropostaDTO> atualizarProposta(Proposta proposta)
     {
         Optional<Proposta> propostaSaved = repository.atualizarProposta(proposta);
@@ -193,6 +227,12 @@ public class PropostaService
         return listaDTOS;
     }
 
+    /**
+     * Devolve PropostaDTO APROVADA
+     * @param idDocente id de docente
+     * @param idProposta id de proposta
+     * @return PropostaDTO
+     */
     public PropostaDTO acceptCandidaturaProposta(Long idDocente, Long idProposta)
     {
         List<EdicaoUCDTO> rucEdicaoList = edicaoUCRestRepository.findByRucID(idDocente);
@@ -238,6 +278,13 @@ public class PropostaService
         return mapper.toDTO(saved);
     }
 
+    /**
+     * Devolve Convite ACEITE
+     * @param conviteDTO convite a aceitar
+     * @param encoded credencias do Utilizador com login efetuado
+     * @return ConviteDTO
+     * @throws IdInvalidoException caso ocorra um erro nas validações de IDs
+     */
     public ConviteDTO acceptOrientacaoProposta(ConviteDTO conviteDTO,
                                                String encoded) throws IdInvalidoException
     {
@@ -271,6 +318,13 @@ public class PropostaService
         return conviteDTOMapper.toDTO(value);
     }
 
+    /**
+     * Devolve ConviteDTO RECUSADO
+     * @param conviteDTO conviteDTO a recusar
+     * @param encoded credencias de Utilizador com login efetuado
+     * @return ConviteDTO
+     * @throws IdInvalidoException caso ocorra um erro nas validações de IDs
+     */
     public ConviteDTO rejectOrientacaoProposta(ConviteDTO conviteDTO, String encoded) throws IdInvalidoException
     {
         Optional<UtilizadorDTO> orientadorDTO = utilizadorRestRepository.findById(conviteDTO.getIdDocente());
@@ -318,6 +372,11 @@ public class PropostaService
         return projetoRestRepository.create(projetoDTO);
     }
 
+    /**
+     * Devolve ConviteDTO PENDENTE
+     * @param conviteDTO conviteDTO a criar
+     * @return ConviteDTO
+     */
     public ConviteDTO createConvite(ConviteDTO conviteDTO)
     {
         Optional<Proposta> proposta = repository.findById(conviteDTO.getIdProposta());
@@ -369,6 +428,12 @@ public class PropostaService
         return conviteDTOMapper.toDTO(convite);
     }
 
+    /**
+     * Devolve PropostaCandidaturaDTO PENDENTE;
+     * Candidata aluno a uma proposta
+     * @param propostaID id de proposta para onde o Aluno se vai candidatar
+     * @return PropostaCandidaturaDTO
+     */
     public PropostaCandidaturaDTO candidatarAlunoProposta(Long propostaID)
     {
         Optional<Proposta> proposta = repository.findById(propostaID);
@@ -392,6 +457,14 @@ public class PropostaService
         return candidaturaDTOMapper.toDTO(propostaCandidaturaRepo.createAndSave(propostaID, alunoId));
     }
 
+    /**
+     * Devolve ProjetoDTO;
+     * APROVA Proposta
+     * @param propostaID id de proposta a aprovar
+     * @param orientadorID id de orientador
+     * @param alunoID id de aluno
+     * @return ProjetoDTO
+     */
     public ProjetoDTO acceptProposta(Long propostaID, Long orientadorID, Long alunoID)
     {
         //encontrar e validar proposta
@@ -451,11 +524,22 @@ public class PropostaService
         return createProject(propostaID, orientadorID, alunoID);
     }
 
+    /**
+     * Método que atualiza Convite
+     * @param convite convite a atualizar
+     */
     private void atualizarConvite(Convite convite)
     {
         conviteRepository.atualizar(convite);
     }
 
+    /**
+     * Devolve PropostaCandidaturaDTO ACEITE;
+     * Aceita a candidatura de um aluno a uma proposta;
+     * @param idUtilizador id de Utilizador com login efetuado
+     * @param propostaCandidaturaID id da candidatura à proposta
+     * @return PropostaCandidaturaDTO
+     */
     public PropostaCandidaturaDTO acceptAlunoCandidaturaProposta(Long idUtilizador, PropostaCandidaturaIDDTO propostaCandidaturaID)
     {
         Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findByID(candidaturaDTOMapper.toModelID(propostaCandidaturaID));
@@ -519,6 +603,12 @@ public class PropostaService
         return candidaturaDTOMapper.toDTO(updated);
     }
 
+    /**
+     * Devolve PropostaCandidaturaDTO REJEITADA
+     * @param idUtilizador id de Utilizador com login efetuado
+     * @param propostaCandidaturaID id da candidatura à proposta a ser rejeitada
+     * @return PropostaCandidaturaDTO
+     */
     public PropostaCandidaturaDTO rejectAlunoCandidaturaProposta(Long idUtilizador, PropostaCandidaturaIDDTO propostaCandidaturaID)
     {
         Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findByID(candidaturaDTOMapper.toModelID(propostaCandidaturaID));
@@ -573,6 +663,11 @@ public class PropostaService
         return candidaturaDTOMapper.toDTO(updated);
     }
 
+    /**
+     * Devolve Lista de PropostaDTO filtrada pelo Estado
+     * @param estado estado da PropostaDTO
+     * @return Lista de PropostaDTO
+     */
     public List<PropostaDTO> findAllByEstado(Integer estado)
     {
         List<Proposta> list = repository.findAllByEstado(estado);
@@ -580,6 +675,10 @@ public class PropostaService
         return list.stream().map(mapper::toDTO).toList();
     }
 
+    /**
+     * Método que rejeita uma Proposta
+     * @param propostaID id de proposta a ser rejeitada
+     */
     public void rejectProposta(Long propostaID)
     {
         //encontrar e validar proposta
@@ -605,6 +704,11 @@ public class PropostaService
         repository.atualizarProposta(proposta.get());
     }
 
+    /**
+     * Devolve PropostaCandidaturaDTO filtrada pelo id de aluno e estado ou Optional.empty()
+     * @param id id de PropostaCandidaturaDTO
+     * @return PropostaCandidaturaDTO ou Optional.empty()
+     */
     public Optional <PropostaCandidaturaDTO> findPropostaAtivaByAlunoId(Long id)
     {
         Optional<PropostaCandidatura> propostaCandidatura = propostaCandidaturaRepo.findPropostaAtivaByAlunoId(id, EstadoCandidatura.ACEITE);
@@ -617,6 +721,11 @@ public class PropostaService
         return Optional.of(candidaturaDTOMapper.toDTO(propostaCandidatura.get())) ;
     }
 
+    /**
+     * Devolve Lista de ConviteDTO em estado PENDENTE
+     * @param id id de estado
+     * @return Lista de ConviteDTO
+     */
     public List<ConviteDTO> findConvitesPendentes(Long id)
     {
         List<Convite> convs = conviteRepository.findConvitesPendentes(id);
@@ -624,6 +733,10 @@ public class PropostaService
         return convs.stream().map(conviteDTOMapper::toDTO).toList();
     }
 
+    /**
+     * Devolve Lista de PropostaCandidaturaDTO em estado CANDIDATURA
+     * @return Lista de ConviteDTO
+     */
     public List<PropostaCandidaturaDTO> findAllCandidaturaProposta()
     {
         return propostaCandidaturaRepo.findAll().stream().map(candidaturaDTOMapper::toDTO).toList();

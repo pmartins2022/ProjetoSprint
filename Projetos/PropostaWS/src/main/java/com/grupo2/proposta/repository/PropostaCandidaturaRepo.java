@@ -16,18 +16,30 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe que gere todas as operações de persistência de PropostaCandidatura.
+ */
 @Repository
 public class PropostaCandidaturaRepo
 {
+    /**
+     * Objeto do tipo PropostaCandidaturaJPARepository a ser utilizador por PropostaCandidaturaRepo
+     */
     @Autowired
     private PropostaCandidaturaJPARepository jpaRepository;
-
+    /**
+     * Objeto do tipo PropostaCandidaturaJPAMapper a ser utilizador por PropostaCandidaturaRepo
+     */
     @Autowired
     private PropostaCandidaturaJPAMapper mapper;
-
+    /**
+     * Objeto do tipo PropostaCandidaturaJPAFactory a ser utilizador por PropostaCandidaturaRepo
+     */
     @Autowired
     private PropostaCandidaturaJPAFactory propostaCandidaturaJPAFactory;
-
+    /**
+     * Objeto do tipo PropostaCandidaturaIDFactory a ser utilizador por PropostaCandidaturaRepo
+     */
     @Autowired
     private PropostaCandidaturaIDFactory factory;
 
@@ -71,6 +83,12 @@ public class PropostaCandidaturaRepo
         return contagemValido > 0;
     }
 
+    /**
+     * Devolve PropostaCandidatura persistida
+     * @param propostaID id de proposta
+     * @param alunoId id de aluno
+     * @return PropostaCandidatura
+     */
     public PropostaCandidatura createAndSave(Long propostaID, Long alunoId)
     {
         PropostaCandidaturaID id = factory.create(propostaID, alunoId);
@@ -85,6 +103,11 @@ public class PropostaCandidaturaRepo
         return mapper.toModel(jpaRepository.save(jpa));
     }
 
+    /**
+     * Devolve PropostaCandidatura atualizada e persistida
+     * @param propostaCandidatura PropostaCandidatura atualizada a guardar
+     * @return PropostaCandidatura atualizada
+     */
     public PropostaCandidatura updateAndSave(PropostaCandidatura propostaCandidatura)
     {
         PropostaCandidaturaID id = factory.create(propostaCandidatura.getIdProposta(), propostaCandidatura.getIdAluno());
@@ -95,7 +118,11 @@ public class PropostaCandidaturaRepo
 
         return mapper.toModel(jpaRepository.save(jpa));
     }
-
+    /**
+     * Devolve PropostaCandidatura filtrada pelo ID ou Optional.empty()
+     * @param propostaCandidaturaID id de PropostaCandidatura
+     * @return PropostaCandidatura ou Optional.empty()
+     */
     public Optional<PropostaCandidatura> findByID(PropostaCandidaturaID propostaCandidaturaID)
     {
         Optional<PropostaCandidaturaJPA> propostaCandidaturaJPA = jpaRepository.findById(propostaCandidaturaID);
@@ -108,6 +135,11 @@ public class PropostaCandidaturaRepo
         return Optional.of(mapper.toModel(propostaCandidaturaJPA.get()));
     }
 
+    /**
+     * Método que invalida todas as candidaturas exceto a do aluno com id enviado por parametro.
+     * @param propostaID id de proposta
+     * @param alunoID id de aluno
+     */
     public void invalidarCandidaturas(Long propostaID, Long alunoID)
     {
         List<PropostaCandidaturaJPA> lista = jpaRepository.findAll();
@@ -124,6 +156,10 @@ public class PropostaCandidaturaRepo
         candidaturasAluno.forEach(obj -> jpaRepository.save(mapper.toJPA(obj)));
     }
 
+    /**
+     * Método que invalida todas as candidaturas.
+     * @param propostaID id de proposta
+     */
     public void invalidarTodasCandidaturas(Long propostaID)
     {
         List<PropostaCandidaturaJPA> lista = jpaRepository.findAll();
@@ -139,6 +175,12 @@ public class PropostaCandidaturaRepo
         candidaturasAluno.forEach(obj -> jpaRepository.save(mapper.toJPA(obj)));
     }
 
+    /**
+     * Devolve PropostaCandidatura filtrada pelo estado e id de aluno ou Optional.empty()
+     * @param id id de aluno
+     * @param estado estado
+     * @return PropostaCandidatura ou Optional.empty()
+     */
     public Optional<PropostaCandidatura> findPropostaAtivaByAlunoId(Long id, EstadoCandidatura estado)
     {
         Optional <PropostaCandidaturaJPA> propostaCandidaturaJPA = jpaRepository.findByIdIdalunoAndEstado(id, estado);
@@ -151,6 +193,10 @@ public class PropostaCandidaturaRepo
         return Optional.of(mapper.toModel(propostaCandidaturaJPA.get()));
     }
 
+    /**
+     * Devolve Lista de PropostaCandidatura
+     * @return Lista de PropostaCandidatura
+     */
     public List<PropostaCandidatura> findAll()
     {
         return jpaRepository.findAll().stream().map(mapper::toModel).toList();

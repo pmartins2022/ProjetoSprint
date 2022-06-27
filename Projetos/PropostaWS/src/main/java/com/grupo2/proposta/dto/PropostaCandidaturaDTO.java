@@ -4,10 +4,22 @@ import com.grupo2.proposta.model.EstadoCandidatura;
 
 import java.util.Objects;
 
+/**
+ * Classe DTO que contém informação sobre PropostaCandidatura
+ */
 public class PropostaCandidaturaDTO
 {
+    /**
+     * id de proposta
+     */
     private Long idProposta;
+    /**
+     * id de aluno
+     */
     private Long idAluno;
+    /**
+     * estado da candidatura
+     */
     private EstadoCandidatura estado;
 
     /**
@@ -98,6 +110,9 @@ public class PropostaCandidaturaDTO
         return idProposta.equals(that.idProposta) && idAluno.equals(that.idAluno) && estado == that.estado;
     }
 
+    /**
+     * {{@code @Inherit}}
+     */
     @Override
     public int hashCode()
     {

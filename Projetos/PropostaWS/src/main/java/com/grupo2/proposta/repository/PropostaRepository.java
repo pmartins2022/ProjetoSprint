@@ -21,12 +21,19 @@ import java.util.Optional;
 @Repository
 public class PropostaRepository
 {
+    /**
+     * Objeto do tipo PropostaJPARepository a ser utilizador por PropostaRepository
+     */
     @Autowired
     private PropostaJPARepository jpaRepository;
-
+    /**
+     * Objeto do tipo PropostaJPAMapper a ser utilizador por PropostaRepository
+     */
     @Autowired
     private PropostaJPAMapper mapper;
-
+    /**
+     * Objeto do tipo PropostaCandidaturaJPAMapper a ser utilizador por PropostaRepository
+     */
     @Autowired
     private PropostaCandidaturaJPAMapper propostaCandidaturaJPAMapper;
 
@@ -122,13 +129,22 @@ public class PropostaRepository
         return listaModel;
     }
 
+    /**
+     * Devolve Lista de Proposta filtradas pelo id de EdicaoUC
+     * @param id id de EdicaoUC
+     * @return Lista de Proposta
+     */
     public List<Proposta> findByEdicaoUCId(Long id)
     {
         List<PropostaJPA> found = jpaRepository.findAllByedicaoUCId(id);
 
         return found.stream().map(mapper::toModel).toList();
     }
-
+    /**
+     * Devolve Lista de Proposta filtradas pelo estado
+     * @param estado estado da Proposta
+     * @return Lista de Proposta
+     */
     public List<Proposta> findAllByEstado(Integer estado)
     {
         PropostaEstado value = PropostaEstado.values()[estado];

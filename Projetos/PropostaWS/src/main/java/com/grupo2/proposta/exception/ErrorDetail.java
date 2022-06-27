@@ -7,8 +7,17 @@ package com.grupo2.proposta.exception;
  */
 public class ErrorDetail extends RuntimeException
 {
+    /**
+     * título de ErrorDetail
+     */
     private String title;
+    /**
+     * status de ErrorDetail
+     */
     private int status;
+    /**
+     * mensagem em detalhe de ErrorDetail
+     */
     private String detail;
 
     /**

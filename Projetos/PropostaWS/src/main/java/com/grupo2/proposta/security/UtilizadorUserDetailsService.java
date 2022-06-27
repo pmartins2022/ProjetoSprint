@@ -14,12 +14,24 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe que comunica com UtilizadorRestRepository e permite a autenticação do Utilizador aquando feito login
+ */
 @Component
 public class UtilizadorUserDetailsService implements UserDetailsService
 {
+    /**
+     * Objeto do tipo UtilizadorRestRepository a ser utilizador por UtilizadorUserDetailsService
+     */
     @Autowired
     private UtilizadorRestRepository utilizadorRepository;
 
+    /**
+     * {{@code @Inherit}}
+     * @param username username do Utilizador
+     * @return UserDetails
+     * @throws UsernameNotFoundException  {{@code @Inherit}}
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {

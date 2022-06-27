@@ -24,6 +24,9 @@ import java.util.List;
 @RequestMapping("/convite")
 public class ConviteController
 {
+    /**
+     * Objeto do tipo PropostaService a ser utilizador pelo ConviteController
+     */
     @Autowired
     private PropostaService service;
 
@@ -83,6 +86,11 @@ public class ConviteController
         return new ResponseEntity<>(conviteDTO, HttpStatus.CREATED);
     }
 
+    /**
+     * Endpoint que permite a um docenta listar convites pendentes
+     * @return lista de convites pendentes ou um erro se o lista estiver vazia.
+     * @throws ListaVaziaException
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/findAtivos")
     public ResponseEntity<Object> getConvitesPendentes()

@@ -10,8 +10,17 @@ import java.util.Objects;
 @Embeddable
 public class ConviteID implements Serializable
 {
+    /**
+     * id de aluno
+     */
     private Long idaluno;
+    /**
+     * id de docente
+     */
     private Long iddocente;
+    /**
+     * id de proposta
+     */
     private Long idproposta;
 
     /**
@@ -75,6 +84,11 @@ public class ConviteID implements Serializable
         return getIdaluno().equals(conviteID.getIdaluno()) && getIddocente().equals(conviteID.getIddocente()) && getIdproposta().equals(conviteID.getIdproposta());
     }
 
+
+    /**
+     * Devolve valor hashcode do objeto
+     * @return valor hashcode
+     */
     @Override
     public int hashCode()
     {

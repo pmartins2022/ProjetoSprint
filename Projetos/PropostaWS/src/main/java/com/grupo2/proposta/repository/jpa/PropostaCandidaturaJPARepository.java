@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+/**
+ * Interface que representa o repositorioJpa de PropostaCandidaturaJPA.
+ */
 public interface PropostaCandidaturaJPARepository extends JpaRepository<PropostaCandidaturaJPA, PropostaCandidaturaID>
 {
     Optional<PropostaCandidaturaJPA> findByIdIdalunoAndEstado(Long id, EstadoCandidatura est);

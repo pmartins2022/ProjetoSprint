@@ -12,14 +12,28 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe que gere todas as operações de persistência de Convite.
+ */
 @Repository
 public class ConviteRepository
 {
+    /**
+     * Objeto do tipo ConviteJPARepository a ser utilizador por ConviteRepository
+     */
     @Autowired
     private ConviteJPARepository jpaRepository;
+    /**
+     * Objeto do tipo ConviteJPAMapper a ser utilizador por ConviteRepository
+     */
     @Autowired
     private ConviteJPAMapper mapper;
 
+    /**
+     * Devolve Convite persistido.
+     * @param convite convite a guardar
+     * @return Convite
+     */
     public Convite createAndSaveConvite(Convite convite)
     {
         ConviteJPA conviteJPA = mapper.toJPA(convite);
@@ -27,6 +41,12 @@ public class ConviteRepository
         return mapper.toModel(jpaRepository.save(conviteJPA));
     }
 
+    /**
+     * Devolve Convite filtrado pelo id de proposta e id de aluno ou Optional.emtpy()
+     * @param propostaID id de proposta
+     * @param alunoID id de aluno
+     * @return Convite ou Optional.emtpy()
+     */
     public Optional<Convite> findByPropostaAndAluno(Long propostaID, Long alunoID)
     {
         Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(propostaID, alunoID);
@@ -38,6 +58,12 @@ public class ConviteRepository
         return Optional.empty();
     }
 
+    /**
+     * Devolve Convite filtrado pelo id de proposta e id de docente ou Optional.emtpy()
+     * @param docenteID id de docente
+     * @param propostaID id de proposta
+     * @return Convite ou Optional.emtpy()
+     */
     public Optional<Convite> findByDocenteAndProposta(Long docenteID, Long propostaID)
     {
         Optional<ConviteJPA> conviteJPA = jpaRepository.findByIdIdpropostaAndIdIdaluno(docenteID, propostaID);
@@ -48,6 +74,11 @@ public class ConviteRepository
         return Optional.empty();
     }
 
+    /**
+     * Devolve Convite filtrado pelo id ou Optional.emtpy()
+     * @param id id de Convite
+     * @return Convite ou Optional.emtpy()
+     */
     public Optional<Convite> findById(ConviteID id)
     {
         Optional<ConviteJPA> id1 = jpaRepository.findById(id);
@@ -79,6 +110,10 @@ public class ConviteRepository
         }
     }
 
+    /**
+     * Método que invalida todos os Convites com id de proposta enviado por parametro.
+     * @param propostaID id de proposta
+     */
     public void invalidarTodosConvites(Long propostaID)
     {
         List<Convite> list = jpaRepository.findByIdIdproposta(propostaID).stream().map(mapper::toModel).toList();
@@ -90,6 +125,10 @@ public class ConviteRepository
         }
     }
 
+    /**
+     * Método que atualiza Convite
+     * @param convite convite a atualizar
+     */
     public void atualizar(Convite convite)
     {
         ConviteJPA conviteJPA = mapper.toJPA(convite);
@@ -99,6 +138,11 @@ public class ConviteRepository
         jpaRepository.save(conviteJPA);
     }
 
+    /**
+     * Devolve Lista de Convite filtrada por id de Docente e em estado PENDENTE
+     * @param id id de docente
+     * @return Lista de Convite
+     */
     public List<Convite> findConvitesPendentes(Long id)
     {
         List<ConviteJPA> list = jpaRepository.findByIdIddocenteAndEstado(id,EstadoConvite.PENDENTE);

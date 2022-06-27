@@ -7,9 +7,21 @@ import java.util.Objects;
  */
 public class ProjetoDTO
 {
+    /**
+     * id de ProjetoDTO
+     */
     private Long id;
+    /**
+     * id de proposta
+     */
     private Long propostaId;
+    /**
+     * id de estudante
+     */
     private Long estudanteId;
+    /**
+     * id de aluno
+     */
     private Long orientadorId;
 
     /**
@@ -147,6 +159,9 @@ public class ProjetoDTO
         return propostaId.equals(that.propostaId) && estudanteId.equals(that.estudanteId) && orientadorId.equals(that.orientadorId);
     }
 
+    /**
+     * {{@code @Inherit}}
+     */
     @Override
     public int hashCode()
     {

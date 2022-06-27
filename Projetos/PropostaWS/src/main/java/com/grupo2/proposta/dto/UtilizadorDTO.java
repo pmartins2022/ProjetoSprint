@@ -7,10 +7,25 @@ import com.grupo2.proposta.model.TipoUtilizador;
  */
 public class UtilizadorDTO
 {
+    /**
+     * id de UtilizadorDTO
+     */
     private Long id;
+    /**
+     * nome de UtilizadorDTO
+     */
     private String nome;
+    /**
+     * sobrenome de UtilizadorDTO
+     */
     private String sobrenome;
+    /**
+     * email de UtilizadorDTO
+     */
     private String email;
+    /**
+     * tipo utilizador de UtilizadorDTO
+     */
     private TipoUtilizador tipoUtilizador;
 
     /**

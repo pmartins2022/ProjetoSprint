@@ -10,13 +10,37 @@ import java.util.Objects;
  */
 public class PropostaDTO implements Serializable
 {
+    /**
+     * id da PropostaDTO
+     */
     private Long id;
+    /**
+     * id de utilizador
+     */
     private Long utilizadorId;
+    /**
+     * id de organização
+     */
     private Long organizacaoId;
+    /**
+     * título da PropostDTO
+     */
     private String titulo;
+    /**
+     * problema da PropostaDTO
+     */
     private String problema;
+    /**
+     * objetivo da PropostaDTO
+     */
     private String objetivo;
+    /**
+     * id de EdicaoUC
+     */
     private Long edicaoUCId;
+    /**
+     * estado da PropostaDTO
+     */
     private PropostaEstado estadoAtual;
 
     /**

@@ -25,7 +25,7 @@ import java.util.Optional;
 public class EdicaoUCController
 {
     /**
-     * Objeto da class EdicaoUCService a ser utilizado pelo REST Controller.
+     * Objeto da class EdicaoUCService a ser utilizado pelo EdicaoUCController.
      */
     @Autowired
     private EdicaoUCService service;

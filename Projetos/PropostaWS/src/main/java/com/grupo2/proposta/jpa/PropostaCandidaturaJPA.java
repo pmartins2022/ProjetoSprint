@@ -14,8 +14,14 @@ import javax.persistence.Table;
 @Table(name = "PropostaCandidatura")
 public class PropostaCandidaturaJPA
 {
+    /**
+     * PropostaCandidaturaJPA
+     */
     @EmbeddedId
     private PropostaCandidaturaID id;
+    /**
+     * estado de PropostaCandidaturaJPA
+     */
     private EstadoCandidatura estado;
 
     /**

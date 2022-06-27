@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PropostaDTOMapper
 {
+    /**
+     * Objeto do tipo PropostaFactory que permite criar Propostas
+     */
     @Autowired
     private PropostaFactory factory;
 

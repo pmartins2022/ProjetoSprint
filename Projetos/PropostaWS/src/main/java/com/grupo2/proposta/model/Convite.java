@@ -5,10 +5,21 @@ package com.grupo2.proposta.model;
  */
 public class Convite
 {
+    /**
+     * id de aluno
+     */
     private Long idAluno;
+    /**
+     * id de docente
+     */
     private Long idDocente;
+    /**
+     * id de proposta
+     */
     private Long idProposta;
-
+    /**
+     * estado do Convite
+     */
     private EstadoConvite estado;
 
     /**

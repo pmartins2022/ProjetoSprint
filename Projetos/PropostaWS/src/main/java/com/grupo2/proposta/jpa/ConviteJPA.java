@@ -14,9 +14,14 @@ import javax.persistence.Table;
 @Table(name = "Convite")
 public class ConviteJPA
 {
+    /**
+     * id de ConviteJPA
+     */
     @EmbeddedId
     private ConviteID id;
-
+    /**
+     * estado de ConviteJPA
+     */
     private EstadoConvite estado;
 
     /**

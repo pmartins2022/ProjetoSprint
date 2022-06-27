@@ -22,22 +22,42 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.security.core.userdetails.User.builder;
-
+/**
+ * Classe que comunica com UtilizadorRepository e InMemoryUserDetailsManager e permite a autenticação do Utilizador aquando feito login
+ */
 @Component
 public class UtilizadorUserDetailsService implements UserDetailsService
 {
+    /**
+     * Objeto do tipo UtilizadorRestRepository a ser utilizador por UtilizadorUserDetailsService
+     */
     @Autowired
     private UtilizadorRepository utilizadorRepository;
+    /**
+     * Objeto do tipo InMemoryUserDetailsManager a ser utilizador por UtilizadorUserDetailsService
+     */
     private static InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    /**
+     * Objeto do tipo UtilizadorDTOMapper a ser utilizador por UtilizadorUserDetailsService
+     */
     @Autowired
     private UtilizadorDTOMapper mapper;
 
+
+    /**
+     * {{@code @Inherit}}
+     */
     @Bean
     public PasswordEncoder passwordEncoder()
     {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    /**
+     * {{@code @Inherit}}
+     * Método que permite criar Admin
+     * @return UserDetailsService
+     */
     @Bean
     public UserDetailsService userDetailsService()
     {
@@ -102,6 +122,12 @@ public class UtilizadorUserDetailsService implements UserDetailsService
         return inMemoryUserDetailsManager;
     }
 
+    /**
+     * {{@code @Inherit}}
+     * @param username username do Utilizador
+     * @return UserDetails
+     * @throws UsernameNotFoundException  {{@code @Inherit}}
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
@@ -126,6 +152,11 @@ public class UtilizadorUserDetailsService implements UserDetailsService
         return new User(username, utilizador.get().getPassword(), authorities);
     }
 
+    /**
+     * Devolve UtilizadorAuthDTO caso inMemoryUserDetailsManager o encontre ou Optional.empty()
+     * @param username username do UtilizadorAuthDTO
+     * @return UtilizadorAuthDTO ou Optional.empty()
+     */
     public Optional<UtilizadorAuthDTO> findInMemory(String username)
     {
         try

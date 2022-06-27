@@ -5,8 +5,17 @@ package com.grupo2.proposta.dto;
  */
 public class OrganizacaoDTO
 {
+    /**
+     * id de OrganizacaoDTO
+     */
     private Long id;
+    /**
+     * denominacao de OrganizacaoDTO
+     */
     private String denominacao;
+    /**
+     * nif de OrganizacaoDTO
+     */
     private Long nif;
 
     /**
