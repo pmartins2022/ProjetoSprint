@@ -9,8 +9,6 @@ import com.grupo2.projeto.exception.ValidacaoInvalidaException;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.model.EstadoConteudo;
 import com.grupo2.projeto.model.Projeto;
-import com.grupo2.projeto.repository.ConteudoRepository;
-import com.grupo2.projeto.repository.ProjetoRepository;
 import com.grupo2.projeto.repository.rest.UtilizadorRestRepository;
 import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;

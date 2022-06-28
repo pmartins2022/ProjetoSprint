@@ -4,7 +4,6 @@ import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.dto.mapper.ProjetoDTOMapper;
 import com.grupo2.projeto.exception.ErroGeralException;
 import com.grupo2.projeto.model.Projeto;
-import com.grupo2.projeto.repository.ProjetoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

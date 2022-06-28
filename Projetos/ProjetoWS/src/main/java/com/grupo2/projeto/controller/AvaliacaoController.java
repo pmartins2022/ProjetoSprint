@@ -2,8 +2,10 @@ package com.grupo2.projeto.controller;
 
 
 import com.grupo2.projeto.dto.AvaliacaoDTO;
+import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
 import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.service.AvaliacaoService;
+import com.grupo2.projeto.service.MomentoAvaliacaoNotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class AvaliacaoController
 {
     @Autowired
     private AvaliacaoService service;
+
+    @Autowired
+    private MomentoAvaliacaoNotaService momentoAvaliacaoNotaService;
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/criar")
@@ -72,9 +77,8 @@ public class AvaliacaoController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/avaliar")
-    public ResponseEntity<Object> avaliarNotaJustificacao(@RequestParam Integer nota, @RequestParam String justificacao,
-                                                          @PathVariable Long presidenteId)
+    @GetMapping("/listarAvaliacao")
+    public ResponseEntity<Object> listarAvalaiacao(@PathVariable Long presidenteId)
     {
         List<AvaliacaoDTO> lista = service.findAllByPresidente(presidenteId);
 
@@ -84,5 +88,26 @@ public class AvaliacaoController
         }
 
         return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PostMapping("/avaliar")
+    public ResponseEntity<Object> createAvaliacaoNota(@RequestBody MomentoAvaliacaoNotaDTO dto)
+    {
+        try
+        {
+            int row = momentoAvaliacaoNotaService.createAvaliacaoNota(dto);
+
+            if (row == 0)
+            {
+                throw new ErroGeralException("NAO FOI POSSIVEL GRAVAR NA DB");
+            }
+
+            return new ResponseEntity<>(null, HttpStatus.CREATED);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.grupo2.projeto.service;
 import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.dto.mapper.ProjetoDTOMapper;
 import com.grupo2.projeto.model.Projeto;
-import com.grupo2.projeto.repository.ProjetoRepository;
 import com.grupo2.projeto.repository.jdbc.GenericJDBCRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

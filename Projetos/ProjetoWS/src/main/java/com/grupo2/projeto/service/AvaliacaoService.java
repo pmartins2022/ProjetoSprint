@@ -1,15 +1,12 @@
 package com.grupo2.projeto.service;
 
 import com.grupo2.projeto.dto.AvaliacaoDTO;
-import com.grupo2.projeto.dto.ProjetoDTO;
+import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
 import com.grupo2.projeto.dto.UtilizadorDTO;
 import com.grupo2.projeto.dto.mapper.AvaliacaoDTOMapper;
 import com.grupo2.projeto.exception.OptionalVazioException;
 import com.grupo2.projeto.exception.ValidacaoInvalidaException;
 import com.grupo2.projeto.model.*;
-import com.grupo2.projeto.repository.AvaliacaoRepository;
-import com.grupo2.projeto.repository.ConteudoRepository;
-import com.grupo2.projeto.repository.ProjetoRepository;
 import com.grupo2.projeto.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +17,7 @@ import java.util.Optional;
 @Service
 public class AvaliacaoService
 {
-    @Autowired
-    private AvaliacaoRepository repository;
-
-    @Autowired
-    private ProjetoRepository projetoRepository;
-    @Autowired
-    private ConteudoRepository contRepo;
+//ava
 
     @Autowired
     private AvaliacaoDTOMapper mapper;
