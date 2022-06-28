@@ -1,14 +1,15 @@
 package com.grupo2.projeto.repository.jdbc;
 
+import com.grupo2.projeto.dto.OrganizacaoDTO;
 import com.grupo2.projeto.model.Projeto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Repository
 public class RepositoryJDBCProjeto implements ProjetoRepository
@@ -32,6 +33,20 @@ public class RepositoryJDBCProjeto implements ProjetoRepository
                 "insert into projeto (PROPOSTAID, ALUNOID, ORIENTADORID) values (?, ?, ?)",
                 projeto.getPropostaId(), projeto.getEstudanteId(), projeto.getOrientadorId());
     }
+
+    public List<OrganizacaoDTO> findAll()
+    {
+        String query = "CALL functionFindAll";
+        return null;
+    }
+
+    public Map<String, Object> findAllAnotherWay2()
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("functionFindAll");
+        return jdbcCall.execute();
+    }
+
 
     /*@Override
     public int update(Projeto projeto)
