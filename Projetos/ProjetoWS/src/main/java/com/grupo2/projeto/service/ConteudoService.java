@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Component
 public class ConteudoService
-{
+{/*
     @Autowired
     private ConteudoRepository repository;
 
@@ -139,5 +139,5 @@ public class ConteudoService
         List<Conteudo> list = repository.findAllByIdProjeto(id);
 
         return list.stream().map(mapper::toDTO).toList();
-    }
+    }*/
 }

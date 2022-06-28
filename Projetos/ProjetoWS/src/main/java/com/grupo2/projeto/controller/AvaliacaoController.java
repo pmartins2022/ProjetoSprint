@@ -25,7 +25,7 @@ public class AvaliacaoController
     @Autowired
     private MomentoAvaliacaoNotaService momentoAvaliacaoNotaService;
 
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+ /*   @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/criar")
     public ResponseEntity<AvaliacaoDTO> createAvaliacao(@RequestBody AvaliacaoDTO avaliacaoDTO)
     {
@@ -89,7 +89,7 @@ public class AvaliacaoController
 
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
-
+*/
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/avaliar")
     public ResponseEntity<Object> createAvaliacaoNota(@RequestBody MomentoAvaliacaoNotaDTO dto)
@@ -110,4 +110,7 @@ public class AvaliacaoController
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
+
 }

@@ -14,6 +14,13 @@ public class MomentoAvaliacaoNotaService
     MomentoAvaliacaoNotaMapper mapper;
     public int createAvaliacaoNota(MomentoAvaliacaoNotaDTO dto) throws IllegalAccessException
     {
+        //idAvaliacao
+        //Presidente está em várias avaliacoes
+
+        //pelo idAvalicao findByID o Presinete  e ver se é idAvaliacao.idPresidente == LoginContext.presidente
+        //ver se NAO está em REVISAO OU CONCLUIDA
+        //Se ESTIVER em REVISAO a nota tem que ser NULL
+
         MomentoAvaliacaoNota mom = mapper.toModel(dto);
         return repository.createAvaliacaoNota(mom);
     }

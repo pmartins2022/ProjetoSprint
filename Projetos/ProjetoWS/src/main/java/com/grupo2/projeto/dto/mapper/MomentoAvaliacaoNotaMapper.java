@@ -13,7 +13,7 @@ public class MomentoAvaliacaoNotaMapper
 
     public MomentoAvaliacaoNota toModel(MomentoAvaliacaoNotaDTO dto)
     {
-        return factory.createMomentoAvaliacaoNota(dto.getId(), dto.getIdAvaliacao(), dto.getNota(), dto.getJustificacao(), dto.getEstadoAvaliacao());
+        return factory.createMomentoAvaliacaoNota(dto.getIdAvaliacao(), dto.getNota(), dto.getJustificacao());
     }
 
     public MomentoAvaliacaoNotaDTO toDTO(MomentoAvaliacaoNota saved)

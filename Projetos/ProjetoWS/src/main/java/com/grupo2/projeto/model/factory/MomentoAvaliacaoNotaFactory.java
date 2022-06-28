@@ -5,8 +5,8 @@ import com.grupo2.projeto.model.MomentoAvaliacaoNota;
 
 public class MomentoAvaliacaoNotaFactory
 {
-    public MomentoAvaliacaoNota createMomentoAvaliacaoNota(Long id, Long idAvaliacao, Integer nota, String justificacao, EstadoAvaliacao estadoAvaliacao)
+    public MomentoAvaliacaoNota createMomentoAvaliacaoNota(Long idAvaliacao, Integer nota, String justificacao)
     {
-        return new MomentoAvaliacaoNota(id, idAvaliacao, nota, justificacao, estadoAvaliacao);
+        return new MomentoAvaliacaoNota(idAvaliacao, nota, justificacao);
     }
 }

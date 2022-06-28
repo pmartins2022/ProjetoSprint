@@ -5,6 +5,7 @@ import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.jdbc.RepositoryJDBCProjeto;
+import com.grupo2.projeto.repository.jdbc.reflection.ObjectCreator;
 import com.grupo2.projeto.repository.jdbc.reflection.TableCreator;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.ConteudoService;
@@ -18,10 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootApplication
 public class ProjetoWsApplication
@@ -37,11 +35,6 @@ public class ProjetoWsApplication
 		SpringApplication.run(ProjetoWsApplication.class, args);
 	}
 
-	public OrganizacaoDTO constructOrganicazao(List<Object> values)
-	{
-		return new OrganizacaoDTO(((BigDecimal)values.get(0)).longValue(),(String)values.get(1),((BigDecimal)values.get(2)).longValue());
-	}
-
 	@Bean
 	public CommandLineRunner demo(ProjetoService service, AvaliacaoService avaliacaoService, ConteudoService conteudoService)
 	{
@@ -54,11 +47,16 @@ public class ProjetoWsApplication
 
 			Map<String, Object> map = repositoryJDBCProjeto.findAllAnotherWay2();
 
+
 			ArrayList<Object> mp = (ArrayList<Object>) map.get("return");
 			for (int i = 0; i < mp.size(); i++)
 			{
 				LinkedCaseInsensitiveMap<Object> obj = (LinkedCaseInsensitiveMap<Object>) mp.get(i);
-				orgs.add(constructOrganicazao(obj.values().stream().toList()));
+
+
+				OrganizacaoDTO object = ObjectCreator.createObject(OrganizacaoDTO.class, obj.values().stream().toList());
+
+				orgs.add(object);
 			}
 
 			System.out.println("Dados retornados:");

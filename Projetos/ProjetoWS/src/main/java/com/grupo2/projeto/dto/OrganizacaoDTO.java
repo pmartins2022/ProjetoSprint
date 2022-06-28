@@ -1,12 +1,13 @@
 package com.grupo2.projeto.dto;
 
 import com.grupo2.projeto.model.JDBCTable;
-import com.grupo2.projeto.model.annotations.IgnoreField;
 import com.grupo2.projeto.model.annotations.PrimaryKey;
 import com.grupo2.projeto.model.annotations.Table;
 
+import java.util.Objects;
+
 /**
- * Classe DTO que contem informacao sobre uma organizacao.
+ * Classe DTO da organizacao
  */
 @Table(tableName = "ORGANIZACAO")
 public class OrganizacaoDTO extends JDBCTable
@@ -16,15 +17,10 @@ public class OrganizacaoDTO extends JDBCTable
      */
     @PrimaryKey( generated = false)
     private Long id;
-    /**
-     * denominacao de OrganizacaoDTO
-     */
-    private String denominacao;
-    /**
-     * nif de OrganizacaoDTO
-     */
 
-    private Long nif;
+    private String denominacao;
+
+    private Integer nif;
 
     /**
      * Inicializa OrganizacaoDTO sem parametros
@@ -34,11 +30,32 @@ public class OrganizacaoDTO extends JDBCTable
     }
 
     /**
-     * Inicializa o id, denominacao e nif da OrganizacaoDTO com o id, denominacao e nif
-     * @param denominacao é a denominacao da OrganizacaoDTO
-     * @param nif é o nif da OrganizacaoDTO
+     * Inicializa e nif da OrganizacaoDTO com e nif
+     * @param nif e a nif da OrganizacaoDTO
      */
-    public OrganizacaoDTO(Long id, String denominacao, Long nif)
+    public OrganizacaoDTO(Integer nif)
+    {
+        this.nif = nif;
+    }
+
+    /**
+     * Inicializa denominacaoo e nif da OrganizacaoDTO com denominacao e nif
+     * @param denominacao e a denominacao da OrganizacaoDTO
+     * @param nif e a nif da OrganizacaoDTO
+     */
+    public OrganizacaoDTO(String denominacao, Integer nif)
+    {
+        this.denominacao = denominacao;
+        this.nif = nif;
+    }
+
+    /**
+     * Inicializa id, denominacaoo e nif da OrganizacaoDTO com id, denominacao e nif
+     * @param id e a id da OrganizacaoDTO
+     * @param denominacao e a denominacao da OrganizacaoDTO
+     * @param nif e a nif da OrganizacaoDTO
+     */
+    public OrganizacaoDTO(Long id, String denominacao, Integer nif)
     {
         this.id = id;
         this.denominacao = denominacao;
@@ -46,8 +63,26 @@ public class OrganizacaoDTO extends JDBCTable
     }
 
     /**
-     * Devolve a denominacao da OrganizacaoDTO
-     * @return denominacao da OrganizacaoDTO
+     * Devolve o id da organizacao
+     * @return o id do organizacao
+     */
+    public Long getId()
+    {
+        return id;
+    }
+
+    /**
+     * Modifica o id do organizacao
+     * @param id novo nr do organizacao
+     */
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * Devolve o denominacao da organizacao
+     * @return o denominacao do organizacao
      */
     public String getDenominacao()
     {
@@ -55,8 +90,8 @@ public class OrganizacaoDTO extends JDBCTable
     }
 
     /**
-     * Modifica a denominacao da OrganizacaoDTO
-     * @param denominacao nova denominacao da OrganizacaoDTO
+     * Modifica o denominacao do organizacao
+     * @param denominacao novo nr do organizacao
      */
     public void setDenominacao(String denominacao)
     {
@@ -64,31 +99,21 @@ public class OrganizacaoDTO extends JDBCTable
     }
 
     /**
-     * Devolve o nif da OrganizacaoDTO
-     * @return nif da OrganizacaoDTO
+     * Devolve o nif da organizacao
+     * @return o nif do organizacao
      */
-    public Long getNif()
+    public Integer getNif()
     {
         return nif;
     }
 
     /**
-     * Modifica o nif da OrganizacaoDTO
-     * @param nif novo nif da OrganizacaoDTO
+     * Modifica o nif do organizacao
+     * @param nif novo nr do organizacao
      */
-    public void setNif(Long nif)
+    public void setNif(Integer nif)
     {
         this.nif = nif;
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
     }
 
     @Override
@@ -100,4 +125,26 @@ public class OrganizacaoDTO extends JDBCTable
                 ", nif=" + nif +
                 '}';
     }
+
+    /**
+     * Compara dois objetos do tipo OrganizacaoDTO
+     * @param o e um objeto do tipo OrganizacaoDTO
+     * @return true se forem iguais e false se nao forem iguais
+     */
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrganizacaoDTO that = (OrganizacaoDTO) o;
+        return denominacao.equals(that.denominacao) && nif.equals(that.nif);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, denominacao, nif);
+    }
+
+
 }
