@@ -28,7 +28,7 @@ public class PropostaDTO extends JDBCTable implements Serializable
     /**
      * id de organização
      */
-    @ForeignKey( className = OrganizacaoDTO.class, fieldName = "NIF")
+    @ForeignKey( className = OrganizacaoDTO.class, fieldName = "ID")
     private Long organizacaoId;
     /**
      * título da PropostDTO

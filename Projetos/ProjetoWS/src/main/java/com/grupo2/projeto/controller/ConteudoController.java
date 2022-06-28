@@ -21,11 +21,24 @@ public class ConteudoController
 
     @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @PostMapping("/criar")
-    public ResponseEntity<ConteudoDTO> createConteudo(@RequestBody ConteudoDTO conteudoDTO)
+    public ResponseEntity<Object> createConteudo(@RequestBody ConteudoDTO conteudoDTO)
     {
-        ConteudoDTO conteudoDTOSaved = service.createAndSave(conteudoDTO);
+        try
+        {
+            int x = service.createAndSave(conteudoDTO);
 
-        return new ResponseEntity<>(conteudoDTOSaved, HttpStatus.CREATED);
+            if (x == 0)
+            {
+                throw new OptionalVazioException("NAO FOI POSSIVEL GUARDAR NA DB");
+            }
+
+            return new ResponseEntity<>(null, HttpStatus.CREATED);
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
@@ -50,8 +63,14 @@ public class ConteudoController
     {
         try
         {
-            ConteudoDTO conteudoUpdate = service.acceptConteudo(idConteudo);
-            return new ResponseEntity<>(conteudoUpdate, HttpStatus.OK);
+            int conteudoUpdate = service.acceptConteudo(idConteudo);
+
+            if (conteudoUpdate == 0)
+            {
+                throw new OptionalVazioException("NAO FOI POSSIVEL ATUALIZAR NA DB");
+            }
+
+            return ResponseEntity.ok(null);
         } catch (OptionalVazioException e)
         {
             throw e;
@@ -63,12 +82,16 @@ public class ConteudoController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PatchMapping("/rejeitarConteudo/{id}")
-    public ResponseEntity<ConteudoDTO> rejectConteudo(@PathVariable("idConteudo") Long idConteudo)
+    public ResponseEntity<?> rejectConteudo(@PathVariable("idConteudo") Long idConteudo)
     {
         try
         {
-            ConteudoDTO dto = service.rejeitarConteudo(idConteudo);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+            int dto = service.rejeitarConteudo(idConteudo);
+            if (dto == 0)
+            {
+                throw new OptionalVazioException("NAO FOI POSSIBLE ALTERAR NA DB, ja foste");
+            }
+            return ResponseEntity.ok(null);
         } catch (AtualizacaoInvalidaException e)
         {
             throw e;

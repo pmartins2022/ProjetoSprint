@@ -52,12 +52,16 @@ public class ProjetoController
      */
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_DOCENTE')")
     @PostMapping("/criar")
-    public ResponseEntity<ProjetoDTO> createProjeto(@RequestBody ProjetoDTO projetoDTO)
+    public ResponseEntity<Object> createProjeto(@RequestBody ProjetoDTO projetoDTO)
     {
-
-        ProjetoDTO projetoDTOSaved = service.createAndSave(projetoDTO);
-
-        return new ResponseEntity<>(projetoDTOSaved, HttpStatus.CREATED);
+        try
+        {
+            service.createAndSave(projetoDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE')")

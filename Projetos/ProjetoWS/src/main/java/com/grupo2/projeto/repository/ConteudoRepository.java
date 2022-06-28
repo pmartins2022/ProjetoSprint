@@ -3,8 +3,11 @@ package com.grupo2.projeto.repository;
 import com.grupo2.projeto.dataModel.jpa.ConteudoJPA;
 import com.grupo2.projeto.dataModel.jpa.mapper.ConteudoJPAMapper;
 import com.grupo2.projeto.model.Conteudo;
+import com.grupo2.projeto.model.EstadoConteudo;
+import com.grupo2.projeto.repository.jdbc.GenericJDBCRepository;
 import com.grupo2.projeto.repository.jpa.ConteudoJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,49 +17,32 @@ import java.util.Optional;
 public class ConteudoRepository
 {
     @Autowired
-    private ConteudoJPARepository repository;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private ConteudoJPAMapper mapper;
 
-    public Conteudo saveConteudo(Conteudo conteudo)
+    public int saveConteudo(Conteudo conteudo) throws IllegalAccessException
     {
-        ConteudoJPA jpa = mapper.toJpa(conteudo);
-
-        ConteudoJPA saved = repository.save(jpa);
-
-        return mapper.toModel(saved);
+        return GenericJDBCRepository.from(jdbcTemplate,conteudo).save();
     }
 
     public Optional<Conteudo> findById(Long id)
     {
-        Optional<ConteudoJPA> optionalJPA = repository.findById(id);
+        Conteudo optional = jdbcTemplate.queryForObject("SELECT * FROM CONTEUDO WHERE ID = ?", Conteudo.class,id);
 
-        if (optionalJPA.isPresent())
-        {
-            Conteudo conteudo = mapper.toModel(optionalJPA.get());
-            return Optional.of(conteudo);
-        } else
-        {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(optional);
     }
 
-    public Conteudo atualizarConteudo(Conteudo conteudo)
+    public int atualizarConteudo(Long id, EstadoConteudo estado)
     {
-        repository.deleteById(conteudo.getId());
-
-        ConteudoJPA jpa = mapper.toJpa(conteudo);
-
-        ConteudoJPA saved = repository.save(jpa);
-
-        return mapper.toModel(saved);
+        return jdbcTemplate.update("UPDATE CONTEUDO SET estadoConteudo = '?' WHERE ID = ?",estado.name(),id);
     }
 
     public List<Conteudo> findAllByIdProjeto(Long id)
     {
-        List<ConteudoJPA> list = repository.findAllByIdProjeto(id);
+        List<Conteudo> list = jdbcTemplate.queryForList("SELECT * FROM PROJETO WHERE ID = ?",Conteudo.class, id);
 
-        return list.stream().map(mapper::toModel).toList();
+        return list;
     }
 }

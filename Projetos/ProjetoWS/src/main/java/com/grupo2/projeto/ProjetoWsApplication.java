@@ -21,9 +21,6 @@ public class ProjetoWsApplication
 	@Autowired
 	RepositoryJDBCProjeto repositoryJDBCProjeto;
 
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-
 	public static void main(String[] args) throws IllegalAccessException
 	{
 		SpringApplication.run(ProjetoWsApplication.class, args);

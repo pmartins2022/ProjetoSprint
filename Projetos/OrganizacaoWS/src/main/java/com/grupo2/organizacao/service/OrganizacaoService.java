@@ -70,6 +70,8 @@ public class OrganizacaoService
         Organizacao saved = repository.save(organizacao);
         OrganizacaoDTO dtoSaved = mapper.toDTO(saved);
 
+        System.out.println(dtoSaved.toString());
+
         try
         {
             projetoRestRepository.saveOrganizacao(dtoSaved);

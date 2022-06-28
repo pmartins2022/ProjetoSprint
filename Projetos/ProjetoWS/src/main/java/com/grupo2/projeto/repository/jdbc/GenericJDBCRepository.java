@@ -4,6 +4,7 @@ import com.grupo2.projeto.model.annotations.IgnoreField;
 import com.grupo2.projeto.model.JDBCTable;
 import com.grupo2.projeto.model.annotations.Table;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,7 @@ import java.lang.reflect.Field;
 @Repository
 public class GenericJDBCRepository<T extends JDBCTable>
 {
-    @Autowired
+
     private final JdbcTemplate jdbcTemplate;
 
     private final T objeto;
@@ -22,13 +23,13 @@ public class GenericJDBCRepository<T extends JDBCTable>
         this.jdbcTemplate = jdbcTemplate;
         this.objeto = objeto;
     }
-
+    @Bean
     public static <T extends JDBCTable> GenericJDBCRepository<T> from(JdbcTemplate jdbcTemplate, T objeto)
     {
         return new GenericJDBCRepository<T>(jdbcTemplate,objeto);
     }
 
-    public void save() throws IllegalAccessException
+    public int save() throws IllegalAccessException
     {
         System.out.println("save");
 
@@ -73,8 +74,8 @@ public class GenericJDBCRepository<T extends JDBCTable>
         sb.append(")");
 
         System.out.println(sb.toString());
-        jdbcTemplate.update(sb.toString());
-
         System.out.println("Fim");
+        return jdbcTemplate.update(sb.toString());
+
     }
 }

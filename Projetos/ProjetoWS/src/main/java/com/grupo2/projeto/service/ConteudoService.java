@@ -34,7 +34,7 @@ public class ConteudoService
     @Autowired
     private UtilizadorRestRepository utilizadorRestRepository;
 
-    public ConteudoDTO createAndSave(ConteudoDTO conteudoDTO)
+    public int createAndSave(ConteudoDTO conteudoDTO) throws IllegalAccessException
     {
         Optional<Projeto> id = projetoRepository.findById(conteudoDTO.getProjetoId());
         if (id.isEmpty())
@@ -49,9 +49,8 @@ public class ConteudoService
 
         Conteudo conteudo = mapper.toModel(conteudoDTO);
 
-        Conteudo saved = repository.saveConteudo(conteudo);
+         return repository.saveConteudo(conteudo);
 
-        return mapper.toDTO(saved);
     }
 
     public Optional<ConteudoDTO> findById(Long id)
@@ -68,7 +67,7 @@ public class ConteudoService
         }
     }
 
-    public ConteudoDTO acceptConteudo(Long idConteudo)
+    public int acceptConteudo(Long idConteudo)
     {
         Optional<Conteudo> conteudo = repository.findById(idConteudo);
 
@@ -97,12 +96,10 @@ public class ConteudoService
 
         conteudo.get().setEstadoConteudo(EstadoConteudo.APROVADO);
 
-        Conteudo saved = repository.saveConteudo(conteudo.get());
-
-        return mapper.toDTO(saved);
+        return atualizarConteudo(conteudo.get().getId(), conteudo.get().getEstadoConteudo());
     }
 
-    public ConteudoDTO rejeitarConteudo(Long idConteudo)
+    public int rejeitarConteudo(Long idConteudo)
     {
         Optional<Conteudo> conteudo = repository.findById(idConteudo);
 
@@ -131,13 +128,12 @@ public class ConteudoService
             throw new AtualizacaoInvalidaException(e.getMessage());
         }
 
-        return atualizarConteudo(conteudo.get());
+        return atualizarConteudo(conteudo.get().getId(), conteudo.get().getEstadoConteudo());
     }
 
-    private ConteudoDTO atualizarConteudo(Conteudo conteudo)
+    private int atualizarConteudo(Long id, EstadoConteudo estadoConteudo)
     {
-        Conteudo saved = repository.atualizarConteudo(conteudo);
-        return mapper.toDTO(saved);
+        return repository.atualizarConteudo(id, estadoConteudo);
     }
 
     public List<ConteudoDTO> findAllByIdProjeto(Long id)

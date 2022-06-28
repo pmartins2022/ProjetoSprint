@@ -15,6 +15,7 @@ import com.grupo2.edicaouc.repository.EdicaoUCAlunoRepository;
 import com.grupo2.edicaouc.repository.EdicaoUCRepository;
 import com.grupo2.edicaouc.repository.rest.ProjetoRestRepository;
 import com.grupo2.edicaouc.repository.rest.UtilizadorRestRepository;
+import com.grupo2.edicaouc.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -163,7 +164,7 @@ public class EdicaoUCService
         return edicaoUCAlunoDTOMapper.toDTO(saved);
     }
 
-    public EdicaoUCDTO activarEdicao(Long utilizadorID, Long edicaoUCID) throws ValidationException
+    public EdicaoUCDTO activarEdicao(Long edicaoUCID) throws ValidationException
     {
 
         Optional<EdicaoUC> optionalEdicaoUC = repository.findById(edicaoUCID);
@@ -173,7 +174,7 @@ public class EdicaoUCService
             throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
         }
 
-        Optional<EdicaoUC> edicaoActive = repository.findByEstadoEdicaoUC(EstadoEdicaoUC.ATIVA);
+        Optional<EdicaoUC> edicaoActive = repository.findByRucIDAndEstadoEdicaoUC(LoginContext.getCurrent().getId(),EstadoEdicaoUC.ATIVA);
 
         if (edicaoActive.isPresent())
         {
@@ -191,6 +192,11 @@ public class EdicaoUCService
         if (edicaoToActivate.get().getEstadoEdicaoUC() != EstadoEdicaoUC.PENDENTE)
         {
             throw new ValidacaoInvalidaException("EdiçãoUC não está em fase PENDENTE");
+        }
+
+        if (!edicaoToActivate.get().getRucID().equals(LoginContext.getCurrent().getId()))
+        {
+            throw new ValidacaoInvalidaException("ESSA EDICAO UC NAO E SUA");
         }
 
         edicaoToActivate.get().activateEdicaoUC();

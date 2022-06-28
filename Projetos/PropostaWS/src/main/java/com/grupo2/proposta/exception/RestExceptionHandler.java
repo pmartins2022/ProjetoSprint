@@ -85,4 +85,14 @@ public class RestExceptionHandler
         errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(OptionalVazioException.class)
+    public ResponseEntity<?> handleOptionalVazioExceptionException(OptionalVazioException ex)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTitle("Erro");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
+    }
 }

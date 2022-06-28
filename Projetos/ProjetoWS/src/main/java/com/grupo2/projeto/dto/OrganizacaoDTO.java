@@ -11,7 +11,11 @@ import com.grupo2.projeto.model.annotations.Table;
 @Table(tableName = "ORGANIZACAO")
 public class OrganizacaoDTO extends JDBCTable
 {
-
+    /**
+     * Id de OrganizaoDTO
+     */
+    @PrimaryKey( generated = false)
+    private Long id;
     /**
      * denominacao de OrganizacaoDTO
      */
@@ -19,7 +23,7 @@ public class OrganizacaoDTO extends JDBCTable
     /**
      * nif de OrganizacaoDTO
      */
-    @PrimaryKey( generated = false)
+
     private Long nif;
 
     /**
@@ -34,8 +38,9 @@ public class OrganizacaoDTO extends JDBCTable
      * @param denominacao é a denominacao da OrganizacaoDTO
      * @param nif é o nif da OrganizacaoDTO
      */
-    public OrganizacaoDTO(String denominacao, Long nif)
+    public OrganizacaoDTO(Long id, String denominacao, Long nif)
     {
+        this.id = id;
         this.denominacao = denominacao;
         this.nif = nif;
     }
@@ -74,5 +79,25 @@ public class OrganizacaoDTO extends JDBCTable
     public void setNif(Long nif)
     {
         this.nif = nif;
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "OrganizacaoDTO{" +
+                "id=" + id +
+                ", denominacao='" + denominacao + '\'' +
+                ", nif=" + nif +
+                '}';
     }
 }

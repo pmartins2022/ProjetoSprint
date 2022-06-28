@@ -64,7 +64,7 @@ public class TabelasController
 
         LoginContext.setToken(encoded);
 
-        System.out.println("Controller");
+        System.out.println(dto.toString());
         try
         {
             service.save(dto);

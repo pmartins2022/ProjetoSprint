@@ -4,7 +4,9 @@ import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.dto.mapper.ProjetoDTOMapper;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.ProjetoRepository;
+import com.grupo2.projeto.repository.jdbc.GenericJDBCRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +21,9 @@ public class ProjetoService
     /**
      * O repository a ser utilizado por este Service.
      */
+
     @Autowired
-    private ProjetoRepository repository;
+    private JdbcTemplate jdbcTemplate;
 
 
     /**
@@ -36,7 +39,7 @@ public class ProjetoService
      */
     public Optional<ProjetoDTO> findById(Long id)
     {
-        Optional<Projeto> optionalProjeto = repository.findById(id);
+       /* Optional<Projeto> optionalProjeto = repository.findById(id);
 
         if (optionalProjeto.isPresent())
         {
@@ -45,7 +48,9 @@ public class ProjetoService
         } else
         {
             return Optional.empty();
-        }
+        }*/
+
+        return Optional.empty();
     }
 
     /**
@@ -53,19 +58,29 @@ public class ProjetoService
      * @param projetoDTO um objeto com os dados do projeto
      * @return um projeto
      */
-    public ProjetoDTO createAndSave(ProjetoDTO projetoDTO)
+    public void createAndSave(ProjetoDTO projetoDTO)
     {
         Projeto projeto = mapper.toModel(projetoDTO);
 
-        Projeto savedProjeto = repository.saveProjeto(projeto);
+        try
+        {
+            GenericJDBCRepository.from(jdbcTemplate,projeto).save();
+        } catch (IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
+        }
 
-        return mapper.toDTO(savedProjeto);
+       /* Projeto savedProjeto = repository.saveProjeto(projeto);
+
+        return mapper.toDTO(savedProjeto);*/
     }
 
     public List<ProjetoDTO> findAllByOrientadorId(Long id)
     {
-        List<Projeto> list = repository.findAllByOrientadorId(id);
+        /*List<Projeto> list = repository.findAllByOrientadorId(id);
 
-        return list.stream().map(mapper::toDTO).toList();
+        return list.stream().map(mapper::toDTO).toList();*/
+
+        return List.of();
     }
 }

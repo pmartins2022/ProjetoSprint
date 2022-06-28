@@ -161,13 +161,14 @@ public class EdicaoUCController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PatchMapping("/ativarEdicao/{edicaoUCID}")
-    public ResponseEntity<Object> ativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    public ResponseEntity<Object> ativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID, HttpServletRequest req)
     {
-        UtilizadorDTO utilizador = LoginContext.getCurrent();
+
+        LoginContext.setToken(req.getHeader(SecurityUtils.AUTH));
 
         try
         {
-            EdicaoUCDTO dto = service.activarEdicao(utilizador.getId(), edicaoUCID);
+            EdicaoUCDTO dto = service.activarEdicao(edicaoUCID);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }

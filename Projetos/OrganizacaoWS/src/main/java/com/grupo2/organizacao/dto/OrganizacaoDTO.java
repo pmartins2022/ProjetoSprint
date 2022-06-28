@@ -108,6 +108,16 @@ public class OrganizacaoDTO
         this.nif = nif;
     }
 
+    @Override
+    public String toString()
+    {
+        return "OrganizacaoDTO{" +
+                "id=" + id +
+                ", denominacao='" + denominacao + '\'' +
+                ", nif=" + nif +
+                '}';
+    }
+
     /**
      * Compara dois objetos do tipo OrganizacaoDTO
      * @param o e um objeto do tipo OrganizacaoDTO
@@ -127,4 +137,6 @@ public class OrganizacaoDTO
     {
         return Objects.hash(id, denominacao, nif);
     }
+
+
 }
