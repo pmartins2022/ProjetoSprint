@@ -11,10 +11,10 @@ public class MomentoAvaliacaoNotaMapper
     @Autowired
     private MomentoAvaliacaoNotaFactory factory;
 
-    public MomentoAvaliacaoNota toModel(MomentoAvaliacaoNotaDTO dto)
+    /*public MomentoAvaliacaoNota toModel(MomentoAvaliacaoNotaDTO dto)
     {
         return factory.createMomentoAvaliacaoNota(dto.getIdAvaliacao(), dto.getNota(), dto.getJustificacao());
-    }
+    }*/
 
     public MomentoAvaliacaoNotaDTO toDTO(MomentoAvaliacaoNota saved)
     {

@@ -21,7 +21,8 @@ public class MomentoAvaliacaoNotaService
         //ver se NAO está em REVISAO OU CONCLUIDA
         //Se ESTIVER em REVISAO a nota tem que ser NULL
 
-        MomentoAvaliacaoNota mom = mapper.toModel(dto);
-        return repository.createAvaliacaoNota(mom);
+        //MomentoAvaliacaoNota mom = mapper.toModel(dto);
+        //return repository.createAvaliacaoNota(mom);
+        return 0;
     }
 }

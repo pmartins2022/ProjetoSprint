@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class ConteudoRepositoryIntegrationTests
 {
-    @Autowired
+    /*@Autowired
     private ConteudoRepository repository;
 
     @Autowired
@@ -69,5 +69,5 @@ class ConteudoRepositoryIntegrationTests
         assertNotEquals(c,conteudo);
 
         assertEquals(c1,conteudo);
-    }
+    }*/
 }

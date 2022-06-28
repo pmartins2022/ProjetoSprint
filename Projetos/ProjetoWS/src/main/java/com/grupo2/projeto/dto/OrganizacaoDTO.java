@@ -20,7 +20,7 @@ public class OrganizacaoDTO extends JDBCTable
 
     private String denominacao;
 
-    private Integer nif;
+    private Long nif;
 
     /**
      * Inicializa OrganizacaoDTO sem parametros
@@ -33,7 +33,7 @@ public class OrganizacaoDTO extends JDBCTable
      * Inicializa e nif da OrganizacaoDTO com e nif
      * @param nif e a nif da OrganizacaoDTO
      */
-    public OrganizacaoDTO(Integer nif)
+    public OrganizacaoDTO(Long nif)
     {
         this.nif = nif;
     }
@@ -43,7 +43,7 @@ public class OrganizacaoDTO extends JDBCTable
      * @param denominacao e a denominacao da OrganizacaoDTO
      * @param nif e a nif da OrganizacaoDTO
      */
-    public OrganizacaoDTO(String denominacao, Integer nif)
+    public OrganizacaoDTO(String denominacao, Long nif)
     {
         this.denominacao = denominacao;
         this.nif = nif;
@@ -55,7 +55,7 @@ public class OrganizacaoDTO extends JDBCTable
      * @param denominacao e a denominacao da OrganizacaoDTO
      * @param nif e a nif da OrganizacaoDTO
      */
-    public OrganizacaoDTO(Long id, String denominacao, Integer nif)
+    public OrganizacaoDTO(Long id, String denominacao, Long nif)
     {
         this.id = id;
         this.denominacao = denominacao;
@@ -102,7 +102,7 @@ public class OrganizacaoDTO extends JDBCTable
      * Devolve o nif da organizacao
      * @return o nif do organizacao
      */
-    public Integer getNif()
+    public Long getNif()
     {
         return nif;
     }
@@ -111,7 +111,7 @@ public class OrganizacaoDTO extends JDBCTable
      * Modifica o nif do organizacao
      * @param nif novo nr do organizacao
      */
-    public void setNif(Integer nif)
+    public void setNif(Long nif)
     {
         this.nif = nif;
     }

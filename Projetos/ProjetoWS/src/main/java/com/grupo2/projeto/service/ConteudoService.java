@@ -20,7 +20,7 @@ import java.util.Optional;
 @Component
 public class ConteudoService
 {/*
-    @Autowired
+    /*@Autowired
     private ConteudoRepository repository;
 
     @Autowired

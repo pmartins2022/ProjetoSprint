@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 @Transactional
 class ProjetoServiceUnitTest
 {
-    @MockBean
+    /*@MockBean
     ProjetoRepository repository;
 
     @MockBean
@@ -90,5 +90,5 @@ class ProjetoServiceUnitTest
 
         assertEquals(Optional.empty(), saved);
     }
-
+*/
 }

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 @Transactional
 class ConteudoControllerUnitTests
 {
-    @MockBean
+    /*@MockBean
     ConteudoService service;
 
     @InjectMocks
@@ -94,7 +94,7 @@ class ConteudoControllerUnitTests
 
         assertThrows(ValidacaoInvalidaException.class, ()-> controller.acceptConteudo(1L));
     }
-    /*
+    *//*
 
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
@@ -115,7 +115,7 @@ class ConteudoControllerUnitTests
             throw e;
         }
     }
-     */
+     *//*
 
     @Test
     public void shouldRejectConteudo()
@@ -143,5 +143,5 @@ class ConteudoControllerUnitTests
         when(service.rejeitarConteudo(1L)).thenThrow(IdInvalidoException.class);
 
         assertThrows(IdInvalidoException.class, ()-> controller.rejectConteudo(1L));
-    }
+    }*/
 }

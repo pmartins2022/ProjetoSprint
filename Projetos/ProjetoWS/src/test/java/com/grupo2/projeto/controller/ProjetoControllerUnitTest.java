@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 @Transactional
 class ProjetoControllerUnitTest
 {
-    @MockBean
+    /*@MockBean
     ProjetoService service;
 
     @InjectMocks
@@ -66,5 +66,5 @@ class ProjetoControllerUnitTest
         when(service.findById(2L)).thenReturn(Optional.empty());
 
         assertThrows(ErroGeralException.class, ()-> controller.findById(2L));
-    }
+    }*/
 }

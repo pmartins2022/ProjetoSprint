@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class ProjetoRepositoryIntegrationTests
 {
-    @Autowired
+    /*@Autowired
     private ProjetoRepository repository;
 
     @Autowired
@@ -52,5 +52,5 @@ class ProjetoRepositoryIntegrationTests
         Optional<Projeto> projetoFound = repository.findById(99L);
 
         assertTrue(projetoFound.isEmpty());
-    }
+    }*/
 }

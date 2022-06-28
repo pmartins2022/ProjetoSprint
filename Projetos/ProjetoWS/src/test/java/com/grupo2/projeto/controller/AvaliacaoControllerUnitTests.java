@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @Transactional
 class AvaliacaoControllerUnitTests
 {
-    @MockBean
+    /*@MockBean
     AvaliacaoService service;
 
     @InjectMocks
@@ -92,5 +92,5 @@ class AvaliacaoControllerUnitTests
 
         assertThrows(ListaVaziaException.class, ()->  controller.listAllMomentoAvaliacao());
     }
-
+*/
 }

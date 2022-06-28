@@ -47,7 +47,6 @@ public class ProjetoWsApplication
 
 			Map<String, Object> map = repositoryJDBCProjeto.findAllAnotherWay2();
 
-
 			ArrayList<Object> mp = (ArrayList<Object>) map.get("return");
 			for (int i = 0; i < mp.size(); i++)
 			{
@@ -64,6 +63,9 @@ public class ProjetoWsApplication
 
 			orgs.forEach(System.out::println);
 
+//			List<OrganizacaoDTO> all = repositoryJDBCProjeto.findAll();
+//
+//			all.forEach(System.out::println);
 
 			/*String talUt = TableCreator.generateFromTable(UtilizadorDTO.class);
 			String talUC = TableCreator.generateFromTable(UnidadeCurricularDTO.class);

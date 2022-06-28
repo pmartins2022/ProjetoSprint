@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 @Transactional
 class AvaliacaoServiceUnitTest {
 
-    @MockBean
+    /*@MockBean
     AvaliacaoRepository repository;
     @MockBean
     UtilizadorRestRepository utilizadorRestRepository;
@@ -91,5 +91,5 @@ class AvaliacaoServiceUnitTest {
         when(repository.findAll()).thenReturn(List.of(avaliacaoMock,avaliacaoMock,avaliacaoMock));
         List<AvaliacaoDTO> saved = service.findAll();
         assertEquals(3,saved.size());
-    }
+    }*/
 }

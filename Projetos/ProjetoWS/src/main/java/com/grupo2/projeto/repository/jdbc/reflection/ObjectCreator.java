@@ -55,19 +55,21 @@ public class ObjectCreator
             {
                 Long val = Long.parseLong((values.get(i)).toString());
                 listValues.add(val);
-
             }
-            listValues.add(values.get(i));
+            else
+            {
+                listValues.add(values.get(i).toString());
+            }
         }
 
         //Array dos atributos
-        Object[] atributesValues = new Object[]{1L, "OLA", 1};
-       /* Object[] atributesValues = new Object[listValues.size()];
+        //Object[] atributesValues = new Object[]{1L, "OLA", 1};
+        Object[] atributesValues = new Object[listValues.size()];
 
         for (int i = 0; i < values.size(); i++)
         {
             atributesValues[i] = listValues.get(i);
-        }*/
+        }
 
         //Array dos argumentos do construtor
         Class<?>[] cArgs = new Class[atributesValues.length];

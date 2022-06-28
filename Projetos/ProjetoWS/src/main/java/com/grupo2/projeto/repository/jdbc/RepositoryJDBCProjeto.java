@@ -2,9 +2,12 @@ package com.grupo2.projeto.repository.jdbc;
 
 import com.grupo2.projeto.dto.OrganizacaoDTO;
 import com.grupo2.projeto.model.Projeto;
+import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.security.web.authentication.preauth.j2ee.J2eeBasedPreAuthenticatedWebAuthenticationDetailsSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
@@ -36,8 +39,13 @@ public class RepositoryJDBCProjeto implements ProjetoRepository
 
     public List<OrganizacaoDTO> findAll()
     {
-        String query = "CALL functionFindAll";
-        return null;
+        // nao da :((((((((((
+
+        String query = "{ CALL PROC_FIND_ALL }";
+        SqlParameter c = new SqlParameter("p_cursor", OracleTypes.CURSOR);
+        return jdbcTemplate.query(query,new BeanPropertyRowMapper<>(OrganizacaoDTO.class),c);
+
+        //return jdbcTemplate.queryForList(query,OrganizacaoDTO.class);
     }
 
     public Map<String, Object> findAllAnotherWay2()

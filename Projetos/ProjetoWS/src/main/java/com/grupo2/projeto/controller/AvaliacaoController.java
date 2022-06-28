@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequestMapping("/avaliacao")
 public class AvaliacaoController
 {
-    @Autowired
+    /*@Autowired
     private AvaliacaoService service;
 
     @Autowired
@@ -90,26 +90,26 @@ public class AvaliacaoController
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 */
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PostMapping("/avaliar")
-    public ResponseEntity<Object> createAvaliacaoNota(@RequestBody MomentoAvaliacaoNotaDTO dto)
-    {
-        try
-        {
-            int row = momentoAvaliacaoNotaService.createAvaliacaoNota(dto);
-
-            if (row == 0)
-            {
-                throw new ErroGeralException("NAO FOI POSSIVEL GRAVAR NA DB");
-            }
-
-            return new ResponseEntity<>(null, HttpStatus.CREATED);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
+//    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+//    @PostMapping("/avaliar")
+//    public ResponseEntity<Object> createAvaliacaoNota(@RequestBody MomentoAvaliacaoNotaDTO dto)
+//    {
+//        try
+//        {
+//            int row = momentoAvaliacaoNotaService.createAvaliacaoNota(dto);
+//
+//            if (row == 0)
+//            {
+//                throw new ErroGeralException("NAO FOI POSSIVEL GRAVAR NA DB");
+//            }
+//
+//            return new ResponseEntity<>(null, HttpStatus.CREATED);
+//        }
+//        catch (Exception e)
+//        {
+//            throw new RuntimeException(e.getMessage());
+//        }
+//    }
 
 
 

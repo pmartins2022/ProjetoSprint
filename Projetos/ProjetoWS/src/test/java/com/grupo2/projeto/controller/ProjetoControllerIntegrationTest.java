@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 class ProjetoControllerIntegrationTest
 {
-    @Autowired
+    /*@Autowired
     private ProjetoController controller;
 
     @Test
@@ -46,6 +46,6 @@ class ProjetoControllerIntegrationTest
     public void shouldNotFindProject_NotExists()
     {
         assertThrows(ErroGeralException.class, ()-> controller.findById(2L));
-    }
+    }*/
 
 }

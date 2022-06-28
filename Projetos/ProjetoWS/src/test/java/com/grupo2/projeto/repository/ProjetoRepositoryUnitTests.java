@@ -1,9 +1,9 @@
 package com.grupo2.projeto.repository;
 
-import com.grupo2.projeto.dataModel.jpa.ProjetoJPA;
+/*import com.grupo2.projeto.dataModel.jpa.ProjetoJPA;
 import com.grupo2.projeto.dataModel.jpa.mapper.ProjetoJPAMapper;
 import com.grupo2.projeto.model.Projeto;
-import com.grupo2.projeto.repository.jpa.ProjetoJPARepository;
+import com.grupo2.projeto.repository.jpa.ProjetoJPARepository;*/
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class ProjetoRepositoryUnitTests
 {
-    @MockBean
+   /* @MockBean
     private ProjetoJPARepository jpaRepository;
     @MockBean
     private ProjetoJPAMapper mapper;
@@ -90,5 +90,5 @@ class ProjetoRepositoryUnitTests
 
         assertEquals(2, conteudo.size());
     }
-
+*/
 }
