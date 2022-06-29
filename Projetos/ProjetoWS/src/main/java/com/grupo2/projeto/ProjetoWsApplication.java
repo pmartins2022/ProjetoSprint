@@ -1,6 +1,7 @@
 package com.grupo2.projeto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo2.projeto.dto.*;
+import com.grupo2.projeto.model.*;
 import com.grupo2.projeto.repository.UtilizadorJDBCRepository;
 import com.grupo2.projeto.repository.OrganizacaoJDBCRepository;
 import com.grupo2.projeto.service.AvaliacaoService;
@@ -36,14 +37,6 @@ public class ProjetoWsApplication
 	{
 		return (args) ->
 		{
-
-			List<UtilizadorDTO> l = utilizadorJDBCRepository.findAll();
-
-			l.forEach(System.out::println);
-
-			UtilizadorDTO d = utilizadorJDBCRepository.findById(1L);
-
-			System.out.println(d);
 			/*String talUt = TableCreator.generateFromTable(UtilizadorDTO.class);
 			String talUC = TableCreator.generateFromTable(UnidadeCurricularDTO.class);
 			String talED = TableCreator.generateFromTable(EdicaoUCDTO.class);
@@ -53,6 +46,7 @@ public class ProjetoWsApplication
 			String talMO = TableCreator.generateFromTable(MomentoAvaliacaoDTO.class);
 			String talAV = TableCreator.generateFromTable(Avaliacao.class);
 			String talORG = TableCreator.generateFromTable(OrganizacaoDTO.class);
+			String talMAN = TableCreator.generateFromTable(MomentoAvaliacaoNota.class);
 
 			System.out.println(talORG);
 			System.out.println(talUt);
@@ -64,7 +58,9 @@ public class ProjetoWsApplication
 
 			System.out.println(talCO);
 			System.out.println(talMO);
-			System.out.println(talAV);*/
+			System.out.println(talAV);
+
+			System.out.println(talMAN);*/
 
 		};
 	}

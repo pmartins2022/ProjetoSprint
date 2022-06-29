@@ -484,6 +484,60 @@
                               </BorderPane>
                            </content>
                         </Tab>
+                        <Tab text="Rever AvaliaçãoNota">
+                           <content>
+                              <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="660.0">
+                                 <top>
+                                    <Label text="Pedir Revisão/Concluir AvaliaçãoNota" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets top="20.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="98.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#reviewAvaliacaoNota" prefWidth="170.0" text="Pedir Revisão">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button layoutX="265.0" layoutY="47.0" mnemonicParsing="false" onAction="#concludeAvaliacaoNota" prefWidth="170.0" text="Conlcuir" />
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <center>
+                                    <GridPane BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label layoutX="193.0" layoutY="43.0" text="AvaliaçãoNota Disponiveis:" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <ChoiceBox fx:id="avaliacaoNotaChoice" prefWidth="500.0" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </ChoiceBox>
+                                       </children>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </content>
+                        </Tab>
                     </tabs>
                   </TabPane>
                </content>

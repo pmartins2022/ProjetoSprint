@@ -58,6 +58,7 @@ public class DocenteMainWindowViewController
     public ChoiceBox<AvaliacaoDTO> avaliacaoChoice;
     public TextField avaliacaoNotaText;
     public TextArea justificacaoNotaText;
+    public ChoiceBox avaliacaoNotaChoice;
 
     private DocenteController docenteController;
     private PropostaController propostaController;
@@ -383,7 +384,36 @@ public class DocenteMainWindowViewController
             conviteChoice.getItems().clear();
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
         }
+    }
 
+    private void iniciarRevisaoAvaliacaoNota()
+    {
+        try
+        {
+            avaliacaoNotaChoice.getItems().clear();
+            avaliacaoNotaChoice.getSelectionModel().selectFirst();
+            avaliacaoNotaChoice.getItems().addAll(propostaController.findAllAvaliacaoNotaByRucIDAndEstado("PENDENTE"));
+        } catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            avaliacaoNotaChoice.getItems().clear();
+        } catch (Exception e)
+        {
+            avaliacaoNotaChoice.getItems().clear();
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+    public void reviewAvaliacaoNota(ActionEvent actionEvent)
+    {
+        propostaController.reviewAvaliacaoNota(avaliacaoNotaChoice.getSelectionModel().getSelectedItem());
+        AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "Alteração para REVISAO", "Sucesso na alteração de AvaliaçãoNota");
+    }
+
+    public void concludeAvaliacaoNota(ActionEvent actionEvent)
+    {
+        propostaController.concludeAvaliacaoNota(avaliacaoNotaChoice.getSelectionModel().getSelectedItem());
+        AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "Alteração para REVISAO", "Sucesso na alteração de AvaliaçãoNota");
     }
 
     public void mainTabPaneChanged(Number t1)
@@ -428,6 +458,7 @@ public class DocenteMainWindowViewController
             case 0 -> iniciarGerirProposta();
             case 1 -> iniciarGerirCandidaturaProposta();
             case 2 -> iniciarDefinirJuriAvaliacao();
+            case 3 -> iniciarRevisaoAvaliacaoNota();
         }
     }
 

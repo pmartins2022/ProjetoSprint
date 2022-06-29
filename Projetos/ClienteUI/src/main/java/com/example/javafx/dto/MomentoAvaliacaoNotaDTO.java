@@ -1,18 +1,12 @@
-package com.grupo2.projeto.model;
+package com.example.javafx.dto;
 
-import com.grupo2.projeto.model.annotations.ForeignKey;
-import com.grupo2.projeto.model.annotations.IgnoreField;
-import com.grupo2.projeto.model.annotations.PrimaryKey;
-import com.grupo2.projeto.model.annotations.Table;
 
-@Table(tableName = "MOMENTOAVALIACAONOTA")
-public class MomentoAvaliacaoNota extends JDBCTable
+import com.example.javafx.model.EstadoAvaliacao;
+
+public class MomentoAvaliacaoNotaDTO
 {
-    @IgnoreField
-    @PrimaryKey( generated = true)
     private Long id;
 
-    @ForeignKey( className = Avaliacao.class, fieldName = "ID")
     private Long idAvaliacao;
 
     private Integer nota;
@@ -21,23 +15,15 @@ public class MomentoAvaliacaoNota extends JDBCTable
 
     private EstadoAvaliacao estadoAvaliacao;
 
-    public MomentoAvaliacaoNota(){}
+    public MomentoAvaliacaoNotaDTO(){}
 
-    public MomentoAvaliacaoNota(Long idAvaliacao, Integer nota, String justificacao)
-    {
-        this.idAvaliacao = idAvaliacao;
-        this.nota = nota;
-        this.justificacao = justificacao;
-        this.estadoAvaliacao = EstadoAvaliacao.PENDENTE;
-    }
-
-    public MomentoAvaliacaoNota(Long id, Long idAvaliacao, Integer nota, String justificacao, String estadoAvaliacao)
+    public MomentoAvaliacaoNotaDTO(Long id, Long idAvaliacao, Integer nota, String justificacao, EstadoAvaliacao estadoAvaliacao)
     {
         this.id = id;
         this.idAvaliacao = idAvaliacao;
         this.nota = nota;
         this.justificacao = justificacao;
-        this.estadoAvaliacao = EstadoAvaliacao.valueOf(estadoAvaliacao);
+        this.estadoAvaliacao = estadoAvaliacao;
     }
 
     public Long getId()
@@ -88,10 +74,5 @@ public class MomentoAvaliacaoNota extends JDBCTable
     public void setEstadoAvaliacao(EstadoAvaliacao estadoAvaliacao)
     {
         this.estadoAvaliacao = estadoAvaliacao;
-    }
-
-    public void updateEstado(EstadoAvaliacao estado)
-    {
-        this.estadoAvaliacao = estado;
     }
 }

@@ -3,10 +3,8 @@ package com.example.javafx.service;
 import com.example.javafx.dto.*;
 import com.example.javafx.dto.factory.PropostaCandidaturaIDDTOFactory;
 import com.example.javafx.exception.RestPostException;
-import com.example.javafx.repository.rest.EdicaoUCRestRepo;
-import com.example.javafx.repository.rest.OrganizacaoRestRepo;
-import com.example.javafx.repository.rest.PropostaRestRepo;
-import com.example.javafx.repository.rest.UtilizadorRestRepository;
+import com.example.javafx.model.LoginContext;
+import com.example.javafx.repository.rest.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +24,15 @@ public class PropostaService
 
     @Autowired
     private PropostaRestRepo propostaRestRepo;
-
+    @Autowired
+    private AvaliacaoRestRepo avaliacaoRestRepo;
     @Autowired
     private UtilizadorRestRepository utilizadorRestRepository;
 
     @Autowired
     private PropostaCandidaturaIDDTOFactory idFactory;
+
+
 
     /**
      * Obter lista de todas as organizações.
@@ -140,5 +141,10 @@ public class PropostaService
     public PropostaCandidaturaDTO alunoCandidaturaProposta(Long propostaID)
     {
         return propostaRestRepo.alunoCandidaturaProposta(propostaID);
+    }
+
+    public List<MomentoAvaliacaoNotaDTO> findAllAvaliacaoNotaByRucIDAndEstado(Long rucID, String estado)
+    {
+        return avaliacaoRestRepo.findAllByEstadoAndRucID(rucID, estado);
     }
 }

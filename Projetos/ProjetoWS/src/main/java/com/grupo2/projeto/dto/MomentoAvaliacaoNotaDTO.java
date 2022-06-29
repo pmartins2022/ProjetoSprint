@@ -5,10 +5,8 @@ import com.grupo2.projeto.model.JDBCTable;
 import com.grupo2.projeto.model.annotations.PrimaryKey;
 import com.grupo2.projeto.model.annotations.Table;
 
-@Table(tableName = "MOMENTOAVALIACAONOTA")
-public class MomentoAvaliacaoNotaDTO extends JDBCTable
+public class MomentoAvaliacaoNotaDTO
 {
-    @PrimaryKey(generated = false)
     private Long id;
 
     private Long idAvaliacao;

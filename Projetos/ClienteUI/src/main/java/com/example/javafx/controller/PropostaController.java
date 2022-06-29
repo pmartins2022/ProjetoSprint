@@ -4,6 +4,7 @@ import com.example.javafx.dto.*;
 import com.example.javafx.dto.factory.PropostaDTOFactory;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
+import com.example.javafx.model.LoginContext;
 import com.example.javafx.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -162,6 +163,21 @@ public class PropostaController
     public PropostaCandidaturaDTO createAlunoCandidaturaProposta(Long propostaID)
     {
         return propostaService.alunoCandidaturaProposta(propostaID);
+    }
+
+    public List<MomentoAvaliacaoNotaDTO> findAllAvaliacaoNotaByRucIDAndEstado(String estado)
+    {
+        return propostaService.findAllAvaliacaoNotaByRucIDAndEstado(LoginContext.getCurrentUser().getId(), estado);
+    }
+
+    public void reviewAvaliacaoNota(Object selectedItem)
+    {
+
+    }
+
+    public void concludeAvaliacaoNota(Object selectedItem)
+    {
+
     }
 }
 

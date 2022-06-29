@@ -4,6 +4,8 @@ package com.grupo2.projeto.controller;
 import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
 import com.grupo2.projeto.exception.*;
+import com.grupo2.projeto.model.MomentoAvaliacaoNota;
+import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.MomentoAvaliacaoNotaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,13 +22,13 @@ import java.util.Optional;
 @RequestMapping("/avaliacao")
 public class AvaliacaoController
 {
-    /*@Autowired
+    @Autowired
     private AvaliacaoService service;
 
     @Autowired
     private MomentoAvaliacaoNotaService momentoAvaliacaoNotaService;
 
- /*   @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+   /* @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/criar")
     public ResponseEntity<AvaliacaoDTO> createAvaliacao(@RequestBody AvaliacaoDTO avaliacaoDTO)
     {
@@ -89,28 +92,63 @@ public class AvaliacaoController
 
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
-*/
-//    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-//    @PostMapping("/avaliar")
-//    public ResponseEntity<Object> createAvaliacaoNota(@RequestBody MomentoAvaliacaoNotaDTO dto)
-//    {
-//        try
-//        {
-//            int row = momentoAvaliacaoNotaService.createAvaliacaoNota(dto);
-//
-//            if (row == 0)
-//            {
-//                throw new ErroGeralException("NAO FOI POSSIVEL GRAVAR NA DB");
-//            }
-//
-//            return new ResponseEntity<>(null, HttpStatus.CREATED);
-//        }
-//        catch (Exception e)
-//        {
-//            throw new RuntimeException(e.getMessage());
-//        }
-//    }
+    */
 
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PostMapping("/avaliar")
+    public ResponseEntity<Object> createAvaliacaoNota(@RequestBody MomentoAvaliacaoNotaDTO dto)
+    {
+        try
+        {
+            int row = momentoAvaliacaoNotaService.createAvaliacaoNota(dto);
 
+            if (row == 0)
+            {
+                throw new ErroGeralException("NAO FOI POSSIVEL GRAVAR NA DB");
+            }
+            return new ResponseEntity<>(null, HttpStatus.CREATED);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/{rucID}")
+    public ResponseEntity<List<MomentoAvaliacaoNotaDTO>> findAllByEstadoAndRucID(@RequestParam("estado") String estado)
+    {
+        try
+        {
+            List<MomentoAvaliacaoNotaDTO> list = momentoAvaliacaoNotaService.findAllByEstadoAndRucID(LoginContext.getCurrent().getId(), estado);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
+        catch(IllegalArgumentException e)
+        {
+            throw new ValidacaoInvalidaException(e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PutMapping("/reverAvaliacao/{id}")
+    public ResponseEntity<Object> reviewAvaliacao(@PathVariable("id") Long id, @RequestParam("avaliacao") String avaliacao)
+    {
+        try
+        {
+            momentoAvaliacaoNotaService.reviewAvaliacao(id, avaliacao);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch(IllegalArgumentException e)
+        {
+            throw new ValidacaoInvalidaException(e.getMessage());
+        }
+        catch(OptionalVazioException e)
+        {
+            throw e;
+        }
+        catch(ValidacaoInvalidaException e)
+        {
+            throw e;
+        }
+    }
 }

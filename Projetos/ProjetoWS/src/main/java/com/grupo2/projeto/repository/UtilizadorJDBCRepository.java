@@ -25,7 +25,7 @@ public class UtilizadorJDBCRepository implements GenericRepository<UtilizadorDTO
     public List<UtilizadorDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FUNC_FIND_ALL_UTILIZADOR");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),UtilizadorDTO.class);
     }
 
@@ -38,7 +38,6 @@ public class UtilizadorJDBCRepository implements GenericRepository<UtilizadorDTO
               .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(id),UtilizadorDTO.class);
     }
-
 
     @Override
     public void insert(UtilizadorDTO dto)

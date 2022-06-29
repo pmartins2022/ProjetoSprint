@@ -2,6 +2,7 @@ package com.example.javafx.repository.rest;
 
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.AvaliacaoDTO;
+import com.example.javafx.dto.MomentoAvaliacaoNotaDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.model.LoginContext;
@@ -27,6 +28,26 @@ public class AvaliacaoRestRepo
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(new ParameterizedTypeReference<List<AvaliacaoDTO>>()
+            {
+            }).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+    public List<MomentoAvaliacaoNotaDTO> findAllByEstadoAndRucID(Long rucID, String estado)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/"+ rucID +"?estado="+estado).get()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<MomentoAvaliacaoNotaDTO>>()
             {
             }).block();
         }
