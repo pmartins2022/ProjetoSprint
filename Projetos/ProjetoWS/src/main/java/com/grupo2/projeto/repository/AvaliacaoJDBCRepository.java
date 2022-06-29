@@ -76,4 +76,13 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
                 .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(projetoID),Avaliacao.class);
     }
+//retorna Lista!!!!!!
+    public List <Avaliacao> findByPresidenteId(Long presidenteId) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FUNC_FIND_AVALIACAO_PRESIDENTEID")
+                .declareParameters(new SqlParameter("presidenteID", OracleTypes.NUMBER))
+                .withReturnValue();
+        return ObjectMapper.mapToObjectList(jdbcCall.execute(presidenteId),Avaliacao.class);
+    }
 }

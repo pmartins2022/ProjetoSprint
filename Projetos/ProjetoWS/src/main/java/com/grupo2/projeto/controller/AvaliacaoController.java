@@ -100,12 +100,7 @@ public class AvaliacaoController
     {
         try
         {
-            int row = momentoAvaliacaoNotaService.createAvaliacaoNota(dto);
-
-            if (row == 0)
-            {
-                throw new ErroGeralException("NAO FOI POSSIVEL GRAVAR NA DB");
-            }
+            momentoAvaliacaoNotaService.createAvaliacaoNota(dto);
             return new ResponseEntity<>(null, HttpStatus.CREATED);
         }
         catch (Exception e)

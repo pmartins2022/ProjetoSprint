@@ -4,9 +4,7 @@ import com.grupo2.projeto.dto.EdicaoUCDTO;
 import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
 import com.grupo2.projeto.dto.PropostaDTO;
 import com.grupo2.projeto.dto.mapper.MomentoAvaliacaoNotaMapper;
-import com.grupo2.projeto.exception.ListaVaziaException;
-import com.grupo2.projeto.exception.OptionalVazioException;
-import com.grupo2.projeto.exception.ValidacaoInvalidaException;
+import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.EstadoAvaliacao;
 import com.grupo2.projeto.model.MomentoAvaliacaoNota;
@@ -43,18 +41,42 @@ public class MomentoAvaliacaoNotaService
     private MomentoAvaliacaoNotaJDBCRepository momentoAvaliacaoNotaJDBCRepository;
 
 
-    public int createAvaliacaoNota(MomentoAvaliacaoNotaDTO dto) throws IllegalAccessException
+    public void createAvaliacaoNota(MomentoAvaliacaoNotaDTO dto) throws IllegalAccessException
     {
-        //idAvaliacao
-        //Presidente está em várias avaliacoes
 
-        //pelo idAvalicao findByID o Presinete  e ver se é idAvaliacao.idPresidente == LoginContext.presidente
-        //ver se NAO está em REVISAO OU CONCLUIDA
-        //Se ESTIVER em REVISAO a nota tem que ser NULL
+        //Validar Avalçiação
+        Avaliacao avaliacao = null;
+        try
+        {
+            avaliacao = avaliacaoJDBCRepository.findById(dto.getIdAvaliacao());
+        } catch (Exception e)
+        {
+            throw new IdInvalidoException("Não este ID não pertence a um presidente: " + dto.getIdAvaliacao());
+        }
 
-        //MomentoAvaliacaoNota mom = mapper.toModel(dto);
-        //return repository.createAvaliacaoNota(mom);
-        return 0;
+        if (!(avaliacao.getPresidenteId().equals(LoginContext.getCurrent().getId())))
+        {
+            throw new ValidacaoInvalidaException("Nao es presidente desta avaliacao");
+        }
+
+
+        MomentoAvaliacaoNota nota = null;
+
+        try
+        {
+            nota = momentoAvaliacaoNotaJDBCRepository.findByIdAvaliacao(avaliacao.getId());
+        } catch (Exception ignored)
+        {
+        }
+
+        if (nota != null)
+        {
+            throw new ErroGeralException("Esta avaliacao ja contem uma nota.");
+        }
+
+        MomentoAvaliacaoNota mom = mapper.toModel(dto);
+
+         momentoAvaliacaoNotaJDBCRepository.insert(mom);
     }
 
     public void reviewAvaliacao(Long idAvaliacaoNota, String avaliacao)
