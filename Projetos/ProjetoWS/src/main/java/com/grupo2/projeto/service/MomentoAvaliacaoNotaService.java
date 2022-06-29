@@ -12,7 +12,6 @@ import com.grupo2.projeto.model.EstadoAvaliacao;
 import com.grupo2.projeto.model.MomentoAvaliacaoNota;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.*;
-import com.grupo2.projeto.repository.jdbc.GenericJDBCRepository;
 import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -162,36 +161,71 @@ public class MomentoAvaliacaoNotaService
     public List<MomentoAvaliacaoNotaDTO> findAllByEstadoAndRucID(Long rucID, String estado)
     {
         //VER SE RUC TEM UMA EDICAO ATVA
-        Optional<EdicaoUC> edicaoUCActive = edicaoUCJDBCRepository.findByRucIDAndEstadoEdicaoUC(rucID);
-
-        if(edicaoUC.isEmpty())
+        EdicaoUCDTO edicaoUCActive = null;
+        try
         {
-            throw new OptionalVazioException("RUC não tem nenhuma Edição Ativa");
+            edicaoUCActive = edicaoUCJDBCRepository.findByRucIDAndEdicaoUCActive(rucID);
+        } catch (Exception e)
+        {
+            throw new OptionalVazioException("RUC não tem nenhuma ediçãoUC ativa.");
         }
 
         //LISTA DE PROPOSTAS DESSA EDICAO
-        List<PropostaDTO> listProposta = propostaRepository.findAllByEdicaoUCID(edicaoUCActive.getId());
-
-        if(listProposta.isEmpty())
+        List<PropostaDTO> listProposta = null;
+        try
+        {
+            listProposta = propostaJDBCRepository.findAllByEdicaoUCID(edicaoUCActive.getId());
+        } catch (Exception e)
         {
             throw new OptionalVazioException("Não há propostas nessa Edição: "+ edicaoUCActive.getId());
         }
 
-        //LISTA DE AVALIACOES DE CADA UMA DAS PROPOSTAS
-        List<AvaliacaoDTO> avaliacaoList = avaliacaoRepository.findAllByPropostaId();
+        //LISTA DE PROJETOS DESSA EDICAO
+        List<Projeto> listProjeto = null;
+        try
+        {
+            for (PropostaDTO p :
+                    listProposta)
+            {
+                listProjeto.add(projetoJDBCRepository.findByPropostaId(p.getId()));
+            }
+        } catch (Exception e)
+        {
+            throw new OptionalVazioException("Não há propostas nessa Edição: "+ edicaoUCActive.getId());
+        }
 
-        List<MomentoAvaliacaoNotaDTO> avaliacaoNotaList = new ArrayList<>();
+
+        //LISTA DE AVALIACOES DE CADA UMA DAS PROPOSTAS
+        List<Avaliacao> avaliacaoList =new ArrayList<>();
+
+        try
+        {
+            for (Projeto p:
+                 listProjeto)
+            {
+                avaliacaoList.add(avaliacaoJDBCRepository.findAllByProjetoId(p.getId()));
+            }
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
 
         //PARA CADA AVALIACAO PEGAR NA SUA RESPETIVA MOMENTOAVALIACAONOTA
-        for (int i = 0; i < listProposta.size(); i++)
+        List<MomentoAvaliacaoNota> avaliacaoNotaList = new ArrayList<>();
+
+        try
         {
-            avaliacaoNotaList.add(avaliacaoRepository.findAllByPropostaId(listProposta.get(i).getId()));
+            for (Avaliacao avaliacao :
+                    avaliacaoList)
+            {
+                avaliacaoNotaList.add(momentoAvaliacaoNotaJDBCRepository.findByIdAvaliacao(avaliacao.getId()));
+            }
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
         }
 
-        if (avaliacaoNotaList.isEmpty())
-        {
-            throw new ListaVaziaException("Não há momentos de avaliação de nota.");
-        }
 
         EstadoAvaliacao value;
         try

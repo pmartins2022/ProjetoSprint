@@ -1,6 +1,7 @@
 package com.grupo2.projeto.repository;
 
 
+import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
 import com.grupo2.projeto.model.MomentoAvaliacaoNota;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
@@ -64,5 +65,14 @@ public class MomentoAvaliacaoNotaJDBCRepository implements GenericRepository<Mom
     public void deleteById(Long id)
     {
 
+    }
+
+    public MomentoAvaliacaoNota findByIdAvaliacao(Long idAvaliacao) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FNC_FIND_MOMENTOAVALIACAONOTA_IDAVALIACAO")
+                .declareParameters(new SqlParameter("idAvaliacao", OracleTypes.NUMBER))
+                .withReturnValue();
+        return ObjectMapper.mapToObject(jdbcCall.execute(idAvaliacao),MomentoAvaliacaoNota.class);
     }
 }

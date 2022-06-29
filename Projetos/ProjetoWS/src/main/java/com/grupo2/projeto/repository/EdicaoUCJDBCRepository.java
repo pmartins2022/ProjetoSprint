@@ -1,7 +1,6 @@
 package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.dto.EdicaoUCDTO;
-import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -64,4 +63,12 @@ public class EdicaoUCJDBCRepository implements GenericRepository<EdicaoUCDTO>
 
     }
 
+    public EdicaoUCDTO findByRucIDAndEdicaoUCActive(Long rucID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FNC_FIND_EDICAOUC_RUCID_ATIVA")
+                .declareParameters(new SqlParameter("rucID", OracleTypes.NUMBER))
+                .withReturnValue();
+        return ObjectMapper.mapToObject(jdbcCall.execute(rucID),EdicaoUCDTO.class);
+    }
 }

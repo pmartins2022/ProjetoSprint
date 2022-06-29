@@ -68,4 +68,13 @@ public class PropostaJDBCRepository implements GenericRepository<PropostaDTO>
     {
 
     }
+
+    public List<PropostaDTO> findAllByEdicaoUCID(Long edicaoUCID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FNC_FINDALL_PROPOSTA_EDICAOID")
+                .declareParameters(new SqlParameter("EDICAOUCID", OracleTypes.NUMBER))
+                .withReturnValue();
+        return ObjectMapper.mapToObjectList(jdbcCall.execute(edicaoUCID),PropostaDTO.class);
+    }
 }

@@ -63,4 +63,13 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
     {
 
     }
+
+    public Projeto findByPropostaId(Long propostaID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FNC_FIND_PROJETO_PROPOSTAID")
+                .declareParameters(new SqlParameter("propostaID", OracleTypes.NUMBER))
+                .withReturnValue();
+        return ObjectMapper.mapToObject(jdbcCall.execute(propostaID),Projeto.class);
+    }
 }

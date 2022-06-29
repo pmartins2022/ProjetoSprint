@@ -1,5 +1,6 @@
 package com.grupo2.projeto.dto;
 
+import com.grupo2.projeto.model.EstadoEdicaoUC;
 import com.grupo2.projeto.model.annotations.ForeignKey;
 import com.grupo2.projeto.model.annotations.IgnoreField;
 import com.grupo2.projeto.model.JDBCTable;
@@ -31,6 +32,8 @@ public class EdicaoUCDTO extends JDBCTable
     @ForeignKey( className = UtilizadorDTO.class, fieldName = "ID")
     private Long rucID;
 
+    private EstadoEdicaoUC estadoEdicaoUC;
+
     /**
      * Inicializa a EdicaoUCDTO sem parametros
      */
@@ -44,11 +47,12 @@ public class EdicaoUCDTO extends JDBCTable
      * @param ucCode é o ucCode de Edição de Unidade Curricular
      * @param anoLetivoCode é o anoLetivoCode de Edição de Unidade Curricular
      */
-    public EdicaoUCDTO(String ucCode, String anoLetivoCode, Long rucID)
+    public EdicaoUCDTO(String ucCode, String anoLetivoCode, Long rucID, String estadoEdicaoUC)
     {
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
+        this.estadoEdicaoUC = EstadoEdicaoUC.valueOf(estadoEdicaoUC);
     }
 
     /**

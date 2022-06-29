@@ -68,4 +68,12 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
     {
 
     }
+    public Avaliacao findAllByProjetoId(Long projetoID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FUNC_FINDALL_AVALIACAO_PROJETOID")
+                .declareParameters(new SqlParameter("projetoID", OracleTypes.NUMBER))
+                .withReturnValue();
+        return ObjectMapper.mapToObject(jdbcCall.execute(projetoID),Avaliacao.class);
+    }
 }
