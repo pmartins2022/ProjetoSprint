@@ -63,7 +63,7 @@ public class Conteudo extends JDBCTable
         }
     }
 
-    public Conteudo(Long id, Long idProjeto, String titulo, String caminhoDocumento, String documento, String linguagemDocumento, EstadoConteudo estadoConteudo)
+    public Conteudo(Long id, Long idProjeto, String titulo, String caminhoDocumento, String documento, String linguagemDocumento, String estadoConteudo)
     {
         this.id = id;
         this.idProjeto = idProjeto;
@@ -102,7 +102,7 @@ public class Conteudo extends JDBCTable
             this.estadoConteudo = EstadoConteudo.PENDENTE;
         } else
         {
-            this.estadoConteudo = estadoConteudo;
+            this.estadoConteudo = EstadoConteudo.valueOf(estadoConteudo);
         }
     }
 

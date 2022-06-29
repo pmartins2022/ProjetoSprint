@@ -1,6 +1,7 @@
-package com.grupo2.projeto.repository.jdbc;
+package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.dto.OrganizacaoDTO;
+import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,14 +1,8 @@
 package com.grupo2.projeto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo2.projeto.dto.*;
-import com.grupo2.projeto.model.Avaliacao;
-import com.grupo2.projeto.model.Conteudo;
-import com.grupo2.projeto.model.Projeto;
-import com.grupo2.projeto.model.TipoUtilizador;
 import com.grupo2.projeto.repository.UtilizadorJDBCRepository;
-import com.grupo2.projeto.repository.jdbc.OrganizacaoJDBCRepository;
-import com.grupo2.projeto.repository.jdbc.reflection.ObjectCreator;
-import com.grupo2.projeto.repository.jdbc.reflection.TableCreator;
+import com.grupo2.projeto.repository.OrganizacaoJDBCRepository;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.ConteudoService;
 import com.grupo2.projeto.service.ProjetoService;
@@ -17,7 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.util.*;
 
