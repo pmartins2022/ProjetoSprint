@@ -71,7 +71,7 @@ public class PropostaDTO extends JDBCTable implements Serializable
      * @param edicaoUCId e o edicaoUCId de PropostaDTO
      * @param estadoAtual e o estadoAtual de PropostaDTO
      */
-    public PropostaDTO(Long id, Long utilizadorId, Long organizacaoId, String titulo, String problema, String objetivo, Long edicaoUCId, PropostaEstado estadoAtual)
+    public PropostaDTO(Long id, Long utilizadorId, Long organizacaoId, String titulo, String problema, String objetivo, Long edicaoUCId, String estadoAtual)
     {
         this.id = id;
         this.utilizadorId = utilizadorId;
@@ -80,7 +80,7 @@ public class PropostaDTO extends JDBCTable implements Serializable
         this.problema = problema;
         this.objetivo = objetivo;
         this.edicaoUCId = edicaoUCId;
-        this.estadoAtual = estadoAtual;
+        this.estadoAtual = PropostaEstado.valueOf(estadoAtual);
     }
 
     /**

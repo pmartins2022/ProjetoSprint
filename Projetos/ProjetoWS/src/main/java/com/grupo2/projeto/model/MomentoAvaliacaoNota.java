@@ -1,7 +1,5 @@
 package com.grupo2.projeto.model;
 
-import com.grupo2.projeto.dto.AvaliacaoDTO;
-import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
 import com.grupo2.projeto.model.annotations.ForeignKey;
 import com.grupo2.projeto.model.annotations.IgnoreField;
 import com.grupo2.projeto.model.annotations.PrimaryKey;
