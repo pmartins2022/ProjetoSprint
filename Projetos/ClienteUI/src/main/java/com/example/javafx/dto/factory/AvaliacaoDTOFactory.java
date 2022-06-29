@@ -10,6 +10,6 @@ public class AvaliacaoDTOFactory
     public AvaliacaoDTO create(Long idMomentoAvaliacao, Long idOrientador, Long idPresidente,
                                Long idArguente, Long idProjeto, Long idConteudo)
     {
-        return new AvaliacaoDTO(idMomentoAvaliacao, idPresidente, idOrientador, idArguente, idProjeto, idConteudo, 19);
+        return new AvaliacaoDTO(idMomentoAvaliacao, idPresidente, idOrientador, idArguente, idProjeto, idConteudo);
     }
 }

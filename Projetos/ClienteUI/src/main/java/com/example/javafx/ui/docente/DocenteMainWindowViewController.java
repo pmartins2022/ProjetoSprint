@@ -1,6 +1,7 @@
 package com.example.javafx.ui.docente;
 
 import com.example.javafx.controller.PropostaController;
+import com.example.javafx.controller.docente.AvaliacaoController;
 import com.example.javafx.controller.docente.DocenteController;
 import com.example.javafx.controller.docente.ProjetoController;
 import com.example.javafx.dto.*;
@@ -54,10 +55,14 @@ public class DocenteMainWindowViewController
     public TabPane mainPaneID;
     public TextField alunoIDTxt;
     public Button confirmarECriarAvaliacao;
+    public ChoiceBox<AvaliacaoDTO> avaliacaoChoice;
+    public TextField avaliacaoNotaText;
+    public TextArea justificacaoNotaText;
 
     private DocenteController docenteController;
     private PropostaController propostaController;
     private ProjetoController projetoController;
+    private AvaliacaoController avaliacaoController;
 
     @FXML
     public void logOut(ActionEvent event)
@@ -66,11 +71,12 @@ public class DocenteMainWindowViewController
         closeWindow(null);
     }
 
-    public void setController(DocenteController docenteController, PropostaController propostaController, ProjetoController projetoController)
+    public void setController(DocenteController docenteController, PropostaController propostaController, ProjetoController projetoController, AvaliacaoController avaliacaoController)
     {
         this.docenteController = docenteController;
         this.propostaController = propostaController;
         this.projetoController = projetoController;
+        this.avaliacaoController = avaliacaoController;
 
         mainPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> mainTabPaneChanged(t1));
         docentePaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> docenteTabPaneChanged(t1));
@@ -398,6 +404,7 @@ public class DocenteMainWindowViewController
                 iniciarGerirProposta();
             }
             case 3 -> iniciarGerirSubmissao();
+            case 4 -> iniciarTabPresidente();
         }
     }
 
@@ -424,6 +431,24 @@ public class DocenteMainWindowViewController
         }
     }
 
+    private void iniciarTabPresidente()
+    {
+        try
+        {
+            avaliacaoChoice.getItems().clear();
+            avaliacaoChoice.getItems().addAll(avaliacaoController.findEditableAvaliacoes());
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            avaliacaoChoice.getItems().clear();
+        } catch (Exception e)
+        {
+            avaliacaoChoice.getItems().clear();
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
     private void iniciarTabHome()
     {
         docenteDTOText.setText(LoginContext.getCurrentUser().toString());
@@ -433,5 +458,22 @@ public class DocenteMainWindowViewController
     {
         userIdText.getScene().getWindow().fireEvent(
                 new WindowEvent(userIdText.getScene().getWindow(), javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST));
+    }
+
+    public void preencherNota(ActionEvent actionEvent)
+    {
+        try
+        {
+            
+        }
+        catch (ErrorDetail e)
+        {
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
+            avaliacaoChoice.getItems().clear();
+        } catch (Exception e)
+        {
+            avaliacaoChoice.getItems().clear();
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
     }
 }

@@ -6,6 +6,7 @@ import com.example.javafx.controller.admin.AnoLetivoController;
 import com.example.javafx.controller.admin.EdicaoUCController;
 import com.example.javafx.controller.admin.UnidadeCurricularController;
 import com.example.javafx.controller.aluno.AlunoController;
+import com.example.javafx.controller.docente.AvaliacaoController;
 import com.example.javafx.controller.docente.DocenteController;
 import com.example.javafx.controller.docente.ProjetoController;
 import com.example.javafx.dto.UtilizadorAuthDTO;
@@ -64,6 +65,9 @@ public class LoginViewController
 
     @Autowired
     private PropostaController propostaController;
+
+    @Autowired
+    private AvaliacaoController avaliacaoController;
 
     @Autowired
     private UtilizadorRestRepository utilizadorRestRepository;
@@ -125,7 +129,7 @@ public class LoginViewController
         stage.setScene(new Scene(fxmlLoader.load()));
         stage.initModality(Modality.APPLICATION_MODAL);
 
-        fxmlLoader.<DocenteMainWindowViewController>getController().setController(docenteController, propostaController, projetoController);
+        fxmlLoader.<DocenteMainWindowViewController>getController().setController(docenteController, propostaController, projetoController, avaliacaoController);
 
         stage.setResizable(false);
 
