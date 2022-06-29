@@ -22,13 +22,13 @@ public class UtilizadorDTO extends JDBCTable
     {
     }
 
-    public UtilizadorDTO(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
+    public UtilizadorDTO(Long id, String nome, String sobrenome, String email, String tipoUtilizador)
     {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
-        this.tipoUtilizador = tipoUtilizador;
+        this.tipoUtilizador = TipoUtilizador.valueOf(tipoUtilizador);
     }
 
     public Long getId()
@@ -79,5 +79,17 @@ public class UtilizadorDTO extends JDBCTable
     public void setTipoUtilizador(TipoUtilizador tipoUtilizador)
     {
         this.tipoUtilizador = tipoUtilizador;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "UtilizadorDTO{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", email='" + email + '\'' +
+                ", tipoUtilizador=" + tipoUtilizador +
+                '}';
     }
 }

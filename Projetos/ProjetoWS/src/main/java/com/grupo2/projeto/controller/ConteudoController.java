@@ -19,7 +19,7 @@ public class ConteudoController
     /*@Autowired
     private ConteudoService service;
 
-   /* @PreAuthorize("hasAuthority('ROLE_ALUNO')")
+   @PreAuthorize("hasAuthority('ROLE_ALUNO')")
     @PostMapping("/criar")
     public ResponseEntity<Object> createConteudo(@RequestBody ConteudoDTO conteudoDTO)
     {

@@ -4,7 +4,9 @@ import com.grupo2.projeto.dto.*;
 import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.model.Projeto;
-import com.grupo2.projeto.repository.jdbc.RepositoryJDBCProjeto;
+import com.grupo2.projeto.model.TipoUtilizador;
+import com.grupo2.projeto.repository.UtilizadorJDBCRepository;
+import com.grupo2.projeto.repository.jdbc.OrganizacaoJDBCRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectCreator;
 import com.grupo2.projeto.repository.jdbc.reflection.TableCreator;
 import com.grupo2.projeto.service.AvaliacaoService;
@@ -15,20 +17,21 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @SpringBootApplication
 public class ProjetoWsApplication
 {
 	@Autowired
-	RepositoryJDBCProjeto repositoryJDBCProjeto;
+	OrganizacaoJDBCRepository organizacaoJDBCRepository;
 
 	@Autowired
 	ObjectMapper objectMapper;
+
+	@Autowired
+	UtilizadorJDBCRepository utilizadorJDBCRepository;
 
 	public static void main(String[] args) throws IllegalAccessException
 	{
@@ -41,32 +44,13 @@ public class ProjetoWsApplication
 		return (args) ->
 		{
 
-			//System.out.println(repositoryJDBCProjeto.findAll());
+			List<UtilizadorDTO> l = utilizadorJDBCRepository.findAll();
 
-			List<OrganizacaoDTO> orgs = new ArrayList<>();
+			l.forEach(System.out::println);
 
-			Map<String, Object> map = repositoryJDBCProjeto.findAllAnotherWay2();
+			UtilizadorDTO d = utilizadorJDBCRepository.findById(1L);
 
-			ArrayList<Object> mp = (ArrayList<Object>) map.get("return");
-			for (int i = 0; i < mp.size(); i++)
-			{
-				LinkedCaseInsensitiveMap<Object> obj = (LinkedCaseInsensitiveMap<Object>) mp.get(i);
-
-
-				OrganizacaoDTO object = ObjectCreator.createObject(OrganizacaoDTO.class, obj.values().stream().toList());
-
-				orgs.add(object);
-			}
-
-			System.out.println("Dados retornados:");
-			System.out.println(mp.size());
-
-			orgs.forEach(System.out::println);
-
-//			List<OrganizacaoDTO> all = repositoryJDBCProjeto.findAll();
-//
-//			all.forEach(System.out::println);
-
+			System.out.println(d);
 			/*String talUt = TableCreator.generateFromTable(UtilizadorDTO.class);
 			String talUC = TableCreator.generateFromTable(UnidadeCurricularDTO.class);
 			String talED = TableCreator.generateFromTable(EdicaoUCDTO.class);

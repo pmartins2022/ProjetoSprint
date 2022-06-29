@@ -3,6 +3,7 @@ package com.grupo2.projeto.dto;
 import com.grupo2.projeto.model.JDBCTable;
 import com.grupo2.projeto.model.annotations.PrimaryKey;
 import com.grupo2.projeto.model.annotations.Table;
+import com.grupo2.projeto.model.annotations.Unique;
 
 import java.util.Objects;
 
@@ -15,11 +16,12 @@ public class OrganizacaoDTO extends JDBCTable
     /**
      * Id de OrganizaoDTO
      */
-    @PrimaryKey( generated = false)
+
+    @PrimaryKey( generated = true)
     private Long id;
 
     private String denominacao;
-
+    @Unique
     private Long nif;
 
     /**
