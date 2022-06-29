@@ -16,11 +16,9 @@ public class AvaliacaoDTO
 
     private Long idConteudo;
 
-    private int nota;
-
     public AvaliacaoDTO(){}
 
-    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, int nota)
+    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
@@ -29,10 +27,9 @@ public class AvaliacaoDTO
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
-        this.nota = nota;
     }
 
-    public AvaliacaoDTO(Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, int nota)
+    public AvaliacaoDTO(Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
         this.presidenteId = presidenteId;
@@ -40,7 +37,6 @@ public class AvaliacaoDTO
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
-        this.nota = nota;
     }
 
     public Long getId()
@@ -115,16 +111,6 @@ public class AvaliacaoDTO
         this.idConteudo = idConteudo;
     }
 
-    public int getNota()
-    {
-        return nota;
-    }
-
-    public void setNota(int nota)
-    {
-        this.nota = nota;
-    }
-
     @Override
     public String toString() {
         return "AvaliacaoDTO{" +
@@ -135,7 +121,6 @@ public class AvaliacaoDTO
                 ", arguenteId=" + arguenteId +
                 ", idProjeto=" + idProjeto +
                 ", idConteudo=" + idConteudo +
-                ", nota=" + nota +
                 '}';
     }
 }
