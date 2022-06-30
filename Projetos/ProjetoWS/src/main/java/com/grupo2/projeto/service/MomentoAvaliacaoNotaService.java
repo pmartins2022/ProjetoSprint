@@ -78,6 +78,28 @@ public class MomentoAvaliacaoNotaService
 
          momentoAvaliacaoNotaJDBCRepository.insert(mom);
     }
+    public void editarAvaliacaoNota(Long idMomentoAvaliacao,int nota, String justificacao)
+    {
+        MomentoAvaliacaoNota momentoAvaliacaoNota =null;
+
+        try{
+            momentoAvaliacaoNota = momentoAvaliacaoNotaJDBCRepository.findById(idMomentoAvaliacao);
+        }catch(Exception e)
+        {
+            throw new OptionalVazioException("Não existe Momento de Avaliação");
+        }
+        momentoAvaliacaoNota.setNota(nota);
+        momentoAvaliacaoNota.setJustificacao(justificacao);
+        try
+        {
+            momentoAvaliacaoNotaJDBCRepository.update(momentoAvaliacaoNota);
+        }catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 
     public void reviewAvaliacao(Long idAvaliacaoNota, String avaliacao)
     {

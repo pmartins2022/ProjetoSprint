@@ -58,6 +58,13 @@ public class MomentoAvaliacaoNotaJDBCRepository implements GenericRepository<Mom
     @Override
     public void update(MomentoAvaliacaoNota model)
     {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("PROC_UPDATE_NOTA")
+                .declareParameters(
+                        new SqlParameter("id",OracleTypes.NUMBER),
+                        new SqlParameter("nota",OracleTypes.NUMBER),
+                        new SqlParameter("justificacao",OracleTypes.VARCHAR));
+        jdbcCall.execute(model.getId(),model.getNota(),model.getJustificacao());
 
     }
 

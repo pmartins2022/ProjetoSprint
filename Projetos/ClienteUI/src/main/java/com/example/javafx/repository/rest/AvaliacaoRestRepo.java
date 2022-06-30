@@ -2,13 +2,14 @@ package com.example.javafx.repository.rest;
 
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.AvaliacaoDTO;
-import com.example.javafx.dto.MomentoAvaliacaoNotaDTO;
+import com.example.javafx.dto.AvaliacaoNotaDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
 import com.example.javafx.model.LoginContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class AvaliacaoRestRepo
         }
     }
 
-    public List<MomentoAvaliacaoNotaDTO> findAllByEstadoAndRucID(Long rucID, String estado)
+    public List<AvaliacaoNotaDTO> findAllByEstadoAndRucID(Long rucID, String estado)
     {
         try
         {
@@ -47,13 +48,51 @@ public class AvaliacaoRestRepo
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<MomentoAvaliacaoNotaDTO>>()
+            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<AvaliacaoNotaDTO>>()
             {
             }).block();
         }
         catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
+        }
+    }
+
+    public AvaliacaoNotaDTO findNotaByAvaliacaoID(int index)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/nota/"+index).get()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return responseSpec.bodyToMono(AvaliacaoNotaDTO.class).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+    public void atualizarNota(AvaliacaoNotaDTO notaAtual)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/nota").patch()
+                    .header("Authorization", LoginContext.getToken())
+                    .body(BodyInserters.fromValue(notaAtual)).retrieve();
+
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            responseSpec.toBodilessEntity().block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException("Problema no servidor: "+e.getMessage());
         }
     }
 }

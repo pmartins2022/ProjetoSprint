@@ -165,7 +165,7 @@ public class PropostaController
         return propostaService.alunoCandidaturaProposta(propostaID);
     }
 
-    public List<MomentoAvaliacaoNotaDTO> findAllAvaliacaoNotaByRucIDAndEstado(String estado)
+    public List<AvaliacaoNotaDTO> findAllAvaliacaoNotaByRucIDAndEstado(String estado)
     {
         return propostaService.findAllAvaliacaoNotaByRucIDAndEstado(LoginContext.getCurrentUser().getId(), estado);
     }
@@ -179,5 +179,7 @@ public class PropostaController
     {
 
     }
+
+
 }
 

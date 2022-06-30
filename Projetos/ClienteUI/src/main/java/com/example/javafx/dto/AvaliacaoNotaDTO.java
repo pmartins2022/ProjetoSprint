@@ -3,21 +3,21 @@ package com.example.javafx.dto;
 
 import com.example.javafx.model.EstadoAvaliacao;
 
-public class MomentoAvaliacaoNotaDTO
+public class AvaliacaoNotaDTO
 {
     private Long id;
 
     private Long idAvaliacao;
 
-    private Integer nota;
+    private Long nota;
 
     private String justificacao;
 
     private EstadoAvaliacao estadoAvaliacao;
 
-    public MomentoAvaliacaoNotaDTO(){}
+    public AvaliacaoNotaDTO(){}
 
-    public MomentoAvaliacaoNotaDTO(Long id, Long idAvaliacao, Integer nota, String justificacao, EstadoAvaliacao estadoAvaliacao)
+    public AvaliacaoNotaDTO(Long id, Long idAvaliacao, Long nota, String justificacao, EstadoAvaliacao estadoAvaliacao)
     {
         this.id = id;
         this.idAvaliacao = idAvaliacao;
@@ -46,12 +46,12 @@ public class MomentoAvaliacaoNotaDTO
         this.idAvaliacao = idAvaliacao;
     }
 
-    public Integer getNota()
+    public Long getNota()
     {
         return nota;
     }
 
-    public void setNota(Integer nota)
+    public void setNota(Long nota)
     {
         this.nota = nota;
     }

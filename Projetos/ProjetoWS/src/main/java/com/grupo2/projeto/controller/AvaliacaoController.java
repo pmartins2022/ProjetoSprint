@@ -109,6 +109,7 @@ public class AvaliacaoController
         }
     }
 
+
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/{rucID}")
     public ResponseEntity<List<MomentoAvaliacaoNotaDTO>> findAllByEstadoAndRucID(@RequestParam("estado") String estado)
@@ -131,6 +132,27 @@ public class AvaliacaoController
         try
         {
             momentoAvaliacaoNotaService.reviewAvaliacao(id, avaliacao);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch(IllegalArgumentException e)
+        {
+            throw new ValidacaoInvalidaException(e.getMessage());
+        }
+        catch(OptionalVazioException e)
+        {
+            throw e;
+        }
+        catch(ValidacaoInvalidaException e)
+        {
+            throw e;
+        }
+    }
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PostMapping("/editarAvaliacao/{id}")
+    public ResponseEntity<Object> editarAvaliacaoNota(@PathVariable("id") Long id, @RequestParam("nota") int nota,@RequestParam("justificacao") String justificacao)
+    {
+        try{
+            momentoAvaliacaoNotaService.editarAvaliacaoNota(id,nota,justificacao);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(IllegalArgumentException e)
