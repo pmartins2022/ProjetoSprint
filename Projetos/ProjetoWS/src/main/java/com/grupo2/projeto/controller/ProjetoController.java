@@ -1,7 +1,10 @@
 package com.grupo2.projeto.controller;
 
 import com.grupo2.projeto.dto.ProjetoDTO;
+import com.grupo2.projeto.dto.filter.ProjetoFilterBody;
 import com.grupo2.projeto.exception.ErroGeralException;
+import com.grupo2.projeto.exception.OptionalVazioException;
+import com.grupo2.projeto.service.ProjetoFilterService;
 import com.grupo2.projeto.service.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,9 @@ public class ProjetoController
      */
     @Autowired
     private ProjetoService service;
+
+    @Autowired
+    private ProjetoFilterService filterService;
 
     /**
      * Endpoint que possibilita encontrar o projeto por id existente no serviço.
@@ -64,7 +70,7 @@ public class ProjetoController
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/orientadorID/{id}")
     public ResponseEntity<List<ProjetoDTO>> findAllByOrientadorID(@PathVariable Long id)
     {
@@ -76,6 +82,36 @@ public class ProjetoController
         } else
         {
             throw new ErroGeralException("Nao existe nenhum projeto com esse orientadorID");
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/filter")
+    public ResponseEntity<Object> projetoFilter(@RequestBody ProjetoFilterBody body)
+    {
+        System.out.println("Recebeu:");
+        System.out.println(body.toString());
+
+        try
+        {
+            var list = filterService.filtrarProjetos(body);
+
+            System.out.println("Query: "+filterService.getLastQuery());
+
+            if (list.size() == 0)
+            {
+                throw new OptionalVazioException("Nao existem projetos para o filtro especificado");
+            }
+
+            return ResponseEntity.ok(list);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw e;
+        }
+        catch(Exception e)
+        {
+            return new ResponseEntity<>("Problema a fazer o parse: "+e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 

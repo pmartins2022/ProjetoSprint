@@ -57,7 +57,7 @@ class UtilizadorServiceUnitTests
         when(repository.save(utilizadorMOCK)).thenReturn(utilizadorMOCK);
         when(mapper.toDTO(utilizadorMOCK)).thenReturn(dtoMOCK);
 
-        UtilizadorDTO saved = service.createAndSave(dtoMOCK);
+        UtilizadorDTO saved = service.registar(dtoMOCK);
 
         assertEquals(saved, dtoMOCK);
     }
@@ -71,7 +71,7 @@ class UtilizadorServiceUnitTests
         when(mapper.toModel(dtoMOCK)).thenReturn(utilizadorMOCK);
         when(repository.save(utilizadorMOCK)).thenThrow(ErroGeralException.class);
 
-        assertThrows(ErroGeralException.class, () -> service.createAndSave(dtoMOCK));
+        assertThrows(ErroGeralException.class, () -> service.registar(dtoMOCK));
     }
 
     @Test
