@@ -9,75 +9,88 @@ import com.grupo2.projeto.exception.ValidacaoInvalidaException;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.model.EstadoConteudo;
 import com.grupo2.projeto.model.Projeto;
+import com.grupo2.projeto.repository.ConteudoJDBCRepository;
+import com.grupo2.projeto.repository.ProjetoJDBCRepository;
 import com.grupo2.projeto.repository.rest.UtilizadorRestRepository;
 import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public class ConteudoService
-{/*
-    /*@Autowired
-    private ConteudoRepository repository;
+{
+    @Autowired
+    private ConteudoJDBCRepository conteudoJDBCRepository;
 
     @Autowired
-    private ProjetoRepository projetoRepository;
-
+    private ProjetoJDBCRepository projetoJDBCRepository;
     @Autowired
     private ConteudoDTOMapper mapper;
 
     @Autowired
     private UtilizadorRestRepository utilizadorRestRepository;
 
-    public int createAndSave(ConteudoDTO conteudoDTO) throws IllegalAccessException
+
+    public void createAndSave(ConteudoDTO conteudoDTO) throws IllegalAccessException
     {
-        Optional<Projeto> id = projetoRepository.findById(conteudoDTO.getProjetoId());
-        if (id.isEmpty())
+        Projeto projeto = null;
+        try
+        {
+            projeto = projetoJDBCRepository.findById(conteudoDTO.getProjetoId());
+        } catch (Exception e)
         {
             throw new IdInvalidoException("Nao existe nenhum projeto com esse id");
         }
 
-        if (!id.get().getEstudanteId().equals(LoginContext.getCurrent().getId()))
+        if (!projeto.getEstudanteId().equals(LoginContext.getCurrent().getId()))
         {
             throw new IdInvalidoException("O aluno nao pertence a esse projeto");
         }
 
         Conteudo conteudo = mapper.toModel(conteudoDTO);
 
-         return repository.saveConteudo(conteudo);
+        try
+        {
+            conteudoJDBCRepository.insert(conteudo);
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
 
     }
 
-    public Optional<ConteudoDTO> findById(Long id)
+    public ConteudoDTO findById(Long id)
     {
-        Optional<Conteudo> optional = repository.findById(id);
-
-        if (optional.isPresent())
+        Conteudo conteudo = null;
+        try
         {
-            ConteudoDTO conteudoDTO = mapper.toDTO(optional.get());
-            return Optional.of(conteudoDTO);
-        } else
+            conteudo = conteudoJDBCRepository.findById(id);
+            return mapper.toDTO(conteudo);
+        } catch (Exception e)
         {
-            return Optional.empty();
+            throw new OptionalVazioException("Não existe Conteúdo com esse ID: "+ id);
         }
     }
 
     public int acceptConteudo(Long idConteudo)
     {
-        Optional<Conteudo> conteudo = repository.findById(idConteudo);
-
-        if (conteudo.isEmpty())
+        Conteudo conteudo = null;
+        try
         {
-            throw new OptionalVazioException("O conteudo com id " + idConteudo + " não existe.");
+            conteudo = conteudoJDBCRepository.findById(idConteudo);
+        } catch (Exception e)
+        {
+            throw new OptionalVazioException("Não existe Conteúdo com esse ID: " + idConteudo);
         }
 
-        if (conteudo.get().getEstadoConteudo().ordinal() != 0)
+        if (conteudo.getEstadoConteudo().ordinal() != 0)
         {
             throw new ValidacaoInvalidaException("O conteudo tem que estar PENDENTE" +
-                    idConteudo + " encontra-se em fase de " + conteudo.get().getEstadoConteudo().name());
+                    idConteudo + " encontra-se em fase de " + conteudo.getEstadoConteudo().name());
         }
 
         Optional<Projeto> projeto = projetoRepository.findById(conteudo.get().getIdProjeto());
@@ -139,5 +152,5 @@ public class ConteudoService
         List<Conteudo> list = repository.findAllByIdProjeto(id);
 
         return list.stream().map(mapper::toDTO).toList();
-    }*/
+    }
 }

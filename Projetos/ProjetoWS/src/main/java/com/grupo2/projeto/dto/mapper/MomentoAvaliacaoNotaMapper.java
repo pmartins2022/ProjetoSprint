@@ -1,7 +1,7 @@
 package com.grupo2.projeto.dto.mapper;
 
 
-import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
+import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.model.AvaliacaoNota;
 import com.grupo2.projeto.model.factory.MomentoAvaliacaoNotaFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ public class MomentoAvaliacaoNotaMapper
     @Autowired
     private MomentoAvaliacaoNotaFactory factory;
 
-    public AvaliacaoNota toModel(MomentoAvaliacaoNotaDTO dto)
+    public AvaliacaoNota toModel(AvaliacaoNotaDTO dto)
     {
         return factory.createMomentoAvaliacaoNota(dto.getIdAvaliacao(), dto.getNota(), dto.getJustificacao());
     }
 
-    public MomentoAvaliacaoNotaDTO toDTO(AvaliacaoNota saved)
+    public AvaliacaoNotaDTO toDTO(AvaliacaoNota saved)
     {
-        return new MomentoAvaliacaoNotaDTO(saved.getId(), saved.getIdAvaliacao(), saved.getNota(), saved.getJustificacao(), saved.getEstadoAvaliacao());
+        return new AvaliacaoNotaDTO(saved.getId(), saved.getIdAvaliacao(), saved.getNota(), saved.getJustificacao(), saved.getEstadoAvaliacao());
     }
 }

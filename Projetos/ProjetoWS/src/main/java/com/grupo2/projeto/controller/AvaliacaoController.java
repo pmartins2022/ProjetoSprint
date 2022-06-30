@@ -2,7 +2,7 @@ package com.grupo2.projeto.controller;
 
 
 import com.grupo2.projeto.dto.AvaliacaoDTO;
-import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
+import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.AvaliacaoService;
@@ -32,8 +32,8 @@ public class AvaliacaoController
     {
         try
         {
-            AvaliacaoDTO avaliacaoDTOSaved = service.createAndSave(avaliacaoDTO);
-            return new ResponseEntity<>(avaliacaoDTOSaved, HttpStatus.CREATED);
+            service.createAndSave(avaliacaoDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (OptionalVazioException e)
         {
@@ -53,17 +53,17 @@ public class AvaliacaoController
     @GetMapping("/{id}")
     public ResponseEntity<AvaliacaoDTO> findById(@PathVariable Long id)
     {
-        Optional<AvaliacaoDTO> optionalAvaliacaoDTO = service.findById(id);
-
-        if (optionalAvaliacaoDTO.isPresent())
+        AvaliacaoDTO avaliacaoDTO = null;
+        try
         {
-            AvaliacaoDTO avaliacaoDTO = optionalAvaliacaoDTO.get();
+            avaliacaoDTO = service.findById(id);
             return new ResponseEntity<>(avaliacaoDTO, HttpStatus.OK);
-        } else
+        } catch (Exception e)
         {
             throw new OptionalVazioException("Nao existe nenhuma avaliacao com esse ID");
         }
     }
+
     @GetMapping("/listar")
     public ResponseEntity<Object> listAllMomentoAvaliacao()
     {
@@ -78,10 +78,10 @@ public class AvaliacaoController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/listarAvaliacao")
-    public ResponseEntity<Object> listarAvalaiacao(@PathVariable Long presidenteId)
+    @GetMapping("/listarAvaliacao/{presidenteID}")
+    public ResponseEntity<Object> listAvaliacaoByPresidenteID(@PathVariable("presidenteID") Long presidenteID)
     {
-        List<AvaliacaoDTO> lista = service.findAllByPresidente(presidenteId);
+        List<AvaliacaoDTO> lista = service.findAllByPresidente(presidenteID);
 
         if (lista.isEmpty())
         {
@@ -93,7 +93,7 @@ public class AvaliacaoController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/avaliar")
-    public ResponseEntity<Object> createAvaliacaoNota(@RequestBody MomentoAvaliacaoNotaDTO dto)
+    public ResponseEntity<Object> createAvaliacaoNota(@RequestBody AvaliacaoNotaDTO dto)
     {
         try
         {
@@ -106,14 +106,13 @@ public class AvaliacaoController
         }
     }
 
-
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/{rucID}")
-    public ResponseEntity<List<MomentoAvaliacaoNotaDTO>> findAllByEstadoAndRucID(@RequestParam("estado") String estado)
+    public ResponseEntity<List<AvaliacaoNotaDTO>> findAllByEstadoAndRucID(@RequestParam("estado") String estado)
     {
         try
         {
-            List<MomentoAvaliacaoNotaDTO> list = momentoAvaliacaoNotaService.findAllByEstadoAndRucID(LoginContext.getCurrent().getId(), estado);
+            List<AvaliacaoNotaDTO> list = momentoAvaliacaoNotaService.findAllByEstadoAndRucID(LoginContext.getCurrent().getId(), estado);
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
         catch(IllegalArgumentException e)

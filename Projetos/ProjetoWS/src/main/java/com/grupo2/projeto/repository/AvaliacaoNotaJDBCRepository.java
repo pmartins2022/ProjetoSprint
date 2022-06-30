@@ -2,6 +2,7 @@ package com.grupo2.projeto.repository;
 
 
 import com.grupo2.projeto.model.AvaliacaoNota;
+import com.grupo2.projeto.model.EstadoAvaliacao;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -15,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @Repository
-public class MomentoAvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoNota>
+public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoNota>
 {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -79,5 +80,14 @@ public class MomentoAvaliacaoNotaJDBCRepository implements GenericRepository<Ava
                 .declareParameters(new SqlParameter("idAvaliacao", OracleTypes.NUMBER))
                 .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(idAvaliacao), AvaliacaoNota.class);
+    }
+
+    public List<AvaliacaoNota> findAllByEstado(String estado) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FNC_FIND_MOMENTOAVALIACAONOTA_ESTADO")
+                .declareParameters(new SqlParameter("estado", OracleTypes.VARCHAR))
+                .withReturnValue();
+        return ObjectMapper.mapToObjectList(jdbcCall.execute(estado), AvaliacaoNota.class);
     }
 }

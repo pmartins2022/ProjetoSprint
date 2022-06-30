@@ -1,22 +1,20 @@
 package com.grupo2.projeto.service;
 
 import com.grupo2.projeto.dto.EdicaoUCDTO;
-import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
+import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.dto.PropostaDTO;
 import com.grupo2.projeto.dto.mapper.MomentoAvaliacaoNotaMapper;
-import com.grupo2.projeto.exception.ErroGeralException;
-import com.grupo2.projeto.exception.OptionalVazioException;
-import com.grupo2.projeto.exception.ValidacaoInvalidaException;
 import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.model.Avaliacao;
-import com.grupo2.projeto.model.EstadoAvaliacao;
 import com.grupo2.projeto.model.AvaliacaoNota;
+import com.grupo2.projeto.model.EstadoAvaliacao;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.*;
 import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,10 +37,10 @@ public class MomentoAvaliacaoNotaService
     @Autowired
     private AvaliacaoJDBCRepository avaliacaoJDBCRepository;
     @Autowired
-    private MomentoAvaliacaoNotaJDBCRepository momentoAvaliacaoNotaJDBCRepository;
+    private AvaliacaoNotaJDBCRepository avaliacaoNotaJDBCRepository;
 
 
-    public void createAvaliacaoNota(MomentoAvaliacaoNotaDTO dto) throws IllegalAccessException
+    public void createAvaliacaoNota(AvaliacaoNotaDTO dto) throws IllegalAccessException
     {
 
         //Validar Avalçiação
@@ -65,7 +63,7 @@ public class MomentoAvaliacaoNotaService
 
         try
         {
-            nota = momentoAvaliacaoNotaJDBCRepository.findByIdAvaliacao(avaliacao.getId());
+            nota = avaliacaoNotaJDBCRepository.findByIdAvaliacao(avaliacao.getId());
         } catch (Exception ignored)
         {
         }
@@ -77,29 +75,28 @@ public class MomentoAvaliacaoNotaService
 
         AvaliacaoNota mom = mapper.toModel(dto);
 
-         momentoAvaliacaoNotaJDBCRepository.insert(mom);
+        avaliacaoNotaJDBCRepository.insert(mom);
     }
     public void editarAvaliacaoNota(Long idMomentoAvaliacao,int nota, String justificacao)
     {
-        MomentoAvaliacaoNota momentoAvaliacaoNota =null;
+        AvaliacaoNota avaliacaoNota = null;
 
-        try{
-            momentoAvaliacaoNota = momentoAvaliacaoNotaJDBCRepository.findById(idMomentoAvaliacao);
-        }catch(Exception e)
+        try
+        {
+            avaliacaoNota = avaliacaoNotaJDBCRepository.findById(idMomentoAvaliacao);
+        } catch (Exception e)
         {
             throw new OptionalVazioException("Não existe Momento de Avaliação");
         }
-        momentoAvaliacaoNota.setNota(nota);
-        momentoAvaliacaoNota.setJustificacao(justificacao);
+        avaliacaoNota.setNota(nota);
+        avaliacaoNota.setJustificacao(justificacao);
         try
         {
-            momentoAvaliacaoNotaJDBCRepository.update(momentoAvaliacaoNota);
-        }catch (Exception e)
+            avaliacaoNotaJDBCRepository.update(avaliacaoNota);
+        } catch (Exception e)
         {
             throw new RuntimeException(e);
         }
-
-
     }
 
     public void reviewAvaliacao(Long idAvaliacaoNota, String avaliacao)
@@ -108,7 +105,7 @@ public class MomentoAvaliacaoNotaService
         AvaliacaoNota avaliacaoNota = null;
         try
         {
-            avaliacaoNota = momentoAvaliacaoNotaJDBCRepository.findById(idAvaliacaoNota);
+            avaliacaoNota = avaliacaoNotaJDBCRepository.findById(idAvaliacaoNota);
         } catch (Exception e)
         {
             throw new OptionalVazioException("Não existe MomentoAvaliacaoNota com este ID de Avaliação: " + avaliacaoNota.getId());
@@ -123,11 +120,6 @@ public class MomentoAvaliacaoNotaService
         {
             throw new OptionalVazioException("Não existe Avaliacao com este ID: " + avaliacaoNota.getIdAvaliacao());
         }
-
-        //VERIFICAR - SE RUC QUE FEZ PEDIDO É IGUAL AO RUC DA EDICAO ONDE A AVALIACAO(PROPOSTA) ESTÁ INSERIDA
-        //ENCONTRAR EDICAO DO LOGIN
-        //ENCONTRAR EDICAO APARTIR DO IDAVALICAONOTA
-        //VER SE IDS EQUALS
 
         //PROJETO PARA ARRANJAR ID PROPOSTA
         Projeto projeto = null;
@@ -190,17 +182,17 @@ public class MomentoAvaliacaoNotaService
             throw new ErroGeralException("Nao foi possivel criar enum a partir do valor: "+avaliacao);
         }
 
-        if (value != EstadoAvaliacao.PENDENTE)
+        if (avaliacaoNota.getEstadoAvaliacao() != EstadoAvaliacao.PENDENTE)
         {
-         throw new ValidacaoInvalidaException("Para concluir uma AvaliacaoNota esta tem que estar em PENDENTE." +
-                 "Estado atual: "+ value.name());
+            throw new ValidacaoInvalidaException("Para concluir uma AvaliacaoNota esta tem que estar em PENDENTE." +
+                    "Estado atual: " + value.name());
         }
 
         avaliacaoNota.updateEstado(value);
 
         try
         {
-            momentoAvaliacaoNotaJDBCRepository.insert(avaliacaoNota);
+            avaliacaoNotaJDBCRepository.insert(avaliacaoNota);
         } catch (Exception e)
         {
             throw new RuntimeException(e);
@@ -209,12 +201,17 @@ public class MomentoAvaliacaoNotaService
         if (value == EstadoAvaliacao.CONCLUIDO)
         {
             avaliacaoModel.setEstadoAvaliacao(EstadoAvaliacao.CONCLUIDO);
-
-            avaliacaoJDBCRepository.update(avaliacaoModel);
+            try
+            {
+                avaliacaoJDBCRepository.update(avaliacaoModel);
+            } catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public List<MomentoAvaliacaoNotaDTO> findAllByEstadoAndRucID(Long rucID, String estado)
+    public List<AvaliacaoNotaDTO> findAllByEstadoAndRucID(Long rucID, String estado)
     {
         //VER SE RUC TEM UMA EDICAO ATVA
         EdicaoUCDTO edicaoUCActive = null;
@@ -247,12 +244,11 @@ public class MomentoAvaliacaoNotaService
             }
         } catch (Exception e)
         {
-            throw new OptionalVazioException("Não há propostas nessa Edição: "+ edicaoUCActive.getId());
+            throw new OptionalVazioException("Ocorreu um erro ao tentar encontar projeto ligado a um ID de proposta");
         }
 
         //LISTA DE AVALIACOES DE CADA UMA DAS PROPOSTAS
         List<Avaliacao> avaliacaoList =new ArrayList<>();
-
         try
         {
             for (Projeto p:
@@ -266,14 +262,13 @@ public class MomentoAvaliacaoNotaService
         }
 
         //PARA CADA AVALIACAO PEGAR NA SUA RESPETIVA MOMENTOAVALIACAONOTA
-        List<AvaliacaoNota> avaliacaoNotaList = new ArrayList<>();
-
+        List<AvaliacaoNota> avaliacaoNotaRawList = new ArrayList<>();
         try
         {
             for (Avaliacao avaliacao :
                     avaliacaoList)
             {
-                avaliacaoNotaList.add(momentoAvaliacaoNotaJDBCRepository.findByIdAvaliacao(avaliacao.getId()));
+                avaliacaoNotaRawList.add(avaliacaoNotaJDBCRepository.findByIdAvaliacao(avaliacao.getId()));
             }
         } catch (Exception e)
         {
@@ -284,12 +279,20 @@ public class MomentoAvaliacaoNotaService
         try
         {
             value = EstadoAvaliacao.valueOf(estado);
-        }
-        catch(IllegalArgumentException e)
+        } catch (IllegalArgumentException e)
         {
             throw e;
         }
 
-        return avaliacaoNotaList.stream().map(mapper::toDTO).toList();
+        List<AvaliacaoNota> avaliacaoNotasList = null;
+        try
+        {
+            avaliacaoNotasList = avaliacaoNotaJDBCRepository.findAllByEstado(value.name());
+        } catch (Exception e)
+        {
+            throw new ListaVaziaException("Não existem AvaliacaoNotas nesse estado");
+        }
+
+        return avaliacaoNotasList.stream().map(mapper::toDTO).toList();
     }
 }

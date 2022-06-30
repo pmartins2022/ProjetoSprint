@@ -1,11 +1,8 @@
 package com.grupo2.projeto.dto;
 
 import com.grupo2.projeto.model.EstadoAvaliacao;
-import com.grupo2.projeto.model.JDBCTable;
-import com.grupo2.projeto.model.annotations.PrimaryKey;
-import com.grupo2.projeto.model.annotations.Table;
 
-public class MomentoAvaliacaoNotaDTO
+public class AvaliacaoNotaDTO
 {
     private Long id;
 
@@ -17,9 +14,9 @@ public class MomentoAvaliacaoNotaDTO
 
     private EstadoAvaliacao estadoAvaliacao;
 
-    public MomentoAvaliacaoNotaDTO(){}
+    public AvaliacaoNotaDTO(){}
 
-    public MomentoAvaliacaoNotaDTO(Long id, Long idAvaliacao, Integer nota, String justificacao, EstadoAvaliacao estadoAvaliacao)
+    public AvaliacaoNotaDTO(Long id, Long idAvaliacao, Integer nota, String justificacao, EstadoAvaliacao estadoAvaliacao)
     {
         this.id = id;
         this.idAvaliacao = idAvaliacao;

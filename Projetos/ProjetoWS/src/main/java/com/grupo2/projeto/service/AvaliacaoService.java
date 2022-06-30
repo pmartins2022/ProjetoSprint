@@ -15,7 +15,6 @@ import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,6 +38,8 @@ public class AvaliacaoService
     private EdicaoUCJDBCRepository edicaoUCJDBCRepository;
     @Autowired
     private PropostaJDBCRepository propostaJDBCRepository;
+    @Autowired
+    private AvaliacaoNotaJDBCRepository avaliacaoNotaJDBCRepository;
 
 
     public void createAndSave(AvaliacaoDTO avaliacaoDTO)
@@ -150,51 +151,5 @@ public class AvaliacaoService
             throw new ListaVaziaException("Não existem Avaliações com esse id de presidente: "+ presidenteId);
         }
         return lista.stream().map(mapper::toDTO).toList();
-    }
-
-    public AvaliacaoDTO reviewAvaliacao(Long idAvaliacao, String avaliacao)
-    {
-        Avaliacao avaliacaoModel = null;
-        try
-        {
-            avaliacaoModel = avaliacaoJDBCRepository.findById(idAvaliacao);
-        } catch (Exception e)
-        {
-            throw new OptionalVazioException("Não existe Avaliacao com este ID: " + idAvaliacao);
-        }
-
-        Projeto projeto = null;
-        try
-        {
-            projeto = projetoJDBCRepository.findById(avaliacaoModel.getIdProjeto());
-        } catch (Exception e)
-        {
-            throw new OptionalVazioException("Não existe Projeto com este ID: " + avaliacaoModel.getIdProjeto());
-        }
-
-        PropostaDTO propostaDTO = null;
-        try
-        {
-            propostaDTO = propostaJDBCRepository.findById(projeto.getPropostaId());
-        } catch (Exception e)
-        {
-            throw new OptionalVazioException("Não existe Avaliacao com este ID: " + projeto.getPropostaId());
-        }
-
-        EdicaoUCDTO edicaoUC = null;
-        try
-        {
-            edicaoUC = edicaoUCJDBCRepository.findById(propostaDTO.getEdicaoUCId());
-        } catch (Exception e)
-        {
-            throw new OptionalVazioException("Não existe Edição com este ID: " + propostaDTO.getEdicaoUCId());
-        }
-
-        if (!Objects.equals(edicaoUC.getRucID(), LoginContext.getCurrent().getId()))
-        {
-            throw new ValidacaoInvalidaException("Não tens essa Edição Ativa");
-        }
-
-
     }
 }

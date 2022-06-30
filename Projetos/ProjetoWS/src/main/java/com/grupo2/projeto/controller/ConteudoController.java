@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequestMapping("/conteudo")
 public class ConteudoController
 {
-    /*@Autowired
+    @Autowired
     private ConteudoService service;
 
    @PreAuthorize("hasAuthority('ROLE_ALUNO')")
@@ -113,5 +113,5 @@ public class ConteudoController
         }
 
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
-    }*/
+    }
 }
