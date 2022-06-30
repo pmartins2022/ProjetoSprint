@@ -27,7 +27,7 @@ public class ProjetoWsApplication
 	{
 		return (args) ->
 		{
-			String talUt = TableCreator.generateFromTable(UtilizadorDTO.class);
+			/*String talUt = TableCreator.generateFromTable(UtilizadorDTO.class);
 			String talUC = TableCreator.generateFromTable(UnidadeCurricularDTO.class);
 			String talED = TableCreator.generateFromTable(EdicaoUCDTO.class);
 			String talPO = TableCreator.generateFromTable(PropostaDTO.class);
@@ -50,7 +50,7 @@ public class ProjetoWsApplication
 			System.out.println(talMO);
 			System.out.println(talAV);
 
-			System.out.println(talMAN);
+			System.out.println(talMAN);*/
 
 		};
 	}

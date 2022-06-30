@@ -35,15 +35,7 @@ public class AvaliacaoController
             service.createAndSave(avaliacaoDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
-        catch (OptionalVazioException e)
-        {
-            throw e;
-        }
-        catch (ValidacaoInvalidaException e)
-        {
-            throw e;
-        }
-        catch (IdInvalidoException e)
+        catch (OptionalVazioException | ValidacaoInvalidaException | IdInvalidoException e)
         {
             throw e;
         }
@@ -134,11 +126,7 @@ public class AvaliacaoController
         {
             throw new ValidacaoInvalidaException(e.getMessage());
         }
-        catch(OptionalVazioException e)
-        {
-            throw e;
-        }
-        catch(ValidacaoInvalidaException e)
+        catch(OptionalVazioException | ValidacaoInvalidaException e)
         {
             throw e;
         }
@@ -155,11 +143,7 @@ public class AvaliacaoController
         {
             throw new ValidacaoInvalidaException(e.getMessage());
         }
-        catch(OptionalVazioException e)
-        {
-            throw e;
-        }
-        catch(ValidacaoInvalidaException e)
+        catch(OptionalVazioException | ValidacaoInvalidaException e)
         {
             throw e;
         }

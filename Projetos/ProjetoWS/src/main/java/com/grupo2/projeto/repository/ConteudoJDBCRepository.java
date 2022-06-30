@@ -4,6 +4,7 @@ import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
+import javassist.Loader;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -59,12 +60,36 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     @Override
     public void update(Conteudo dto)
     {
+        //NAO TESTADO (NAO SEI SE O PROC EXISTE!)
 
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("PROC_UPDATE_CONTEUDO")
+                .declareParameters(
+                        new SqlParameter("id",OracleTypes.NUMBER),
+                        new SqlParameter("estadoConteudo",OracleTypes.VARCHAR));
+
+        jdbcCall.execute(dto.getId(),dto.getEstadoConteudo().name());
     }
 
     @Override
     public void deleteById(Long id)
     {
+        //NAO TESTADO (NAO SEI SE O PROC EXISTE!)
 
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("PROC_DELETE_CONTEUDO")
+                .declareParameters(
+                        new SqlParameter("id",OracleTypes.NUMBER));
+
+        jdbcCall.execute(id);
+    }
+
+    public List<Conteudo> findAllByIdProjeto(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FNC_CONTEUDO_FINDALL_IDPROJETO")
+                .declareParameters(new SqlParameter("idProjeto",OracleTypes.NUMBER));
+
+        return ObjectMapper.mapToObjectList(jdbcCall.execute(id),Conteudo.class);
     }
 }
