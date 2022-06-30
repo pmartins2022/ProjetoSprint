@@ -1,10 +1,12 @@
 package com.example.javafx.controller.docente;
 
 import com.example.javafx.dto.AvaliacaoDTO;
+import com.example.javafx.dto.AvaliacaoNotaDTO;
 import com.example.javafx.dto.ConteudoDTO;
 import com.example.javafx.dto.ProjetoDTO;
 import com.example.javafx.dto.enums.EstadoConteudo;
 import com.example.javafx.dto.factory.AvaliacaoDTOFactory;
+import com.example.javafx.model.LoginContext;
 import com.example.javafx.repository.rest.ProjetoRestRepository;
 import com.example.javafx.service.ProjetoService;
 import javafx.scene.control.TextField;
@@ -59,4 +61,15 @@ public class ProjetoController
     {
         return service.rejectConteudo(conteudoID);
     }
+
+    public List<AvaliacaoNotaDTO> findAllAvaliacaoNotaByRucIDAndEstado(String estado)
+    {
+        return service.findAllAvaliacaoNotaByRucIDAndEstado(LoginContext.getCurrentUser().getId(), estado);
+    }
+
+    public void reviewAvaliacaoNota(AvaliacaoNotaDTO dto, String avaliacao)
+    {
+        service.reviewAvaliacaoNota(dto.getId(), avaliacao);
+    }
+
 }

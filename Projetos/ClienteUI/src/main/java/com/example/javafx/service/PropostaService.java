@@ -141,9 +141,4 @@ public class PropostaService
     {
         return propostaRestRepo.alunoCandidaturaProposta(propostaID);
     }
-
-    public List<AvaliacaoNotaDTO> findAllAvaliacaoNotaByRucIDAndEstado(Long rucID, String estado)
-    {
-        return avaliacaoRestRepo.findAllByEstadoAndRucID(rucID, estado);
-    }
 }

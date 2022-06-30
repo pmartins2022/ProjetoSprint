@@ -58,6 +58,27 @@ public class AvaliacaoRestRepo
         }
     }
 
+    public void reviewAvaliacaoNota(Long id, String avaliacao)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/reverAvaliacaoNota"+ id
+                            +"?avaliacao="+avaliacao).put()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
+
+            responseSpec.toBodilessEntity().block();
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+
     public AvaliacaoNotaDTO findNotaByAvaliacaoID(int index)
     {
         try
@@ -115,5 +136,7 @@ public class AvaliacaoRestRepo
             throw new RestPostException("Problema no servidor: "+e.getMessage());
         }
     }
+
+
 }
 

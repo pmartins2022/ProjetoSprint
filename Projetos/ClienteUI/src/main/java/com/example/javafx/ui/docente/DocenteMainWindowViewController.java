@@ -403,7 +403,7 @@ public class DocenteMainWindowViewController
         {
             avaliacaoNotaChoice.getItems().clear();
             avaliacaoNotaChoice.getSelectionModel().selectFirst();
-            avaliacaoNotaChoice.getItems().addAll(propostaController.findAllAvaliacaoNotaByRucIDAndEstado("PENDENTE"));
+            avaliacaoNotaChoice.getItems().addAll(projetoController.findAllAvaliacaoNotaByRucIDAndEstado("PENDENTE"));
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
@@ -417,13 +417,13 @@ public class DocenteMainWindowViewController
 
     public void reviewAvaliacaoNota(ActionEvent actionEvent)
     {
-        propostaController.reviewAvaliacaoNota(avaliacaoNotaChoice.getSelectionModel().getSelectedItem());
+        projetoController.reviewAvaliacaoNota(avaliacaoNotaChoice.getSelectionModel().getSelectedItem(), "REVISAO");
         AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "Alteração para REVISAO", "Sucesso na alteração de AvaliaçãoNota");
     }
 
     public void concludeAvaliacaoNota(ActionEvent actionEvent)
     {
-        propostaController.concludeAvaliacaoNota(avaliacaoNotaChoice.getSelectionModel().getSelectedItem());
+        projetoController.reviewAvaliacaoNota(avaliacaoNotaChoice.getSelectionModel().getSelectedItem(), "CONCLUIDO");
         AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "Alteração para REVISAO", "Sucesso na alteração de AvaliaçãoNota");
     }
 
