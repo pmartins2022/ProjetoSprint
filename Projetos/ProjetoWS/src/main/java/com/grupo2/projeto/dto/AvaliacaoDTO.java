@@ -17,11 +17,12 @@ public class AvaliacaoDTO
     private Long idProjeto;
 
     private Long idConteudo;
+    private String date;
 
 
     public AvaliacaoDTO(){}
 
-    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo)
+    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, String date)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
@@ -30,9 +31,10 @@ public class AvaliacaoDTO
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
+        this.date = date;
     }
 
-    public AvaliacaoDTO(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo)
+    public AvaliacaoDTO(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, String date)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
         this.presidenteId = presidenteId;
@@ -40,6 +42,7 @@ public class AvaliacaoDTO
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
+        this.date = date;
     }
 
     public Long getId()
@@ -112,6 +115,16 @@ public class AvaliacaoDTO
     public void setConteudo(Long idConteudo)
     {
         this.idConteudo = idConteudo;
+    }
+
+    public String getDate()
+    {
+        return date;
+    }
+
+    public void setDate(String date)
+    {
+        this.date = date;
     }
 
     @Override

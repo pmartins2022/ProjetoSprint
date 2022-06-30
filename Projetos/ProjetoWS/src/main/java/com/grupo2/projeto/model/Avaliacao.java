@@ -2,11 +2,10 @@ package com.grupo2.projeto.model;
 
 import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
 import com.grupo2.projeto.dto.UtilizadorDTO;
-import com.grupo2.projeto.model.annotations.ForeignKey;
-import com.grupo2.projeto.model.annotations.IgnoreField;
-import com.grupo2.projeto.model.annotations.PrimaryKey;
-import com.grupo2.projeto.model.annotations.Table;
+import com.grupo2.projeto.model.annotations.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Table(tableName = "AVALIACAO")
@@ -20,18 +19,26 @@ public class Avaliacao extends JDBCTable
     private Long idMomentoAvaliacao;
     @ForeignKey( className = UtilizadorDTO.class, fieldName = "ID")
     private Long presidenteId;
-    @ForeignKey( className = UtilizadorDTO.class, fieldName = "ID")
+    @ForeignKey(className = UtilizadorDTO.class, fieldName = "ID")
     private Long orientadorId;
-    @ForeignKey( className = UtilizadorDTO.class, fieldName = "ID")
+    @ForeignKey(className = UtilizadorDTO.class, fieldName = "ID")
     private Long arguenteId;
-    @ForeignKey( className = Projeto.class, fieldName = "ID")
+    @ForeignKey(className = Projeto.class, fieldName = "ID")
     private Long idProjeto;
-    @ForeignKey( className = Conteudo.class, fieldName = "ID")
+    @ForeignKey(className = Conteudo.class, fieldName = "ID")
     private Long conteudo;
 
-    public Avaliacao () {}
+    private EstadoAvaliacao estadoAvaliacao;
 
-    public Avaliacao(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo)
+    @DateConstraint()
+    private LocalDate dataAvaliacao;
+
+
+    public Avaliacao()
+    {
+    }
+
+    public Avaliacao(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo, String dataAvaliacao)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
@@ -40,9 +47,11 @@ public class Avaliacao extends JDBCTable
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
+        this.estadoAvaliacao = EstadoAvaliacao.PENDENTE;
+        this.dataAvaliacao = LocalDate.parse(dataAvaliacao, formatter());
     }
 
-    public Avaliacao(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo)
+    public Avaliacao(Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long conteudo, String dataAvaliacao)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
         this.presidenteId = presidenteId;
@@ -50,6 +59,8 @@ public class Avaliacao extends JDBCTable
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.conteudo = conteudo;
+        this.estadoAvaliacao = EstadoAvaliacao.PENDENTE;
+        this.dataAvaliacao = LocalDate.parse(dataAvaliacao, formatter());
     }
 
     public Long getId()
@@ -114,6 +125,36 @@ public class Avaliacao extends JDBCTable
     public void setConteudo(Long conteudo)
     {
         this.conteudo = conteudo;
+    }
+
+    public EstadoAvaliacao getEstadoAvaliacao()
+    {
+        return estadoAvaliacao;
+    }
+
+    public LocalDate getDataAvaliacao()
+    {
+        return dataAvaliacao;
+    }
+
+    public String getDateString()
+    {
+        return dataAvaliacao.toString();
+    }
+
+    public void setDataAvaliacao(LocalDate dataAvaliacao)
+    {
+        this.dataAvaliacao = dataAvaliacao;
+    }
+
+    public void setEstadoAvaliacao(EstadoAvaliacao estadoAvaliacao)
+    {
+        this.estadoAvaliacao = estadoAvaliacao;
+    }
+
+    public DateTimeFormatter formatter()
+    {
+        return DateTimeFormatter.ofPattern("dd-MM-yyyy");
     }
 
     @Override

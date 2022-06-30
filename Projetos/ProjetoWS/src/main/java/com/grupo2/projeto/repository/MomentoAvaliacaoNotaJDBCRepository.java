@@ -1,9 +1,7 @@
 package com.grupo2.projeto.repository;
 
 
-import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
-import com.grupo2.projeto.model.MomentoAvaliacaoNota;
-import com.grupo2.projeto.model.Projeto;
+import com.grupo2.projeto.model.AvaliacaoNota;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -17,32 +15,32 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @Repository
-public class MomentoAvaliacaoNotaJDBCRepository implements GenericRepository<MomentoAvaliacaoNota>
+public class MomentoAvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoNota>
 {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<MomentoAvaliacaoNota> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    public List<AvaliacaoNota> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("functionFindAll");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(),MomentoAvaliacaoNota.class);
+        return ObjectMapper.mapToObjectList(jdbcCall.execute(), AvaliacaoNota.class);
     }
 
     @Override
-    public MomentoAvaliacaoNota findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    public AvaliacaoNota findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FNC_FIND_MOMENTOAVALIACAONOTA_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id),MomentoAvaliacaoNota.class);
+        return ObjectMapper.mapToObject(jdbcCall.execute(id), AvaliacaoNota.class);
     }
 
 
     @Override
-    public void insert(MomentoAvaliacaoNota model)
+    public void insert(AvaliacaoNota model)
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_MOMENTOAVALIACAONOTA")
@@ -56,7 +54,7 @@ public class MomentoAvaliacaoNotaJDBCRepository implements GenericRepository<Mom
     }
 
     @Override
-    public void update(MomentoAvaliacaoNota model)
+    public void update(AvaliacaoNota model)
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_UPDATE_NOTA")
@@ -74,12 +72,12 @@ public class MomentoAvaliacaoNotaJDBCRepository implements GenericRepository<Mom
 
     }
 
-    public MomentoAvaliacaoNota findByIdAvaliacao(Long idAvaliacao) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    public AvaliacaoNota findByIdAvaliacao(Long idAvaliacao) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FNC_FIND_MOMENTOAVALIACAONOTA_IDAVALIACAO")
                 .declareParameters(new SqlParameter("idAvaliacao", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(idAvaliacao),MomentoAvaliacaoNota.class);
+        return ObjectMapper.mapToObject(jdbcCall.execute(idAvaliacao), AvaliacaoNota.class);
     }
 }

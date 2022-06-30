@@ -133,6 +133,16 @@ public class EdicaoUCDTO extends JDBCTable
         this.rucID = rucID;
     }
 
+    public EstadoEdicaoUC getEstadoEdicaoUC()
+    {
+        return estadoEdicaoUC;
+    }
+
+    public void setEstadoEdicaoUC(EstadoEdicaoUC estadoEdicaoUC)
+    {
+        this.estadoEdicaoUC = estadoEdicaoUC;
+    }
+
     @Override
     public String toString()
     {

@@ -1,12 +1,13 @@
 package com.grupo2.projeto.model.factory;
 
-import com.grupo2.projeto.model.EstadoAvaliacao;
-import com.grupo2.projeto.model.MomentoAvaliacaoNota;
+import com.grupo2.projeto.model.AvaliacaoNota;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MomentoAvaliacaoNotaFactory
 {
-    public MomentoAvaliacaoNota createMomentoAvaliacaoNota(Long idAvaliacao, Integer nota, String justificacao)
+    public AvaliacaoNota createMomentoAvaliacaoNota(Long idAvaliacao, Integer nota, String justificacao)
     {
-        return new MomentoAvaliacaoNota(idAvaliacao, nota, justificacao);
+        return new AvaliacaoNota(idAvaliacao, nota, justificacao);
     }
 }

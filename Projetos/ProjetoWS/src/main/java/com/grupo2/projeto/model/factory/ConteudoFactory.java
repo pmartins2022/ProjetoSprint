@@ -9,6 +9,6 @@ public class ConteudoFactory
 {
     public Conteudo createConteudo(Long id, Long idProjeto, String titulo, String caminhoDocumento, String documento, String linguagem, EstadoConteudo estado)
     {
-        return new Conteudo(id, idProjeto, titulo, caminhoDocumento,documento,linguagem, estado);
+        return new Conteudo(id, idProjeto, titulo, caminhoDocumento,documento,linguagem, estado.name());
     }
 }

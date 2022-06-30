@@ -1,12 +1,10 @@
 package com.grupo2.projeto.repository.jdbc.reflection;
 
 import com.grupo2.projeto.model.JDBCTable;
-import com.grupo2.projeto.model.annotations.ForeignKey;
-import com.grupo2.projeto.model.annotations.PrimaryKey;
-import com.grupo2.projeto.model.annotations.Table;
-import com.grupo2.projeto.model.annotations.Unique;
+import com.grupo2.projeto.model.annotations.*;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 
 public class TableCreator
 {
@@ -62,7 +60,7 @@ public class TableCreator
                         .append("_").append(f.getName()).append(" PRIMARY KEY (").append(f.getName()).append("),\n");
             }
 
-            if(f.isAnnotationPresent(ForeignKey.class))
+            if (f.isAnnotationPresent(ForeignKey.class))
             {
                 sb.append("CONSTRAINT FK_").append(object.getAnnotation(Table.class).tableName().toUpperCase()).append("_")
                         .append(f.getName()).append(" FOREIGN KEY (").append(f.getName()).append(") REFERENCES ")
@@ -95,6 +93,10 @@ public class TableCreator
             return "NUMBER(10,3)";
         }
 
+        if (o.isAssignableFrom(LocalDate.class))
+        {
+            return "DATE";
+        }
         throw new IllegalArgumentException();
     }
 }

@@ -4,7 +4,6 @@ package com.grupo2.projeto.controller;
 import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
 import com.grupo2.projeto.exception.*;
-import com.grupo2.projeto.model.MomentoAvaliacaoNota;
 import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.MomentoAvaliacaoNotaService;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +26,7 @@ public class AvaliacaoController
     @Autowired
     private MomentoAvaliacaoNotaService momentoAvaliacaoNotaService;
 
-   /* @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/criar")
     public ResponseEntity<AvaliacaoDTO> createAvaliacao(@RequestBody AvaliacaoDTO avaliacaoDTO)
     {
@@ -92,7 +90,6 @@ public class AvaliacaoController
 
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
-    */
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/avaliar")

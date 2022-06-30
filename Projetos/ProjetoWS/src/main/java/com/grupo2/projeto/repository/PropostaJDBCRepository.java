@@ -1,7 +1,6 @@
 package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.dto.PropostaDTO;
-import com.grupo2.projeto.model.MomentoAvaliacaoNota;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;

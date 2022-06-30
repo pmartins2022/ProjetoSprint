@@ -17,7 +17,7 @@ public class OrganizacaoDTO extends JDBCTable
      * Id de OrganizaoDTO
      */
 
-    @PrimaryKey( generated = true)
+    @PrimaryKey( generated = false)
     private Long id;
 
     private String denominacao;

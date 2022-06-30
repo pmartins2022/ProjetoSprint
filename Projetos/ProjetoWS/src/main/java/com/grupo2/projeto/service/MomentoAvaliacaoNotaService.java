@@ -4,21 +4,22 @@ import com.grupo2.projeto.dto.EdicaoUCDTO;
 import com.grupo2.projeto.dto.MomentoAvaliacaoNotaDTO;
 import com.grupo2.projeto.dto.PropostaDTO;
 import com.grupo2.projeto.dto.mapper.MomentoAvaliacaoNotaMapper;
+import com.grupo2.projeto.exception.ErroGeralException;
+import com.grupo2.projeto.exception.OptionalVazioException;
+import com.grupo2.projeto.exception.ValidacaoInvalidaException;
 import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.EstadoAvaliacao;
-import com.grupo2.projeto.model.MomentoAvaliacaoNota;
+import com.grupo2.projeto.model.AvaliacaoNota;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.*;
 import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class MomentoAvaliacaoNotaService
@@ -60,7 +61,7 @@ public class MomentoAvaliacaoNotaService
         }
 
 
-        MomentoAvaliacaoNota nota = null;
+        AvaliacaoNota nota = null;
 
         try
         {
@@ -74,7 +75,7 @@ public class MomentoAvaliacaoNotaService
             throw new ErroGeralException("Esta avaliacao ja contem uma nota.");
         }
 
-        MomentoAvaliacaoNota mom = mapper.toModel(dto);
+        AvaliacaoNota mom = mapper.toModel(dto);
 
          momentoAvaliacaoNotaJDBCRepository.insert(mom);
     }
@@ -104,7 +105,7 @@ public class MomentoAvaliacaoNotaService
     public void reviewAvaliacao(Long idAvaliacaoNota, String avaliacao)
     {
         //VER SE AVALIACAONOTA EXISTE
-        MomentoAvaliacaoNota avaliacaoNota = null;
+        AvaliacaoNota avaliacaoNota = null;
         try
         {
             avaliacaoNota = momentoAvaliacaoNotaJDBCRepository.findById(idAvaliacaoNota);
@@ -120,7 +121,7 @@ public class MomentoAvaliacaoNotaService
             avaliacaoModel = avaliacaoJDBCRepository.findById(avaliacaoNota.getIdAvaliacao());
         } catch (Exception e)
         {
-            throw new OptionalVazioException("Não existe Avaliacao com este ID: " + avaliacaoModel.getId());
+            throw new OptionalVazioException("Não existe Avaliacao com este ID: " + avaliacaoNota.getIdAvaliacao());
         }
 
         //VERIFICAR - SE RUC QUE FEZ PEDIDO É IGUAL AO RUC DA EDICAO ONDE A AVALIACAO(PROPOSTA) ESTÁ INSERIDA
@@ -184,12 +185,16 @@ public class MomentoAvaliacaoNotaService
         try
         {
             value = EstadoAvaliacao.valueOf(avaliacao);
-        }
-        catch(IllegalArgumentException e)
+        } catch (IllegalArgumentException e)
         {
-            throw e;
+            throw new ErroGeralException("Nao foi possivel criar enum a partir do valor: "+avaliacao);
         }
 
+        if (value != EstadoAvaliacao.PENDENTE)
+        {
+         throw new ValidacaoInvalidaException("Para concluir uma AvaliacaoNota esta tem que estar em PENDENTE." +
+                 "Estado atual: "+ value.name());
+        }
 
         avaliacaoNota.updateEstado(value);
 
@@ -199,6 +204,13 @@ public class MomentoAvaliacaoNotaService
         } catch (Exception e)
         {
             throw new RuntimeException(e);
+        }
+
+        if (value == EstadoAvaliacao.CONCLUIDO)
+        {
+            avaliacaoModel.setEstadoAvaliacao(EstadoAvaliacao.CONCLUIDO);
+
+            avaliacaoJDBCRepository.update(avaliacaoModel);
         }
     }
 
@@ -238,7 +250,6 @@ public class MomentoAvaliacaoNotaService
             throw new OptionalVazioException("Não há propostas nessa Edição: "+ edicaoUCActive.getId());
         }
 
-
         //LISTA DE AVALIACOES DE CADA UMA DAS PROPOSTAS
         List<Avaliacao> avaliacaoList =new ArrayList<>();
 
@@ -254,9 +265,8 @@ public class MomentoAvaliacaoNotaService
             throw new RuntimeException(e);
         }
 
-
         //PARA CADA AVALIACAO PEGAR NA SUA RESPETIVA MOMENTOAVALIACAONOTA
-        List<MomentoAvaliacaoNota> avaliacaoNotaList = new ArrayList<>();
+        List<AvaliacaoNota> avaliacaoNotaList = new ArrayList<>();
 
         try
         {
@@ -269,7 +279,6 @@ public class MomentoAvaliacaoNotaService
         {
             throw new RuntimeException(e);
         }
-
 
         EstadoAvaliacao value;
         try

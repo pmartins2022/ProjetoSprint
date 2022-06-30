@@ -5,25 +5,23 @@ import com.grupo2.projeto.model.annotations.IgnoreField;
 import com.grupo2.projeto.model.annotations.PrimaryKey;
 import com.grupo2.projeto.model.annotations.Table;
 
-@Table(tableName = "MOMENTOAVALIACAONOTA")
-public class MomentoAvaliacaoNota extends JDBCTable
+@Table(tableName = "AVALIACAONOTA")
+public class AvaliacaoNota extends JDBCTable
 {
     @IgnoreField
-    @PrimaryKey( generated = true)
+    @PrimaryKey(generated = true)
     private Long id;
-
-    @ForeignKey( className = Avaliacao.class, fieldName = "ID")
+    @ForeignKey(className = Avaliacao.class, fieldName = "ID")
     private Long idAvaliacao;
-
     private Integer nota;
-
     private String justificacao;
-
     private EstadoAvaliacao estadoAvaliacao;
 
-    public MomentoAvaliacaoNota(){}
+    public AvaliacaoNota()
+    {
+    }
 
-    public MomentoAvaliacaoNota(Long idAvaliacao, Integer nota, String justificacao)
+    public AvaliacaoNota(Long idAvaliacao, Integer nota, String justificacao)
     {
         this.idAvaliacao = idAvaliacao;
         this.nota = nota;
@@ -31,7 +29,7 @@ public class MomentoAvaliacaoNota extends JDBCTable
         this.estadoAvaliacao = EstadoAvaliacao.PENDENTE;
     }
 
-    public MomentoAvaliacaoNota(Long id, Long idAvaliacao, Integer nota, String justificacao, String estadoAvaliacao)
+    public AvaliacaoNota(Long id, Long idAvaliacao, Integer nota, String justificacao, String estadoAvaliacao)
     {
         this.id = id;
         this.idAvaliacao = idAvaliacao;

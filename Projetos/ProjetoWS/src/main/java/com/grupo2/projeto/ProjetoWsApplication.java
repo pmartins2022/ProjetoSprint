@@ -4,6 +4,7 @@ import com.grupo2.projeto.dto.*;
 import com.grupo2.projeto.model.*;
 import com.grupo2.projeto.repository.UtilizadorJDBCRepository;
 import com.grupo2.projeto.repository.OrganizacaoJDBCRepository;
+import com.grupo2.projeto.repository.jdbc.reflection.TableCreator;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.ConteudoService;
 import com.grupo2.projeto.service.ProjetoService;
@@ -13,20 +14,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.*;
-
 @SpringBootApplication
 public class ProjetoWsApplication
 {
-	@Autowired
-	OrganizacaoJDBCRepository organizacaoJDBCRepository;
-
-	@Autowired
-	ObjectMapper objectMapper;
-
-	@Autowired
-	UtilizadorJDBCRepository utilizadorJDBCRepository;
-
 	public static void main(String[] args) throws IllegalAccessException
 	{
 		SpringApplication.run(ProjetoWsApplication.class, args);
@@ -37,7 +27,7 @@ public class ProjetoWsApplication
 	{
 		return (args) ->
 		{
-			/*String talUt = TableCreator.generateFromTable(UtilizadorDTO.class);
+			String talUt = TableCreator.generateFromTable(UtilizadorDTO.class);
 			String talUC = TableCreator.generateFromTable(UnidadeCurricularDTO.class);
 			String talED = TableCreator.generateFromTable(EdicaoUCDTO.class);
 			String talPO = TableCreator.generateFromTable(PropostaDTO.class);
@@ -46,7 +36,7 @@ public class ProjetoWsApplication
 			String talMO = TableCreator.generateFromTable(MomentoAvaliacaoDTO.class);
 			String talAV = TableCreator.generateFromTable(Avaliacao.class);
 			String talORG = TableCreator.generateFromTable(OrganizacaoDTO.class);
-			String talMAN = TableCreator.generateFromTable(MomentoAvaliacaoNota.class);
+			String talMAN = TableCreator.generateFromTable(AvaliacaoNota.class);
 
 			System.out.println(talORG);
 			System.out.println(talUt);
@@ -60,7 +50,7 @@ public class ProjetoWsApplication
 			System.out.println(talMO);
 			System.out.println(talAV);
 
-			System.out.println(talMAN);*/
+			System.out.println(talMAN);
 
 		};
 	}

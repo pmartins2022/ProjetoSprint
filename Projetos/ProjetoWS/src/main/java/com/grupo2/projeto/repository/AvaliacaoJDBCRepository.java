@@ -3,6 +3,7 @@ package com.grupo2.projeto.repository;
 import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.OrganizacaoDTO;
 import com.grupo2.projeto.model.Avaliacao;
+import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -57,6 +58,22 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
                 dto.getArguenteId(), dto.getIdProjeto(), dto.getConteudo());
     }
 
+    public void insert(Avaliacao dto, Conteudo conteudo)
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("PROC_INSERT_AVALIACAO")
+                .declareParameters(
+                        new SqlParameter("id",OracleTypes.NUMBER),
+                        new SqlParameter("idMomentoAvaliacao",OracleTypes.NUMBER),
+                        new SqlParameter("presidenteId",OracleTypes.NUMBER),
+                        new SqlParameter("orientadorId",OracleTypes.NUMBER),
+                        new SqlParameter("arguenteId",OracleTypes.NUMBER),
+                        new SqlParameter("idProjeto",OracleTypes.NUMBER),
+                        new SqlParameter("conteudo",OracleTypes.NUMBER));
+        jdbcCall.execute(dto.getId(), dto.getIdMomentoAvaliacao(), dto.getPresidenteId(), dto.getOrientadorId(),
+                dto.getArguenteId(), dto.getIdProjeto(), conteudo.getId());
+    }
+
     @Override
     public void update(Avaliacao dto)
     {
@@ -76,7 +93,7 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
                 .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(projetoID),Avaliacao.class);
     }
-//retorna Lista!!!!!!
+
     public List <Avaliacao> findByPresidenteId(Long presidenteId) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
@@ -85,4 +102,5 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
                 .withReturnValue();
         return ObjectMapper.mapToObjectList(jdbcCall.execute(presidenteId),Avaliacao.class);
     }
+
 }
