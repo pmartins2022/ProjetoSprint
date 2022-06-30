@@ -224,7 +224,7 @@ public class MomentoAvaliacaoNotaService
         }
 
         //LISTA DE PROPOSTAS DESSA EDICAO
-        List<PropostaDTO> listProposta = null;
+        List<PropostaDTO> listProposta = new ArrayList<>();
         try
         {
             listProposta = propostaJDBCRepository.findAllByEdicaoUCID(edicaoUCActive.getId());
@@ -234,7 +234,7 @@ public class MomentoAvaliacaoNotaService
         }
 
         //LISTA DE PROJETOS DESSA EDICAO
-        List<Projeto> listProjeto = null;
+        List<Projeto> listProjeto = new ArrayList<>();
         try
         {
             for (PropostaDTO p :
@@ -284,6 +284,8 @@ public class MomentoAvaliacaoNotaService
             throw e;
         }
 
+
+        //TODAS COM ESTADO
         List<AvaliacaoNota> avaliacaoNotasList = null;
         try
         {
@@ -292,6 +294,10 @@ public class MomentoAvaliacaoNotaService
         {
             throw new ListaVaziaException("Não existem AvaliacaoNotas nesse estado");
         }
+
+        //FILTRAGEM DE LISTA RAWAVALIACOESNOTA ENCONTRADA COM TODAS AVALIACOESNOTALISTA
+        //todas as notas daquele esta E que pertencam à Edição
+        avaliacaoNotasList.removeIf(nota -> !(avaliacaoNotaRawList.contains(nota)));
 
         return avaliacaoNotasList.stream().map(mapper::toDTO).toList();
     }

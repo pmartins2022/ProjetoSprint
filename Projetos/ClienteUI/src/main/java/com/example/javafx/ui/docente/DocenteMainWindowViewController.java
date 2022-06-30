@@ -279,7 +279,7 @@ public class DocenteMainWindowViewController
     }
 
     public void rejeitarProposta(ActionEvent actionEvent)
-    {//todo
+    {
         try
         {
             propostaController.rejectProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
