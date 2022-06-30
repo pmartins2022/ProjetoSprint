@@ -3,7 +3,6 @@ package com.example.javafx.service;
 import com.example.javafx.dto.*;
 import com.example.javafx.dto.factory.PropostaCandidaturaIDDTOFactory;
 import com.example.javafx.exception.RestPostException;
-import com.example.javafx.model.LoginContext;
 import com.example.javafx.repository.rest.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -143,7 +142,7 @@ public class PropostaService
         return propostaRestRepo.alunoCandidaturaProposta(propostaID);
     }
 
-    public List<MomentoAvaliacaoNotaDTO> findAllAvaliacaoNotaByRucIDAndEstado(Long rucID, String estado)
+    public List<AvaliacaoNotaDTO> findAllAvaliacaoNotaByRucIDAndEstado(Long rucID, String estado)
     {
         return avaliacaoRestRepo.findAllByEstadoAndRucID(rucID, estado);
     }

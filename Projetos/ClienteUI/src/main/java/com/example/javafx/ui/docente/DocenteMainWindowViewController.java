@@ -6,6 +6,7 @@ import com.example.javafx.controller.docente.DocenteController;
 import com.example.javafx.controller.docente.ProjetoController;
 import com.example.javafx.dto.*;
 import com.example.javafx.exception.ErrorDetail;
+import com.example.javafx.model.EstadoAvaliacao;
 import com.example.javafx.model.LoginContext;
 import com.example.javafx.ui.utils.AlertBuilder;
 import com.example.javafx.ui.utils.JavaFXUtils;
@@ -58,12 +59,16 @@ public class DocenteMainWindowViewController
     public ChoiceBox<AvaliacaoDTO> avaliacaoChoice;
     public TextField avaliacaoNotaText;
     public TextArea justificacaoNotaText;
-    public ChoiceBox avaliacaoNotaChoice;
+    public ChoiceBox<AvaliacaoNotaDTO> avaliacaoNotaChoice;
+
+
 
     private DocenteController docenteController;
     private PropostaController propostaController;
     private ProjetoController projetoController;
     private AvaliacaoController avaliacaoController;
+
+    private AvaliacaoNotaDTO notaAtual;
 
     @FXML
     public void logOut(ActionEvent event)
@@ -83,7 +88,12 @@ public class DocenteMainWindowViewController
         docentePaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> docenteTabPaneChanged(t1));
         rucPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> rucTabPaneChanged(t1));
 
+        avaliacaoChoice.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> atualizarNota(t1));
+
+
         iniciarTabHome();
+
+        notaAtual = null;
     }
 
 
@@ -268,7 +278,7 @@ public class DocenteMainWindowViewController
     }
 
     public void rejeitarProposta(ActionEvent actionEvent)
-    {
+    {//todo
         try
         {
             propostaController.rejectProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
@@ -495,7 +505,28 @@ public class DocenteMainWindowViewController
     {
         try
         {
-            
+            if (notaAtual == null)
+            {
+                notaAtual = new AvaliacaoNotaDTO(null,
+                        avaliacaoChoice.getSelectionModel().getSelectedItem().getId(),
+                        Long.parseLong(avaliacaoNotaText.getText()),
+                        justificacaoNotaText.getText(),
+                        EstadoAvaliacao.PENDENTE);
+
+                //avaliacaoController.criarNota(notaAtual);
+            }
+            else
+            {
+                notaAtual.setNota(Long.parseLong(avaliacaoNotaText.getText()));
+                notaAtual.setJustificacao(justificacaoNotaText.getText());
+                notaAtual.setEstadoAvaliacao(EstadoAvaliacao.PENDENTE);
+                avaliacaoController.atualizarNota(notaAtual);
+            }
+
+
+
+
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "NOTA ALTERADA COM SUCESSO", "Sucesso na alteração de Nota");
         }
         catch (ErrorDetail e)
         {
@@ -505,6 +536,17 @@ public class DocenteMainWindowViewController
         {
             avaliacaoChoice.getItems().clear();
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
+        }
+    }
+
+    public void atualizarNota(Number index)
+    {
+        notaAtual = avaliacaoController.findNotaByAvaliacaoID(index.intValue());
+
+        if (notaAtual != null)
+        {
+            avaliacaoNotaText.setText(notaAtual.getNota().toString());
+            justificacaoNotaText.setText(notaAtual.getJustificacao().toString());
         }
     }
 }
