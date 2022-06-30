@@ -95,4 +95,25 @@ public class AvaliacaoRestRepo
             throw new RestPostException("Problema no servidor: "+e.getMessage());
         }
     }
+
+    public void criarNota(AvaliacaoNotaDTO avaliacao)
+    {
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/avaliar").post()
+                    .header("Authorization", LoginContext.getToken())
+                    .body(BodyInserters.fromValue(avaliacao)).retrieve();
+
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            responseSpec.toBodilessEntity().block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException("Problema no servidor: "+e.getMessage());
+        }
+    }
 }
+

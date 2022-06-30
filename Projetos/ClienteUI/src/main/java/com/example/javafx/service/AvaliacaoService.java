@@ -30,4 +30,9 @@ public class AvaliacaoService
     {
         restRepo.atualizarNota(notaAtual);
     }
+
+    public void criarNota(AvaliacaoNotaDTO avaliacao)
+    {
+        restRepo.criarNota(avaliacao);
+    }
 }

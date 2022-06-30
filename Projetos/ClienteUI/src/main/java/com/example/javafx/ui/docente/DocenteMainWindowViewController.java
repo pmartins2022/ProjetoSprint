@@ -55,6 +55,7 @@ public class DocenteMainWindowViewController
     public TabPane orientadorPaneID;
     public TabPane mainPaneID;
     public TextField alunoIDTxt;
+
     public Button confirmarECriarAvaliacao;
     public ChoiceBox<AvaliacaoDTO> avaliacaoChoice;
     public TextField avaliacaoNotaText;
@@ -513,7 +514,7 @@ public class DocenteMainWindowViewController
                         justificacaoNotaText.getText(),
                         EstadoAvaliacao.PENDENTE);
 
-                //avaliacaoController.criarNota(notaAtual);
+                avaliacaoController.criarNota(notaAtual);
             }
             else
             {
@@ -522,9 +523,6 @@ public class DocenteMainWindowViewController
                 notaAtual.setEstadoAvaliacao(EstadoAvaliacao.PENDENTE);
                 avaliacaoController.atualizarNota(notaAtual);
             }
-
-
-
 
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "NOTA ALTERADA COM SUCESSO", "Sucesso na alteração de Nota");
         }
@@ -549,4 +547,5 @@ public class DocenteMainWindowViewController
             justificacaoNotaText.setText(notaAtual.getJustificacao().toString());
         }
     }
+
 }

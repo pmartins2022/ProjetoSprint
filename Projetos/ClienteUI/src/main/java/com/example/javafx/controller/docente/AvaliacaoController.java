@@ -36,5 +36,10 @@ public class AvaliacaoController
     {
         service.atualizarNota(notaAtual);
     }
+
+    public void criarNota(AvaliacaoNotaDTO avaliacao)
+    {
+        service.criarNota(avaliacao);
+    }
 }
 
