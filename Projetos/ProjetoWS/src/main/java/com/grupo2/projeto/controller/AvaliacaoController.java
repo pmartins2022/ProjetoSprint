@@ -6,7 +6,7 @@ import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.AvaliacaoService;
-import com.grupo2.projeto.service.MomentoAvaliacaoNotaService;
+import com.grupo2.projeto.service.AvaliacaoNotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/avaliacao")
@@ -24,7 +23,7 @@ public class AvaliacaoController
     private AvaliacaoService service;
 
     @Autowired
-    private MomentoAvaliacaoNotaService momentoAvaliacaoNotaService;
+    private AvaliacaoNotaService avaliacaoNotaService;
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/criar")
@@ -89,7 +88,7 @@ public class AvaliacaoController
     {
         try
         {
-            momentoAvaliacaoNotaService.createAvaliacaoNota(dto);
+            avaliacaoNotaService.createAvaliacaoNota(dto);
             return new ResponseEntity<>(null, HttpStatus.CREATED);
         }
         catch (Exception e)
@@ -104,7 +103,7 @@ public class AvaliacaoController
     {
         try
         {
-            List<AvaliacaoNotaDTO> list = momentoAvaliacaoNotaService.findAllByEstadoAndRucID(LoginContext.getCurrent().getId(), estado);
+            List<AvaliacaoNotaDTO> list = avaliacaoNotaService.findAllByEstadoAndRucID(LoginContext.getCurrent().getId(), estado);
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
         catch(IllegalArgumentException e)
@@ -119,7 +118,7 @@ public class AvaliacaoController
     {
         try
         {
-            momentoAvaliacaoNotaService.reviewAvaliacao(id, avaliacao);
+            avaliacaoNotaService.reviewAvaliacao(id, avaliacao);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(IllegalArgumentException e)
@@ -136,7 +135,7 @@ public class AvaliacaoController
     public ResponseEntity<Object> editarAvaliacaoNota(@PathVariable("id") Long id, @RequestParam("nota") int nota,@RequestParam("justificacao") String justificacao)
     {
         try{
-            momentoAvaliacaoNotaService.editarAvaliacaoNota(id,nota,justificacao);
+            avaliacaoNotaService.editarAvaliacaoNota(id,nota,justificacao);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(IllegalArgumentException e)
