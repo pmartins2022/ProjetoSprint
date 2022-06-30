@@ -14,13 +14,12 @@ import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Service
-public class MomentoAvaliacaoNotaService
+public class AvaliacaoNotaService
 {
     @Autowired
     private MomentoAvaliacaoNotaMapper mapper;

@@ -72,11 +72,11 @@ public class ConteudoService
             return mapper.toDTO(conteudo);
         } catch (Exception e)
         {
-            throw new OptionalVazioException("Não existe Conteúdo com esse ID: "+ id);
+            throw new OptionalVazioException("Não existe Conteúdo com esse ID: " + id);
         }
     }
 
-    public int acceptConteudo(Long idConteudo)
+    public void acceptConteudo(Long idConteudo) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         Conteudo conteudo = null;
         try
@@ -93,63 +93,71 @@ public class ConteudoService
                     idConteudo + " encontra-se em fase de " + conteudo.getEstadoConteudo().name());
         }
 
-        Optional<Projeto> projeto = projetoRepository.findById(conteudo.get().getIdProjeto());
-
-        if (projeto.isEmpty())
+        Projeto projeto = null;
+        try
+        {
+            projeto = projetoJDBCRepository.findById(conteudo.getIdProjeto());
+        } catch (Exception e)
         {
             throw new OptionalVazioException("Projeto nao existe");
         }
 
-        if(!projeto.get().getOrientadorId().equals(LoginContext.getCurrent().getId()))
+        if (!projeto.getOrientadorId().equals(LoginContext.getCurrent().getId()))
         {
             throw new IdInvalidoException("Este docente nao e orientador do projeto deste conteudo");
         }
 
-        conteudo.get().setEstadoConteudo(EstadoConteudo.APROVADO);
+        conteudo.setEstadoConteudo(EstadoConteudo.APROVADO);
 
-        return atualizarConteudo(conteudo.get().getId(), conteudo.get().getEstadoConteudo());
+        atualizarConteudo(conteudo);
     }
 
-    public int rejeitarConteudo(Long idConteudo)
+    public void rejeitarConteudo(Long idConteudo)
     {
-        Optional<Conteudo> conteudo = repository.findById(idConteudo);
-
-        if (conteudo.isEmpty())
+        Conteudo conteudo = null;
+        try
         {
-            throw new IdInvalidoException("Conteudo com esse id nao existe");
+            conteudo = conteudoJDBCRepository.findById(idConteudo);
+        } catch (Exception e)
+        {
+            throw new OptionalVazioException("Conteudo nao existe");
         }
 
-        Optional<Projeto> projeto = projetoRepository.findById(conteudo.get().getIdProjeto());
+        Projeto projeto = null;
 
-        if (projeto.isEmpty())
+        try
+        {
+            projeto = projetoJDBCRepository.findById(conteudo.getIdProjeto());
+        }
+        catch (Exception e)
         {
             throw new OptionalVazioException("Projeto nao existe");
         }
 
-        if(!projeto.get().getOrientadorId().equals(LoginContext.getCurrent().getId()))
+        if (!projeto.getOrientadorId().equals(LoginContext.getCurrent().getId()))
         {
             throw new IdInvalidoException("Este docente nao e orientador do projeto deste conteudo");
         }
 
         try
         {
-            conteudo.get().rejeitarConteudo();
+            conteudo.rejeitarConteudo();
         } catch (AtualizacaoInvalidaException e)
         {
             throw new AtualizacaoInvalidaException(e.getMessage());
         }
 
-        return atualizarConteudo(conteudo.get().getId(), conteudo.get().getEstadoConteudo());
+        atualizarConteudo(conteudo);
     }
 
-    private int atualizarConteudo(Long id, EstadoConteudo estadoConteudo)
+    private void atualizarConteudo(Conteudo cont)
     {
-        return repository.atualizarConteudo(id, estadoConteudo);
+        conteudoJDBCRepository.update(cont);
     }
 
-    public List<ConteudoDTO> findAllByIdProjeto(Long id)
+    public List<ConteudoDTO> findAllByIdProjeto(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        List<Conteudo> list = repository.findAllByIdProjeto(id);
+        List<Conteudo> list = conteudoJDBCRepository.findAllByIdProjeto(id);
 
         return list.stream().map(mapper::toDTO).toList();
     }

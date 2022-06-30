@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,13 +26,7 @@ public class ConteudoController
     {
         try
         {
-            int x = service.createAndSave(conteudoDTO);
-
-            if (x == 0)
-            {
-                throw new OptionalVazioException("NAO FOI POSSIVEL GUARDAR NA DB");
-            }
-
+            service.createAndSave(conteudoDTO);
             return new ResponseEntity<>(null, HttpStatus.CREATED);
         } catch (Exception e)
         {
@@ -45,15 +40,13 @@ public class ConteudoController
     @GetMapping("/{id}")
     public ResponseEntity<ConteudoDTO> findById(@PathVariable Long id)
     {
-        Optional<ConteudoDTO> optionalConteudoDTO = service.findById(id);
-
-        if (optionalConteudoDTO.isPresent())
+        try
         {
-            ConteudoDTO conteudoDTO = optionalConteudoDTO.get();
+            ConteudoDTO conteudoDTO = service.findById(id);
             return new ResponseEntity<>(conteudoDTO, HttpStatus.OK);
-        } else
+        } catch (OptionalVazioException e)
         {
-            throw new ErroGeralException("Nao existe conteudo com esse ID");
+            throw e;
         }
     }
 
@@ -63,20 +56,14 @@ public class ConteudoController
     {
         try
         {
-            int conteudoUpdate = service.acceptConteudo(idConteudo);
-
-            if (conteudoUpdate == 0)
-            {
-                throw new OptionalVazioException("NAO FOI POSSIVEL ATUALIZAR NA DB");
-            }
-
+            service.acceptConteudo(idConteudo);
             return ResponseEntity.ok(null);
-        } catch (OptionalVazioException e)
+        } catch (OptionalVazioException | ValidacaoInvalidaException e)
         {
             throw e;
-        } catch (ValidacaoInvalidaException e)
+        } catch (Exception e)
         {
-            throw e;
+            throw new ErroGeralException("Erro ao aceitar conteudo: "+e.getMessage());
         }
     }
 
@@ -86,16 +73,9 @@ public class ConteudoController
     {
         try
         {
-            int dto = service.rejeitarConteudo(idConteudo);
-            if (dto == 0)
-            {
-                throw new OptionalVazioException("NAO FOI POSSIBLE ALTERAR NA DB, ja foste");
-            }
+            service.rejeitarConteudo(idConteudo);
             return ResponseEntity.ok(null);
-        } catch (AtualizacaoInvalidaException e)
-        {
-            throw e;
-        } catch (IdInvalidoException e)
+        } catch (AtualizacaoInvalidaException | IdInvalidoException e)
         {
             throw e;
         }
@@ -106,12 +86,19 @@ public class ConteudoController
     public ResponseEntity<List<ConteudoDTO>> findAllByIdProjeto(@PathVariable("id") Long id)
     {
 
-        List<ConteudoDTO> dtoList = service.findAllByIdProjeto(id);
-        if (dtoList.isEmpty())
+        try
         {
-            throw new ListaVaziaException("Não existem conteúdos para esse id de projeto " + id);
-        }
+            List<ConteudoDTO> dtoList = service.findAllByIdProjeto(id);
+            if (dtoList.isEmpty())
+            {
+                throw new ListaVaziaException("Não existem conteúdos para esse id de projeto " + id);
+            }
 
-        return new ResponseEntity<>(dtoList, HttpStatus.OK);
+            return new ResponseEntity<>(dtoList, HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            throw new ErroGeralException("Erro geral na DB a tentar encontrar by ID Projeto: "+e.getMessage());
+        }
     }
 }
