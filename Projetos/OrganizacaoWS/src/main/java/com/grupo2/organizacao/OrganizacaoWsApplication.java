@@ -18,14 +18,14 @@ public class OrganizacaoWsApplication {
 	{
 		return (args) ->
 		{
-			if (service.findAll().size() > 0) return;
-
-			service.createAndSave(new OrganizacaoDTO(500_000_005));
-            service.createAndSave(new OrganizacaoDTO(500_000_010));
-			service.createAndSave(new OrganizacaoDTO(500_000_015));
-			service.createAndSave(new OrganizacaoDTO(500_000_020));
-			service.createAndSave(new OrganizacaoDTO(500_000_025));
-			service.createAndSave(new OrganizacaoDTO(500_000_030));
-			service.createAndSave(new OrganizacaoDTO(500_000_035));
+//			if (service.findAll().size() > 0) return;
+//
+//			service.createAndSave(new OrganizacaoDTO(500_000_005));
+//            service.createAndSave(new OrganizacaoDTO(500_000_010));
+//			service.createAndSave(new OrganizacaoDTO(500_000_015));
+//			service.createAndSave(new OrganizacaoDTO(500_000_020));
+//			service.createAndSave(new OrganizacaoDTO(500_000_025));
+//			service.createAndSave(new OrganizacaoDTO(500_000_030));
+//			service.createAndSave(new OrganizacaoDTO(500_000_035));
 		};}
 }

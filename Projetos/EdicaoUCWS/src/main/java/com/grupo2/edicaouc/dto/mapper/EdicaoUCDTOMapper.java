@@ -34,6 +34,6 @@ public class EdicaoUCDTOMapper
      */
     public EdicaoUCDTO toDTO(EdicaoUC edicao)
     {
-        return new EdicaoUCDTO(edicao.getId(), edicao.getUCCode(),edicao.getAnoLetivoCode(), edicao.getRucID());
+        return new EdicaoUCDTO(edicao.getId(), edicao.getUCCode(),edicao.getAnoLetivoCode(), edicao.getRucID(), edicao.getEstadoEdicaoUC());
     }
 }

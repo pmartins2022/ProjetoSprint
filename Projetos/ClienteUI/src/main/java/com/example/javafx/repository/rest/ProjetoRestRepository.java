@@ -71,7 +71,7 @@ public class ProjetoRestRepository
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(new ParameterizedTypeReference<List<ConteudoDTO>>()
-            {
+            { //DTO DE CONTEUDO -STRING ESTADO    e o recebido no endpoint de rest
             }).block();
         }
         catch (RestPostException e)
@@ -80,7 +80,7 @@ public class ProjetoRestRepository
         }
     }
 
-    public ConteudoDTO acceptConteudo(Long conteudoID) throws RestPostException
+    public void acceptConteudo(Long conteudoID) throws RestPostException
     {
         try
         {
@@ -90,7 +90,7 @@ public class ProjetoRestRepository
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-            return responseSpec.bodyToMono(ConteudoDTO.class).block();
+            responseSpec.toBodilessEntity().block();
         }
         catch (RestPostException e)
         {

@@ -266,8 +266,8 @@ public class DocenteMainWindowViewController
         try
         {
 
-            ProjetoDTO projetoDTO = propostaController.acceptProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
-            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Proposta Aceite e Projeto Criado", projetoDTO.toString());
+            propostaController.acceptProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
+            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Proposta Aceite e Projeto Criado", "em cima");
             iniciarGerirProposta();
         } catch (ErrorDetail e)
         {

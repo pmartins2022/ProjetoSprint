@@ -93,9 +93,9 @@ public class PropostaController
         return propostaService.findAllPropostaByEstadoAtual(1);
     }
 
-    public ProjetoDTO acceptProposta(Long idProposta, String alunoID)
+    public void acceptProposta(Long idProposta, String alunoID)
     {
-        return propostaService.acceptProposta(idProposta, Long.parseLong(alunoID));
+        propostaService.acceptProposta(idProposta, Long.parseLong(alunoID));
     }
 
     public Boolean rejectProposta(Long idProposta, String alunoID)

@@ -5,6 +5,7 @@ import com.grupo2.edicaouc.dto.MomentoAvaliacaoDTO;
 import com.grupo2.edicaouc.dto.mapper.EdicaoMomentoAvaliacaoDTOMapper;
 import com.grupo2.edicaouc.dto.mapper.MomentoAvaliacaoDTOMapper;
 import com.grupo2.edicaouc.exception.OptionalVazioException;
+import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
 import com.grupo2.edicaouc.model.EdicaoMomentoAvaliacao;
 import com.grupo2.edicaouc.model.MomentoAvaliacao;
 import com.grupo2.edicaouc.repository.EdicaoMomentoAvaliacaoRepository;
@@ -45,9 +46,10 @@ public class MomentoAvaliacaoService
         try
         {
             projetoRestRepository.saveMomentoAvaliacao(momentoAvaliacaoDTO);
-        } catch (Exception ignored)
+        } catch (Exception e)
         {
             repository.deleteByID(momentoAvaliacaoDTO.getId());
+            throw new ValidacaoInvalidaException("Nao guardou na BD");
         }
 
         return momentoAvaliacaoDTO;

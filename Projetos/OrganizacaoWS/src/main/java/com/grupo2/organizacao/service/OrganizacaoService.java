@@ -73,9 +73,10 @@ public class OrganizacaoService
         try
         {
             projetoRestRepository.saveOrganizacao(dtoSaved);
-        } catch (Exception ignored)
+        } catch (Exception e)
         {
             repository.deleteByID(saved.getId());
+            throw new OptionalVazioException("Nao conseguiu guardar na DB: "+e.getMessage());
         }
 
         return dtoSaved;

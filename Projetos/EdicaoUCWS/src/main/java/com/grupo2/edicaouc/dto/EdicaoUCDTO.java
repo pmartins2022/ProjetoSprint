@@ -1,5 +1,7 @@
 package com.grupo2.edicaouc.dto;
 
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
+
 /**
  * Classe DTO de EdicaoUC
  */
@@ -18,6 +20,7 @@ public class EdicaoUCDTO
      */
     private String anoLetivoCode;
     private Long rucID;
+    private EstadoEdicaoUC estadoEdicaoUC;
 
     /**
      * Inicializa a EdicaoUCDTO sem parametros
@@ -32,11 +35,12 @@ public class EdicaoUCDTO
      * @param ucCode é o ucCode de Edição de Unidade Curricular
      * @param anoLetivoCode é o anoLetivoCode de Edição de Unidade Curricular
      */
-    public EdicaoUCDTO(String ucCode, String anoLetivoCode, Long rucID)
+    public EdicaoUCDTO(String ucCode, String anoLetivoCode, Long rucID, EstadoEdicaoUC estado)
     {
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
+        this.estadoEdicaoUC = estado;
     }
 
     /**
@@ -45,13 +49,15 @@ public class EdicaoUCDTO
      * @param ucCode é o ucCode de EdicaoUCDTO
      * @param anoLetivoCode é o anoLetivoCode de EdicaoUCDTO
      */
-    public EdicaoUCDTO(Long id, String ucCode, String anoLetivoCode, Long rucID)
+    public EdicaoUCDTO(Long id, String ucCode, String anoLetivoCode, Long rucID, EstadoEdicaoUC estado)
     {
         this.id = id;
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
+        this.estadoEdicaoUC = estado;
     }
+
 
     /**
      * Devolve o ucCode de EdicaoUC
@@ -115,6 +121,16 @@ public class EdicaoUCDTO
     public void setRucID(Long rucID)
     {
         this.rucID = rucID;
+    }
+
+    public EstadoEdicaoUC getEstadoEdicaoUC()
+    {
+        return estadoEdicaoUC;
+    }
+
+    public void setEstadoEdicaoUC(EstadoEdicaoUC estadoEdicaoUC)
+    {
+        this.estadoEdicaoUC = estadoEdicaoUC;
     }
 
     @Override

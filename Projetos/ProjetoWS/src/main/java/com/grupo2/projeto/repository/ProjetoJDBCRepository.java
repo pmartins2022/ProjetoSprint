@@ -1,6 +1,7 @@
 package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
+import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
@@ -75,5 +76,14 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(propostaID),Projeto.class);
+    }
+
+    public List<Projeto> findAllByOrientadorId(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FNC_FIND_PROJETO_ORIENTADORID")
+                .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
+                .withReturnValue();
+        return ObjectMapper.mapToObjectList(jdbcCall.execute(id),Projeto.class);
     }
 }

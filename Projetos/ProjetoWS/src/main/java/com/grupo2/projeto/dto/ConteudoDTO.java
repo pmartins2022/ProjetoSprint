@@ -16,13 +16,13 @@ public class ConteudoDTO
 
     private String linguagemDocumento;
 
-    private EstadoConteudo estadoConteudo;
+    private String estadoConteudo;
 
     public ConteudoDTO()
     {
     }
 
-    public ConteudoDTO(Long id, Long projetoId, String titulo, String caminhoDocumento, String documento, String linguagemDocumento, EstadoConteudo estadoConteudo)
+    public ConteudoDTO(Long id, Long projetoId, String titulo, String caminhoDocumento, String documento, String linguagemDocumento, String estadoConteudo)
     {
         this.id = id;
         this.projetoId = projetoId;
@@ -88,12 +88,12 @@ public class ConteudoDTO
         this.linguagemDocumento = linguagemDocumento;
     }
 
-    public EstadoConteudo getEstadoConteudo()
+    public String getEstadoConteudo()
     {
         return estadoConteudo;
     }
 
-    public void setEstadoConteudo(EstadoConteudo estadoConteudo)
+    public void setEstadoConteudo(String estadoConteudo)
     {
         this.estadoConteudo = estadoConteudo;
     }

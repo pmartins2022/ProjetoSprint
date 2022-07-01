@@ -97,16 +97,11 @@ public class EdicaoUCService
         EdicaoUC edicaoUC = mapper.toModel(dto);
         EdicaoUC saveEdicaoUC = repository.saveEdicaoUC(edicaoUC);
 
+        System.out.println(saveEdicaoUC);
+
         EdicaoUCDTO edicaoUCDTO = mapper.toDTO(saveEdicaoUC);
 
 
-        try
-        {
-            projetoRestRepository.saveEdicaoUC(edicaoUCDTO);
-        } catch (Exception ignored)
-        {
-            repository.deleteByID(saveEdicaoUC.getId());
-        }
         return edicaoUCDTO;
     }
 
@@ -142,14 +137,14 @@ public class EdicaoUCService
 
     public EdicaoUCAlunoDTO addAlunoEdicaoUC(UtilizadorDTO dtoPostedRequest, Long edicaoUCID, Long alunoID)
     {
-        Optional<EdicaoUC> edicao = repository.findById(edicaoUCID);
+        Optional<EdicaoUC> optionalEdicaoUC = repository.findById(edicaoUCID);
 
-            if (edicao.isEmpty())
-            {
-                throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
-            }
+        if (optionalEdicaoUC.isEmpty())
+        {
+            throw new OptionalVazioException("EdiçãoUC com esse " + edicaoUCID + " não existe.");
+        }
 
-            if (!edicao.get().getRucID().equals(dtoPostedRequest.getId()))
+            if (!optionalEdicaoUC.get().getRucID().equals(dtoPostedRequest.getId()))
             {
                 throw new ErroGeralException(dtoPostedRequest.getId() + " não é RUC desta edição.");
             }
@@ -206,6 +201,8 @@ public class EdicaoUCService
             throw new ValidacaoInvalidaException("ESSA EDICAO UC NAO E SUA");
         }
 
+        EstadoEdicaoUC original = edicaoToActivate.get().getEstadoEdicaoUC();
+
         edicaoToActivate.get().activateEdicaoUC();
 
         EdicaoUC edicaoUC = repository.ativarEdicao(edicaoToActivate.get());
@@ -215,9 +212,12 @@ public class EdicaoUCService
         try
         {
             projetoRestRepository.saveEdicaoUC(edicaoUCDTO);
-        } catch (Exception ignored)
+        } catch (Exception e)
         {
-            repository.deleteByID(edicaoUC.getId());
+            //repository.deleteByID(edicaoUC.getId());
+            edicaoToActivate.get().setEstado(original);
+            repository.desativarEdicao(edicaoToActivate.get());
+            throw new ErroGeralException("Nao conseguiu guardar na DB: "+e.getMessage());
         }
 
         return mapper.toDTO(edicaoUC);

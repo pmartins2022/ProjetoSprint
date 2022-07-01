@@ -113,9 +113,10 @@ public class UnidadeCurricularService
         try
         {
             projetoRestRepository.saveUnidadeCurricular(dtoUpdated);
-        } catch (Exception ignored)
+        } catch (Exception e)
         {
             repository.deleteByID(ucUpdated.getSigla());
+            throw new ValidacaoInvalidaException("Nao guardou na BD");
         }
 
         return Optional.of(dtoUpdated);

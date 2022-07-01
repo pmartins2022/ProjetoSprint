@@ -26,6 +26,8 @@ public class TabelasController
     @PostMapping("/edicaoUC")
     public ResponseEntity<Boolean> save(@RequestBody EdicaoUCDTO edicaoUCDTO, HttpServletRequest req)
     {
+        System.out.println("ProjetoWS");
+        System.out.println(edicaoUCDTO);
         String encoded =  req.getHeader(SecurityUtils.AUTH);
 
         LoginContext.setToken(encoded);
@@ -33,6 +35,7 @@ public class TabelasController
         try
         {
             service.save(edicaoUCDTO);
+            System.out.println("Depois do service");
         } catch (Exception e)
         {
             throw new RuntimeException(e);

@@ -14,11 +14,11 @@ public class ConteudoDTOMapper
 
     public Conteudo toModel(ConteudoDTO conteudoDTO)
     {
-        return avaliacaoFactory.createConteudo(conteudoDTO.getId(), conteudoDTO.getProjetoId(), conteudoDTO.getTitulo(), conteudoDTO.getCaminhoDocumento(), conteudoDTO.getDocumento(), conteudoDTO.getLinguagemDocumento(), conteudoDTO.getEstadoConteudo());
+        return avaliacaoFactory.createConteudo(conteudoDTO.getId(), conteudoDTO.getProjetoId(), conteudoDTO.getTitulo(), conteudoDTO.getCaminhoDocumento(), conteudoDTO.getDocumento(), conteudoDTO.getLinguagemDocumento(),conteudoDTO.getEstadoConteudo());
     }
 
     public ConteudoDTO toDTO(Conteudo saved)
     {
-        return new ConteudoDTO(saved.getId(), saved.getIdProjeto(), saved.getTitulo(), saved.getCaminhoDocumento(), saved.getDocumento(), saved.getLinguagemDocumento(), saved.getEstadoConteudo());
+        return new ConteudoDTO(saved.getId(), saved.getIdProjeto(), saved.getTitulo(), saved.getCaminhoDocumento(), saved.getDocumento(), saved.getLinguagemDocumento(), saved.getEstadoConteudo().name());
     }
 }

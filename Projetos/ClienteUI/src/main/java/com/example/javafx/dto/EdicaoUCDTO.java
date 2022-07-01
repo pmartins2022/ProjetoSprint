@@ -1,5 +1,7 @@
 package com.example.javafx.dto;
 
+import com.example.javafx.dto.enums.EstadoEdicaoUC;
+
 /**
  * Classe de dados para edicao UC.
  */
@@ -10,6 +12,8 @@ public class EdicaoUCDTO
     private String anoLetivoCode;
 
     private Long rucID;
+    private EstadoEdicaoUC estadoEdicaoUC;
+
     public EdicaoUCDTO()
     {
     }
@@ -19,6 +23,7 @@ public class EdicaoUCDTO
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
+        this.estadoEdicaoUC = EstadoEdicaoUC.PENDENTE;
     }
 
     public EdicaoUCDTO(Long id, String ucCode, String anoLetivoCode, Long rucID)
@@ -27,6 +32,7 @@ public class EdicaoUCDTO
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;
+        this.estadoEdicaoUC = EstadoEdicaoUC.PENDENTE;
     }
 
     public String getUcCode()
@@ -67,9 +73,25 @@ public class EdicaoUCDTO
         this.rucID = rucID;
     }
 
+    public EstadoEdicaoUC getEstadoEdicaoUC()
+    {
+        return estadoEdicaoUC;
+    }
+
+    public void setEstadoEdicaoUC(EstadoEdicaoUC estadoEdicaoUC)
+    {
+        this.estadoEdicaoUC = estadoEdicaoUC;
+    }
+
     @Override
     public String toString()
     {
-        return String.format("Unidade Curricular: %s; Ano Letivo: %s", ucCode, anoLetivoCode);
+        return "EdicaoUCDTO{" +
+                "id=" + id +
+                ", ucCode='" + ucCode + '\'' +
+                ", anoLetivoCode='" + anoLetivoCode + '\'' +
+                ", rucID=" + rucID +
+                ", estadoEdicaoUC=" + estadoEdicaoUC +
+                '}';
     }
 }

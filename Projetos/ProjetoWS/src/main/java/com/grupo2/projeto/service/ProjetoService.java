@@ -2,12 +2,15 @@ package com.grupo2.projeto.service;
 
 import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.dto.mapper.ProjetoDTOMapper;
+import com.grupo2.projeto.exception.ErroGeralException;
 import com.grupo2.projeto.model.Projeto;
+import com.grupo2.projeto.repository.ProjetoJDBCRepository;
 import com.grupo2.projeto.repository.jdbc.GenericJDBCRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,8 @@ public class ProjetoService
      */
     @Autowired
     private ProjetoDTOMapper mapper;
+    @Autowired
+    private ProjetoJDBCRepository projetoJDBCRepository;
 
     /**
      * Endpoint que possibilita encontrar o projeto por id existente no serviço.
@@ -64,9 +69,9 @@ public class ProjetoService
         try
         {
             GenericJDBCRepository.from(jdbcTemplate,projeto).save();
-        } catch (IllegalAccessException e)
+        } catch (Exception e)
         {
-            throw new RuntimeException(e);
+            throw new ErroGeralException("Nao conseguiu guardar na DB: "+e);
         }
 
        /* Projeto savedProjeto = repository.saveProjeto(projeto);
@@ -74,12 +79,8 @@ public class ProjetoService
         return mapper.toDTO(savedProjeto);*/
     }
 
-    public List<ProjetoDTO> findAllByOrientadorId(Long id)
+    public List<ProjetoDTO> findAllByOrientadorId(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        /*List<Projeto> list = repository.findAllByOrientadorId(id);
-
-        return list.stream().map(mapper::toDTO).toList();*/
-
-        return List.of();
+        return projetoJDBCRepository.findAllByOrientadorId(id).stream().map(mapper::toDTO).toList();
     }
 }

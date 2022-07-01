@@ -124,14 +124,6 @@ public class PropostaService
 
         PropostaDTO dtoSaved = mapper.toDTO(prop);
 
-        try
-        {
-            projetoRestRepository.saveProposta(dtoSaved);
-        } catch (Exception ignored)
-        {
-            repository.deleteByID(prop.getId());
-        }
-
         return mapper.toDTO(prop);
     }
 

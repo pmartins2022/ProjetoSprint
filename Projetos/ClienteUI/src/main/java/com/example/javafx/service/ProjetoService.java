@@ -30,15 +30,9 @@ public class ProjetoService
         return repository.findAllByIdProjeto(id);
     }
 
-    public Boolean acceptConteudo(Long conteudoID)
+    public void acceptConteudo(Long conteudoID)
     {
-        ConteudoDTO conteudo = repository.acceptConteudo(conteudoID);
-
-        if(!(conteudo.getEstadoConteudo().equals(EstadoConteudo.APROVADO)))
-        {
-            return false;
-        }
-        return true;
+        repository.acceptConteudo(conteudoID);
     }
 
     public Boolean rejectConteudo(Long conteudoID)

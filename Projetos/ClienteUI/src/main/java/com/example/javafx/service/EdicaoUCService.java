@@ -63,6 +63,8 @@ public class EdicaoUCService
     {
         EdicaoUCDTO edicaoUCDTO = factory.createEdicaoUCDTO(ucDTO.getSigla(), anoLetivoDTO.getSigla(),rucId);
 
+        System.out.println("Nova edicao: "+edicaoUCDTO);
+
         EdicaoUCDTO saved = edicaoUCRestRepo.createEdicaoUC(edicaoUCDTO);
 
         return saved;

@@ -132,6 +132,11 @@ public class Avaliacao extends JDBCTable
         return estadoAvaliacao;
     }
 
+    public String getNameEstadoAvaliacao()
+    {
+        return estadoAvaliacao.name();
+    }
+
     public LocalDate getDataAvaliacao()
     {
         return dataAvaliacao;
@@ -151,6 +156,8 @@ public class Avaliacao extends JDBCTable
     {
         this.estadoAvaliacao = estadoAvaliacao;
     }
+
+
 
     public DateTimeFormatter formatter()
     {
@@ -186,6 +193,8 @@ public class Avaliacao extends JDBCTable
                 ", arguenteId=" + arguenteId +
                 ", idProjeto=" + idProjeto +
                 ", conteudo=" + conteudo +
+                ", estadoAvaliacao=" + estadoAvaliacao +
+                ", dataAvaliacao=" + dataAvaliacao +
                 '}';
     }
 }

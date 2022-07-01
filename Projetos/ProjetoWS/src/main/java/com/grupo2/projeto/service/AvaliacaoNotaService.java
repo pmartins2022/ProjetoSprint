@@ -284,7 +284,6 @@ public class AvaliacaoNotaService
             throw e;
         }
 
-
         //TODAS COM ESTADO
         List<AvaliacaoNota> avaliacaoNotasList = null;
         try
@@ -306,12 +305,20 @@ public class AvaliacaoNotaService
     {
         AvaliacaoNota avaliacaoNota = null;
 
+        try
+        {
+            avaliacaoNota = avaliacaoNotaJDBCRepository.findByIdAvaliacao(idAvaliacao);
+        } catch (Exception e)
+        {
+            throw new OptionalVazioException("Não existe AvaliacaoNota com esse ID de avaliacao: " + idAvaliacao);
+        }
+
         if (avaliacaoNota.getEstadoAvaliacao() != EstadoAvaliacao.REVISAO)
         {
             throw new ErroGeralException("Nao pode ser avaliado");
         }
 
-        if (idAvaliacao != avaliacaoNota.getIdAvaliacao())
+        if (!Objects.equals(idAvaliacao, avaliacaoNota.getIdAvaliacao()))
         {
             throw new ErroGeralException("O id não corresponde a uma avaliacao");
         }

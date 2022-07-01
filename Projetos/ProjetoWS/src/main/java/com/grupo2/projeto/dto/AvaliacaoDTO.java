@@ -17,12 +17,13 @@ public class AvaliacaoDTO
     private Long idProjeto;
 
     private Long idConteudo;
-    private String date;
+    private String estadoAvaliacao;
+    private String dataAvaliacao;
 
 
     public AvaliacaoDTO(){}
 
-    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, String date)
+    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, String estadoAvaliacao, String date)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
@@ -31,10 +32,11 @@ public class AvaliacaoDTO
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
-        this.date = date;
+        this.estadoAvaliacao = estadoAvaliacao;
+        this.dataAvaliacao = date;
     }
 
-    public AvaliacaoDTO(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, String date)
+    public AvaliacaoDTO(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, String estadoAvaliacao, String date)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
         this.presidenteId = presidenteId;
@@ -42,7 +44,8 @@ public class AvaliacaoDTO
         this.arguenteId = arguenteId;
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
-        this.date = date;
+        this.estadoAvaliacao = estadoAvaliacao;
+        this.dataAvaliacao = date;
     }
 
     public Long getId()
@@ -117,18 +120,29 @@ public class AvaliacaoDTO
         this.idConteudo = idConteudo;
     }
 
-    public String getDate()
+    public String getDataAvaliacao()
     {
-        return date;
+        return dataAvaliacao;
     }
 
-    public void setDate(String date)
+    public void setDataAvaliacao(String dataAvaliacao)
     {
-        this.date = date;
+        this.dataAvaliacao = dataAvaliacao;
+    }
+
+    public String getEstadoAvaliacao()
+    {
+        return estadoAvaliacao;
+    }
+
+    public void setEstadoAvaliacao(String estadoAvaliacao)
+    {
+        this.estadoAvaliacao = estadoAvaliacao;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "AvaliacaoDTO{" +
                 "id=" + id +
                 ", idMomentoAvaliacao=" + idMomentoAvaliacao +
@@ -137,6 +151,8 @@ public class AvaliacaoDTO
                 ", arguenteId=" + arguenteId +
                 ", idProjeto=" + idProjeto +
                 ", idConteudo=" + idConteudo +
+                ", estadoAvaliacao='" + estadoAvaliacao + '\'' +
+                ", dataAvaliacao='" + dataAvaliacao + '\'' +
                 '}';
     }
 }

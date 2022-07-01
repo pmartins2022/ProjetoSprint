@@ -144,7 +144,7 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
         }
     }
 
-    public ProjetoDTO acceptProposta(Long idProposta, Long alunoID)
+    public void acceptProposta(Long idProposta, Long alunoID)
     {
         try
         {
@@ -156,7 +156,7 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-            return responseSpec.bodyToMono(ProjetoDTO.class).block();
+            responseSpec.toBodilessEntity().block();
         }
         catch (RestPostException e)
         {

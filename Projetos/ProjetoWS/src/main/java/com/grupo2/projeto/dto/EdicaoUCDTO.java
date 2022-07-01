@@ -147,8 +147,11 @@ public class EdicaoUCDTO extends JDBCTable
     public String toString()
     {
         return "EdicaoUCDTO{" +
-                "UCCode='" + ucCode + '\'' +
-                "anoLetivoCode='" + anoLetivoCode + '\'' +
+                "id=" + id +
+                ", ucCode='" + ucCode + '\'' +
+                ", anoLetivoCode='" + anoLetivoCode + '\'' +
+                ", rucID=" + rucID +
+                ", estadoEdicaoUC=" + estadoEdicaoUC +
                 '}';
     }
 }

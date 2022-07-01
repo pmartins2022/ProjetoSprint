@@ -149,6 +149,11 @@ public class EdicaoUC
         estadoEdicaoUC = EstadoEdicaoUC.DESATIVA;
     }
 
+    public void setEstado(EstadoEdicaoUC estado)
+    {
+        estadoEdicaoUC = estado;
+    }
+
 
     @Override
     public String toString()

@@ -40,22 +40,24 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
         return ObjectMapper.mapToObject(jdbcCall.execute(id),Avaliacao.class);
     }
 
-
     @Override
-    public void insert(Avaliacao dto)
-    {
+    public void insert(Avaliacao avaliacao)
+    {//(IDMOMENTOAVALIACAO, PRESIDENTEID, ORIENTADORID, ARGUENTEID, IDPROJETO, CONTEUDO, ESTADOAVALIACAO, DATAAVALIACAO)
+        System.out.println(avaliacao);
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_AVALIACAO")
                 .declareParameters(
-                        new SqlParameter("id",OracleTypes.NUMBER),
                         new SqlParameter("idMomentoAvaliacao",OracleTypes.NUMBER),
                         new SqlParameter("presidenteId",OracleTypes.NUMBER),
                         new SqlParameter("orientadorId",OracleTypes.NUMBER),
                         new SqlParameter("arguenteId",OracleTypes.NUMBER),
                         new SqlParameter("idProjeto",OracleTypes.NUMBER),
-                        new SqlParameter("conteudo",OracleTypes.NUMBER));
-        jdbcCall.execute(dto.getIdMomentoAvaliacao(), dto.getPresidenteId(), dto.getOrientadorId(),
-                dto.getArguenteId(), dto.getIdProjeto(), dto.getConteudo());
+                        new SqlParameter("conteudo",OracleTypes.NUMBER),
+                        new SqlParameter("estadoAvaliacao",OracleTypes.VARCHAR),
+                        new SqlParameter("dataAvaliacao",OracleTypes.VARCHAR));
+        jdbcCall.execute(avaliacao.getIdMomentoAvaliacao(), avaliacao.getPresidenteId(), avaliacao.getOrientadorId(),
+                avaliacao.getArguenteId(), avaliacao.getIdProjeto(), avaliacao.getConteudo(),
+                avaliacao.getNameEstadoAvaliacao(), avaliacao.getDateString());
     }
 
     @Override

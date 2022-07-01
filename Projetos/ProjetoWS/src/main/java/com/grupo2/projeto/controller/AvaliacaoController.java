@@ -31,6 +31,7 @@ public class AvaliacaoController
     @PostMapping("/criar")
     public ResponseEntity<AvaliacaoDTO> createAvaliacao(@RequestBody AvaliacaoDTO avaliacaoDTO)
     {
+        System.out.println(avaliacaoDTO);
         try
         {
             service.createAndSave(avaliacaoDTO);

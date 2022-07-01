@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 /**
@@ -74,15 +75,16 @@ public class ProjetoController
     @GetMapping("/orientadorID/{id}")
     public ResponseEntity<List<ProjetoDTO>> findAllByOrientadorID(@PathVariable Long id)
     {
-        List<ProjetoDTO> list = service.findAllByOrientadorId(id);
-
-        if (!list.isEmpty())
+        List<ProjetoDTO> list = null;
+        try
         {
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        } else
+            list = service.findAllByOrientadorId(id);
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e)
         {
             throw new ErroGeralException("Nao existe nenhum projeto com esse orientadorID");
         }
+
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

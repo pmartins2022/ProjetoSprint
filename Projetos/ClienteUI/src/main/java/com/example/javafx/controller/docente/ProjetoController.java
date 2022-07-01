@@ -37,6 +37,8 @@ public class ProjetoController
 
     public List<ConteudoDTO> findAllConteudoOfOrientador(Long orientadorID)
     {
+        System.out.println("Encontrar por id: "+orientadorID);
+
         List<ProjetoDTO> projetoList = service.findAllByOrientadorID(orientadorID);
 
         List<ConteudoDTO> conteudoList = new ArrayList<>();
@@ -52,9 +54,9 @@ public class ProjetoController
         return conteudoList;
     }
 
-    public Boolean acceptConteudo(Long conteudoID)
+    public void acceptConteudo(Long conteudoID)
     {
-        return service.acceptConteudo(conteudoID);
+        service.acceptConteudo(conteudoID);
     }
 
     public Boolean rejectConteudo(Long conteudoID)

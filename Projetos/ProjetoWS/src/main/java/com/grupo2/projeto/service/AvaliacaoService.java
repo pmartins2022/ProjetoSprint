@@ -111,6 +111,8 @@ public class AvaliacaoService
 
         Avaliacao avaliacao = mapper.toModel(avaliacaoDTO);
 
+        System.out.println(avaliacao);
+
         avaliacaoJDBCRepository.insert(avaliacao);
     }
 

@@ -91,11 +91,9 @@ public class PropostaService
         return true;
     }
 
-    public ProjetoDTO acceptProposta(Long idProposta, Long alunoID)
+    public void acceptProposta(Long idProposta, Long alunoID)
     {
-        ProjetoDTO projetoDTO = propostaRestRepo.acceptProposta(idProposta, alunoID);
-
-        return projetoDTO;
+        propostaRestRepo.acceptProposta(idProposta, alunoID);
     }
 
     public boolean rejectProposta(Long idProposta, Long alunoID)

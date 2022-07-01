@@ -100,7 +100,8 @@ public class Conteudo extends JDBCTable
         if (estadoConteudo == null)
         {
             this.estadoConteudo = EstadoConteudo.PENDENTE;
-        } else
+        }
+        else
         {
             this.estadoConteudo = EstadoConteudo.valueOf(estadoConteudo);
         }
