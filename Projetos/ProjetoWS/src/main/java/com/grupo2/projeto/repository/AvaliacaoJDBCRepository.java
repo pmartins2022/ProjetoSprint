@@ -3,6 +3,7 @@ package com.grupo2.projeto.repository;
 import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.OrganizacaoDTO;
 import com.grupo2.projeto.model.Avaliacao;
+import com.grupo2.projeto.model.AvaliacaoNota;
 import com.grupo2.projeto.model.Conteudo;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
@@ -89,4 +90,11 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
         return ObjectMapper.mapToObjectList(jdbcCall.execute(presidenteId),Avaliacao.class);
     }
 
+    public List<Avaliacao> findAllEditableAvaliacao(Long idPresidente)
+    {
+        return jdbcTemplate.queryForList("SELECT * AVALIACAO WHERE ESTADO = 'PENDENTE' AND PRESIDENTEID = ?" +
+                "AND ((SELECT AVALIACAONOTA.ESTADO WHERE AVALIACAONOTA.AVALIACAOID = AVALIACAOID) = 'REVISAO' OR" +
+                "(SELECT COUNT (*) FROM AVALIACAONOTA WHERE AVALIACAONOTA WHERE AVALIACAONOTA.AVALIACAOID = AVALIACAO.ID) = 0);"
+                , Avaliacao.class, idPresidente);
+    }
 }
