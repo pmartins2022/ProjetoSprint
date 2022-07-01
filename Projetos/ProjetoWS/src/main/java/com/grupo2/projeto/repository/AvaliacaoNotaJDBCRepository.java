@@ -24,7 +24,7 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
     public List<AvaliacaoNota> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FNC_FIND_ALL_AVALIACAONOTA");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(), AvaliacaoNota.class);
     }
 
@@ -32,7 +32,7 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
     public AvaliacaoNota findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("FNC_FIND_MOMENTOAVALIACAONOTA_ID")
+                .withFunctionName("FNC_FIND_AVALIACAONOTA_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(id), AvaliacaoNota.class);
@@ -43,14 +43,13 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
     public void insert(AvaliacaoNota model)
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withProcedureName("PROC_INSERT_MOMENTOAVALIACAONOTA")
+                .withProcedureName("PROC_INSERT_AVALIACAONOTA")
                 .declareParameters(
-                        new SqlParameter("id",OracleTypes.NUMBER),
                         new SqlParameter("idAvaliacao",OracleTypes.NUMBER),
                         new SqlParameter("nota",OracleTypes.NUMBER),
                         new SqlParameter("justificacao",OracleTypes.VARCHAR),
                         new SqlParameter("estadoAvaliacao",OracleTypes.VARCHAR));
-        jdbcCall.execute(model.getId(), model.getIdAvaliacao(), model.getNota(), model.getJustificacao(), model.getEstadoAvaliacao());
+        jdbcCall.execute(model.getIdAvaliacao(), model.getNota(), model.getJustificacao(), model.getEstadoAvaliacao());
     }
 
     @Override
@@ -59,10 +58,10 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_UPDATE_NOTA")
                 .declareParameters(
-                        new SqlParameter("id",OracleTypes.NUMBER),
+                        new SqlParameter("idAvaliacao",OracleTypes.NUMBER),
                         new SqlParameter("nota",OracleTypes.NUMBER),
                         new SqlParameter("justificacao",OracleTypes.VARCHAR));
-        jdbcCall.execute(model.getId(),model.getNota(),model.getJustificacao());
+        jdbcCall.execute(model.getIdAvaliacao(),model.getNota(),model.getJustificacao());
 
     }
 
@@ -75,7 +74,7 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
     public AvaliacaoNota findByIdAvaliacao(Long idAvaliacao) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("FNC_FIND_MOMENTOAVALIACAONOTA_IDAVALIACAO")
+                .withFunctionName("FNC_FIND_AVALIACAONOTA_AVALIACAOID")
                 .declareParameters(new SqlParameter("idAvaliacao", OracleTypes.NUMBER))
                 .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(idAvaliacao), AvaliacaoNota.class);
@@ -84,8 +83,8 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
     public List<AvaliacaoNota> findAllByEstado(String estado) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("FNC_FIND_MOMENTOAVALIACAONOTA_ESTADO")
-                .declareParameters(new SqlParameter("estado", OracleTypes.VARCHAR))
+                .withFunctionName("FNC_FIND_ALL_AVALIACAONOTA_ESTADO")
+                .declareParameters(new SqlParameter("ESTADOAVALIACAO", OracleTypes.VARCHAR))
                 .withReturnValue();
         return ObjectMapper.mapToObjectList(jdbcCall.execute(estado), AvaliacaoNota.class);
     }

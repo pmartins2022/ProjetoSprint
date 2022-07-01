@@ -23,7 +23,7 @@ public class EdicaoUCJDBCRepository implements GenericRepository<EdicaoUCDTO>
     public List<EdicaoUCDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FNC_FIND_ALL_EDICAOUC");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),EdicaoUCDTO.class);
     }
 

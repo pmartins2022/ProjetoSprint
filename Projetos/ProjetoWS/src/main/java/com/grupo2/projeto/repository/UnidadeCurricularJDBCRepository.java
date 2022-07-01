@@ -23,7 +23,7 @@ public class UnidadeCurricularJDBCRepository implements GenericRepository<Unidad
     public List<UnidadeCurricularDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FUNC_FIND_ALL_UNIDADECURRICULAR");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),UnidadeCurricularDTO.class);
     }
 

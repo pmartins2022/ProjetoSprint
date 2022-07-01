@@ -25,7 +25,7 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     public List<Conteudo> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FUNC_FIND_ALL_CONTEUDO");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),Conteudo.class);
     }
 
@@ -46,21 +46,19 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_CONTEUDO")
                 .declareParameters(
-                        new SqlParameter("id",OracleTypes.NUMBER),
                         new SqlParameter("idProjeto",OracleTypes.NUMBER),
                         new SqlParameter("titulo",OracleTypes.VARCHAR),
                         new SqlParameter("caminhoDocumento",OracleTypes.VARCHAR),
                         new SqlParameter("documento",OracleTypes.VARCHAR),
                         new SqlParameter("linguagemDocumento",OracleTypes.VARCHAR),
                         new SqlParameter("estadoConteudo",OracleTypes.VARCHAR));
-        jdbcCall.execute(model.getId(), model.getIdProjeto(), model.getTitulo(), model.getCaminhoDocumento(), model.getDocumento(),
+        jdbcCall.execute(model.getIdProjeto(), model.getTitulo(), model.getCaminhoDocumento(), model.getDocumento(),
                 model.getLinguagemDocumento(), model.getEstadoConteudo().name());
     }
 
     @Override
     public void update(Conteudo dto)
     {
-        //NAO TESTADO (NAO SEI SE O PROC EXISTE!)
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_UPDATE_CONTEUDO")
                 .declareParameters(
@@ -73,20 +71,19 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     @Override
     public void deleteById(Long id)
     {
-        //NAO TESTADO (NAO SEI SE O PROC EXISTE!)
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        /*SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_DELETE_CONTEUDO")
                 .declareParameters(
                         new SqlParameter("id",OracleTypes.NUMBER));
 
-        jdbcCall.execute(id);
+        jdbcCall.execute(id);*/
     }
 
     public List<Conteudo> findAllByIdProjeto(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FNC_CONTEUDO_FINDALL_IDPROJETO")
-                .declareParameters(new SqlParameter("idProjeto",OracleTypes.NUMBER));
+                .declareParameters(new SqlParameter("idIn",OracleTypes.NUMBER));
 
         return ObjectMapper.mapToObjectList(jdbcCall.execute(id),Conteudo.class);
     }

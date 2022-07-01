@@ -23,7 +23,7 @@ public class PropostaJDBCRepository implements GenericRepository<PropostaDTO>
     public List<PropostaDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FUNC_FIND_ALL_PROPOSTA");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),PropostaDTO.class);
     }
 
@@ -72,7 +72,7 @@ public class PropostaJDBCRepository implements GenericRepository<PropostaDTO>
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FNC_FINDALL_PROPOSTA_EDICAOID")
-                .declareParameters(new SqlParameter("EDICAOUCID", OracleTypes.NUMBER))
+                .declareParameters(new SqlParameter("edicao", OracleTypes.NUMBER))
                 .withReturnValue();
         return ObjectMapper.mapToObjectList(jdbcCall.execute(edicaoUCID),PropostaDTO.class);
     }

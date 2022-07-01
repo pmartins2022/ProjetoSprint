@@ -24,7 +24,7 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
     public List<Projeto> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FUNC_FIND_ALL_PROJETO");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),Projeto.class);
     }
 
@@ -50,11 +50,10 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_PROJETO")
                 .declareParameters(
-                        new SqlParameter("id",OracleTypes.NUMBER),
                         new SqlParameter("propostaId",OracleTypes.NUMBER),
                         new SqlParameter("estudanteId",OracleTypes.NUMBER),
                         new SqlParameter("orientadorId",OracleTypes.NUMBER));
-        jdbcCall.execute(model.getId(), model.getPropostaId(), model.getEstudanteId(), model.getOrientadorId());
+        jdbcCall.execute(model.getPropostaId(), model.getEstudanteId(), model.getOrientadorId());
     }
 
     @Override
@@ -73,7 +72,7 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FNC_FIND_PROJETO_PROPOSTAID")
-                .declareParameters(new SqlParameter("propostaID", OracleTypes.NUMBER))
+                .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(propostaID),Projeto.class);
     }

@@ -111,7 +111,7 @@ public class AvaliacaoService
 
         Avaliacao avaliacao = mapper.toModel(avaliacaoDTO);
 
-        avaliacaoJDBCRepository.insert(avaliacao, cont);
+        avaliacaoJDBCRepository.insert(avaliacao);
     }
 
     public AvaliacaoDTO findById(Long id)

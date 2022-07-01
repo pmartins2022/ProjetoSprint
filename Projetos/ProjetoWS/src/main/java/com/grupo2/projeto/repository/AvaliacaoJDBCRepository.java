@@ -26,7 +26,7 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
     public List<Avaliacao> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FUNC_FIND_ALL_AVALIACAO");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),Avaliacao.class);
     }
 
@@ -54,24 +54,8 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
                         new SqlParameter("arguenteId",OracleTypes.NUMBER),
                         new SqlParameter("idProjeto",OracleTypes.NUMBER),
                         new SqlParameter("conteudo",OracleTypes.NUMBER));
-        jdbcCall.execute(dto.getId(), dto.getIdMomentoAvaliacao(), dto.getPresidenteId(), dto.getOrientadorId(),
+        jdbcCall.execute(dto.getIdMomentoAvaliacao(), dto.getPresidenteId(), dto.getOrientadorId(),
                 dto.getArguenteId(), dto.getIdProjeto(), dto.getConteudo());
-    }
-
-    public void insert(Avaliacao dto, Conteudo conteudo)
-    {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withProcedureName("PROC_INSERT_AVALIACAO")
-                .declareParameters(
-                        new SqlParameter("id",OracleTypes.NUMBER),
-                        new SqlParameter("idMomentoAvaliacao",OracleTypes.NUMBER),
-                        new SqlParameter("presidenteId",OracleTypes.NUMBER),
-                        new SqlParameter("orientadorId",OracleTypes.NUMBER),
-                        new SqlParameter("arguenteId",OracleTypes.NUMBER),
-                        new SqlParameter("idProjeto",OracleTypes.NUMBER),
-                        new SqlParameter("conteudo",OracleTypes.NUMBER));
-        jdbcCall.execute(dto.getId(), dto.getIdMomentoAvaliacao(), dto.getPresidenteId(), dto.getOrientadorId(),
-                dto.getArguenteId(), dto.getIdProjeto(), conteudo.getId());
     }
 
     @Override

@@ -24,7 +24,7 @@ public class OrganizacaoJDBCRepository implements GenericRepository<OrganizacaoD
     public List<OrganizacaoDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FUNC_FIND_ALL_ORGANIZACAO");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),OrganizacaoDTO.class);
     }
 
@@ -32,7 +32,7 @@ public class OrganizacaoJDBCRepository implements GenericRepository<OrganizacaoD
     public OrganizacaoDTO findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("FNC_FIND_ID")
+                .withFunctionName("FNC_FIND_ORGANIZACAO_ID")
                 .declareParameters(new SqlParameter("idIn",OracleTypes.NUMBER))
                 .withReturnValue();
         return ObjectMapper.mapToObject(jdbcCall.execute(id),OrganizacaoDTO.class);

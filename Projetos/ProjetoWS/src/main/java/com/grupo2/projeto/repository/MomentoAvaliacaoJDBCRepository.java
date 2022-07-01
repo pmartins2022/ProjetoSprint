@@ -24,7 +24,7 @@ public class MomentoAvaliacaoJDBCRepository implements GenericRepository<Momento
     public List<MomentoAvaliacaoDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("functionFindAll");
+                .withFunctionName("FUNC_FIND_ALL_MOMENTOAVALIACAO");
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),MomentoAvaliacaoDTO.class);
     }
 
