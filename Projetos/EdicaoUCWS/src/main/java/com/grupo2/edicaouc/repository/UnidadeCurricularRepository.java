@@ -102,4 +102,9 @@ public class UnidadeCurricularRepository
 
         return lista.stream().map(mapper::toModel).toList();
     }
+
+    public void deleteByID(String sigla)
+    {
+        jpaRepository.findBySigla(sigla);
+    }
 }

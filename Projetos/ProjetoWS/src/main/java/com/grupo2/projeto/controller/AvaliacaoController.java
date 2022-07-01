@@ -101,7 +101,7 @@ public class AvaliacaoController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/{rucID}")
-    public ResponseEntity<List<AvaliacaoNotaDTO>> findAllByEstadoAndRucID(@RequestParam("estado") String estado)
+    public ResponseEntity<List<AvaliacaoNotaDTO>> findAllByEstadoAndRucID(@PathVariable("rucID") Long rucID,  @RequestParam("estado") String estado)
     {
         try
         {
@@ -115,8 +115,8 @@ public class AvaliacaoController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PutMapping("/reverAvaliacao/{id}")
-    public ResponseEntity<Object> reviewAvaliacao(@PathVariable("id") Long id, @RequestParam("avaliacao") String avaliacao)
+    @PutMapping("/reverAvaliacaoNota/{id}")
+    public ResponseEntity<Object> reviewAvaliacaoNota(@PathVariable("id") Long id, @RequestParam("avaliacao") String avaliacao)
     {
         try
         {
@@ -134,7 +134,7 @@ public class AvaliacaoController
     }
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/editarAvaliacao/{id}")
-    public ResponseEntity<Object> editarAvaliacaoNota(@PathVariable("id") Long id, @RequestParam("nota") int nota,@RequestParam("justificacao") String justificacao)
+    public ResponseEntity<Object> editarAvaliacaoNota(@PathVariable("id") Long id, @RequestParam("nota") Long nota,@RequestParam("justificacao") String justificacao)
     {
         try{
             avaliacaoNotaService.editarAvaliacaoNota(id,nota,justificacao);

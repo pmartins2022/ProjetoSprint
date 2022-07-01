@@ -4,9 +4,9 @@ import com.grupo2.projeto.model.AvaliacaoNota;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MomentoAvaliacaoNotaFactory
+public class AvaliacaoNotaFactory
 {
-    public AvaliacaoNota createMomentoAvaliacaoNota(Long idAvaliacao, Integer nota, String justificacao)
+    public AvaliacaoNota createMomentoAvaliacaoNota(Long idAvaliacao, Long nota, String justificacao)
     {
         return new AvaliacaoNota(idAvaliacao, nota, justificacao);
     }

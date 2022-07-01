@@ -99,7 +99,14 @@ public class EdicaoUCService
 
         EdicaoUCDTO edicaoUCDTO = mapper.toDTO(saveEdicaoUC);
 
-        projetoRestRepository.saveEdicaoUC(edicaoUCDTO);
+
+        try
+        {
+            projetoRestRepository.saveEdicaoUC(edicaoUCDTO);
+        } catch (Exception ignored)
+        {
+            repository.deleteByID(saveEdicaoUC.getId());
+        }
         return edicaoUCDTO;
     }
 
@@ -200,7 +207,18 @@ public class EdicaoUCService
         }
 
         edicaoToActivate.get().activateEdicaoUC();
+
         EdicaoUC edicaoUC = repository.ativarEdicao(edicaoToActivate.get());
+
+        EdicaoUCDTO edicaoUCDTO = mapper.toDTO(edicaoUC);
+
+        try
+        {
+            projetoRestRepository.saveEdicaoUC(edicaoUCDTO);
+        } catch (Exception ignored)
+        {
+            repository.deleteByID(edicaoUC.getId());
+        }
 
         return mapper.toDTO(edicaoUC);
     }
@@ -228,6 +246,15 @@ public class EdicaoUCService
 
         EdicaoUC saved = repository.desativarEdicao(optionalEdicaoUC.get());
 
+        EdicaoUCDTO edicaoUCDTO = mapper.toDTO(saved);
+
+        try
+        {
+            projetoRestRepository.saveEdicaoUC(edicaoUCDTO);
+        } catch (Exception ignored)
+        {
+            repository.deleteByID(edicaoUCDTO.getId());
+        }
         return mapper.toDTO(saved);
     }
 

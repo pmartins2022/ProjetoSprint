@@ -8,7 +8,7 @@ public class AvaliacaoNotaDTO
 
     private Long idAvaliacao;
 
-    private Integer nota;
+    private Long nota;
 
     private String justificacao;
 
@@ -16,7 +16,7 @@ public class AvaliacaoNotaDTO
 
     public AvaliacaoNotaDTO(){}
 
-    public AvaliacaoNotaDTO(Long id, Long idAvaliacao, Integer nota, String justificacao, EstadoAvaliacao estadoAvaliacao)
+    public AvaliacaoNotaDTO(Long id, Long idAvaliacao, Long nota, String justificacao, EstadoAvaliacao estadoAvaliacao)
     {
         this.id = id;
         this.idAvaliacao = idAvaliacao;
@@ -45,12 +45,12 @@ public class AvaliacaoNotaDTO
         this.idAvaliacao = idAvaliacao;
     }
 
-    public Integer getNota()
+    public Long getNota()
     {
         return nota;
     }
 
-    public void setNota(Integer nota)
+    public void setNota(Long nota)
     {
         this.nota = nota;
     }

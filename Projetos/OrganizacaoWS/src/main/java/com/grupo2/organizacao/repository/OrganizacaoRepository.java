@@ -79,4 +79,9 @@ public class OrganizacaoRepository
 
         return list.stream().map(mapper::toModel).toList();
     }
+
+    public void deleteByID(Long id)
+    {
+        jpaRepository.deleteById(id);
+    }
 }

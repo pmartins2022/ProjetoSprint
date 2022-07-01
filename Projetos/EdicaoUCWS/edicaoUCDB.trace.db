@@ -14575,3 +14575,9 @@ Caused by: java.io.IOException: A operação pedida não pode ser executada num 
 	at org.h2.store.fs.FileNio.truncate(FilePathNio.java:87)
 	at org.h2.mvstore.FileStore.truncate(FileStore.java:240)
 	... 21 more
+2022-07-01 09:00:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "UNIDADE_CURRICULAR" not found; SQL statement:
+select unidadecur0_.sigla as sigla1_5_0_, unidadecur0_.denominacao as denomina2_5_0_ from unidade_curricular unidadecur0_ where unidadecur0_.sigla=? [42102-200]
+2022-07-01 09:02:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "UNIDADE_CURRICULAR" not found; SQL statement:
+select unidadecur0_.sigla as sigla1_5_0_, unidadecur0_.denominacao as denomina2_5_0_ from unidade_curricular unidadecur0_ where unidadecur0_.sigla=? [42102-200]

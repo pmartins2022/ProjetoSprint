@@ -41,7 +41,6 @@ public class LoginViewController
     public Button close;
 
     //Controllers
-
     @Autowired
     private AdminController adminController;
 

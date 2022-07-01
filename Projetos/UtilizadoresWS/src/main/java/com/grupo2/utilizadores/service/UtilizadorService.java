@@ -34,7 +34,6 @@ public class UtilizadorService
      */
     @Autowired
     private UtilizadorDTOMapper mapper;
-
     @Autowired
     private UtilizadorUserDetailsService userDetailsService;
     @Autowired
@@ -55,7 +54,13 @@ public class UtilizadorService
 
         UtilizadorDTO dto = mapper.toDTO(utilizador);
 
-        projetoRestRepository.saveUtilizador(dto);
+        try
+        {
+            projetoRestRepository.saveUtilizador(dto);
+        } catch (Exception ignored)
+        {
+            repository.deleteByID(utilizador.getId());
+        }
 
         return dto;
     }

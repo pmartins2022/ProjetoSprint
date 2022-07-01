@@ -70,15 +70,12 @@ public class OrganizacaoService
         Organizacao saved = repository.save(organizacao);
         OrganizacaoDTO dtoSaved = mapper.toDTO(saved);
 
-        System.out.println(dtoSaved.toString());
-
         try
         {
             projetoRestRepository.saveOrganizacao(dtoSaved);
-        }
-        catch (ErrorDetail e)
+        } catch (Exception ignored)
         {
-            System.out.println("EERROR "+e.getTitle()+"   "+e.getDetail());
+            repository.deleteByID(saved.getId());
         }
 
         return dtoSaved;

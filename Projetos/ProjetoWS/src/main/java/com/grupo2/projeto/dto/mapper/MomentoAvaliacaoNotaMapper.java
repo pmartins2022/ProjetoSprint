@@ -3,7 +3,7 @@ package com.grupo2.projeto.dto.mapper;
 
 import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.model.AvaliacaoNota;
-import com.grupo2.projeto.model.factory.MomentoAvaliacaoNotaFactory;
+import com.grupo2.projeto.model.factory.AvaliacaoNotaFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class MomentoAvaliacaoNotaMapper
 {
     @Autowired
-    private MomentoAvaliacaoNotaFactory factory;
+    private AvaliacaoNotaFactory factory;
 
     public AvaliacaoNota toModel(AvaliacaoNotaDTO dto)
     {

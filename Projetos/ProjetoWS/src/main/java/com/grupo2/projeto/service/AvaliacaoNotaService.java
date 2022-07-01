@@ -77,7 +77,7 @@ public class AvaliacaoNotaService
 
         avaliacaoNotaJDBCRepository.insert(mom);
     }
-    public void editarAvaliacaoNota(Long idMomentoAvaliacao,int nota, String justificacao)
+    public void editarAvaliacaoNota(Long idMomentoAvaliacao,Long nota, String justificacao)
     {
         AvaliacaoNota avaliacaoNota = null;
 

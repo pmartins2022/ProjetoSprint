@@ -133,4 +133,9 @@ public class EdicaoUCRepository
 
         return Optional.of(mapper.toModel(edicaoAtiva.get()));
     }
+
+    public void deleteByID(Long id)
+    {
+        jpaRepository.deleteById(id);
+    }
 }

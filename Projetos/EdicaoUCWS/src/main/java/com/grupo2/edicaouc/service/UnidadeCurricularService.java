@@ -75,7 +75,13 @@ public class UnidadeCurricularService
 
         UnidadeCurricularDTO uc = mapper.toDTO(savedUnidadeCurricular);
 
-        projetoRestRepository.saveUnidadeCurricular(uc);
+        try
+        {
+            projetoRestRepository.saveUnidadeCurricular(uc);
+        } catch (Exception ignored)
+        {
+            repository.deleteByID(savedUnidadeCurricular.getSigla());
+        }
 
         return uc;
     }
@@ -103,6 +109,14 @@ public class UnidadeCurricularService
         UnidadeCurricular ucUpdated = repository.updateUnidadeCurricular(uc);
 
         UnidadeCurricularDTO dtoUpdated = mapper.toDTO(ucUpdated);
+
+        try
+        {
+            projetoRestRepository.saveUnidadeCurricular(dtoUpdated);
+        } catch (Exception ignored)
+        {
+            repository.deleteByID(ucUpdated.getSigla());
+        }
 
         return Optional.of(dtoUpdated);
     }

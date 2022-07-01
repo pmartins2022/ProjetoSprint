@@ -13,7 +13,7 @@ public class AvaliacaoNota extends JDBCTable
     private Long id;
     @ForeignKey(className = Avaliacao.class, fieldName = "ID")
     private Long idAvaliacao;
-    private Integer nota;
+    private Long nota;
     private String justificacao;
     private EstadoAvaliacao estadoAvaliacao;
 
@@ -21,7 +21,7 @@ public class AvaliacaoNota extends JDBCTable
     {
     }
 
-    public AvaliacaoNota(Long idAvaliacao, Integer nota, String justificacao)
+    public AvaliacaoNota(Long idAvaliacao, Long nota, String justificacao)
     {
         this.idAvaliacao = idAvaliacao;
         this.nota = nota;
@@ -29,7 +29,7 @@ public class AvaliacaoNota extends JDBCTable
         this.estadoAvaliacao = EstadoAvaliacao.PENDENTE;
     }
 
-    public AvaliacaoNota(Long id, Long idAvaliacao, Integer nota, String justificacao, String estadoAvaliacao)
+    public AvaliacaoNota(Long id, Long idAvaliacao, Long nota, String justificacao, String estadoAvaliacao)
     {
         this.id = id;
         this.idAvaliacao = idAvaliacao;
@@ -58,12 +58,12 @@ public class AvaliacaoNota extends JDBCTable
         this.idAvaliacao = idAvaliacao;
     }
 
-    public Integer getNota()
+    public Long getNota()
     {
         return nota;
     }
 
-    public void setNota(Integer nota)
+    public void setNota(Long nota)
     {
         this.nota = nota;
     }

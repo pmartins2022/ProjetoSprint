@@ -61,7 +61,6 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     public void update(Conteudo dto)
     {
         //NAO TESTADO (NAO SEI SE O PROC EXISTE!)
-
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_UPDATE_CONTEUDO")
                 .declareParameters(
@@ -75,7 +74,6 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     public void deleteById(Long id)
     {
         //NAO TESTADO (NAO SEI SE O PROC EXISTE!)
-
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("PROC_DELETE_CONTEUDO")
                 .declareParameters(

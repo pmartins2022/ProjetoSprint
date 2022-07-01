@@ -93,4 +93,9 @@ public class UtilizadorRepository
     {
         return jpaRepository.findAll().stream().map(mapper::toModel).toList();
     }
+
+    public void deleteByID(Long id)
+    {
+        jpaRepository.deleteById(id);
+    }
 }

@@ -38,4 +38,9 @@ public class MomentoAvaliacaoRepository
 
         return Optional.empty();
     }
+
+    public void deleteByID(Long id)
+    {
+        repo.deleteById(id);
+    }
 }

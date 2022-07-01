@@ -122,6 +122,16 @@ public class PropostaService
 
         Proposta prop = repository.save(proposta);
 
+        PropostaDTO dtoSaved = mapper.toDTO(prop);
+
+        try
+        {
+            projetoRestRepository.saveProposta(dtoSaved);
+        } catch (Exception ignored)
+        {
+            repository.deleteByID(prop.getId());
+        }
+
         return mapper.toDTO(prop);
     }
 
@@ -154,6 +164,7 @@ public class PropostaService
         {
             return Optional.empty();
         }
+
 
         return propostaDTOSaved;
     }
@@ -192,9 +203,7 @@ public class PropostaService
 
         List<Proposta> lista = repository.findByNif(dto.get());
 
-        List<PropostaDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
-
-        return listaDTOS;
+        return lista.stream().map(mapper::toDTO).toList();
     }
 
     /**
@@ -207,9 +216,7 @@ public class PropostaService
     {
         List<Proposta> lista = repository.findAllByTitulo(titulo);
 
-        List<PropostaDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
-
-        return listaDTOS;
+        return lista.stream().map(mapper::toDTO).toList();
     }
 
     /**
@@ -222,9 +229,7 @@ public class PropostaService
     {
         List<Proposta> lista = repository.findByIdUtilizador(id);
 
-        List<PropostaDTO> listaDTOS = lista.stream().map(mapper::toDTO).toList();
-
-        return listaDTOS;
+        return lista.stream().map(mapper::toDTO).toList();
     }
 
     /**
@@ -514,13 +519,24 @@ public class PropostaService
         proposta.get().aceitarPropostaProjeto();
         Optional<PropostaDTO> propostaDTO = atualizarProposta(proposta.get());
 
+        if (propostaDTO.isEmpty())
+        {
+            throw new OptionalVazioException("Erro ao atualizar Proposta");
+        }
+
         //invalidar as inscricoes (candidaturas) dos outros alunos a esta proposta
         propostaCandidaturaRepo.invalidarCandidaturas(propostaID, alunoID);
 
         //invalidar os convites dos outros alunos
         conviteRepository.invalidarConvites(propostaID, alunoID);
 
-        projetoRestRepository.saveProposta(propostaDTO.get());
+        try
+        {
+            projetoRestRepository.saveProposta(propostaDTO.get());
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
 
         //criar projeto
         return createProject(propostaID, orientadorID, alunoID);

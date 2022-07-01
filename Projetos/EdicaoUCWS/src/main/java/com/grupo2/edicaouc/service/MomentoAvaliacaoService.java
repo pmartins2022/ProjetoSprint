@@ -42,7 +42,13 @@ public class MomentoAvaliacaoService
 
         MomentoAvaliacaoDTO momentoAvaliacaoDTO = mapper.toDTO(save);
 
-        projetoRestRepository.saveMomentoAvaliacao(momentoAvaliacaoDTO);
+        try
+        {
+            projetoRestRepository.saveMomentoAvaliacao(momentoAvaliacaoDTO);
+        } catch (Exception ignored)
+        {
+            repository.deleteByID(momentoAvaliacaoDTO.getId());
+        }
 
         return momentoAvaliacaoDTO;
     }
