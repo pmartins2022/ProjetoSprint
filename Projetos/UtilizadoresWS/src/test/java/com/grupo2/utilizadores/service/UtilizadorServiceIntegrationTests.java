@@ -25,7 +25,7 @@ class UtilizadorServiceIntegrationTests
     public void shouldCreateAndSave_Valid()
     {
         UtilizadorDTO utilizadorDTO = new UtilizadorDTO(1L,"testName","testSName","testEmail@email.com","aabb","aabb", TipoUtilizador.ALUNO);
-        UtilizadorDTO save = utilizadorService.createAndSave(utilizadorDTO);
+        UtilizadorDTO save = utilizadorService.registar(utilizadorDTO);
 
         assertEquals(utilizadorDTO,save);
     }
@@ -34,7 +34,7 @@ class UtilizadorServiceIntegrationTests
     public void shouldFindById_Exists()
     {
         UtilizadorDTO utilizadorDTO = new UtilizadorDTO(1L,"testName","testSName","testEmail@email.com","aabb","aabb", TipoUtilizador.ALUNO);
-        UtilizadorDTO save = utilizadorService.createAndSave(utilizadorDTO);
+        UtilizadorDTO save = utilizadorService.registar(utilizadorDTO);
 
         Optional<UtilizadorDTO> dto = utilizadorService.findByID(save.getId());
 

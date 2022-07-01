@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -59,10 +60,11 @@ class UtilizadorControllerUnitTest {
     @Test
     public void shouldRegistarUtilizador() {
         UtilizadorDTO utilizadorDTOMOCK = mock(UtilizadorDTO.class);
+        HttpServletRequest req = mock(HttpServletRequest.class);
 
         when(service.registar(utilizadorDTOMOCK)).thenReturn(utilizadorDTOMOCK);
 
-        ResponseEntity<?> responseEntity = controller.registar(utilizadorDTOMOCK);
+        ResponseEntity<?> responseEntity = controller.registar(utilizadorDTOMOCK,req);
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
@@ -70,10 +72,11 @@ class UtilizadorControllerUnitTest {
     @Test
     public void shouldNotRegistarUtilizador() {
         UtilizadorDTO utilizadorDTOMOCK = mock(UtilizadorDTO.class);
+        HttpServletRequest req = mock(HttpServletRequest.class);
 
         when(service.registar(utilizadorDTOMOCK)).thenThrow(IllegalArgumentException.class);
 
-        ResponseEntity<?> registar = controller.registar(utilizadorDTOMOCK);
+        ResponseEntity<?> registar = controller.registar(utilizadorDTOMOCK,req);
 
         assertSame(registar.getStatusCode(), HttpStatus.BAD_REQUEST);
     }

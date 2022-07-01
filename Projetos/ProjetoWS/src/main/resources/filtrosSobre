@@ -1,0 +1,51 @@
+Os filtros nao tem UI, logo tem que usar uma convensao na criacao destes objetos no postman.
+Devem obedecer ao seguinte formato:
+
+{
+    "baseElement":{elemento filtro base},
+    "params":[array com os parametros dos filtros]
+}
+
+
+Todos os "elemento filtro" sao constituidos pelas mesmas peças:
+    - "name": nome do filtro ("AND","OR" OU "NOT"), ou entao uma query preset a escolha (ver enum model.filter.QueryPresets)
+    - "elements" : [um array com mais elementos filtros]
+
+Portanto o que vai acontecer e que vai ser gerado uma recursividade, os filtros incluem outros filtros, comecando pela base.
+Para criar um filtro em que queremos juntar 2 filtros com uma conjuncao OR, devemos entao fazer o seguinte:
+
+{
+    "baseElement":{
+        "name":"OR",
+        "elements":[
+            {"name":"FILTRO1","elements":null},
+            {"name":"FILTRO2","elements":null}
+        ]
+    },
+    "params":[1,'ola',etc.]
+}
+
+O parser posteriormente ira produzir algo assim:
+    BASE(OR(FILTRO1,FILTRO2)),
+
+A interpretacao simplificada final assim: FILTRO1 OR FILTRO2.
+
+Com este sistema e possivel fazer qualquer combinacao filtro / conjuncoes sem nenhum problema.
+
+Algo como: FILTRO1 AND NOT FILTRO2 fica muito simples de fazer usando este sistema de arvore.
+
+{
+    "baseElement":{
+        "name":"AND",
+        "elements":[
+            {"name":"FILTRO1","elements":null},
+            {"name":"NOT","elements":[
+                {"name":"FILTRO2","elements":null}
+                ]}
+        ]
+    },
+    "params":[1,'ola',etc.]
+}
+
+O parser posteriormente ira produzir algo assim:
+    BASE(OR(FILTRO1,NOT(FILTRO2)))

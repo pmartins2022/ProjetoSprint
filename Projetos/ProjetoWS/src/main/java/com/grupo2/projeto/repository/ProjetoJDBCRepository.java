@@ -28,6 +28,11 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
         return ObjectMapper.mapToObjectList(jdbcCall.execute(),Projeto.class);
     }
 
+    public List<Projeto> findAllFilter(String query, Object[] params)
+    {
+        return jdbcTemplate.queryForList(query,Projeto.class,params);
+    }
+
     @Override
     public Projeto findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
