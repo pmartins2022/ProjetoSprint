@@ -8,11 +8,13 @@ import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.AvaliacaoNotaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController
@@ -148,5 +150,18 @@ public class AvaliacaoController
         }
     }
 
-
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/nota/{id}")
+    public ResponseEntity<AvaliacaoNotaDTO> findAvaliacaoNotaByAvaliacaoID(@PathVariable("id") Long idAvaliacao)
+    {
+        try
+        {
+            AvaliacaoNotaDTO dto = avaliacaoNotaService.findAvaliacaoNotaByAvaliacaoID(idAvaliacao);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

@@ -2,7 +2,6 @@ package com.grupo2.projeto.repository;
 
 
 import com.grupo2.projeto.model.AvaliacaoNota;
-import com.grupo2.projeto.model.EstadoAvaliacao;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -89,5 +88,14 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
                 .declareParameters(new SqlParameter("estado", OracleTypes.VARCHAR))
                 .withReturnValue();
         return ObjectMapper.mapToObjectList(jdbcCall.execute(estado), AvaliacaoNota.class);
+    }
+
+    public AvaliacaoNota findAvaliacaoNotaByAvaliacaoID(Long idAvaliacao) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withFunctionName("FNC_FIND_AVALIACAONOTA_AVALIACAOID")
+                .declareParameters(new SqlParameter("idAvaliacao", OracleTypes.NUMBER))
+                .withReturnValue();
+        return ObjectMapper.mapToObject(jdbcCall.execute(idAvaliacao), AvaliacaoNota.class);
     }
 }

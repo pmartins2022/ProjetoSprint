@@ -14,6 +14,7 @@ import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -293,5 +294,24 @@ public class AvaliacaoNotaService
         }
 
         return avaliacaoNotasList.stream().map(mapper::toDTO).toList();
+    }
+
+    public AvaliacaoNotaDTO findAvaliacaoNotaByAvaliacaoID(Long idAvaliacao) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        AvaliacaoNota avaliacaoNota = null;
+
+        if (avaliacaoNota.getEstadoAvaliacao() != EstadoAvaliacao.REVISAO)
+        {
+            throw new ErroGeralException("Nao pode ser avaliado");
+        }
+
+        if (idAvaliacao != avaliacaoNota.getIdAvaliacao())
+        {
+            throw new ErroGeralException("O id não corresponde a uma avaliacao");
+        }
+
+        AvaliacaoNota avaliacaoNota1 = avaliacaoNotaJDBCRepository.findAvaliacaoNotaByAvaliacaoID(idAvaliacao);
+
+        return mapper.toDTO(avaliacaoNota1);
     }
 }
