@@ -54,14 +54,13 @@ public class DocenteMainWindowViewController
     public TabPane rucPaneID;
     public TabPane orientadorPaneID;
     public TabPane mainPaneID;
-    public TextField alunoIDTxt;
 
     public Button confirmarECriarAvaliacao;
     public ChoiceBox<AvaliacaoDTO> avaliacaoChoice;
     public TextField avaliacaoNotaText;
     public TextArea justificacaoNotaText;
     public ChoiceBox<AvaliacaoNotaDTO> avaliacaoNotaChoice;
-
+    public ChoiceBox<ConviteDTO> conviteAceiteChoice;
 
 
     private DocenteController docenteController;
@@ -245,19 +244,25 @@ public class DocenteMainWindowViewController
         try
         {
             List<PropostaDTO> list = propostaController.findAllPropostaAprovado();
+            List<ConviteDTO> conviteList = propostaController.findAllConviteAccepted();
 
             propostaChoice.getItems().clear();
+            conviteAceiteChoice.getItems().clear();
 
             propostaChoice.getItems().addAll(list);
             propostaChoice.getSelectionModel().selectFirst();
+            conviteAceiteChoice.getItems().addAll(conviteList);
+            conviteAceiteChoice.getSelectionModel().selectFirst();
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
             propostaChoice.getItems().clear();
+            conviteAceiteChoice.getItems().clear();
         } catch (Exception e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
             propostaChoice.getItems().clear();
+            conviteAceiteChoice.getItems().clear();
         }
     }
 
@@ -266,7 +271,7 @@ public class DocenteMainWindowViewController
         try
         {
 
-            propostaController.acceptProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
+            propostaController.acceptProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), conviteAceiteChoice.getSelectionModel().getSelectedItem().getIdAluno());
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Proposta Aceite e Projeto Criado", "em cima");
             iniciarGerirProposta();
         } catch (ErrorDetail e)
@@ -282,7 +287,7 @@ public class DocenteMainWindowViewController
     {
         try
         {
-            propostaController.rejectProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), alunoIDTxt.getText());
+            propostaController.rejectProposta(propostaChoice.getSelectionModel().getSelectedItem().getId(), conviteAceiteChoice.getSelectionModel().getSelectedItem().getIdAluno());
             AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO" , "Proposta Reprovada", "Reprovada");
             iniciarGerirProposta();
 

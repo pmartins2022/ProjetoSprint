@@ -98,4 +98,18 @@ public class ConteudoDTO
     {
         this.estadoConteudo = estadoConteudo;
     }
+
+    @Override
+    public String toString()
+    {
+        return "ConteudoDTO{" +
+                "id=" + id +
+                ", projetoId=" + projetoId +
+                ", titulo='" + titulo + '\'' +
+                ", caminhoDocumento='" + caminhoDocumento + '\'' +
+                ", documento='" + documento + '\'' +
+                ", linguagemDocumento='" + linguagemDocumento + '\'' +
+                ", estadoConteudo='" + estadoConteudo + '\'' +
+                '}';
+    }
 }

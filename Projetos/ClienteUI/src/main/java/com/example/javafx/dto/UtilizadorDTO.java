@@ -75,4 +75,16 @@ public class UtilizadorDTO
     {
         this.tipoUtilizador = tipoUtilizador;
     }
+
+    @Override
+    public String toString()
+    {
+        return "UtilizadorDTO{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", email='" + email + '\'' +
+                ", tipoUtilizador=" + tipoUtilizador +
+                '}';
+    }
 }

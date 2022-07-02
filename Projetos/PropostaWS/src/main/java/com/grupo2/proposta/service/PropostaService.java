@@ -744,6 +744,19 @@ public class PropostaService
     }
 
     /**
+     * Devolve Lista de ConviteDTO em estado ACEITE
+     * @param id id de estado
+     * @return Lista de ConviteDTO
+     */
+    public List<ConviteDTO> findAllConviteAccepted(Long id)
+    {
+        List<Convite> convs = conviteRepository.findAllConviteAccepted(id);
+
+        return convs.stream().map(conviteDTOMapper::toDTO).toList();
+    }
+
+
+    /**
      * Devolve Lista de PropostaCandidaturaDTO em estado CANDIDATURA
      * @return Lista de ConviteDTO
      */

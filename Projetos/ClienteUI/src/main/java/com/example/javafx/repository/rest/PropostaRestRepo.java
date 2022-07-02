@@ -203,6 +203,26 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
         }
     }
 
+    public List<ConviteDTO> findAllConviteAccepted()
+    {
+        try 
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/convite/accepted").get()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
+
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+
+            return responseSpec.bodyToMono(new ParameterizedTypeReference<List<ConviteDTO>>()
+            {
+            }).block();
+        }
+        catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
     public ConviteDTO aceitarOrientacao(ConviteDTO conviteDTO)
     {
         try

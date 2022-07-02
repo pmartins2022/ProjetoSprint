@@ -104,4 +104,18 @@ public class ConviteController
 
         return ResponseEntity.ok(list);
     }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/accepted")
+    public ResponseEntity<List<ConviteDTO>> findAllConviteAccepted()
+    {
+        List<ConviteDTO> list = service.findAllConviteAccepted(LoginContext.getCurrent().getId());
+
+        if (list.isEmpty())
+        {
+            throw new ListaVaziaException("Nao existem convites aceites para este docente.");
+        }
+
+        return ResponseEntity.ok(list);
+    }
 }

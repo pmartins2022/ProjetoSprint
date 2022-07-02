@@ -75,4 +75,16 @@ public class AvaliacaoNotaDTO
     {
         this.estadoAvaliacao = estadoAvaliacao;
     }
+
+    @Override
+    public String toString()
+    {
+        return "AvaliacaoNotaDTO{" +
+                "id=" + id +
+                ", idAvaliacao=" + idAvaliacao +
+                ", nota=" + nota +
+                ", justificacao='" + justificacao + '\'' +
+                ", estadoAvaliacao=" + estadoAvaliacao +
+                '}';
+    }
 }

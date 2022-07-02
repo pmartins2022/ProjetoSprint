@@ -125,6 +125,11 @@ public class PropostaService
         return propostaRestRepo.getConvites();
     }
 
+    public List<ConviteDTO> findAllConviteAccepted()
+    {
+        return propostaRestRepo.findAllConviteAccepted();
+    }
+
     public ConviteDTO acceptConvite(ConviteDTO conviteDTO)
     {
         return propostaRestRepo.aceitarOrientacao(conviteDTO);

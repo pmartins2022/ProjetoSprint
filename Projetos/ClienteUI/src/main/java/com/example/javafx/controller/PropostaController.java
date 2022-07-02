@@ -93,14 +93,14 @@ public class PropostaController
         return propostaService.findAllPropostaByEstadoAtual(1);
     }
 
-    public void acceptProposta(Long idProposta, String alunoID)
+    public void acceptProposta(Long idProposta, Long alunoID)
     {
-        propostaService.acceptProposta(idProposta, Long.parseLong(alunoID));
+        propostaService.acceptProposta(idProposta, alunoID);
     }
 
-    public Boolean rejectProposta(Long idProposta, String alunoID)
+    public Boolean rejectProposta(Long idProposta, Long alunoID)
     {
-        if (!propostaService.rejectProposta(idProposta, Long.parseLong(alunoID)))
+        if (!propostaService.rejectProposta(idProposta, alunoID))
         {
             throw new RestPostException("Ocorreu um erro ao aceitar Proposta");
         }
@@ -165,5 +165,9 @@ public class PropostaController
         return propostaService.alunoCandidaturaProposta(propostaID);
     }
 
+    public List<ConviteDTO> findAllConviteAccepted()
+    {
+        return propostaService.findAllConviteAccepted();
+    }
 }
 

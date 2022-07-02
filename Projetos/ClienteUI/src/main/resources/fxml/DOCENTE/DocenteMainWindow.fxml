@@ -291,16 +291,16 @@
                                                 <Insets left="20.0" right="20.0" />
                                              </GridPane.margin>
                                           </ChoiceBox>
-                                          <Label text="Aluno ID" GridPane.rowIndex="1">
+                                          <Label text="Aluno (Convites Aceites)" GridPane.rowIndex="1">
                                              <GridPane.margin>
                                                 <Insets right="20.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <TextField fx:id="alunoIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                          <ChoiceBox fx:id="conviteAceiteChoice" prefHeight="25.0" prefWidth="295.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                              <GridPane.margin>
                                                 <Insets left="20.0" right="20.0" />
                                              </GridPane.margin>
-                                          </TextField>
+                                          </ChoiceBox>
                                        </children>
                                     </GridPane>
                                  </center>

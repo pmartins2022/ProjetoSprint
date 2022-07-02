@@ -149,4 +149,17 @@ public class ConviteRepository
 
         return list.stream().map(mapper::toModel).toList();
     }
+
+
+    /**
+     * Devolve Lista de Convite filtrada por id de Docente e em estado ACEITE
+     * @param id id de docente
+     * @return Lista de Convite
+     */
+    public List<Convite> findAllConviteAccepted(Long id)
+    {
+        List<ConviteJPA> list = jpaRepository.findByIdIddocenteAndEstado(id,EstadoConvite.ACEITE);
+
+        return list.stream().map(mapper::toModel).toList();
+    }
 }
