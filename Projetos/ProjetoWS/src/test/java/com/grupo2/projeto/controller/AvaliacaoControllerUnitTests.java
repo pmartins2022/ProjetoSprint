@@ -4,6 +4,8 @@ import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.exception.ListaVaziaException;
 import com.grupo2.projeto.exception.OptionalVazioException;
 import com.grupo2.projeto.service.AvaliacaoService;
+import net.bytebuddy.implementation.bytecode.Throw;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,14 +22,13 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @Transactional
 class AvaliacaoControllerUnitTests
 {
-    /*@MockBean
+    @MockBean
     AvaliacaoService service;
 
     @InjectMocks
@@ -44,11 +45,11 @@ class AvaliacaoControllerUnitTests
     {
         AvaliacaoDTO avaliacaoMOCK = mock(AvaliacaoDTO.class);
 
-        when(service.createAndSave(avaliacaoMOCK)).thenReturn(avaliacaoMOCK);
+        doNothing().when(service).createAndSave(avaliacaoMOCK);
 
-        ResponseEntity<AvaliacaoDTO> avaliacaoDTO = controller.createAvaliacao(avaliacaoMOCK);
+        ResponseEntity<AvaliacaoDTO> responseEntity = controller.createAvaliacao(avaliacaoMOCK);
 
-        assertEquals(avaliacaoDTO.getStatusCode(), HttpStatus.CREATED);
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
 
     @Test
@@ -56,7 +57,7 @@ class AvaliacaoControllerUnitTests
     {
         AvaliacaoDTO avaliacaoMOCK = mock(AvaliacaoDTO.class);
 
-        when(service.findById(1L)).thenReturn(Optional.ofNullable(avaliacaoMOCK));
+       when(service.findById(1L)).thenReturn(avaliacaoMOCK);
 
         ResponseEntity<AvaliacaoDTO> avaliacaoDTO = controller.findById(1L);
 
@@ -66,8 +67,6 @@ class AvaliacaoControllerUnitTests
     @Test
     public void shouldNotFindByID_NotExists()
     {
-        AvaliacaoDTO avaliacaoMOCK = mock(AvaliacaoDTO.class);
-
         when(service.findById(1L)).thenThrow(OptionalVazioException.class);
 
         assertThrows(OptionalVazioException.class, ()-> controller.findById(1L));
@@ -92,5 +91,5 @@ class AvaliacaoControllerUnitTests
 
         assertThrows(ListaVaziaException.class, ()->  controller.listAllMomentoAvaliacao());
     }
-*/
+
 }

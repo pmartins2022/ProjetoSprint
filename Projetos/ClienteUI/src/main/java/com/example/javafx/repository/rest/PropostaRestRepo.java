@@ -205,7 +205,7 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
 
     public List<ConviteDTO> findAllConviteAccepted()
     {
-        try 
+        try
         {
             WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/convite/accepted").get()
                     .header("Authorization", LoginContext.getToken()).retrieve();

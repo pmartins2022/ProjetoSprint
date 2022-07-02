@@ -105,6 +105,11 @@ public class ConviteController
         return ResponseEntity.ok(list);
     }
 
+    /**
+     * Endpoint que permite a um docenta listar convites Aceites
+     * @return lista de convites pendentes ou um erro se o lista estiver vazia.
+     * @throws ListaVaziaException
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/accepted")
     public ResponseEntity<List<ConviteDTO>> findAllConviteAccepted()
