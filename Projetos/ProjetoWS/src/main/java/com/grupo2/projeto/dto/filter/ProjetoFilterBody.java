@@ -15,6 +15,10 @@ public class ProjetoFilterBody
 
     public String toString()
     {
+        if (baseElement == null)
+        {
+            return "Base: NULL"+"\nParams:"+Arrays.toString(params);
+        }
         return "Base: "+baseElement.toString()+"\nParams:"+Arrays.toString(params);
     }
 

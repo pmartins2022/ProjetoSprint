@@ -20,14 +20,13 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @Transactional
 class AvaliacaoControllerUnitTests
 {
-    /*@MockBean
+    @MockBean
     AvaliacaoService service;
 
     @InjectMocks
@@ -44,7 +43,9 @@ class AvaliacaoControllerUnitTests
     {
         AvaliacaoDTO avaliacaoMOCK = mock(AvaliacaoDTO.class);
 
-        when(service.createAndSave(avaliacaoMOCK)).thenReturn(avaliacaoMOCK);
+        //when(service.createAndSave(avaliacaoMOCK)).thenReturn(avaliacaoMOCK);
+
+        doNothing().when(service).createAndSave(avaliacaoMOCK);
 
         ResponseEntity<AvaliacaoDTO> avaliacaoDTO = controller.createAvaliacao(avaliacaoMOCK);
 
@@ -56,7 +57,7 @@ class AvaliacaoControllerUnitTests
     {
         AvaliacaoDTO avaliacaoMOCK = mock(AvaliacaoDTO.class);
 
-        when(service.findById(1L)).thenReturn(Optional.ofNullable(avaliacaoMOCK));
+        when(service.findById(1L)).thenReturn(avaliacaoMOCK);
 
         ResponseEntity<AvaliacaoDTO> avaliacaoDTO = controller.findById(1L);
 
@@ -80,7 +81,7 @@ class AvaliacaoControllerUnitTests
 
         when(service.findAll()).thenReturn(List.of(avaliacaoMOCK, avaliacaoMOCK));
 
-        ResponseEntity<Object> avaliacaoDTO = controller.listAllMomentoAvaliacao();
+        ResponseEntity<Object> avaliacaoDTO = controller.listAllAvaliacao();
 
         assertEquals(avaliacaoDTO.getStatusCode(), HttpStatus.OK);
     }
@@ -90,7 +91,6 @@ class AvaliacaoControllerUnitTests
     {
         when(service.findAll()).thenThrow(ListaVaziaException.class);
 
-        assertThrows(ListaVaziaException.class, ()->  controller.listAllMomentoAvaliacao());
+        assertThrows(ListaVaziaException.class, ()->  controller.listAllAvaliacao());
     }
-*/
 }

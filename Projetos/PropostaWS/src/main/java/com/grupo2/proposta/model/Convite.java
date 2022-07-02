@@ -1,5 +1,7 @@
 package com.grupo2.proposta.model;
 
+import java.util.Objects;
+
 /**
  * Entidade que representa uma Convite.
  */
@@ -107,5 +109,20 @@ public class Convite
     public void setEstado(EstadoConvite estado)
     {
         this.estado = estado;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Convite convite = (Convite) o;
+        return idAluno.equals(convite.idAluno) && idDocente.equals(convite.idDocente) && idProposta.equals(convite.idProposta) && estado == convite.estado;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(idAluno, idDocente, idProposta, estado);
     }
 }

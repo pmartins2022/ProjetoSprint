@@ -2,6 +2,7 @@ package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
 import com.grupo2.projeto.dto.ProjetoDTO;
+import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.Projeto;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;

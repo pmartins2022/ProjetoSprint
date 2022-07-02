@@ -102,7 +102,10 @@ class PropostaControllerUnitTests
     {
         PropostaDTO prop = mock(PropostaDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
         UtilizadorAuthDTO utilizadorAuthDTO = mock(UtilizadorAuthDTO.class);
+
 
         loginContext.when(LoginContext::getCurrent).thenReturn(utilizadorAuthDTO);
 
@@ -110,13 +113,15 @@ class PropostaControllerUnitTests
 
         when(service.acceptProposta(1L, 1L, 1L)).thenThrow(IdInvalidoException.class);
 
-        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L, null));
+        assertThrows(IdInvalidoException.class,()->controller.acceptProposta(1L, 1L, req));
     }
 
     @Test
     public void shouldNotAcceptProposta_invalidAtualizacao()
     {
         PropostaDTO prop = mock(PropostaDTO.class);
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
 
         UtilizadorAuthDTO utilizadorAuthDTO = mock(UtilizadorAuthDTO.class);
 
@@ -126,7 +131,7 @@ class PropostaControllerUnitTests
 
         when(service.acceptProposta(1L, 1L, 1L)).thenThrow(AtualizacaoInvalidaException.class);
 
-        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L, null));
+        assertThrows(AtualizacaoInvalidaException.class,()->controller.acceptProposta(1L, 1L, req));
     }
 
     @Test

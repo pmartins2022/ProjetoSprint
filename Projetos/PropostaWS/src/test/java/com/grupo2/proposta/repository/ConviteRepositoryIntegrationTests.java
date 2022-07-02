@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
-@ContextConfiguration(classes= {ConviteRepository.class, ConviteJPARepository.class})
 class ConviteRepositoryIntegrationTests
 {
     @Autowired
@@ -50,7 +49,7 @@ class ConviteRepositoryIntegrationTests
 
         Optional<Convite> saved = repository.findByPropostaAndAluno(conviteJPA.getId().getIdproposta(), conviteID.getIdaluno());
 
-        assertEquals(saved, convite);
+        assertEquals(saved.get(), convite);
     }
 
     @Test
@@ -58,7 +57,7 @@ class ConviteRepositoryIntegrationTests
     {
         Optional<Convite> saved = repository.findByPropostaAndAluno(1L, 1L);
 
-        assertTrue(saved.isPresent());
+        assertTrue(saved.isEmpty());
     }
 
     @Test
@@ -72,7 +71,7 @@ class ConviteRepositoryIntegrationTests
 
         Optional<Convite> saved = repository.findByDocenteAndProposta(conviteJPA.getId().getIdproposta(), conviteID.getIdaluno());
 
-        assertEquals(saved, convite);
+        assertEquals(saved.get(), convite);
     }
 
     @Test
@@ -80,7 +79,7 @@ class ConviteRepositoryIntegrationTests
     {
         Optional<Convite> saved = repository.findByDocenteAndProposta(1L, 1L);
 
-        assertTrue(saved.isPresent());
+        assertTrue(saved.isEmpty());
     }
 
     @Test
@@ -94,7 +93,7 @@ class ConviteRepositoryIntegrationTests
 
         Optional<Convite> saved = repository.findById(conviteID);
 
-        assertEquals(saved, convite);
+        assertEquals(saved.get(), convite);
     }
 
     @Test
@@ -102,7 +101,7 @@ class ConviteRepositoryIntegrationTests
     {
         Optional<Convite> saved = repository.findByDocenteAndProposta(1L, 1L);
 
-        assertTrue(saved.isPresent());
+        assertTrue(saved.isEmpty());
     }
 
 }
