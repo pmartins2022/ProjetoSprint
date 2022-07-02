@@ -416,32 +416,6 @@ class PropostaServiceUnitTests
     }
 
     @Test
-    public void shouldAcceptProposta()
-    {
-        Proposta proposta = mock(Proposta.class);
-        PropostaDTO propostaDTO = mock(PropostaDTO.class);
-        ConviteID conviteID = mock(ConviteID.class);
-        Convite convite = mock(Convite.class);
-        ProjetoDTO projetoDTO = mock(ProjetoDTO.class);
-
-        when(repository.findById(1L)).thenReturn(Optional.of(proposta));
-        when(proposta.getEstadoAtual()).thenReturn(PropostaEstado.APROVADO);
-
-        when(utilizadorRestRepository.isRole("ROLE_ORIENTADOR", 1L)).thenReturn(true);
-        when(utilizadorRestRepository.isRole("ROLE_ALUNO", 2L)).thenReturn(true);
-        when(conviteIDFactory.create(2L,1L,1L)).thenReturn(conviteID);
-        when(conviteRepository.findById(conviteID)).thenReturn(Optional.of(convite));
-        when(convite.getEstado()).thenReturn(EstadoConvite.ACEITE);
-
-        when(projetoDTOFactory.createProjeto(1L,2L,1L)).thenReturn(projetoDTO);
-        when(projetoRestRepository.create(projetoDTO)).thenReturn(projetoDTO);
-
-        ProjetoDTO proj = service.acceptProposta(1L, 1L, 2L);
-
-        assertEquals(proj,projetoDTO);
-    }
-
-    @Test
     public void shouldAcceptAlunoCandidaturaProposta()
     {
         PropostaCandidaturaIDDTO propostaCandidaturaIDDTO = mock(PropostaCandidaturaIDDTO.class);

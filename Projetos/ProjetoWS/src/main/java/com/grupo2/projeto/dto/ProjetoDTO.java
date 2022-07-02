@@ -1,5 +1,7 @@
 package com.grupo2.projeto.dto;
 
+import java.util.Objects;
+
 /**
  * Classe DTO do projeto
  */
@@ -126,6 +128,21 @@ public class ProjetoDTO
     public void setOrientadorId(Long orientadorId)
     {
         this.orientadorId = orientadorId;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProjetoDTO that = (ProjetoDTO) o;
+        return propostaId.equals(that.propostaId) && estudanteId.equals(that.estudanteId) && orientadorId.equals(that.orientadorId);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, propostaId, estudanteId, orientadorId);
     }
 
     /**

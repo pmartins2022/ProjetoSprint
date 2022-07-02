@@ -49,23 +49,24 @@ public class AvaliacaoController
         {
             avaliacaoDTO = service.findById(id);
             return new ResponseEntity<>(avaliacaoDTO, HttpStatus.OK);
-        } catch (Exception e)
+        } catch (OptionalVazioException e)
         {
-            throw new OptionalVazioException("Nao existe nenhuma avaliacao com esse ID");
+            throw e;
         }
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<Object> listAllMomentoAvaliacao()
+    public ResponseEntity<Object> listAllAvaliacao()
     {
-        List<AvaliacaoDTO> lista = service.findAll();
-
-        if (lista.isEmpty())
+        try
         {
-            throw new ListaVaziaException("Não existem Momentos de Avaliação");
+            List<AvaliacaoDTO> lista = service.findAll();
+            return new ResponseEntity<>(lista, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(lista, HttpStatus.OK);
+        catch (ListaVaziaException e)
+        {
+            throw e;
+        }
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")

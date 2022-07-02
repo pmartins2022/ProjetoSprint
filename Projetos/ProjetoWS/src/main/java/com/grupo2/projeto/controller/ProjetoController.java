@@ -96,7 +96,7 @@ public class ProjetoController
 
         try
         {
-            var list = filterService.filtrarProjetos(body);
+            List<ProjetoDTO> list = filterService.filtrarProjetos(body);
 
             System.out.println("Query: "+filterService.getLastQuery());
 

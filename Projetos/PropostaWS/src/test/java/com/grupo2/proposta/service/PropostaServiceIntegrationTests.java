@@ -10,6 +10,7 @@ import com.grupo2.proposta.jpa.PropostaJPA;
 import com.grupo2.proposta.model.*;
 import com.grupo2.proposta.model.factory.PropostaFactory;
 import com.grupo2.proposta.repository.ConviteRepository;
+import com.grupo2.proposta.repository.PropostaCandidaturaRepo;
 import com.grupo2.proposta.repository.PropostaRepository;
 import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
 import com.grupo2.proposta.repository.rest.EdicaoUCRestRepository;
@@ -47,6 +48,9 @@ class PropostaServiceIntegrationTests
 
     @Autowired
     private PropostaRepository repository;
+
+    @MockBean
+    private PropostaCandidaturaRepo propostaCandidaturaRepo;
 
     @MockBean
     private OrganizacaoRestRepository organizacaoRestRepository;
@@ -195,41 +199,6 @@ class PropostaServiceIntegrationTests
     }
 
     @Test
-    public void shouldAcceptOrientacaoProposta()
-    {
-        UtilizadorDTO utilizadorDTO = new UtilizadorDTO(1L, "nome", "sobrenome", "email@email.pt",
-                TipoUtilizador.DOCENTE);
-        Proposta proposta = new Proposta(1L, 1L, 1L, "tituloMuitaGiro",
-                "problemaMuitaGrave", "objetivoQueSeVaiRealizando", 1L, PropostaEstado.CANDIDATURA);
-
-        Convite convite = new Convite(1L, 1L, 1L, EstadoConvite.ACEITE);
-
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(utilizadorDTO));
-        when(conviteRepository.findByDocenteAndProposta(1L, 1L)).thenReturn(Optional.of(convite));
-
-        assertEquals(convite.getEstado(), EstadoConvite.ACEITE);
-    }
-
-    @Test
-    public void shouldAtualizarProposta()
-    {
-        PropostaJPA propostaJPA = new PropostaJPA(1L, 1L, 1L, "tituloMuitaGiro",
-                "problemaMuitaGrave", "objetivoQueSeVaiRealizando", 1L, PropostaEstado.CANDIDATURA);
-
-        Proposta proposta = new Proposta(1L, 1L, 1L, "tituloMuitaGiro",
-                "problemaMuitaGrave", "objetivoQueSeVaiRealizando", 1L, PropostaEstado.CANDIDATURA);
-
-        jpaRepository.save(propostaJPA);
-        proposta.aprovarProposta();
-
-        Optional<PropostaDTO> save = service.atualizarProposta(proposta);
-
-        Optional<PropostaJPA> newSave = jpaRepository.findById(save.get().getId());
-
-        assertEquals(newSave.get().getEstadoAtual(), PropostaEstado.APROVADO);
-    }
-
-    @Test
     public void shouldCreateProject()
     {
         ProjetoDTO projetoDTO = new ProjetoDTO(1L, 1L, 1L, 1L);
@@ -240,42 +209,4 @@ class PropostaServiceIntegrationTests
 
         assertEquals(projetoDTO, save);
     }
-
-    @Test
-    public void shouldCreateCovite()
-    {
-        ConviteDTO convite = new ConviteDTO(1L, 1L, 1L, EstadoConvite.PENDENTE);
-
-        repository.findById(convite.getIdProposta());
-
-
-        PropostaDTO proposta = new PropostaDTO(1L, 1L, 1L, "tituloMuitaGiro",
-                "problemaMuitaGrave", "objetivoQueSeVaiRealizando", 1L, PropostaEstado.APROVADO);
-
-        UtilizadorDTO alunoDTO = new UtilizadorDTO(1L, "nome", "sobrenome", "email@email.pt",
-                TipoUtilizador.ALUNO);
-
-        UtilizadorDTO docenteDTO = new UtilizadorDTO(1L, "nome2", "sobrenome2", "email2@email.pt",
-                TipoUtilizador.DOCENTE);
-
-
-        service.createCandidaturaProposta(proposta);
-
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(alunoDTO));
-        when(utilizadorRestRepository.findById(1L)).thenReturn(Optional.of(docenteDTO));
-
-        ConviteDTO save = service.createConvite(convite);
-
-        assertEquals(convite, save);
-
-    }
-
-   /* public ConviteDTO createConvite(ConviteDTO conviteDTO)
-    {
-        Optional<Proposta> proposta = repository.findById(conviteDTO.getIdProposta());
-
-        Convite convite = conviteRepository.createAndSaveConvite(conviteDTOMapper.toModel(conviteDTO));
-
-        return conviteDTOMapper.toDTO(convite);
-    }*/
 }
