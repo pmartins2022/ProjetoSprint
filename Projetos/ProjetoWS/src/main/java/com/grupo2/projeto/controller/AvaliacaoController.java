@@ -163,4 +163,19 @@ public class AvaliacaoController
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @GetMapping("/listEditable")
+    public ResponseEntity<List<AvaliacaoDTO>> findAllEditableAvaliacao(@PathVariable("id") Long idPresidente)
+    {
+        try
+        {
+            List<AvaliacaoDTO> list = service.findAllEditableAvaliacao(idPresidente);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

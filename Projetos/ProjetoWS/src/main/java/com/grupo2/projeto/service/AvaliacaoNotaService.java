@@ -1,5 +1,6 @@
 package com.grupo2.projeto.service;
 
+import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.EdicaoUCDTO;
 import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.dto.PropostaDTO;

@@ -154,4 +154,12 @@ public class AvaliacaoService
         }
         return lista.stream().map(mapper::toDTO).toList();
     }
+
+
+    public List<AvaliacaoDTO> findAllEditableAvaliacao(Long idPresidente)
+    {
+        List<Avaliacao> list = avaliacaoJDBCRepository.findAllEditableAvaliacao(idPresidente);
+
+        return list.stream().map(mapper::toDTO).toList();
+    }
 }
