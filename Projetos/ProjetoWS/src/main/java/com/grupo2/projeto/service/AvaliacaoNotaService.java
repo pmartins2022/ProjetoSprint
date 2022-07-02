@@ -3,7 +3,7 @@ package com.grupo2.projeto.service;
 import com.grupo2.projeto.dto.EdicaoUCDTO;
 import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.dto.PropostaDTO;
-import com.grupo2.projeto.dto.mapper.MomentoAvaliacaoNotaMapper;
+import com.grupo2.projeto.dto.mapper.AvaliacaoNotaMapper;
 import com.grupo2.projeto.exception.*;
 import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.AvaliacaoNota;
@@ -23,7 +23,7 @@ import java.util.Objects;
 public class AvaliacaoNotaService
 {
     @Autowired
-    private MomentoAvaliacaoNotaMapper mapper;
+    private AvaliacaoNotaMapper mapper;
 
     @Autowired
     private EdicaoUCJDBCRepository edicaoUCJDBCRepository;
@@ -99,7 +99,7 @@ public class AvaliacaoNotaService
         }
     }
 
-    public void reviewAvaliacao(Long idAvaliacaoNota, String avaliacao)
+    public void reviewAvaliacaoNota(Long idAvaliacaoNota, String avaliacao)
     {
         //VER SE AVALIACAONOTA EXISTE
         AvaliacaoNota avaliacaoNota = null;
@@ -166,10 +166,10 @@ public class AvaliacaoNotaService
             throw new ValidacaoInvalidaException("RUC não chefia essa Edição");
         }
 
-        if(!(avaliacaoNota.getEstadoAvaliacao().equals(EstadoAvaliacao.PENDENTE)))
+        if (avaliacaoNota.getEstadoAvaliacao() != EstadoAvaliacao.PENDENTE)
         {
-            throw new ValidacaoInvalidaException("Avaliação tem que estar em estado PENDENTE."+
-                  "Encontra-se em estado " + avaliacaoNota.getEstadoAvaliacao());
+            throw new ValidacaoInvalidaException("Para concluir uma AvaliacaoNota esta tem que estar em PENDENTE." +
+                    "Estado atual: " + avaliacaoNota.getEstadoAvaliacao());
         }
 
         EstadoAvaliacao value;
@@ -180,12 +180,6 @@ public class AvaliacaoNotaService
         } catch (IllegalArgumentException e)
         {
             throw new ErroGeralException("Nao foi possivel criar enum a partir do valor: "+avaliacao);
-        }
-
-        if (avaliacaoNota.getEstadoAvaliacao() != EstadoAvaliacao.PENDENTE)
-        {
-            throw new ValidacaoInvalidaException("Para concluir uma AvaliacaoNota esta tem que estar em PENDENTE." +
-                    "Estado atual: " + value.name());
         }
 
         avaliacaoNota.updateEstado(value);

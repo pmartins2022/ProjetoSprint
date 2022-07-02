@@ -8,13 +8,11 @@ import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.AvaliacaoService;
 import com.grupo2.projeto.service.AvaliacaoNotaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController
@@ -121,7 +119,7 @@ public class AvaliacaoController
     {
         try
         {
-            avaliacaoNotaService.reviewAvaliacao(id, avaliacao);
+            avaliacaoNotaService.reviewAvaliacaoNota(id, avaliacao);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(IllegalArgumentException e)
