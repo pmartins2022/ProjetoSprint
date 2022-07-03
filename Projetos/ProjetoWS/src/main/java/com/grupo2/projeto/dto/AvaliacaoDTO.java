@@ -2,6 +2,8 @@ package com.grupo2.projeto.dto;
 
 import com.grupo2.projeto.model.Conteudo;
 
+import java.util.Objects;
+
 public class AvaliacaoDTO
 {
     private Long id;
@@ -138,6 +140,15 @@ public class AvaliacaoDTO
     public void setEstadoAvaliacao(String estadoAvaliacao)
     {
         this.estadoAvaliacao = estadoAvaliacao;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof AvaliacaoDTO)) return false;
+        AvaliacaoDTO that = (AvaliacaoDTO) o;
+        return getIdMomentoAvaliacao().equals(that.getIdMomentoAvaliacao()) && getPresidenteId().equals(that.getPresidenteId()) && getOrientadorId().equals(that.getOrientadorId()) && getArguenteId().equals(that.getArguenteId()) && getIdProjeto().equals(that.getIdProjeto()) && getIdConteudo().equals(that.getIdConteudo()) && getEstadoAvaliacao().equals(that.getEstadoAvaliacao()) && getDataAvaliacao().equals(that.getDataAvaliacao());
     }
 
     @Override

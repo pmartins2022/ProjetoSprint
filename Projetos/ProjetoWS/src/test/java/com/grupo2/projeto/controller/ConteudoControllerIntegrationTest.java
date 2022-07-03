@@ -28,6 +28,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,7 +70,7 @@ class ConteudoControllerIntegrationTest
     {
         ConteudoDTO conteudoDTO = new ConteudoDTO(1L, 1L,"titulo", "caminho", "documento", "linguagem", "estado");
 
-        doNothing().when(service).createAndSave(conteudoDTO);
+        doNothing().when(service).createAndSave(any(ConteudoDTO.class));
 
         MvcResult response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/conteudo/criar")
@@ -78,13 +79,10 @@ class ConteudoControllerIntegrationTest
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        ConteudoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), ConteudoDTO.class);
-
-        assertEquals(conteudoDTO, responseDto);
     }
 
     @Test
-    @WithMockUser(username = "aluno", password = "aluno", authorities = "ROLE_ALUNO")
+    @WithMockUser(username = "docente", password = "docente", authorities = "ROLE_DOCENTE")
     public void shouldFindById() throws Exception
     {
         ConteudoDTO conteudoDTO = new ConteudoDTO(1L, 1L,"titulo", "caminho", "documento", "linguagem", "estado");
@@ -92,10 +90,10 @@ class ConteudoControllerIntegrationTest
         when(service.findById(1L)).thenReturn(conteudoDTO);
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.post("/conteudo/1")
+                .perform(MockMvcRequestBuilders.get("/conteudo/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(conteudoDTO)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andReturn();
 
         ConteudoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), ConteudoDTO.class);
@@ -104,7 +102,7 @@ class ConteudoControllerIntegrationTest
     }
 
     @Test
-    @WithMockUser(username = "aluno", password = "aluno", authorities = "ROLE_ALUNO")
+    @WithMockUser(username = "docente", password = "docente", authorities = "ROLE_DOCENTE")
     public void shouldAccept() throws Exception
     {
         ConteudoDTO conteudoDTO = new ConteudoDTO(1L, 1L,"titulo", "caminho", "documento", "linguagem", "estado");
@@ -112,39 +110,15 @@ class ConteudoControllerIntegrationTest
         doNothing().when(service).acceptConteudo(1L);
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.post("/conteudo/aceitarConteudo/1")
+                .perform(MockMvcRequestBuilders.patch("/conteudo/aceitarConteudo/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(conteudoDTO)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andReturn();
-
-        ConteudoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), ConteudoDTO.class);
-
-        assertEquals(conteudoDTO, responseDto);
     }
 
     @Test
-    @WithMockUser(username = "aluno", password = "aluno", authorities = "ROLE_ALUNO")
-    public void shouldReject() throws Exception
-    {
-        ConteudoDTO conteudoDTO = new ConteudoDTO(1L, 1L,"titulo", "caminho", "documento", "linguagem", "estado");
-
-        doNothing().when(service).rejeitarConteudo(1L);
-
-        MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.post("/conteudo/rejeitarConteudo/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(conteudoDTO)))
-                .andExpect(status().isCreated())
-                .andReturn();
-
-        ConteudoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), ConteudoDTO.class);
-
-        assertEquals(conteudoDTO, responseDto);
-    }
-
-    @Test
-    @WithMockUser(username = "aluno", password = "aluno", authorities = "ROLE_ALUNO")
+    @WithMockUser(username = "docente", password = "docente", authorities = "ROLE_DOCENTE")
     public void shouldFindAllByProjetoId() throws Exception
     {
         ConteudoDTO conteudoDTO = new ConteudoDTO(1L, 1L,"titulo", "caminho", "documento", "linguagem", "PENDENTE");
@@ -152,10 +126,10 @@ class ConteudoControllerIntegrationTest
         when(service.findAllByIdProjeto(1L)).thenReturn(List.of(conteudoDTO));
 
         MvcResult response = mockMvc
-                .perform(MockMvcRequestBuilders.post("/conteudo/projetoID/1")
+                .perform(MockMvcRequestBuilders.get("/conteudo/projetoID/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(conteudoDTO)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andReturn();
 
         List<ConteudoDTO> list = objectMapper.readValue(response.getResponse().getContentAsString(), new TypeReference<List<ConteudoDTO>>() {});

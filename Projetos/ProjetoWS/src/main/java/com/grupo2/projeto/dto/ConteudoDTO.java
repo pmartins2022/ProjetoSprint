@@ -2,6 +2,8 @@ package com.grupo2.projeto.dto;
 
 import com.grupo2.projeto.model.EstadoConteudo;
 
+import java.util.Objects;
+
 public class ConteudoDTO
 {
     private Long id;
@@ -97,4 +99,14 @@ public class ConteudoDTO
     {
         this.estadoConteudo = estadoConteudo;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof ConteudoDTO)) return false;
+        ConteudoDTO that = (ConteudoDTO) o;
+        return getId().equals(that.getId()) && getProjetoId().equals(that.getProjetoId()) && getTitulo().equals(that.getTitulo()) && getCaminhoDocumento().equals(that.getCaminhoDocumento()) && getDocumento().equals(that.getDocumento()) && getLinguagemDocumento().equals(that.getLinguagemDocumento()) && getEstadoConteudo().equals(that.getEstadoConteudo());
+    }
+
 }

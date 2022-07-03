@@ -99,7 +99,7 @@ public class AvaliacaoController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @GetMapping("/{rucID}")
+    @GetMapping("/ruc/{rucID}")
     public ResponseEntity<List<AvaliacaoNotaDTO>> findAllByEstadoAndRucID(@PathVariable("rucID") Long rucID,  @RequestParam("estado") String estado)
     {
         try
