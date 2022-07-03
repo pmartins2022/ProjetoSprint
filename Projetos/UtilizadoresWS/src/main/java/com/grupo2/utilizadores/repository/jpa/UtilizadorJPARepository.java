@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 /**
- * Classe UtilizadorJPARepository e faz extend de JpaRepository
+ * Classe UtilizadorJPARepository que extende JpaRepository
  */
 public interface UtilizadorJPARepository extends JpaRepository<UtilizadorJPA, Long>
 {

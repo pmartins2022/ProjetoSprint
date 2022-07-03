@@ -46,6 +46,12 @@ public class UtilizadorRepository
         Utilizador utilizador = mapper.toModel(utilizadorJPA.get());
         return Optional.of(utilizador);
     }
+
+    /**
+     * Tentar encontrar um utilizador pelo seu username
+     * @param username o username a procurar
+     * @return o utilizador ou vazio
+     */
     public Optional<Utilizador> findByUsername(String username)
     {
         Optional<UtilizadorJPA> jpa = jpaRepository.findByUsername(username);
@@ -89,11 +95,19 @@ public class UtilizadorRepository
         return mapper.toModel(jpaSaved);
     }
 
+    /**
+     * Obtem a lista de todos os utilizadores desta DB
+     * @return a lista de utilizadores
+     */
     public List<Utilizador> findAll()
     {
         return jpaRepository.findAll().stream().map(mapper::toModel).toList();
     }
 
+    /**
+     * Apagar da DB um utilizador
+     * @param id o id do utilizador a apagar
+     */
     public void deleteByID(Long id)
     {
         jpaRepository.deleteById(id);

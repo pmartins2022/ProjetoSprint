@@ -44,12 +44,22 @@ public class UtilizadorDTOMapper
                 utilizador.getEmail(), utilizador.getUsername(), utilizador.getPassword(), utilizador.getTipoUtilizador());
     }
 
+    /**
+     * Fazer a conversao para classe AuthDTO
+     * @param user o objeto de dominio com os dados
+     * @return o objeto convertido
+     */
     public UtilizadorAuthDTO toAuthDTO(Utilizador user)
     {
         return new UtilizadorAuthDTO(user.getId(),
                 user.getUsername(), user.getPassword(), user.getTipoUtilizador().toString());
     }
 
+    /**
+     * Fazer a conversao para classe AuthDTO
+     * @param user o objeto de dominio com os dados
+     * @return o objeto convertido
+     */
     public UtilizadorAuthDTO toAuthDTO(UserDetails user)
     {
         return new UtilizadorAuthDTO(-1L, user.getUsername(), user.getPassword(), user.getAuthorities().stream().findFirst().get().getAuthority());

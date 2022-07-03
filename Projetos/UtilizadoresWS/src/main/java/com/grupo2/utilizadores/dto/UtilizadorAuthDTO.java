@@ -1,5 +1,8 @@
 package com.grupo2.utilizadores.dto;
 
+/**
+ * Classe que apresenta informacao simples de um utilizador. Usado para confirmar credenciais.
+ */
 public class UtilizadorAuthDTO
 {
     private Long id;

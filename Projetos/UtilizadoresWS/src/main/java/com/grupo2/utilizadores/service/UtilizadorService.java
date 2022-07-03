@@ -39,6 +39,11 @@ public class UtilizadorService
     @Autowired
     private ProjetoRestRepository projetoRestRepository;
 
+    /**
+     * Registar um novo utilizador na DB
+     * @param utilizadorDTO informacao do utilizador
+     * @return o utilizador criado ou um erro
+     */
     public UtilizadorDTO registar(UtilizadorDTO utilizadorDTO)
     {
         if (repository.findByUsername(utilizadorDTO.getUsername()).isPresent())
@@ -82,7 +87,11 @@ public class UtilizadorService
         return Optional.empty();
     }
 
-
+    /**
+     * Tentar encontrar utilizador pelo seu username
+     * @param username o username a procurar
+     * @return o utilizador encontrado ou vazio
+     */
     public Optional<UtilizadorAuthDTO> findByUsername(String username)
     {
         Optional<UtilizadorAuthDTO> userInMemory = userDetailsService.findInMemory(username);
@@ -101,6 +110,13 @@ public class UtilizadorService
         return Optional.empty();
     }
 
+    /**
+     * Verficar se um utilizador tem uma funcao especifica
+     * @param role a funcao
+     * @param id o id de utilizador
+     * @return se esse utilizador tem essa funcao
+     * @throws OptionalVazioException se nao encontrar o utilizador
+     */
     public Boolean isRole(String role, Long id) throws OptionalVazioException
     {
         Optional<UtilizadorDTO> utilizador = findByID(id);

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class UtilizadorFactory
 {
     /**
-     * Cria objetos do tipo utilizador
+     * Cria objeto do tipo utilizador
      * @param id recebe o id dos mappers
      * @param nome recebe o nome dos mappers
      * @param sobrenome recebe o sobrenome dos mappers
@@ -23,7 +23,6 @@ public class UtilizadorFactory
      * @param tipoUtilizador recebe o tipoUtilizador dos mappers
      * @return um novo objeto do tipo Utilizador
      */
-
     public Utilizador createUtilizador(Long id, String nome, String sobrenome, String email,
                                        String username, String password, TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
     {

@@ -45,7 +45,8 @@ public class UtilizadorUserDetailsService implements UserDetailsService
 
 
     /**
-     * {{@code @Inherit}}
+     * Criar uma password encoder para o Spring Security
+     * @return a password encoder
      */
     @Bean
     public PasswordEncoder passwordEncoder()
@@ -54,9 +55,8 @@ public class UtilizadorUserDetailsService implements UserDetailsService
     }
 
     /**
-     * {{@code @Inherit}}
      * Método que permite criar Admin
-     * @return UserDetailsService
+     * @return informacao do servico de utilizadores
      */
     @Bean
     public UserDetailsService userDetailsService()
@@ -123,10 +123,10 @@ public class UtilizadorUserDetailsService implements UserDetailsService
     }
 
     /**
-     * {{@code @Inherit}}
-     * @param username username do Utilizador
-     * @return UserDetails
-     * @throws UsernameNotFoundException  {{@code @Inherit}}
+     * Chamado automaticamente pelo Spring. Iniciar a autenticacao ao nosso servico, fornecendo o username.
+     * @param username o username a autenticar
+     * @return informacao do utilizador
+     * @throws UsernameNotFoundException se nao existe esse utilizador
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException

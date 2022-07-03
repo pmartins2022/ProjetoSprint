@@ -30,6 +30,12 @@ public class UtilizadorController
     @Autowired
     private UtilizadorService service;
 
+    /**
+     * Registar um novo utilizador na BD
+     * @param utilizadorDTO informacao do novo utilizador
+     * @param req informacao do request
+     * @return informacao do utilizador registado, ou um erro
+     */
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/registar")
     public ResponseEntity<?> registar(@RequestBody UtilizadorDTO utilizadorDTO, HttpServletRequest req)
@@ -65,6 +71,11 @@ public class UtilizadorController
         return new ResponseEntity<>(optionalUtilizadorDTO, HttpStatus.OK);
     }
 
+    /**
+     * Tentar encontrar um utilizador, fornecendo o seu username
+     * @param username o username a procurar
+     * @return o utilizador que encontrou ou um erro se o utilizador com esse username nao existe
+     */
     @GetMapping("/find")
     public ResponseEntity<UtilizadorAuthDTO> findByUsername(@RequestParam(name = "username") String username)
     {
@@ -78,6 +89,12 @@ public class UtilizadorController
         return ResponseEntity.ok(utilizadorDTO.get());
     }
 
+    /**
+     * Verificar se um utilizador e de um certo tipo (admin,docente ou aluno)
+     * @param role o tipo de utilizador a procurar
+     * @param id o id do utilizaodr
+     * @return se o utilizador e desse tipo ou um erro se o ID nao existe
+     */
     @GetMapping("/{role}/{id}")
     public ResponseEntity<Boolean> isRole(@PathVariable("role") String role, @PathVariable("id") Long id)
     {
@@ -91,6 +108,10 @@ public class UtilizadorController
         }
     }
 
+    /**
+     * Endpoint que possibilita listar todos os utilizadores da BD
+     * @return a lista de utilizadores ou erro se nao existirem utilizadores
+     */
     @GetMapping("/listar")
     public ResponseEntity<Object> listAll()
     {
@@ -101,6 +122,10 @@ public class UtilizadorController
         return ResponseEntity.ok(lista);
     }
 
+    /**
+     * Endpoint que possibilita listar apenas os docentes da BD
+     * @return a lista de docentes ou um erro se nao existirem docentes.
+     */
     @GetMapping("/docentes")
     public ResponseEntity<Object> findAllDocentes()
     {

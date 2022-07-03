@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
- * Classe RestExceptionHandler
+ * Classe RestExceptionHandler, que automaticamente chama e gera um response entity de erro
+ * dependendo das classes exception que estao registadas para o efeito.
  */
 @ControllerAdvice
 public class RestExceptionHandler

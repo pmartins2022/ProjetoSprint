@@ -25,9 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private UtilizadorUserDetailsService userDetailsService;
 
     /**
-     * {{@code @Inherit}}
-     * @param auth {{@code @Inherit}}}
-     * @throws Exception {{@code @Inherit}}}
+     * Chamado automaticamente pelo Spring, configurar o password encoded a usar pelo servico de autenticacao
+     * @param auth informacao do gestor de autenticacoes
+     * @throws Exception um erro
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
@@ -37,9 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
-     * {{@code @Inherit}}
-     * @param http {{@code @Inherit}}}
-     * @throws Exception {{@code @Inherit}}}
+     * Configurar a seguranca e filtragens dos nossos endpoints do nosso servico
+     * @param http informacao dos requests
+     * @throws Exception um erro
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception

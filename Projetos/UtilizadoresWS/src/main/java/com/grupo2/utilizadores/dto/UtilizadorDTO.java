@@ -6,7 +6,7 @@ import com.grupo2.utilizadores.model.Utilizador;
 import java.util.Objects;
 
 /**
- * Classe DTO do Utilizador
+ * Classe DTO de um Utilizador
  */
 public class UtilizadorDTO
 {
