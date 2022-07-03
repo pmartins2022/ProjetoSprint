@@ -74,12 +74,6 @@ public class PropostaJDBCRepository implements GenericRepository<PropostaDTO>
 
     }
 
-    @Override
-    public void deleteById(Long id)
-    {
-
-    }
-
     public List<PropostaDTO> findAllByEdicaoUCID(Long edicaoUCID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate);

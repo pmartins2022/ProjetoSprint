@@ -1,6 +1,7 @@
 package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.dto.OrganizacaoDTO;
+import com.grupo2.projeto.model.factory.SimpleJDBCCallFactory;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -22,11 +23,13 @@ public class OrganizacaoJDBCRepository implements GenericRepository<OrganizacaoD
 
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private SimpleJDBCCallFactory factory;
 
     @Override
     public List<OrganizacaoDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_ORGANIZACAO");
         return objectMapper.mapToObjectList(jdbcCall.execute(),OrganizacaoDTO.class);
     }
@@ -34,7 +37,7 @@ public class OrganizacaoJDBCRepository implements GenericRepository<OrganizacaoD
     @Override
     public OrganizacaoDTO findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FNC_FIND_ORGANIZACAO_ID")
                 .declareParameters(new SqlParameter("idIn",OracleTypes.NUMBER))
                 .withReturnValue();
@@ -45,7 +48,7 @@ public class OrganizacaoJDBCRepository implements GenericRepository<OrganizacaoD
     @Override
     public void insert(OrganizacaoDTO dto)
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_ORGANIZACAO")
                 .declareParameters(
                         new SqlParameter("denominacao",OracleTypes.VARCHAR),
@@ -59,9 +62,4 @@ public class OrganizacaoJDBCRepository implements GenericRepository<OrganizacaoD
 
     }
 
-    @Override
-    public void deleteById(Long id)
-    {
-
-    }
 }

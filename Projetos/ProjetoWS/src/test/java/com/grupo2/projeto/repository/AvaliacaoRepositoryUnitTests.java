@@ -12,112 +12,155 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;*/
+import com.grupo2.projeto.model.*;
+import com.grupo2.projeto.model.factory.SimpleJDBCCallFactory;
+import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class AvaliacaoRepositoryUnitTests
 {
-/*
     @MockBean
-    private AvaliacaoJPARepository jpaRepository;
+    private ObjectMapper objectMapper;
+
     @MockBean
-    private AvaliacaoJPAMapper mapper;
+    private JdbcTemplate jdbcTemplate;
+
     @MockBean
-    private ConteudoJPAMapper conteudoJPAMapper;
-    @MockBean
-    private AvaliacaoJPAFactory factory;
+    private SimpleJDBCCallFactory factory;
 
     @InjectMocks
-    private AvaliacaoRepository repository;
+    private AvaliacaoJDBCRepository repository;
 
     @BeforeEach
-    public void setup()
+    void setUp()
     {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void shouldSaveAvaliacao()
+    public void shouldFindAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        Avaliacao avaliacaoMOCK = mock(Avaliacao.class);
-        when(avaliacaoMOCK.getId()).thenReturn(1L);
-        when(avaliacaoMOCK.getIdMomentoAvaliacao()).thenReturn(1L);
-        when(avaliacaoMOCK.getPresidenteId()).thenReturn(1L);
-        when(avaliacaoMOCK.getArguenteId()).thenReturn(2L);
-        when(avaliacaoMOCK.getOrientadorId()).thenReturn(3L);
-        when(avaliacaoMOCK.getIdProjeto()).thenReturn(1L);
-        when(avaliacaoMOCK.getConteudo()).thenReturn(1L);
-        when(avaliacaoMOCK.getNota()).thenReturn(32);
+        Avaliacao dto = mock(Avaliacao.class);
 
-        AvaliacaoJPA jpaMOCK = mock(AvaliacaoJPA.class);
-        Conteudo conteudoMOCK = mock(Conteudo.class);
-        ConteudoJPA conteudoJPAMOCK = mock(ConteudoJPA.class);
+        SimpleJdbcCall call = mock(SimpleJdbcCall.class);
 
-        when(conteudoJPAMapper.toJpa(conteudoMOCK)).thenReturn(conteudoJPAMOCK);
-        when(factory.create(avaliacaoMOCK.getId(), avaliacaoMOCK.getIdMomentoAvaliacao(), avaliacaoMOCK.getPresidenteId(), avaliacaoMOCK.getOrientadorId(),
-                avaliacaoMOCK.getArguenteId(), avaliacaoMOCK.getIdProjeto(),conteudoJPAMOCK, avaliacaoMOCK.getNota())).thenReturn(jpaMOCK);
-        when(jpaRepository.save(jpaMOCK)).thenReturn(jpaMOCK);
-        when(mapper.toModel(jpaMOCK)).thenReturn(avaliacaoMOCK);
+        when(factory.create(any(JdbcTemplate.class))).thenReturn(call);
 
-        Avaliacao avaliacao = repository.saveAvaliacao(avaliacaoMOCK, conteudoMOCK);
+        when(call.withFunctionName(anyString())).thenReturn(call);
 
-        assertEquals(avaliacaoMOCK, avaliacao);
+        when(objectMapper.mapToObjectList(call.execute(), Avaliacao.class)).thenReturn(List.of(dto,dto));
+
+        List<Avaliacao> result = repository.findAll();
+
+        assertEquals(2,result.size());
+    }
+
+
+    @Test
+    public void shouldFindById() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    {
+        Avaliacao dto = mock(Avaliacao.class);
+
+        SimpleJdbcCall call = mock(SimpleJdbcCall.class);
+
+        when(factory.create(any(JdbcTemplate.class))).thenReturn(call);
+
+        when(call.withFunctionName(anyString())).thenReturn(call);
+        when(call.declareParameters(any())).thenReturn(call);
+        when(call.withReturnValue()).thenReturn(call);
+
+        when(objectMapper.mapToObject(call.execute(1L),Avaliacao.class)).thenReturn(dto);
+
+        Avaliacao result = repository.findById(1L);
+
+        assertEquals(dto,result);
     }
 
     @Test
-    public void shouldFindByID()
+    public void shouldFindByPresidenteId() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        Avaliacao avaliacaoMOCK = mock(Avaliacao.class);
-        AvaliacaoJPA jpaMOCK = mock(AvaliacaoJPA.class);
+        Avaliacao dto = mock(Avaliacao.class);
 
-        when(jpaRepository.findById(1L)).thenReturn(Optional.ofNullable(jpaMOCK));
-        when(mapper.toModel(jpaMOCK)).thenReturn(avaliacaoMOCK);
+        SimpleJdbcCall call = mock(SimpleJdbcCall.class);
 
-        Optional<Avaliacao> avaliacao = repository.findById(1L);
+        when(factory.create(any(JdbcTemplate.class))).thenReturn(call);
 
-        assertTrue(avaliacao.isPresent());
+        when(call.withFunctionName(anyString())).thenReturn(call);
+        when(call.declareParameters(any())).thenReturn(call);
+        when(call.withReturnValue()).thenReturn(call);
+
+        when(objectMapper.mapToObjectList(call.execute(1L),Avaliacao.class)).thenReturn(List.of(dto, dto));
+
+        List<Avaliacao> result = repository.findByPresidenteId(1L);
+
+        assertEquals(2,result.size());
     }
 
     @Test
-    public void shouldNotFindByID_Empty()
+    public void shouldFindByProjetoId() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        when(jpaRepository.findById(1L)).thenReturn(Optional.empty());
+        Avaliacao dto = mock(Avaliacao.class);
 
-        Optional<Avaliacao> avaliacao = repository.findById(1L);
+        SimpleJdbcCall call = mock(SimpleJdbcCall.class);
 
-        assertTrue(avaliacao.isEmpty());
+        when(factory.create(any(JdbcTemplate.class))).thenReturn(call);
+
+        when(call.withFunctionName(anyString())).thenReturn(call);
+        when(call.declareParameters(any())).thenReturn(call);
+        when(call.withReturnValue()).thenReturn(call);
+
+        when(objectMapper.mapToObject(call.execute(1L),Avaliacao.class)).thenReturn(dto);
+
+        Avaliacao result = repository.findAllByProjetoId(1L);
+
+        assertEquals(dto, result);
     }
 
     @Test
-    public void shouldFindAll()
+    public void shouldInsert() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        Avaliacao avaliacaoMOCK = mock(Avaliacao.class);
-        AvaliacaoJPA jpaMOCK = mock(AvaliacaoJPA.class);
+        Avaliacao dto = mock(Avaliacao.class);
+        when(dto.getEstadoAvaliacao()).thenReturn(EstadoAvaliacao.REVISAO);
 
-        when(jpaRepository.findAll()).thenReturn(List.of(jpaMOCK, jpaMOCK));
-        when(mapper.toModel(jpaMOCK)).thenReturn(avaliacaoMOCK);
+        SimpleJdbcCall call = mock(SimpleJdbcCall.class);
 
-        List<Avaliacao> avaliacao = repository.findAll();
+        when(factory.create(any(JdbcTemplate.class))).thenReturn(call);
 
-        assertEquals(2, avaliacao.size());
+        when(call.withProcedureName(anyString())).thenReturn(call);
+        when(call.declareParameters(any())).thenReturn(call);
+
+        assertDoesNotThrow(()->repository.insert(dto));
     }
 
+
     @Test
-    public void shouldNotFindAll_Empty()
+    public void shouldFindAllEditableAvaliacao() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        when(jpaRepository.findAll()).thenReturn(List.of());
+        Avaliacao dto = mock(Avaliacao.class);
 
-        List<Avaliacao> avaliacao = repository.findAll();
+        when(jdbcTemplate.queryForList(anyString(), eq(Avaliacao.class), eq(1L))).thenReturn(List.of(dto,dto));
 
-        assertEquals(0, avaliacao.size());
-    }*/
+        List<Avaliacao> result = repository.findAllEditableAvaliacao(1L);
+
+        assertEquals(2,result.size());
+    }
 }

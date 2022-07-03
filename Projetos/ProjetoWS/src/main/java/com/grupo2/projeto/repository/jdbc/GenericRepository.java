@@ -11,7 +11,6 @@ public interface GenericRepository<T extends JDBCTable>
 
     void update(T dto);
 
-    void deleteById(Long id);
     T findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException;
 
     List<T> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException;

@@ -70,11 +70,4 @@ public class UtilizadorJDBCRepository implements GenericRepository<UtilizadorDTO
     {
 
     }
-
-
-    @Override
-    public void deleteById(Long id)
-    {
-
-    }
 }

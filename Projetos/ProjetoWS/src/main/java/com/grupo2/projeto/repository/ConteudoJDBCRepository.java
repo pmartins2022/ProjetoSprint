@@ -2,6 +2,7 @@ package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.Conteudo;
+import com.grupo2.projeto.model.factory.SimpleJDBCCallFactory;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import javassist.Loader;
@@ -23,11 +24,13 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
 
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private SimpleJDBCCallFactory factory;
 
     @Override
     public List<Conteudo> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_CONTEUDO");
         return objectMapper.mapToObjectList(jdbcCall.execute(),Conteudo.class);
     }
@@ -35,7 +38,7 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     @Override
     public Conteudo findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FNC_FIND_CONTEUDO_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
@@ -46,7 +49,7 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     @Override
     public void insert(Conteudo model)
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_CONTEUDO")
                 .declareParameters(
                         new SqlParameter("idProjeto",OracleTypes.NUMBER),
@@ -62,7 +65,7 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     @Override
     public void update(Conteudo dto)
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withProcedureName("PROC_UPDATE_CONTEUDO")
                 .declareParameters(
                         new SqlParameter("id",OracleTypes.NUMBER),
@@ -71,20 +74,10 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
         jdbcCall.execute(dto.getId(),dto.getEstadoConteudo().name());
     }
 
-    @Override
-    public void deleteById(Long id)
-    {
-        /*SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withProcedureName("PROC_DELETE_CONTEUDO")
-                .declareParameters(
-                        new SqlParameter("id",OracleTypes.NUMBER));
-
-        jdbcCall.execute(id);*/
-    }
 
     public List<Conteudo> findAllByIdProjeto(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FNC_CONTEUDO_FINDALL_IDPROJETO")
                 .declareParameters(new SqlParameter("idIn",OracleTypes.NUMBER));
 

@@ -4,6 +4,7 @@ import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
 import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.Projeto;
+import com.grupo2.projeto.model.factory.SimpleJDBCCallFactory;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -24,11 +25,13 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
 
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private SimpleJDBCCallFactory factory;
 
     @Override
     public List<Projeto> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_PROJETO");
         return objectMapper.mapToObjectList(jdbcCall.execute(),Projeto.class);
     }
@@ -41,7 +44,7 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
     @Override
     public Projeto findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FNC_FIND_PROJETO_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
@@ -52,7 +55,7 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
     @Override
     public void insert(Projeto model)
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_PROJETO")
                 .declareParameters(
                         new SqlParameter("propostaId",OracleTypes.NUMBER),
@@ -67,15 +70,9 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
 
     }
 
-    @Override
-    public void deleteById(Long id)
-    {
-
-    }
-
     public Projeto findByPropostaId(Long propostaID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FNC_FIND_PROJETO_PROPOSTAID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
@@ -84,7 +81,7 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
 
     public List<Projeto> findAllByOrientadorId(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FNC_FIND_PROJETO_ORIENTADORID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();

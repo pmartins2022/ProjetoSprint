@@ -50,7 +50,7 @@ public class UnidadeCurricularJDBCRepository implements GenericRepository<Unidad
     @Override
     public void insert(UnidadeCurricularDTO dto)
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_UNIDADECURRICULAR")
                 .declareParameters(
                         new SqlParameter("sigla",OracleTypes.VARCHAR),
@@ -64,9 +64,4 @@ public class UnidadeCurricularJDBCRepository implements GenericRepository<Unidad
 
     }
 
-    @Override
-    public void deleteById(Long id)
-    {
-
-    }
 }

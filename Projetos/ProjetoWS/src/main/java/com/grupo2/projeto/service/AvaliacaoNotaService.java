@@ -318,7 +318,7 @@ public class AvaliacaoNotaService
             throw new ErroGeralException("O id não corresponde a uma avaliacao");
         }
 
-        AvaliacaoNota avaliacaoNota1 = avaliacaoNotaJDBCRepository.findAvaliacaoNotaByAvaliacaoID(idAvaliacao);
+        AvaliacaoNota avaliacaoNota1 = avaliacaoNotaJDBCRepository.findByIdAvaliacao(idAvaliacao);
 
         return mapper.toDTO(avaliacaoNota1);
     }

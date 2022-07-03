@@ -1,6 +1,8 @@
 package com.grupo2.projeto.repository;
 
-import com.grupo2.projeto.dto.UnidadeCurricularDTO;
+import com.grupo2.projeto.dto.EdicaoUCDTO;
+import com.grupo2.projeto.dto.MomentoAvaliacaoDTO;
+import com.grupo2.projeto.model.EstadoEdicaoUC;
 import com.grupo2.projeto.model.factory.SimpleJDBCCallFactory;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,15 +17,14 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class UnidadeCurricularJDBCRepositoryUnitTests
+class MomentoAvaliacaoJDBCRepositoryUnitTests
 {
     @MockBean
     private ObjectMapper objectMapper;
@@ -35,7 +36,7 @@ class UnidadeCurricularJDBCRepositoryUnitTests
     private SimpleJDBCCallFactory factory;
 
     @InjectMocks
-    private UnidadeCurricularJDBCRepository repository;
+    private MomentoAvaliacaoJDBCRepository repository;
 
     @BeforeEach
     void setUp()
@@ -46,7 +47,7 @@ class UnidadeCurricularJDBCRepositoryUnitTests
     @Test
     public void shouldFindAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        UnidadeCurricularDTO dto = mock(UnidadeCurricularDTO.class);
+        MomentoAvaliacaoDTO dto = mock(MomentoAvaliacaoDTO.class);
 
         SimpleJdbcCall call = mock(SimpleJdbcCall.class);
 
@@ -54,17 +55,18 @@ class UnidadeCurricularJDBCRepositoryUnitTests
 
         when(call.withFunctionName(anyString())).thenReturn(call);
 
-        when(objectMapper.mapToObjectList(call.execute(), UnidadeCurricularDTO.class)).thenReturn(List.of(dto,dto));
+        when(objectMapper.mapToObjectList(call.execute(), MomentoAvaliacaoDTO.class)).thenReturn(List.of(dto,dto));
 
-        List<UnidadeCurricularDTO> result = repository.findAll();
+        List<MomentoAvaliacaoDTO> result = repository.findAll();
 
         assertEquals(2,result.size());
     }
 
+
     @Test
     public void shouldFindById() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        UnidadeCurricularDTO dto = mock(UnidadeCurricularDTO.class);
+        MomentoAvaliacaoDTO dto = mock(MomentoAvaliacaoDTO.class);
 
         SimpleJdbcCall call = mock(SimpleJdbcCall.class);
 
@@ -74,17 +76,17 @@ class UnidadeCurricularJDBCRepositoryUnitTests
         when(call.declareParameters(any())).thenReturn(call);
         when(call.withReturnValue()).thenReturn(call);
 
-        when(objectMapper.mapToObject(call.execute(1L), UnidadeCurricularDTO.class)).thenReturn(dto);
+        when(objectMapper.mapToObject(call.execute(1L),MomentoAvaliacaoDTO.class)).thenReturn(dto);
 
-        UnidadeCurricularDTO result = repository.findById(1L);
+        MomentoAvaliacaoDTO result = repository.findById(1L);
 
-        assertEquals(dto, result);
+        assertEquals(dto,result);
     }
 
     @Test
-    public void shouldCreateUnidadeCurricular()
+    public void shouldInsert() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        UnidadeCurricularDTO dto = mock(UnidadeCurricularDTO.class);
+        MomentoAvaliacaoDTO dto = mock(MomentoAvaliacaoDTO.class);
 
         SimpleJdbcCall call = mock(SimpleJdbcCall.class);
 
@@ -95,6 +97,4 @@ class UnidadeCurricularJDBCRepositoryUnitTests
 
         assertDoesNotThrow(()->repository.insert(dto));
     }
-
-
 }

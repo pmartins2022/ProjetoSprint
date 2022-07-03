@@ -5,6 +5,7 @@ import com.grupo2.projeto.dto.OrganizacaoDTO;
 import com.grupo2.projeto.model.Avaliacao;
 import com.grupo2.projeto.model.AvaliacaoNota;
 import com.grupo2.projeto.model.Conteudo;
+import com.grupo2.projeto.model.factory.SimpleJDBCCallFactory;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -25,11 +26,13 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
 
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private SimpleJDBCCallFactory factory;
 
     @Override
     public List<Avaliacao> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_AVALIACAO");
         return objectMapper.mapToObjectList(jdbcCall.execute(),Avaliacao.class);
     }
@@ -37,7 +40,7 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
     @Override
     public Avaliacao findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FNC_FIND_AVALIACAO_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
@@ -48,7 +51,7 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
     public void insert(Avaliacao avaliacao)
     {//(IDMOMENTOAVALIACAO, PRESIDENTEID, ORIENTADORID, ARGUENTEID, IDPROJETO, CONTEUDO, ESTADOAVALIACAO, DATAAVALIACAO)
         System.out.println(avaliacao);
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withProcedureName("PROC_INSERT_AVALIACAO")
                 .declareParameters(
                         new SqlParameter("idMomentoAvaliacao",OracleTypes.NUMBER),
@@ -70,14 +73,9 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
 
     }
 
-    @Override
-    public void deleteById(Long id)
-    {
-
-    }
     public Avaliacao findAllByProjetoId(Long projetoID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FUNC_FINDALL_AVALIACAO_PROJETOID")
                 .declareParameters(new SqlParameter("projetoID", OracleTypes.NUMBER))
                 .withReturnValue();
@@ -86,7 +84,7 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
 
     public List <Avaliacao> findByPresidenteId(Long presidenteId) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_AVALIACAO_PRESIDENTEID")
                 .declareParameters(new SqlParameter("presidenteID", OracleTypes.NUMBER))
                 .withReturnValue();
