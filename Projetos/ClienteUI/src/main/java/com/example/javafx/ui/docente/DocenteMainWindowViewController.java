@@ -606,7 +606,7 @@ public class DocenteMainWindowViewController
 
     public void atualizarNota(Number index)
     {
-        notaAtual = avaliacaoController.findNotaByAvaliacaoID(index.intValue());
+        notaAtual = avaliacaoController.findNotaByAvaliacaoID(avaliacaoChoice.getSelectionModel().getSelectedItem().getId());
 
         if (notaAtual != null)
         {

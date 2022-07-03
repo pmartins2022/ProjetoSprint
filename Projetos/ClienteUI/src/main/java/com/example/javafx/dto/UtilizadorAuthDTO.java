@@ -1,5 +1,8 @@
 package com.example.javafx.dto;
 
+/**
+ * Classe de dados para informacoes de autenticacao de um utilizador
+ */
 public class UtilizadorAuthDTO
 {
     private Long id;

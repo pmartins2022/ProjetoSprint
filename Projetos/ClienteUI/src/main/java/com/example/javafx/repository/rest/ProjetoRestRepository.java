@@ -15,9 +15,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Classe que permite a comunicação com WebService externo de Projeto.
+ */
 @Repository
 public class ProjetoRestRepository
 {
+    /**
+     * Criar uma avaliacao
+     * @param avaliacaoDTO informacao da avaliacao
+     * @return objeto criado
+     * @throws RestPostException problema no servidor
+     */
     public AvaliacaoDTO createAvaliacao(AvaliacaoDTO avaliacaoDTO) throws RestPostException
     {
         try
@@ -38,6 +47,12 @@ public class ProjetoRestRepository
         }
     }
 
+    /**
+     * Encontrar projetos pelo id do orientador
+     * @param orientadorID id do orientador
+     * @return lista de projetos
+     * @throws RestPostException problema no servidor
+     */
     public List<ProjetoDTO> findAllByOrientadorID(Long orientadorID) throws RestPostException
     {
         try
@@ -59,6 +74,12 @@ public class ProjetoRestRepository
         }
     }
 
+    /**
+     * Encontrar todos os conteudos de um projeto
+     * @param projetoID id do projeto
+     * @return lista de conteudos
+     * @throws RestPostException problema no servidor
+     */
     public List<ConteudoDTO> findAllByIdProjeto(Long projetoID) throws RestPostException
     {
         try
@@ -80,6 +101,11 @@ public class ProjetoRestRepository
         }
     }
 
+    /**
+     * Aceitar conteudo
+     * @param conteudoID id do conteudo
+     * @throws RestPostException problema no servidor
+     */
     public void acceptConteudo(Long conteudoID) throws RestPostException
     {
         try
@@ -98,6 +124,12 @@ public class ProjetoRestRepository
         }
     }
 
+    /**
+     * Rejeitar conteudo
+     * @param conteudoID id do conteudo
+     * @return conteudo rejeitado
+     * @throws RestPostException problema no servidor
+     */
     public ConteudoDTO rejectConteudo(Long conteudoID) throws RestPostException
     {
         try

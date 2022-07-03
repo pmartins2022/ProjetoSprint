@@ -25,6 +25,7 @@ public class PropostaRestRepo
 
     /**
      * Tentar criar uma proposta.
+     *
      * @param propostaDTO Proposta a criar.
      * @return Proposta criada.
      * @throws RestPostException Erro ao criar proposta.
@@ -35,20 +36,25 @@ public class PropostaRestRepo
         {
             WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/create").post()
                     .header("Authorization", LoginContext.getToken())
-                .body(BodyInserters.fromValue(propostaDTO)).retrieve();
+                    .body(BodyInserters.fromValue(propostaDTO)).retrieve();
 
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(PropostaDTO.class).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
-            throw new RestPostException("Problema no servidor: "+e.getMessage());
+            throw new RestPostException("Problema no servidor: " + e.getMessage());
         }
     }
 
+    /**
+     * Encontrar propostas pelo estado atual
+     *
+     * @param estado o estado
+     * @return a lista de propostas
+     */
     public List<PropostaDTO> findAllPropostaByEstadoAtual(Integer estado)
     {
         try
@@ -62,33 +68,42 @@ public class PropostaRestRepo
             return responseSpec.bodyToMono(new ParameterizedTypeReference<List<PropostaDTO>>()
             {
             }).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Criar um novo convite
+     *
+     * @param conviteDTO informacao do convite
+     * @return convite criado
+     */
     public ConviteDTO createAndSaveConvite(ConviteDTO conviteDTO)
     {
         try
         {
             WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/convite/create").post()
                     .header("Authorization", LoginContext.getToken())
-                .body(BodyInserters.fromValue(conviteDTO)).retrieve();
+                    .body(BodyInserters.fromValue(conviteDTO)).retrieve();
 
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(ConviteDTO.class).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Encontrar proposta pelo estado e pelo id do aluno
+     *
+     * @return a proposta
+     */
     public PropostaCandidaturaDTO findByEstadoAndAlunoid()
     {
         try
@@ -100,31 +115,39 @@ public class PropostaRestRepo
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(PropostaCandidaturaDTO.class).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
-public PropostaDTO acceptCandidaturaProposta(Long idProposta)
-{
-    try
+    /**
+     * Aceitar uma candidatura a proposta
+     * @param idProposta id da proposta
+     * @return a proposta
+     */
+    public PropostaDTO acceptCandidaturaProposta(Long idProposta)
     {
-        WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/aceitarCandidatura/" + idProposta).put()
-                .header("Authorization", LoginContext.getToken()).retrieve();
-        
-        responseSpec.onStatus(HttpStatus::is4xxClientError,
-                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/aceitarCandidatura/" + idProposta).put()
+                    .header("Authorization", LoginContext.getToken()).retrieve();
 
-        return responseSpec.bodyToMono(PropostaDTO.class).block();
-    }
-    catch (RestPostException e)
-    {
-        throw new RestPostException(e.getMessage());
-    }
-}
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
+            return responseSpec.bodyToMono(PropostaDTO.class).block();
+        } catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
+    }
+
+    /**
+     * Rejeitar uma candidatura a proposta
+     * @param idProposta id da proposta
+     * @return proposta
+     */
     public PropostaDTO rejectCandidaturaProposta(Long idProposta)
     {
         try
@@ -137,19 +160,23 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(PropostaDTO.class).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Aceitar uma proposta
+     * @param idProposta id da proposta
+     * @param alunoID id do aluno
+     */
     public void acceptProposta(Long idProposta, Long alunoID)
     {
         try
         {
             WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/aceitarProposta/" + idProposta
-                    + "?aluno=" + alunoID).post()
+                            + "?aluno=" + alunoID).post()
                     .header("Authorization", LoginContext.getToken()).retrieve();
 
 
@@ -157,13 +184,18 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             responseSpec.toBodilessEntity().block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Rejeitar uma proposta
+     * @param idProposta id da proposta
+     * @param alunoID id do aluno
+     * @return informacao da rejeicao
+     */
     public boolean rejectProposta(Long idProposta, Long alunoID)
     {
         try
@@ -175,14 +207,17 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return true;
-           // return responseSpec.bodyToMono().block();
-        }
-        catch (RestPostException e)
+            // return responseSpec.bodyToMono().block();
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Obter todos os convites ativos
+     * @return lista dos convites
+     */
     public List<ConviteDTO> getConvites()
     {
         try
@@ -196,13 +231,16 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
             return responseSpec.bodyToMono(new ParameterizedTypeReference<List<ConviteDTO>>()
             {
             }).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Encontrar todos os convites aceites
+     * @return lista de convites
+     */
     public List<ConviteDTO> findAllConviteAccepted()
     {
         try
@@ -216,13 +254,17 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
             return responseSpec.bodyToMono(new ParameterizedTypeReference<List<ConviteDTO>>()
             {
             }).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Aceitar orientacao
+     * @param conviteDTO informacao do convite
+     * @return informacao do convite
+     */
     public ConviteDTO aceitarOrientacao(ConviteDTO conviteDTO)
     {
         try
@@ -235,13 +277,17 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(ConviteDTO.class).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Rejeitar orientacao
+     * @param conviteDTO informacao do convite
+     * @return informacao do convite
+     */
     public ConviteDTO rejeitarOrientacao(ConviteDTO conviteDTO)
     {
         try
@@ -254,28 +300,32 @@ public PropostaDTO acceptCandidaturaProposta(Long idProposta)
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
             return responseSpec.bodyToMono(ConviteDTO.class).block();
-        }
-        catch (RestPostException e)
+        } catch (RestPostException e)
         {
             throw new RestPostException(e.getMessage());
         }
     }
 
+    /**
+     * Como aluno, candidatar a uma proposta
+     * @param propostaID id da proposta
+     * @return informacao da candidatura
+     */
     public PropostaCandidaturaDTO alunoCandidaturaProposta(Long propostaID)
-    { try
     {
-        WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/candidatarAlunoProposta/" + propostaID).post()
-                .header("Authorization", LoginContext.getToken())
-                .retrieve();
+        try
+        {
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/proposta/candidatarAlunoProposta/" + propostaID).post()
+                    .header("Authorization", LoginContext.getToken())
+                    .retrieve();
 
-        responseSpec.onStatus(HttpStatus::is4xxClientError,
-                clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
+            responseSpec.onStatus(HttpStatus::is4xxClientError,
+                    clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-        return responseSpec.bodyToMono(PropostaCandidaturaDTO.class).block();
-    }
-    catch (RestPostException e)
-    {
-        throw new RestPostException(e.getMessage());
-    }
+            return responseSpec.bodyToMono(PropostaCandidaturaDTO.class).block();
+        } catch (RestPostException e)
+        {
+            throw new RestPostException(e.getMessage());
+        }
     }
 }

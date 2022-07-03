@@ -3,6 +3,9 @@ package com.example.javafx.dto;
 
 import com.example.javafx.dto.enums.EstadoConteudo;
 
+/**
+ * Classe de dados de um conteudo
+ */
 public class ConteudoDTO
 {
     private Long id;
