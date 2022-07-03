@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +69,9 @@ class UnidadeCurricularControllerUnitTests
 
         when(service.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK)).thenReturn(unidadeCurricularDTOMOCK);
 
-        ResponseEntity<UnidadeCurricularDTO> responseEntity = controller.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
+        ResponseEntity<UnidadeCurricularDTO> responseEntity = controller.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK,req);
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
@@ -78,9 +81,11 @@ class UnidadeCurricularControllerUnitTests
     {
         UnidadeCurricularDTO unidadeCurricularDTOMOCK = mock(UnidadeCurricularDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
         when(service.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK)).thenThrow(ValidacaoInvalidaException.class);
 
-        assertThrows(ValidacaoInvalidaException.class, () -> controller.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK));
+        assertThrows(ValidacaoInvalidaException.class, () -> controller.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK,req));
     }
 
     @Test
@@ -88,9 +93,11 @@ class UnidadeCurricularControllerUnitTests
     {
         UnidadeCurricularDTO unidadeCurricularDTOMOCK = mock(UnidadeCurricularDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
         when(service.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK)).thenThrow(ErroGeralException.class);
 
-        assertThrows(ErroGeralException.class, () -> controller.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK));
+        assertThrows(ErroGeralException.class, () -> controller.createAndSaveUnidadeCurricular(unidadeCurricularDTOMOCK,req));
     }
 
     @Test

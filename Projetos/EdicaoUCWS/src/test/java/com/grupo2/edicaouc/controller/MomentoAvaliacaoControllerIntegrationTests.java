@@ -57,7 +57,7 @@ class MomentoAvaliacaoControllerIntegrationTests
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")
     public void shouldCreateMomento() throws Exception
     {
-        MomentoAvaliacaoDTO dto = new MomentoAvaliacaoDTO(1L, "denominacao");
+        MomentoAvaliacaoDTO dto = new MomentoAvaliacaoDTO(1L, 1L,"denominacao");
         when(service.createAndSaveMomentoAvaliacao(any(MomentoAvaliacaoDTO.class))).thenReturn(dto);
 
         MvcResult response = mockMvc
