@@ -114,6 +114,11 @@ public class EdicaoUCController
         throw new OptionalVazioException("Nao encontrou edicao UC com id " + id);
     }
 
+    /**
+     * Encontrar as edicoes UC de um certo ID de RUC
+     * @param rucID o id a procurar
+     * @return a lista de edicoes ou um erro
+     */
     @GetMapping("/ruc/{rucID}")
     public ResponseEntity<List<EdicaoUCDTO>> findByRucID(@PathVariable(name = "rucID") Long rucID)
     {
@@ -127,6 +132,11 @@ public class EdicaoUCController
         throw new ListaVaziaException("Nao encontrou edicaoUC com RucID de " + rucID);
     }
 
+    /**
+     * Encontrar a edicao ativa de um certo RUC
+     * @param rucID o ID do RUC
+     * @return a edicao ativa
+     */
     @GetMapping("/ruc/{rucID}/active")
     public ResponseEntity<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(@PathVariable(name = "rucID") Long rucID)
     {
@@ -140,6 +150,12 @@ public class EdicaoUCController
         throw new OptionalVazioException(rucID + " não tem nenhuma EdiçãoUC Ativa");
     }
 
+    /**
+     * Inscrever um aluno numa edicao
+     * @param edicaoUCID o ID da edicao
+     * @param alunoID o ID do aluno
+     * @return informacao da inscricao do aluno
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/inscrever/{edicaoUCID}")
     public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
@@ -158,7 +174,12 @@ public class EdicaoUCController
         }
     }
 
-
+    /**
+     * Ativar uma edicao UC
+     * @param edicaoUCID o ID da edicao a ativar
+     * @param req informacao do request
+     * @return informacao da edicao que ativou, ou um erro
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PatchMapping("/ativarEdicao/{edicaoUCID}")
     public ResponseEntity<Object> ativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID, HttpServletRequest req)
@@ -186,6 +207,11 @@ public class EdicaoUCController
 
     }
 
+    /**
+     * Desativar uma edicao UC
+     * @param edicaoUCID o ID da edicao a desativar
+     * @return informacao da edicao que desativou, ou um erro
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PatchMapping("/desativarEdicao/{edicaoUCID}")
     public ResponseEntity<Object> desativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)

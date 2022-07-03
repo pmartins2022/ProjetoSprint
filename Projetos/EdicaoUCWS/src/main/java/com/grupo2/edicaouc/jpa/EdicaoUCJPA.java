@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe JPA de EdicaoUC
+ * Classe entidade para tabela EdicaoUC
  */
 @Entity
 @Table(name="EdicaoUC", uniqueConstraints = {@UniqueConstraint(columnNames = {"ucCode", "anoLetivoCode"})})

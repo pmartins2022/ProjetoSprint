@@ -2,6 +2,9 @@ package com.grupo2.edicaouc.jpa;
 
 import javax.persistence.*;
 
+/**
+ * Classe entidade para tabela MomentoAvaliacao
+ */
 @Entity
 @Table(name = "MomentoAvaliacao", uniqueConstraints = @UniqueConstraint(columnNames = {"denominacao"}))
 public class MomentoAvaliacaoJPA

@@ -2,6 +2,9 @@ package com.grupo2.edicaouc.dto;
 
 import java.util.Objects;
 
+/**
+ * Classe DTO para objetos do tipo AnoLetivo
+ */
 public class AnoLetivoDTO
 {
     private String sigla;

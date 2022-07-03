@@ -10,14 +10,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
+/**
+ * Classe que extends WebSecurityConfigurerAdapter e configura as permissões dos endpoints.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
+    /**
+     * Objeto do tipo UtilizadorUserDetailsService a ser utilizador pelo SecurityConfig
+     */
     @Autowired
     private UtilizadorUserDetailsService userDetailsService;
 
+    /**
+     * Chamado automaticamente pelo Spring, configurar o password encoded a usar pelo servico de autenticacao
+     * @param auth informacao do gestor de autenticacoes
+     * @throws Exception um erro
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
     {
@@ -25,6 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
+    /**
+     * Configurar a seguranca e filtragens dos nossos endpoints do nosso servico
+     * @param http informacao dos requests
+     * @throws Exception um erro
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {

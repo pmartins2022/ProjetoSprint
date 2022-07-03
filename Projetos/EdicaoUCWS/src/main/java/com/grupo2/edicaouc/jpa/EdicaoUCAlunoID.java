@@ -5,6 +5,9 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Classe que representa uma chave composta para EdicaoUCAluno
+ */
 @Embeddable
 public class EdicaoUCAlunoID implements Serializable
 {

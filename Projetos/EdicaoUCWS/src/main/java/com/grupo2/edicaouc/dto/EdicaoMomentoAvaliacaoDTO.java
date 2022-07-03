@@ -1,5 +1,8 @@
 package com.grupo2.edicaouc.dto;
 
+/**
+ * Classe DTO para objetos do tipo EdicaoMomentoAvaliacao
+ */
 public class EdicaoMomentoAvaliacaoDTO
 {
     private Long idEdicao;

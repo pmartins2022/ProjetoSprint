@@ -82,6 +82,11 @@ public class AnoLetivoController
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
+    /**
+     * Encontrar um ano letivo pela sua sigla
+     * @param id a sigla a procurar
+     * @return o objeto que encontrou ou um erro
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Object> findBySigla(@PathVariable("id") String id)
     {

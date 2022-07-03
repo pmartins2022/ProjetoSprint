@@ -1,5 +1,8 @@
 package com.grupo2.edicaouc.dto;
 
+/**
+ * Classe para objetos do tipo EdicaoUCAluno
+ */
 public class EdicaoUCAlunoDTO
 {
     private Long edicaoUCID;

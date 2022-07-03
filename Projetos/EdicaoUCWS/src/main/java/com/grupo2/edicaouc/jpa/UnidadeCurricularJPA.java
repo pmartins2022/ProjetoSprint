@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Classe UnidadeCurricularJPA
+ * Classe entidade para tabela UnidadeCurricularJPA
  */
 @Entity
 @Table(name = "UnidadeCurricular")

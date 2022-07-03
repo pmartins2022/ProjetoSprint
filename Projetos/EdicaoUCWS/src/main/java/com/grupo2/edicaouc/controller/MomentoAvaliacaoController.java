@@ -23,6 +23,12 @@ public class MomentoAvaliacaoController
     @Autowired
     private MomentoAvaliacaoService service;
 
+    /**
+     * Criar um momento de avaliacao
+     * @param dto informacao do momento
+     * @param req informacao do request
+     * @return momento criado
+     */
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @PostMapping("/criar")
     public ResponseEntity<Object> criarMomento(@RequestBody MomentoAvaliacaoDTO dto, HttpServletRequest req)
@@ -34,6 +40,11 @@ public class MomentoAvaliacaoController
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
 
+    /**
+     * Criar um edicao momento avaliacao
+     * @param dto a informacao do edicao momento
+     * @return o objeto criado
+     */
     @PostMapping("/criar/edicaoMomento")
     public ResponseEntity<Object> criarEdicaoMomento(@RequestBody EdicaoMomentoAvaliacaoDTO dto)
     {

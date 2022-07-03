@@ -5,6 +5,9 @@ import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
 
 import java.util.Objects;
 
+/**
+ * Classe de dominio para anos letivos. Possui validacao dos valores
+ */
 public class AnoLetivo
 {
     private static final String REGEX = "\\d{4}-\\d{4}";

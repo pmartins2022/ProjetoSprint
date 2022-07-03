@@ -1,5 +1,8 @@
 package com.grupo2.edicaouc.dto;
 
+/**
+ * Classe para objetos do tipo MomentoAvaliacao
+ */
 public class MomentoAvaliacaoDTO
 {
     private Long id;

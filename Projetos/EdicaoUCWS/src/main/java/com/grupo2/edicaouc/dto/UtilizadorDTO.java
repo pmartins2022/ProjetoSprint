@@ -1,6 +1,8 @@
 package com.grupo2.edicaouc.dto;
 
-
+/**
+ * Classe DTO para objetos do tipo Utilizador
+ */
 public class UtilizadorDTO
 {
     private Long id;
