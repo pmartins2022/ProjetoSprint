@@ -156,7 +156,7 @@ public class AvaliacaoNotaService
         EdicaoUCDTO edicaoUCActive = null;
         try
         {
-            edicaoUCActive = edicaoUCJDBCRepository.findById(LoginContext.getCurrent().getId());
+            edicaoUCActive = edicaoUCJDBCRepository.findByRucIDAndEdicaoUCActive(LoginContext.getCurrent().getId());
         } catch (Exception e)
         {
             throw new OptionalVazioException("Não EdiçãoUC com este ID: " + proposta.getEdicaoUCId());
@@ -290,7 +290,6 @@ public class AvaliacaoNotaService
         }
 
         //FILTRAGEM DE LISTA RAWAVALIACOESNOTA ENCONTRADA COM TODAS AVALIACOESNOTALISTA
-        //todas as notas daquele esta E que pertencam à Edição
         avaliacaoNotasList.removeIf(nota -> !(avaliacaoNotaRawList.contains(nota)));
 
         return avaliacaoNotasList.stream().map(mapper::toDTO).toList();
