@@ -98,8 +98,6 @@ public class ProjetoController
         {
             List<ProjetoDTO> list = filterService.filtrarProjetos(body);
 
-            System.out.println("Query: "+filterService.getLastQuery());
-
             if (list.size() == 0)
             {
                 throw new OptionalVazioException("Nao existem projetos para o filtro especificado");

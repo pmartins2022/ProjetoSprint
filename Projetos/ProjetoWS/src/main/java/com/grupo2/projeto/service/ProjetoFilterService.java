@@ -21,8 +21,6 @@ public class ProjetoFilterService
     @Autowired
     private ProjetoDTOMapper mapper;
 
-    private String lastQuery;
-
     public List<ProjetoDTO> filtrarProjetos(ProjetoFilterBody body)
     {
         return listFiltered(body);
@@ -48,47 +46,8 @@ public class ProjetoFilterService
     {
         ProjetoQueryBuilder builder = new ProjetoQueryBuilder();
 
-        Filter f = readBody(body);
-
-        builder.addFilter(f);
+        builder.addFilter(builder.readBody(body));
 
         return builder.build();
-    }
-
-    private Filter readBody(ProjetoFilterBody body)
-    {
-        return readElement(body.getBase());
-    }
-
-    private Filter readElement(ProjetoFilterElement e)
-    {
-        Filter f = null;
-
-        switch (e.getName().toUpperCase())
-        {
-            case "AND" -> {
-                f = new AndFilter(readElement(e.getElements()[0]), readElement(e.getElements()[1]));
-                return f;
-            }
-            case "OR" -> {
-                f = new OrFilter(readElement(e.getElements()[0]), readElement(e.getElements()[1]));
-                return f;
-            }
-            case "NOT" -> {
-                f = new NotFilter(readElement(e.getElements()[0]));
-                return f;
-            }
-        }
-
-        QueryPresets qp = QueryPresets.valueOf(e.getName());
-
-        f = new StringFilter(qp.getValue());
-
-        return f;
-    }
-
-    public String getLastQuery()
-    {
-        return lastQuery;
     }
 }
