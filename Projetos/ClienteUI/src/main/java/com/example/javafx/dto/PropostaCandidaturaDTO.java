@@ -2,6 +2,9 @@ package com.example.javafx.dto;
 
 import com.example.javafx.dto.enums.EstadoCandidatura;
 
+/**
+ * Classe de dados de uma candidatura a proposta
+ */
 public class PropostaCandidaturaDTO
 {
     private Long idProposta;

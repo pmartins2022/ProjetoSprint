@@ -5,6 +5,9 @@ import com.example.javafx.model.EstadoAvaliacao;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Classe de dados da avaliacao
+ */
 public class AvaliacaoDTO
 {
     private Long id;

@@ -1,5 +1,8 @@
 package com.example.javafx.dto;
 
+/**
+ * Classe de dados para uma candidatura proposta ID
+ */
 public class PropostaCandidaturaIDDTO
 {
     private Long idProposta;

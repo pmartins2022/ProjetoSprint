@@ -49,6 +49,11 @@ public class UtilizadorRestRepository
         }
     }
 
+    /**
+     * Encontrar utilizador pelo username
+     * @param username o username
+     * @return o utilizador encontrado
+     */
     public UtilizadorAuthDTO findByUsername(String username)
     {
         WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/find?username=" + username).
@@ -61,6 +66,12 @@ public class UtilizadorRestRepository
     }
 
 
+    /**
+     * Verificar se utilizador tem uma certa funcao
+     * @param role a funcao
+     * @param id id do utilizador
+     * @return se tem essa funcao
+     */
     public Boolean isRole(String role, Long id)
     {
         WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8085/utilizador/"+role +"/"+id).
@@ -72,6 +83,10 @@ public class UtilizadorRestRepository
         return spec.bodyToMono(Boolean.class).block();
     }
 
+    /**
+     * Encontrar todos os docentes
+     * @return lista de docentes
+     */
     public List<UtilizadorDTO> findAllDocente()
     {
         try

@@ -147,31 +147,58 @@ public class PropostaService
         return propostaRestRepo.findByEstadoAndAlunoid();
     }
 
+    /**
+     * Encontrar todos os docentes
+     * @return lista de docentes
+     */
     public List<UtilizadorDTO> findAllDocente()
     {
         return utilizadorRestRepository.findAllDocente();
     }
 
+    /**
+     * Encontrar todos os convites
+     * @return lista de convites
+     */
     public List<ConviteDTO> getConvites()
     {
         return propostaRestRepo.getConvites();
     }
 
+    /**
+     * Encontrar todos os convites aceites
+     * @return lista de convites
+     */
     public List<ConviteDTO> findAllConviteAccepted()
     {
         return propostaRestRepo.findAllConviteAccepted();
     }
 
+    /**
+     * Aceitar convite
+     * @param conviteDTO o convite a aceitar
+     * @return o convite aceite
+     */
     public ConviteDTO acceptConvite(ConviteDTO conviteDTO)
     {
         return propostaRestRepo.aceitarOrientacao(conviteDTO);
     }
 
+    /**
+     * Rejeitar convite
+     * @param conviteDTO o convite a rejeitar
+     * @return o convite rejeitado
+     */
     public ConviteDTO rejectConvite(ConviteDTO conviteDTO)
     {
         return propostaRestRepo.rejeitarOrientacao(conviteDTO);
     }
 
+    /**
+     * Candidatar a uma proposta
+     * @param propostaID o id da proposta
+     * @return candidatura do aluno
+     */
     public PropostaCandidaturaDTO alunoCandidaturaProposta(Long propostaID)
     {
         return propostaRestRepo.alunoCandidaturaProposta(propostaID);

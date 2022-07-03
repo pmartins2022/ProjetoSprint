@@ -3,6 +3,9 @@ package com.example.javafx.dto;
 
 import com.example.javafx.model.EstadoAvaliacao;
 
+/**
+ * Classe de dados da nota de uma avaliacao
+ */
 public class AvaliacaoNotaDTO
 {
     private Long id;

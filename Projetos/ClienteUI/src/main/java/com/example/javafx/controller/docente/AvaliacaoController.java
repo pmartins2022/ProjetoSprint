@@ -11,6 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+/**
+ * Classe controller para avaliacoes
+ */
 @Controller
 public class AvaliacaoController
 {
@@ -23,22 +27,38 @@ public class AvaliacaoController
     @Autowired
     private AvaliacaoNotaDTOFactory avaliacaoNotaDTOFactory;
 
+    /**
+     * Encontrar avaliacoes em que o presidente pode criar/alterar nota de avaliacao
+     * @return a lista
+     */
     public List<AvaliacaoDTO> findEditableAvaliacoes()
     {
         return service.findEditableAvaliacoes();
     }
 
-
-    public AvaliacaoNotaDTO findNotaByAvaliacaoID(int index)
+    /**
+     * Encontrar uma nota a partir do ID de avaliaao
+     * @param id o id da avaliacao
+     * @return a nota dessa avaliacao
+     */
+    public AvaliacaoNotaDTO findNotaByAvaliacaoID(Long id)
     {
-        return service.findNotaByAvaliacaoID(index);
+        return service.findNotaByAvaliacaoID(id);
     }
 
+    /**
+     * Atualizar uma nota existente
+     * @param notaAtual informacao da nota
+     */
     public void atualizarNota(AvaliacaoNotaDTO notaAtual)
     {
         service.atualizarNota(notaAtual);
     }
 
+    /**
+     * Criar uma nova nota
+     * @param avaliacao informacao da nota
+     */
     public void criarNota(AvaliacaoNotaDTO avaliacao)
     {
         service.criarNota(avaliacao);
