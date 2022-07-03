@@ -14,10 +14,6 @@ public interface EdicaoUCJpaRepository extends JpaRepository<EdicaoUCJPA, Long>
 {
     List<EdicaoUCJPA> findAllByucCode(String code);
 
-    /*@Query(value = "select count(*) from EdicaoUC ed " +
-            " inner join EdicaoUCAluno edUC on edUC.ucCode = ed.edicaoUCID where ed.estado = 1 and edUC.id.alunoID = (:idAluno)", nativeQuery = true)
-    Integer count(@Param("idAluno") Long idAluno);*/
-
     List<EdicaoUCJPA> findByRucID(Long rucID);
 
     Optional<EdicaoUCJPA> findByRucIDAndEstadoEdicaoUC(Long rucID, EstadoEdicaoUC estado);

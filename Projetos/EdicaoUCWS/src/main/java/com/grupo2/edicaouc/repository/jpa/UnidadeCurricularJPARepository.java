@@ -10,12 +10,6 @@ import java.util.Optional;
  */
 public interface UnidadeCurricularJPARepository extends JpaRepository<UnidadeCurricularJPA, String>
 {
-    /**
-     * Devolve uma UnidadeCurricularJPA pela sua sigla/id
-     *
-     * @param sigla sigla/id da UnidadeCurricularJPA
-     * @return UnidadeCurricularJPA
-     */
     Optional<UnidadeCurricularJPA> findBySigla(String sigla);
 }
 

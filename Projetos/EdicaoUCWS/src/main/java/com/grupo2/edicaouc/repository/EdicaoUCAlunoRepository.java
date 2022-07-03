@@ -16,6 +16,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Classe EdicaoUCAlunoRepository que permite estabeler ligação com EdicaoUCAlunoJPARepository
+ */
 @Repository
 public class EdicaoUCAlunoRepository
 {
@@ -30,7 +33,12 @@ public class EdicaoUCAlunoRepository
     @Autowired
     private EdicaoUCAlunoJPAFactory jpaFactory;
 
-
+    /**
+     * Devolve EdicaoUCAluno após persistência
+     * @param edicaoUCID id de Edição
+     * @param alunoID id de Aluno
+     * @return EdicaoUCAluno
+     */
     public EdicaoUCAluno saveEdicaoUCAluno(Long edicaoUCID, Long alunoID)
     {
         EdicaoUCAlunoID id = idFactory.create(edicaoUCID, alunoID);
@@ -42,6 +50,11 @@ public class EdicaoUCAlunoRepository
         return mapper.toModel(saved);
     }
 
+    /**
+     * Devolve true ou false caso o aluno esteja inscrito em alguma EdiçãoUC
+     * @param alunoID id de Aluno
+     * @return boolean
+     */
     public boolean isStudentAvailable(Long alunoID)
     {
         List<EdicaoUCAlunoJPA> list = jpaRepository.findAll();

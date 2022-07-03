@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Classe de Service de EdicaoUC. Possuí endpoints para findAllEdicaoByUCCode,createEdicaoUC e findById
+ * Classe de Service de EdicaoUC. Permite a ligação entre o EdicaoUCController e o resto da API
  */
 @Service
 public class EdicaoUCService
@@ -135,6 +135,14 @@ public class EdicaoUCService
         return edicaoUC.stream().map(mapper::toDTO).toList();
     }
 
+    /**
+     * Devolve EdicaoUCAlunoDTO após persistência.
+     * Cria um objeto do tipo EdicaoUCAlunoDTO que faz a relação de um aluno com a EdiçãoUC onde está inscrito
+     * @param dtoPostedRequest Utilizador com login efetuado
+     * @param edicaoUCID id da edição a inscrever o aluno
+     * @param alunoID id do aluno a ser inscrito
+     * @return EdicaoUCAlunoDTO guardada
+     */
     public EdicaoUCAlunoDTO addAlunoEdicaoUC(UtilizadorDTO dtoPostedRequest, Long edicaoUCID, Long alunoID)
     {
         Optional<EdicaoUC> optionalEdicaoUC = repository.findById(edicaoUCID);
@@ -166,6 +174,12 @@ public class EdicaoUCService
         return edicaoUCAlunoDTOMapper.toDTO(saved);
     }
 
+    /**
+     * Devolve EdicaoUCDTO em estado ATIVA
+     * @param edicaoUCID id da edição a ativar
+     * @return EdicaoUCDTO em estado ATIVA
+     * @throws ValidationException
+     */
     public EdicaoUCDTO activarEdicao(Long edicaoUCID) throws ValidationException
     {
 
@@ -222,7 +236,11 @@ public class EdicaoUCService
 
         return mapper.toDTO(edicaoUC);
     }
-
+    /**
+     * Devolve EdicaoUCDTO em estado DESATIVA
+     * @param edicaoUCID id da edição a desativar
+     * @return EdicaoUCDTO em estado DESAVTICA
+     */
     public EdicaoUCDTO desativarEdicao(Long edicaoUCID)
     {
         Optional<EdicaoUC> optionalEdicaoUC = repository.findById(edicaoUCID);
@@ -258,6 +276,11 @@ public class EdicaoUCService
         return mapper.toDTO(saved);
     }
 
+    /**
+     * Devolve Lista de EdicaoUCDTO filtradas pelo ID do RUC
+     * @param rucID id de RUC
+     * @return  Lista de EdicaoUCDTO
+     */
     public List<EdicaoUCDTO> findByRucID(Long rucID)
     {
         List<EdicaoUC> edicaoList = repository.findByRucID(rucID);
@@ -265,6 +288,12 @@ public class EdicaoUCService
         return edicaoList.stream().map(mapper::toDTO).toList();
     }
 
+    /**
+     * Devolve EdicaoUCDTO filtrada pelo id do RUC e estado ou Optional.Empty()
+     * @param rucID id do RUC
+     * @param estado estado
+     * @return EdicaoUCDTO ou Optional.Empty()
+     */
     public Optional<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(Long rucID, EstadoEdicaoUC estado)
     {
         Optional<EdicaoUC> found = repository.findByRucIDAndEstadoEdicaoUC(rucID, estado);

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Classe MomentoAvaliacaoRepository que permite estabeler ligação com MomentoAvaliacaoJPARepository
+ */
 @Repository
 public class MomentoAvaliacaoRepository
 {
@@ -18,6 +21,11 @@ public class MomentoAvaliacaoRepository
     @Autowired
     private MomentoAvaliacaoJPAMapper mapper;
 
+    /**
+     * Devolve MomentoAvaliacao após persistência
+     * @param momento MomentoAvaliacao a guardar
+     * @return MomentoAvaliacao guardado
+     */
     public MomentoAvaliacao createAndSaveMomentoAvaliacao(MomentoAvaliacao momento)
     {
         MomentoAvaliacaoJPA jpa = mapper.toJPA(momento);
@@ -27,6 +35,11 @@ public class MomentoAvaliacaoRepository
         return mapper.toModel(save);
     }
 
+    /**
+     * Devolve MomentoAvaliacao filtrado pelo ID ou Optional.Empty()
+     * @param idMomentoAvaliacao id de  MomentoAvaliacao
+     * @return MomentoAvaliacao ou Optional.Empty()
+     */
     public Optional<MomentoAvaliacao> findById(Long idMomentoAvaliacao)
     {
         Optional<MomentoAvaliacaoJPA> id = repo.findById(idMomentoAvaliacao);
@@ -39,6 +52,10 @@ public class MomentoAvaliacaoRepository
         return Optional.empty();
     }
 
+    /**
+     * Apaga MomentoAvaliacao filtrado pelo id
+     * @param id id
+     */
     public void deleteByID(Long id)
     {
         repo.deleteById(id);

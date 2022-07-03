@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Classe de EdicaoUCRepository. Possui endpoints para saveEdicaoUC, findAllEdicaoByUCCode e findById.
+ * Classe EdicaoUCRepository que permite estabeler ligação com EdicaoUCJPARepository
  */
 @Repository
 public class EdicaoUCRepository
@@ -85,6 +85,11 @@ public class EdicaoUCRepository
         return lista.stream().map(mapper::toModel).toList();
     }
 
+    /**
+     * Devolve EdicaoUC ativada e persistida
+     * @param edicaoUC ediaco a ativar e guardar
+     * @return EdicaoUC
+     */
     public EdicaoUC ativarEdicao(EdicaoUC edicaoUC)
     {
         EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
@@ -94,6 +99,11 @@ public class EdicaoUCRepository
         return mapper.toModel(jpaRepository.save(jpa));
     }
 
+    /**
+     * Devolve EdicaoUC desativa e persistida
+     * @param edicaoUC ediaco a desativar e guardar
+     * @return EdicaoUC
+     */
     public EdicaoUC desativarEdicao(EdicaoUC edicaoUC)
     {
         EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
@@ -103,6 +113,11 @@ public class EdicaoUCRepository
         return mapper.toModel(jpaRepository.save(jpa));
     }
 
+    /**
+     * Devolve Lista de EdicaoUC filtradas pelo id do RUC
+     * @param rucID id do RUC
+     * @return Lista de EdicaoUC
+     */
     public List<EdicaoUC> findByRucID(Long rucID)
     {
         List<EdicaoUCJPA> jpa = jpaRepository.findByRucID(rucID);
@@ -110,6 +125,12 @@ public class EdicaoUCRepository
         return jpa.stream().map(mapper::toModel).toList();
     }
 
+    /**
+     * Devolve EdicaoUC filtrada pelo id do RUC e estado ou Optional.Empty()
+     * @param rucID id do RUC
+     * @param estado estado
+     * @return EdicaoUC ou Optional.Empty()
+     */
     public Optional<EdicaoUC> findByRucIDAndEstadoEdicaoUC(Long rucID, EstadoEdicaoUC estado)
     {
         Optional<EdicaoUCJPA> jpa = jpaRepository.findByRucIDAndEstadoEdicaoUC(rucID, estado);
@@ -122,6 +143,11 @@ public class EdicaoUCRepository
         return Optional.empty();
     }
 
+    /**
+     * Devolve EdicaoUC filtrada pelo estado ou Optional.Empty()
+     * @param ativa estado
+     * @return EdicaoUC ou Optional.Empty()
+     */
     public Optional<EdicaoUC> findByEstadoEdicaoUC(EstadoEdicaoUC ativa)
     {
         Optional<EdicaoUCJPA> edicaoAtiva = jpaRepository.findByEstadoEdicaoUC(ativa);
@@ -134,6 +160,10 @@ public class EdicaoUCRepository
         return Optional.of(mapper.toModel(edicaoAtiva.get()));
     }
 
+    /**
+     * Apaga EdicaoUC filtrada pelo ID
+     * @param id id
+     */
     public void deleteByID(Long id)
     {
         jpaRepository.deleteById(id);

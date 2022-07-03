@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Classe que inclui metodo que comunicam com o repositorio atual. Possui metodo para criar anos letivos e
- * listagem dos anos letivos existentes.
+ Classe de Service de AnoLetivoService. Permite a ligação entre o AnoLetivoController e o resto da API
  */
 @Service
 public class AnoLetivoService
@@ -25,9 +24,10 @@ public class AnoLetivoService
     private AnoLetivoDTOMapper mapper;
 
     /**
-     * @param anoLetivoDTO
-     * @return
-     * @throws ValidacaoInvalidaException
+     * Devolve AnoLetivoDTO após persistência
+     * @param anoLetivoDTO anoLetivo a guardar
+     * @return AnoLetivoDTO guardado
+     * @throws ValidacaoInvalidaException erro de validação dos dados do AnoLetivoDTO a guardar
      */
     public AnoLetivoDTO createAndSaveAnoLetivo(AnoLetivoDTO anoLetivoDTO) throws ValidacaoInvalidaException
     {
@@ -38,6 +38,10 @@ public class AnoLetivoService
         return mapper.toDTO(savedAnoLetivo);
     }
 
+    /**
+     * Devolve Lista de AnoLetivoDTO
+     * @return Lista de AnoLetivoDTO
+     */
     public List<AnoLetivoDTO> findAll()
     {
         List<AnoLetivo> lista = repository.findAll();
@@ -45,6 +49,11 @@ public class AnoLetivoService
         return lista.stream().map(mapper::toDTO).toList();
     }
 
+    /**
+     * Devolve AnoLetivoDTO filtrado pelo ID ou Optional.Empty()
+     * @param id id
+     * @return AnoLetivoDTO ou Optional.Empty()
+     */
     public Optional<AnoLetivoDTO> findByID(String id)
     {
         Optional<AnoLetivo> anoLetivo = repository.findById(id);

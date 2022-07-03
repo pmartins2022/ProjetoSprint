@@ -8,9 +8,16 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+/**
+ * Classe ProjetoRestRepository que permite estabeler ligação com o WebService ProjetoWS
+ */
 @Repository
 public class ProjetoRestRepository
 {
+    /**
+     * Guarda EdicaoUCDTO
+     * @param edicaoUCDTO EdicaoUCDTO a guardar
+     */
     public void saveEdicaoUC(EdicaoUCDTO edicaoUCDTO)
     {
         WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8083/tabelas/edicaoUC" ).
@@ -24,7 +31,10 @@ public class ProjetoRestRepository
 
     }
 
-
+    /**
+     * Guarda UnidadeCurricularDTO
+     * @param unidadeCurricularDTO UnidadeCurricularDTO a guardar
+     */
     public void saveUnidadeCurricular(UnidadeCurricularDTO unidadeCurricularDTO)
     {
         WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8083/tabelas/uc" ).
@@ -37,7 +47,10 @@ public class ProjetoRestRepository
                 clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
     }
-
+    /**
+     * Guarda momentoAvaliacaoDTO
+     * @param momentoAvaliacaoDTO momentoAvaliacaoDTO a guardar
+     */
     public void saveMomentoAvaliacao(MomentoAvaliacaoDTO momentoAvaliacaoDTO)
     {
         WebClient.ResponseSpec spec = WebClient.builder().baseUrl("http://localhost:8083/tabelas/momentoAvaliacao" ).

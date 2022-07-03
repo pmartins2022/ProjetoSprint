@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
+/**
+ Classe de Service de MomentoAvaliacaoService. Permite a ligação entre o MomentoAvaliacaoController e o resto da API
+ */
 @Service
 public class MomentoAvaliacaoService
 {
@@ -37,6 +40,11 @@ public class MomentoAvaliacaoService
     @Autowired
     private ProjetoRestRepository projetoRestRepository;
 
+    /**
+     * Devolve MomentoAvaliacaoDTO após persistência
+     * @param dto dto a guardar
+     * @return MomentoAvaliacaoDTO guardado
+     */
     public MomentoAvaliacaoDTO createAndSaveMomentoAvaliacao(MomentoAvaliacaoDTO dto)
     {
         MomentoAvaliacao save = repository.createAndSaveMomentoAvaliacao(mapper.toModel(dto));
@@ -55,6 +63,11 @@ public class MomentoAvaliacaoService
         return momentoAvaliacaoDTO;
     }
 
+    /**
+     * Devolve EdicaoMomentoAvaliacaoDTO após persistência
+     * @param dto EdicaoMomentoAvaliacaoDTO a ser guardado
+     * @return EdicaoMomentoAvaliacaoDTO guardado
+     */
     public EdicaoMomentoAvaliacaoDTO createAndSaveEdicaoMomentoAvaliacao(EdicaoMomentoAvaliacaoDTO dto)
     {
         if (edicaoUCRepository.findById(dto.getIdEdicao()).isEmpty())

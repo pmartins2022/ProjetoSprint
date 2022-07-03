@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Classe que permite a ligação entre o UnidadeCurricularController e o resto da API
+ Classe de Service de UnidadeCurricularService. Permite a ligação entre o UnidadeCurricularController e o resto da API
  */
 @Service
 public class UnidadeCurricularService

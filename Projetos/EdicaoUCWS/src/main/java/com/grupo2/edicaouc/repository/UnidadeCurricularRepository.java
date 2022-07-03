@@ -103,6 +103,10 @@ public class UnidadeCurricularRepository
         return lista.stream().map(mapper::toModel).toList();
     }
 
+    /**
+     * Apaga uma UnidadeCurricular filtrada pela sigla
+     * @param sigla sigla da UnidadeCurricular
+     */
     public void deleteByID(String sigla)
     {
         jpaRepository.findBySigla(sigla);
