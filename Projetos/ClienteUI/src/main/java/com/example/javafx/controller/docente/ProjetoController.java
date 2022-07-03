@@ -48,8 +48,10 @@ public class ProjetoController
             conteudoList.addAll(service.findAllByIdProjeto(proj.getId()));
         }
 
-        conteudoList = conteudoList.stream()
-                .filter(conteudo -> conteudo.getEstadoConteudo().equals(EstadoConteudo.PENDENTE)).toList();
+       // conteudoList = conteudoList.stream()
+         //       .filter(conteudo -> conteudo.getEstadoConteudo().equals(EstadoConteudo.PENDENTE)).toList();
+
+        conteudoList.removeIf(conteudo -> conteudo.getEstadoConteudo() != EstadoConteudo.PENDENTE.name());
 
         return conteudoList;
     }

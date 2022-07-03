@@ -42,7 +42,7 @@ public class AvaliacaoRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/"+ rucID +"?estado="+estado).get()
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/ruc/"+ rucID +"?estado="+estado).get()
                     .header("Authorization", LoginContext.getToken()).retrieve();
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
