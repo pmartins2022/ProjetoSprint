@@ -4,6 +4,7 @@ import com.grupo2.organizacao.dto.NifDTO;
 import com.grupo2.organizacao.dto.OrganizacaoDTO;
 import com.grupo2.organizacao.exception.OptionalVazioException;
 import com.grupo2.organizacao.repository.rest.NifRestRepository;
+import com.grupo2.organizacao.repository.rest.ProjetoRestRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -17,8 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @Transactional
@@ -26,6 +26,9 @@ class OrganizacaoServiceIntegrationTests
 {
     @MockBean
     private NifRestRepository nifRestRepository;
+
+    @MockBean
+    private ProjetoRestRepository projetoRestRepository;
 
     @Autowired
     private OrganizacaoService service;
@@ -45,6 +48,9 @@ class OrganizacaoServiceIntegrationTests
         NifDTO mockNifDTO = mock(NifDTO.class);
         when(mockNifDTO.getName()).thenReturn("Nome");
         when(nifRestRepository.findByNif(organizacaoDTO.getNif())).thenReturn(Optional.of(mockNifDTO));
+
+        //mock do rest repository JDBC
+        doNothing().when(projetoRestRepository).saveOrganizacao(organizacaoDTO);
 
         OrganizacaoDTO save = service.createAndSave(organizacaoDTO);
 

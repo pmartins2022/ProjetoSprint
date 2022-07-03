@@ -58,7 +58,7 @@ class EdicaoUCControllerIntegrationTests
     @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_ADMIN")
     public void shouldCreateEdicaoUC() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.PENDENTE);
         when(service.createEdicaoUC(any(EdicaoUCDTO.class))).thenReturn(dto);
 
         MvcResult response = mockMvc
@@ -78,7 +78,8 @@ class EdicaoUCControllerIntegrationTests
     @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_ADMIN")
     public void shouldNotCreateEdicaoUC_InvalidAtributtes() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.PENDENTE);
+
         when(service.createEdicaoUC(any(EdicaoUCDTO.class))).thenThrow(OptionalVazioException.class);
 
         MvcResult response = mockMvc
@@ -94,7 +95,8 @@ class EdicaoUCControllerIntegrationTests
     @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_ADMIN")
     public void shouldNotCreateEdicaoUC_InvalidRole() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.PENDENTE);
+
         when(service.createEdicaoUC(any(EdicaoUCDTO.class))).thenThrow(ErroGeralException.class);
 
         MvcResult response = mockMvc
@@ -109,7 +111,8 @@ class EdicaoUCControllerIntegrationTests
     @Test
     public void shouldListEdicaoUCByUCCode() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.PENDENTE);
+
         when(service.findAllEdicaoByUCCode("sigla")).thenReturn(List.of(dto, dto));
 
         MvcResult response = mockMvc
@@ -138,7 +141,8 @@ class EdicaoUCControllerIntegrationTests
     @Test
     public void shouldListAllEdicaoUC() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.PENDENTE);
+
         when(service.findAllEdicaoUC()).thenReturn(List.of(dto, dto));
 
         MvcResult response = mockMvc
@@ -168,7 +172,8 @@ class EdicaoUCControllerIntegrationTests
     @Test
     public void shouldFindByID() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.PENDENTE);
+
         when(service.findById(1L)).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
@@ -197,7 +202,8 @@ class EdicaoUCControllerIntegrationTests
     @Test
     public void shouldListEdicaoUCByRucID() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.PENDENTE);
+
         when(service.findByRucID(1L)).thenReturn(List.of(dto, dto));
 
         MvcResult response = mockMvc
@@ -227,7 +233,8 @@ class EdicaoUCControllerIntegrationTests
     @Test
     public void shouldListEdicaoUCByRucIDActive() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.ATIVA);
+
         when(service.findByRucIDAndEstadoEdicaoUC(1L, EstadoEdicaoUC.ATIVA)).thenReturn(Optional.of(dto));
 
         MvcResult response = mockMvc
@@ -258,7 +265,8 @@ class EdicaoUCControllerIntegrationTests
     @WithMockUser(username = "docente", password = "password", authorities = "ROLE_DOCENTE")
     public void shouldReturnEdicaoUCDeactivated() throws Exception
     {
-        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L);
+        EdicaoUCDTO dto = new EdicaoUCDTO("sigla", "denominacao", 1L,EstadoEdicaoUC.PENDENTE);
+
         when(service.desativarEdicao( 1L)).thenReturn(dto);
 
         MvcResult response = mockMvc

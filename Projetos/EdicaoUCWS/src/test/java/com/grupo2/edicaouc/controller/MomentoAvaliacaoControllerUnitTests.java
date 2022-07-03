@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,7 +43,9 @@ class MomentoAvaliacaoControllerUnitTests
 
         when(service.createAndSaveMomentoAvaliacao(momentoMOCK)).thenReturn(momentoMOCK);
 
-        ResponseEntity<Object> momentoAvaliacaoDTO = controller.criarMomento(momentoMOCK);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
+        ResponseEntity<Object> momentoAvaliacaoDTO = controller.criarMomento(momentoMOCK,req);
 
         assertEquals(momentoAvaliacaoDTO.getStatusCode(), HttpStatus.CREATED);
     }

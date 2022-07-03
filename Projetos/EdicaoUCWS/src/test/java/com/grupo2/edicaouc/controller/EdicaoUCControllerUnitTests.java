@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.xml.bind.ValidationException;
 import java.util.List;
@@ -51,9 +52,11 @@ class EdicaoUCControllerUnitTests
     {
         EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
         when(service.createEdicaoUC(dtoMOCK)).thenReturn(dtoMOCK);
 
-        ResponseEntity<Object> responseEntity = controller.createEdicao(dtoMOCK);
+        ResponseEntity<Object> responseEntity = controller.createEdicao(dtoMOCK,req);
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
@@ -63,9 +66,11 @@ class EdicaoUCControllerUnitTests
     {
         EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
         when(service.createEdicaoUC(dtoMOCK)).thenThrow(OptionalVazioException.class);
 
-        assertThrows(OptionalVazioException.class, ()-> controller.createEdicao(dtoMOCK));
+        assertThrows(OptionalVazioException.class, ()-> controller.createEdicao(dtoMOCK,req));
     }
 
     @Test
@@ -73,9 +78,11 @@ class EdicaoUCControllerUnitTests
     {
         EdicaoUCDTO dtoMOCK = mock(EdicaoUCDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
         when(service.createEdicaoUC(dtoMOCK)).thenThrow(BaseDadosException.class);
 
-        assertThrows(BaseDadosException.class, ()-> controller.createEdicao(dtoMOCK));
+        assertThrows(BaseDadosException.class, ()-> controller.createEdicao(dtoMOCK,req));
     }
 
     @Test

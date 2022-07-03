@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import java.util.List;
@@ -52,9 +53,11 @@ class AnoLetivoControllerUnitTests
     {
         AnoLetivoDTO anoLetivoDTOMOCK = mock(AnoLetivoDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
         when(service.createAndSaveAnoLetivo(anoLetivoDTOMOCK)).thenReturn(anoLetivoDTOMOCK);
 
-        ResponseEntity<AnoLetivoDTO> responseEntity = controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK);
+        ResponseEntity<AnoLetivoDTO> responseEntity = controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK,req);
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
@@ -65,9 +68,11 @@ class AnoLetivoControllerUnitTests
 
         AnoLetivoDTO anoLetivoDTOMOCK = mock(AnoLetivoDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
         when(service.createAndSaveAnoLetivo(anoLetivoDTOMOCK)).thenThrow(ValidacaoInvalidaException.class);
 
-        assertThrows(ValidacaoInvalidaException.class,()->controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK));
+        assertThrows(ValidacaoInvalidaException.class,()->controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK,req));
     }
 
     @Test
@@ -75,9 +80,12 @@ class AnoLetivoControllerUnitTests
     {
         AnoLetivoDTO anoLetivoDTOMOCK = mock(AnoLetivoDTO.class);
 
+        HttpServletRequest req = mock(HttpServletRequest.class);
+
+
         when(service.createAndSaveAnoLetivo(anoLetivoDTOMOCK)).thenThrow(ErroGeralException.class);
 
-        assertThrows(ErroGeralException.class,()->controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK));
+        assertThrows(ErroGeralException.class,()->controller.createAndSaveAnoLetivo(anoLetivoDTOMOCK,req));
     }
 
     @Test
