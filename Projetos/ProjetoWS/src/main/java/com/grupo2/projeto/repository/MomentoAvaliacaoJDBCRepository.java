@@ -20,12 +20,15 @@ public class MomentoAvaliacaoJDBCRepository implements GenericRepository<Momento
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public List<MomentoAvaliacaoDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_MOMENTOAVALIACAO");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(),MomentoAvaliacaoDTO.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(),MomentoAvaliacaoDTO.class);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class MomentoAvaliacaoJDBCRepository implements GenericRepository<Momento
                 .withFunctionName("FNC_FIND_MOMENTOAVALIACAO_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id),MomentoAvaliacaoDTO.class);
+        return objectMapper.mapToObject(jdbcCall.execute(id),MomentoAvaliacaoDTO.class);
     }
 
 

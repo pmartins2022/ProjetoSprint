@@ -20,12 +20,15 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public List<AvaliacaoNota> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FNC_FIND_ALL_AVALIACAONOTA");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(), AvaliacaoNota.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(), AvaliacaoNota.class);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
                 .withFunctionName("FNC_FIND_AVALIACAONOTA_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id), AvaliacaoNota.class);
+        return objectMapper.mapToObject(jdbcCall.execute(id), AvaliacaoNota.class);
     }
 
 
@@ -77,7 +80,7 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
                 .withFunctionName("FNC_FIND_AVALIACAONOTA_AVALIACAOID")
                 .declareParameters(new SqlParameter("idAvaliacao", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(idAvaliacao), AvaliacaoNota.class);
+        return objectMapper.mapToObject(jdbcCall.execute(idAvaliacao), AvaliacaoNota.class);
     }
 
     public List<AvaliacaoNota> findAllByEstado(String estado) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
@@ -86,7 +89,7 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
                 .withFunctionName("FNC_FIND_ALL_AVALIACAONOTA_ESTADO")
                 .declareParameters(new SqlParameter("ESTADOAVALIACAO", OracleTypes.VARCHAR))
                 .withReturnValue();
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(estado), AvaliacaoNota.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(estado), AvaliacaoNota.class);
     }
 
     public AvaliacaoNota findAvaliacaoNotaByAvaliacaoID(Long idAvaliacao) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
@@ -95,6 +98,6 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
                 .withFunctionName("FNC_FIND_AVALIACAONOTA_AVALIACAOID")
                 .declareParameters(new SqlParameter("idAvaliacao", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(idAvaliacao), AvaliacaoNota.class);
+        return objectMapper.mapToObject(jdbcCall.execute(idAvaliacao), AvaliacaoNota.class);
     }
 }

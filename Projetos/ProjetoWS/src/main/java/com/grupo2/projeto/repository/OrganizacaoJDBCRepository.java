@@ -20,12 +20,15 @@ public class OrganizacaoJDBCRepository implements GenericRepository<OrganizacaoD
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public List<OrganizacaoDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_ORGANIZACAO");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(),OrganizacaoDTO.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(),OrganizacaoDTO.class);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class OrganizacaoJDBCRepository implements GenericRepository<OrganizacaoD
                 .withFunctionName("FNC_FIND_ORGANIZACAO_ID")
                 .declareParameters(new SqlParameter("idIn",OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id),OrganizacaoDTO.class);
+        return objectMapper.mapToObject(jdbcCall.execute(id),OrganizacaoDTO.class);
     }
 
 

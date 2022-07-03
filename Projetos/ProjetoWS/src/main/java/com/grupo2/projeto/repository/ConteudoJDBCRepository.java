@@ -21,12 +21,15 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public List<Conteudo> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_CONTEUDO");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(),Conteudo.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(),Conteudo.class);
     }
 
     @Override
@@ -36,7 +39,7 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
                 .withFunctionName("FNC_FIND_CONTEUDO_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id),Conteudo.class);
+        return objectMapper.mapToObject(jdbcCall.execute(id),Conteudo.class);
     }
 
 
@@ -85,6 +88,6 @@ public class ConteudoJDBCRepository implements GenericRepository<Conteudo>
                 .withFunctionName("FNC_CONTEUDO_FINDALL_IDPROJETO")
                 .declareParameters(new SqlParameter("idIn",OracleTypes.NUMBER));
 
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(id),Conteudo.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(id),Conteudo.class);
     }
 }

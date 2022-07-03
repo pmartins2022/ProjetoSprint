@@ -19,12 +19,15 @@ public class EdicaoUCJDBCRepository implements GenericRepository<EdicaoUCDTO>
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public List<EdicaoUCDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FNC_FIND_ALL_EDICAOUC");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(),EdicaoUCDTO.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(),EdicaoUCDTO.class);
     }
 
     @Override
@@ -34,7 +37,7 @@ public class EdicaoUCJDBCRepository implements GenericRepository<EdicaoUCDTO>
                 .withFunctionName("FNC_FIND_EDICAOUC_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id),EdicaoUCDTO.class);
+        return objectMapper.mapToObject(jdbcCall.execute(id),EdicaoUCDTO.class);
     }
 
 
@@ -69,6 +72,6 @@ public class EdicaoUCJDBCRepository implements GenericRepository<EdicaoUCDTO>
                 .withFunctionName("FNC_FIND_EDICAOUC_RUCID_ATIVA")
                 .declareParameters(new SqlParameter("rucID", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(rucID),EdicaoUCDTO.class);
+        return objectMapper.mapToObject(jdbcCall.execute(rucID),EdicaoUCDTO.class);
     }
 }

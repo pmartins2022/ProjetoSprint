@@ -1,6 +1,7 @@
 package com.grupo2.projeto.repository;
 
 import com.grupo2.projeto.dto.PropostaDTO;
+import com.grupo2.projeto.model.factory.SimpleJDBCCallFactory;
 import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
@@ -19,30 +20,41 @@ public class PropostaJDBCRepository implements GenericRepository<PropostaDTO>
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private SimpleJDBCCallFactory factory;
+
     @Override
     public List<PropostaDTO> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("FUNC_FIND_ALL_PROPOSTA");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(),PropostaDTO.class);
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate);
+
+                jdbcCall.withFunctionName("FUNC_FIND_ALL_PROPOSTA");
+
+        return objectMapper.mapToObjectList(jdbcCall.execute(),PropostaDTO.class);
     }
 
     @Override
     public PropostaDTO findById(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("FNC_FIND_PROPOSTA_ID")
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate);
+
+                jdbcCall.withFunctionName("FNC_FIND_PROPOSTA_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id),PropostaDTO.class);
+
+        return objectMapper.mapToObject(jdbcCall.execute(id),PropostaDTO.class);
     }
 
 
     @Override
     public void insert(PropostaDTO dto)
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withProcedureName("PROC_INSERT_PROPOSTA")
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate);
+
+                jdbcCall.withProcedureName("PROC_INSERT_PROPOSTA")
                 .declareParameters(
                         new SqlParameter("id",OracleTypes.NUMBER),
                         new SqlParameter("utilizadorId",OracleTypes.NUMBER),
@@ -70,10 +82,12 @@ public class PropostaJDBCRepository implements GenericRepository<PropostaDTO>
 
     public List<PropostaDTO> findAllByEdicaoUCID(Long edicaoUCID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withFunctionName("FNC_FINDALL_PROPOSTA_EDICAOID")
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate);
+
+                jdbcCall.withFunctionName("FNC_FINDALL_PROPOSTA_EDICAOID")
                 .declareParameters(new SqlParameter("edicao", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(edicaoUCID),PropostaDTO.class);
+
+        return objectMapper.mapToObjectList(jdbcCall.execute(edicaoUCID),PropostaDTO.class);
     }
 }

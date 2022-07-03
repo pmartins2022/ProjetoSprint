@@ -23,12 +23,15 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public List<Avaliacao> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_AVALIACAO");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(),Avaliacao.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(),Avaliacao.class);
     }
 
     @Override
@@ -38,7 +41,7 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
                 .withFunctionName("FNC_FIND_AVALIACAO_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id),Avaliacao.class);
+        return objectMapper.mapToObject(jdbcCall.execute(id),Avaliacao.class);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
                 .withFunctionName("FUNC_FINDALL_AVALIACAO_PROJETOID")
                 .declareParameters(new SqlParameter("projetoID", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(projetoID),Avaliacao.class);
+        return objectMapper.mapToObject(jdbcCall.execute(projetoID),Avaliacao.class);
     }
 
     public List <Avaliacao> findByPresidenteId(Long presidenteId) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
@@ -87,7 +90,7 @@ public class AvaliacaoJDBCRepository implements GenericRepository<Avaliacao>
                 .withFunctionName("FUNC_FIND_AVALIACAO_PRESIDENTEID")
                 .declareParameters(new SqlParameter("presidenteID", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(presidenteId),Avaliacao.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(presidenteId),Avaliacao.class);
     }
 
     public List<Avaliacao> findAllEditableAvaliacao(Long idPresidente)

@@ -1,6 +1,7 @@
 package com.grupo2.projeto.repository.jdbc.reflection;
 
 import com.grupo2.projeto.model.JDBCTable;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.lang.reflect.InvocationTargetException;
@@ -8,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class ObjectMapper
 {
-    public static <T extends JDBCTable> T mapToObject(Map<String, Object> map, Class<T> finalObject) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    public <T extends JDBCTable> T mapToObject(Map<String, Object> map, Class<T> finalObject) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         ArrayList<Object> mp = (ArrayList<Object>) map.get("return");
         LinkedCaseInsensitiveMap<Object> obj1 = (LinkedCaseInsensitiveMap<Object>) mp.get(0);
@@ -20,7 +22,7 @@ public class ObjectMapper
         return object;
     }
 
-    public static <T extends JDBCTable> List<T> mapToObjectList(Map<String, Object> map, Class<T> finalObject) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    public <T extends JDBCTable> List<T> mapToObjectList(Map<String, Object> map, Class<T> finalObject) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         ArrayList<Object> mp = (ArrayList<Object>) map.get("return");
 

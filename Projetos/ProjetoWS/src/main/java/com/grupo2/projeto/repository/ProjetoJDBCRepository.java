@@ -22,12 +22,15 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public List<Projeto> findAll() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withFunctionName("FUNC_FIND_ALL_PROJETO");
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(),Projeto.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(),Projeto.class);
     }
 
     public List<Projeto> findAllFilter(String query, Object[] params)
@@ -42,7 +45,7 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
                 .withFunctionName("FNC_FIND_PROJETO_ID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(id),Projeto.class);
+        return objectMapper.mapToObject(jdbcCall.execute(id),Projeto.class);
     }
 
 
@@ -76,7 +79,7 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
                 .withFunctionName("FNC_FIND_PROJETO_PROPOSTAID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObject(jdbcCall.execute(propostaID),Projeto.class);
+        return objectMapper.mapToObject(jdbcCall.execute(propostaID),Projeto.class);
     }
 
     public List<Projeto> findAllByOrientadorId(Long id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
@@ -85,6 +88,6 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
                 .withFunctionName("FNC_FIND_PROJETO_ORIENTADORID")
                 .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return ObjectMapper.mapToObjectList(jdbcCall.execute(id),Projeto.class);
+        return objectMapper.mapToObjectList(jdbcCall.execute(id),Projeto.class);
     }
 }
