@@ -31,6 +31,10 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
+
+/**
+ * Classe controller FXML para a janela Login.
+ */
 @Controller
 public class LoginViewController
 {
@@ -72,15 +76,20 @@ public class LoginViewController
     private UtilizadorRestRepository utilizadorRestRepository;
 
 
-
-
-
+    /**
+     * Método que fecha a janela em uso
+     * @param actionEvent actionEvent
+     */
     public void closeWindow(ActionEvent actionEvent)
     {
         username.getScene().getWindow().fireEvent(
                 new WindowEvent(username.getScene().getWindow(), javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
+    /**
+     * Método que gere o Login do Utilizador
+     * @param actionEvent actionEvent
+     */
     public void login(ActionEvent actionEvent)
     {
         JavaFXUtils.setJanelaLogin(this);
@@ -120,6 +129,11 @@ public class LoginViewController
         }
     }
 
+    /**
+     * Método que cria e mostra Janela do Docente
+     * @param user utilizador com login efetuado
+     * @throws IOException caso ocorra um erro
+     */
     private void abrirJanelaDocente(UtilizadorAuthDTO user) throws IOException
     {
         Stage stage = new Stage();
@@ -137,6 +151,11 @@ public class LoginViewController
         closeWindow(null);
     }
 
+
+    /**
+     * Método que cria e mostra Janela do Admin
+     * @throws IOException caso ocorra um erro
+     */
     private void abrirJanelaAdmin() throws IOException
     {
         Stage stage = new Stage();
@@ -154,6 +173,11 @@ public class LoginViewController
         closeWindow(null);
     }
 
+
+    /**
+     * Método que cria e mostra Janela do Aluno
+     * @throws IOException caso ocorra um erro
+     */
     private void abrirJanelaAluno() throws IOException
     {
         Stage stage = new Stage();

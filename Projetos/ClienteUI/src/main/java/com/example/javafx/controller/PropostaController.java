@@ -63,11 +63,20 @@ public class PropostaController
         return propostaService.saveProposta(dto);
     }
 
+    /**
+     * Encontrar todas as candidaturas a proposta
+     * @return a lista de propostas
+     */
     public List<PropostaDTO> findAllPropostaCandidatura()
     {
         return propostaService.findAllPropostaByEstadoAtual(0);
     }
 
+    /**
+     * Aceitar uma candidatura a proposta
+     * @param propostaDTO proposta a aceitar
+     * @return informacao de sucesso
+     */
     public Boolean acceptCandidaturaProposta(PropostaDTO propostaDTO)
     {
         if (!propostaService.acceptCandidaturaProposta(propostaDTO.getId()))
@@ -78,6 +87,11 @@ public class PropostaController
         return true;
     }
 
+    /**
+     * Rejeitar uma candidatura a proposta
+     * @param propostaDTO proposta a rejeitar
+     * @return informacao de sucesso
+     */
     public Boolean rejectCandidaturaProposta(PropostaDTO propostaDTO)
     {
         if (!propostaService.rejectCandidaturaProposta(propostaDTO.getId()))
@@ -88,16 +102,31 @@ public class PropostaController
         return true;
     }
 
+    /**
+     * Encontrar todas as propostas aprovadas
+     * @return a lista de propostas
+     */
     public List<PropostaDTO> findAllPropostaAprovado()
     {
         return propostaService.findAllPropostaByEstadoAtual(1);
     }
 
+    /**
+     * Aceitar uma proposta
+     * @param idProposta id da proposta
+     * @param alunoID id do aluno
+     */
     public void acceptProposta(Long idProposta, Long alunoID)
     {
         propostaService.acceptProposta(idProposta, alunoID);
     }
 
+    /**
+     * Rejeitar uma proposta
+     * @param idProposta id da proposta
+     * @param alunoID id do aluno
+     * @return informacao de sucesso
+     */
     public Boolean rejectProposta(Long idProposta, Long alunoID)
     {
         if (!propostaService.rejectProposta(idProposta, alunoID))
@@ -108,27 +137,48 @@ public class PropostaController
         return true;
     }
 
+    /**
+     * Encontrar proposta candidatura pelo seu estado e pelo id do aluno
+     * @return informacao da proposta
+     */
     public PropostaCandidaturaDTO findByEstadoAndAlunoid()
     {
         current = propostaService.findByEstadoAndAlunoid();
         return current;
     }
 
+    /**
+     * Encontrar todos os docentes
+     * @return lista dos docentes
+     */
     public List<UtilizadorDTO> findAllDocente()
     {
         return propostaService.findAllDocente();
     }
 
+    /**
+     * Obter a candidatura a proposta atual
+     * @return
+     */
     public PropostaCandidaturaDTO getCurrent()
     {
         return current;
     }
 
+    /**
+     * Criar um novo convite
+     * @param dto convite a criar
+     * @return informacao do convite criado
+     */
     public ConviteDTO createConvite(ConviteDTO dto)
     {
         return propostaService.createConvite(dto);
     }
 
+    /**
+     * Obter lista de convites
+     * @return lista de convites
+     */
     public List<String> getConvites()
     {
         List<ConviteDTO> list = propostaService.getConvites();
@@ -136,6 +186,11 @@ public class PropostaController
         return list.stream().map(ConviteDTO::toString).toList();
     }
 
+    /**
+     * Aceitar um convite
+     * @param selectedIndex id do convite
+     * @return informacao do convite aceite
+     */
     public ConviteDTO acceptConvite(int selectedIndex)
     {
         List<ConviteDTO> list = propostaService.getConvites();
@@ -148,6 +203,11 @@ public class PropostaController
         return propostaService.acceptConvite(list.get(selectedIndex));
     }
 
+    /**
+     * Rejeitar um convite
+     * @param selectedIndex id do convite
+     * @return informacao do convite rejeitado
+     */
     public ConviteDTO rejectConvite(int selectedIndex)
     {
         List<ConviteDTO> list = propostaService.getConvites();
@@ -160,11 +220,20 @@ public class PropostaController
         return propostaService.rejectConvite(list.get(selectedIndex));
     }
 
+    /**
+     * Como aluno, candidatar a uma proposta
+     * @param propostaID id da proposta
+     * @return informacao da candidatura
+     */
     public PropostaCandidaturaDTO createAlunoCandidaturaProposta(Long propostaID)
     {
         return propostaService.alunoCandidaturaProposta(propostaID);
     }
 
+    /**
+     * Encontrar todos os convites aceites
+     * @return a lista de convites aceites
+     */
     public List<ConviteDTO> findAllConviteAccepted()
     {
         return propostaService.findAllConviteAccepted();

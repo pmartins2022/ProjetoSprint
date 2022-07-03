@@ -64,11 +64,21 @@ public class PropostaService
         return propostaRestRepo.createProposta(dto);
     }
 
+    /**
+     * Devolve Lista de PropostaDTO filtradas pelo estado
+     * @param estado estado
+     * @return Lista de PropostaDTO
+     */
     public List<PropostaDTO> findAllPropostaByEstadoAtual(Integer estado)
     {
         return propostaRestRepo.findAllPropostaByEstadoAtual(estado);
     }
 
+    /**
+     * Devolve true ou false caso tenha tido sucesso em aceitar a candidatura a Proposta
+     * @param idProposta id de proposta
+     * @return boolean
+     */
     public Boolean acceptCandidaturaProposta(Long idProposta)
     {
         PropostaDTO propostaDTO = propostaRestRepo.acceptCandidaturaProposta(idProposta);
@@ -80,6 +90,11 @@ public class PropostaService
         return true;
     }
 
+    /**
+     * Devolve true ou false caso tenha tido sucesso em rejeitar a candidatura a Proposta
+     * @param idProposta id de proposta
+     * @return boolean
+     */
     public boolean rejectCandidaturaProposta(Long idProposta)
     {
         PropostaDTO propostaDTO = propostaRestRepo.rejectCandidaturaProposta(idProposta);
@@ -91,18 +106,31 @@ public class PropostaService
         return true;
     }
 
+    /**
+     * Método que aceita Proposta
+     * @param idProposta id de Proposta
+     * @param alunoID id de Aluno
+     */
     public void acceptProposta(Long idProposta, Long alunoID)
     {
         propostaRestRepo.acceptProposta(idProposta, alunoID);
     }
 
+    /**
+     * Método que rejeita Proposta
+     * @param idProposta id de Proposta
+     * @param alunoID id de Aluno
+     */
     public boolean rejectProposta(Long idProposta, Long alunoID)
     {
         return propostaRestRepo.rejectProposta(idProposta, alunoID);
     }
 
-
-
+    /**
+     * Método que cria Convite
+     * @param conviteDTO convite
+     * @return ConviteDTO
+     */
     public ConviteDTO createConvite(ConviteDTO conviteDTO)
     {
         ConviteDTO convite = propostaRestRepo.createAndSaveConvite(conviteDTO);
@@ -110,36 +138,67 @@ public class PropostaService
         return convite;
     }
 
+    /**
+     * Devolve PropostaCandidaturaDTO filtrado pelo Estado e AlunoID
+     * @return
+     */
     public PropostaCandidaturaDTO findByEstadoAndAlunoid()
     {
         return propostaRestRepo.findByEstadoAndAlunoid();
     }
 
+    /**
+     * Encontrar todos os docentes
+     * @return lista de docentes
+     */
     public List<UtilizadorDTO> findAllDocente()
     {
         return utilizadorRestRepository.findAllDocente();
     }
 
+    /**
+     * Encontrar todos os convites
+     * @return lista de convites
+     */
     public List<ConviteDTO> getConvites()
     {
         return propostaRestRepo.getConvites();
     }
 
+    /**
+     * Encontrar todos os convites aceites
+     * @return lista de convites
+     */
     public List<ConviteDTO> findAllConviteAccepted()
     {
         return propostaRestRepo.findAllConviteAccepted();
     }
 
+    /**
+     * Aceitar convite
+     * @param conviteDTO o convite a aceitar
+     * @return o convite aceite
+     */
     public ConviteDTO acceptConvite(ConviteDTO conviteDTO)
     {
         return propostaRestRepo.aceitarOrientacao(conviteDTO);
     }
 
+    /**
+     * Rejeitar convite
+     * @param conviteDTO o convite a rejeitar
+     * @return o convite rejeitado
+     */
     public ConviteDTO rejectConvite(ConviteDTO conviteDTO)
     {
         return propostaRestRepo.rejeitarOrientacao(conviteDTO);
     }
 
+    /**
+     * Candidatar a uma proposta
+     * @param propostaID o id da proposta
+     * @return candidatura do aluno
+     */
     public PropostaCandidaturaDTO alunoCandidaturaProposta(Long propostaID)
     {
         return propostaRestRepo.alunoCandidaturaProposta(propostaID);

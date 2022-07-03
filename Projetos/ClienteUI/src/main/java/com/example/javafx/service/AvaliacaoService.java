@@ -9,28 +9,47 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service da avaliacoes
+ */
 @Service
 public class AvaliacaoService
 {
     @Autowired
     private AvaliacaoRestRepo restRepo;
 
+    /**
+     * Encontrar avaliacoes em que o presidente pode criar/alterar nota de avaliacao
+     * @return a lista
+     */
     public List<AvaliacaoDTO> findEditableAvaliacoes()
     {
         return restRepo.findEditableAvaliacoes();
     }
 
-
-    public AvaliacaoNotaDTO findNotaByAvaliacaoID(int index)
+    /**
+     * Encontrar nota pelo id da avaliacao
+     * @param id id da avaliacao
+     * @return a nota encontrada
+     */
+    public AvaliacaoNotaDTO findNotaByAvaliacaoID(Long id)
     {
-        return restRepo.findNotaByAvaliacaoID(index);
+        return restRepo.findNotaByAvaliacaoID(id);
     }
 
+    /**
+     * Atualizar uma nota
+     * @param notaAtual a nota atual
+     */
     public void atualizarNota(AvaliacaoNotaDTO notaAtual)
     {
         restRepo.atualizarNota(notaAtual);
     }
 
+    /**
+     * Criar uma nota
+     * @param avaliacao a nota a criar
+     */
     public void criarNota(AvaliacaoNotaDTO avaliacao)
     {
         restRepo.criarNota(avaliacao);

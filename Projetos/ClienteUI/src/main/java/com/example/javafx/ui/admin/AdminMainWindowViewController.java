@@ -19,6 +19,9 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Locale;
 
+/**
+ * Classe controller FXML para a janela do Administrador.
+ */
 @Controller
 public class AdminMainWindowViewController
 {
@@ -40,7 +43,10 @@ public class AdminMainWindowViewController
     private UnidadeCurricularController unidadeCurricularController;
 
     private AnoLetivoController anoLetivoController;
-
+    /**
+     * Método que faz logout do Utilizador
+     * @param event
+     */
     @FXML
     public void logOut(ActionEvent event)
     {
@@ -48,6 +54,13 @@ public class AdminMainWindowViewController
         closeWindow(null);
     }
 
+    /**
+     * Atribui controllers aos atributos da classe
+     * @param adminController adminController
+     * @param edicaoUCController edicaoUCController
+     * @param anoLetivoController anoLetivoController
+     * @param unidadeCurricularController unidadeCurricularController
+     */
     public void setController(AdminController adminController, EdicaoUCController edicaoUCController, AnoLetivoController anoLetivoController,
                               UnidadeCurricularController unidadeCurricularController)
     {
@@ -61,10 +74,18 @@ public class AdminMainWindowViewController
         iniciarTabHome();
     }
 
+    /**
+     * Método que valida campo
+     * @param actionEvent actionEvent
+     */
     public void validateNumberField(ActionEvent actionEvent)
     {
     }
 
+    /**
+     * Método que cria EdicaoUC
+     * @param actionEvent actionEvent
+     */
     public void createEdicaoUC(ActionEvent actionEvent)
     {
         try
@@ -81,12 +102,20 @@ public class AdminMainWindowViewController
         }
     }
 
+    /**
+     * Método que fecha Janela
+     * @param actionEvent actionEvent
+     */
     public void closeWindow(ActionEvent actionEvent)
     {
         txtChoiceBoxUC.getScene().getWindow().fireEvent(
                 new WindowEvent(txtChoiceBoxUC.getScene().getWindow(), javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
+    /**
+     * Método que cria AnoLetivo
+     * @param actionEvent actionEvent
+     */
     public void createAnoLetivo(ActionEvent actionEvent)
     {
         if (siglaAnoLetivo.getText().isEmpty())
@@ -110,6 +139,10 @@ public class AdminMainWindowViewController
 
     }
 
+    /**
+     * Método que cria UnidadeCurricular
+     * @param actionEvent actionEvent
+     */
     public void createUnidadeCurricular(ActionEvent actionEvent)
     {
         if (siglaUCText.getText().isEmpty())
@@ -140,6 +173,10 @@ public class AdminMainWindowViewController
         }
     }
 
+    /**
+     * Método que gere Tabs
+     * @param t1
+     */
     public void tabPaneChanged(Number t1)
     {
         System.out.println("Tab pane selecionado: "+t1);

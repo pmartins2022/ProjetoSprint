@@ -28,6 +28,10 @@ public class UnidadeCurricularService
         return restRepo.createUnidadeCurricular(unidadeCurricularDTO);
     }
 
+    /**
+     * Devolve Lista de UnidadeCurricularDTO
+     * @return Lista de UnidadeCurricularDTO
+     */
     public List<UnidadeCurricularDTO> findAll()
     {
         return restRepo.findAll();

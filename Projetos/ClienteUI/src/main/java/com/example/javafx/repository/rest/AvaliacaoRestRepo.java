@@ -14,10 +14,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Classe AvaliacaoRestRepo que permite estabeler ligação com Avaliacao
+ */
 @Repository
 public class AvaliacaoRestRepo
 {
-
+    /**
+     * Encontrar avaliacoes em que o presidente pode criar/alterar nota de avaliacao
+     * @return a lista
+     * @throws RestPostException um erro na DB
+     */
     public List<AvaliacaoDTO> findEditableAvaliacoes() throws RestPostException
     {
         try
@@ -38,11 +45,17 @@ public class AvaliacaoRestRepo
         }
     }
 
+    /**
+     * Encontrar notas pelo estado da avaliacao e pelo ruc id
+     * @param rucID o id do ruc
+     * @param estado o estado da nota
+     * @return a lista de notas
+     */
     public List<AvaliacaoNotaDTO> findAllByEstadoAndRucID(Long rucID, String estado)
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/"+ rucID +"?estado="+estado).get()
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/ruc/"+ rucID +"?estado="+estado).get()
                     .header("Authorization", LoginContext.getToken()).retrieve();
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
@@ -58,6 +71,11 @@ public class AvaliacaoRestRepo
         }
     }
 
+    /**
+     * Rever uma nota
+     * @param id o id da nota
+     * @param avaliacao a alteracao da avaliacao
+     */
     public void reviewAvaliacaoNota(Long id, String avaliacao)
     {
         try
@@ -78,8 +96,12 @@ public class AvaliacaoRestRepo
         }
     }
 
-
-    public AvaliacaoNotaDTO findNotaByAvaliacaoID(int index)
+    /**
+     * Encontrar nota a partir do ID da avaliacao
+     * @param index o id
+     * @return a nota da avaliacao
+     */
+    public AvaliacaoNotaDTO findNotaByAvaliacaoID(Long index)
     {
         try
         {
@@ -97,6 +119,10 @@ public class AvaliacaoRestRepo
         }
     }
 
+    /**
+     * Atualizar uma nota
+     * @param notaAtual a nota a atualizar
+     */
     public void atualizarNota(AvaliacaoNotaDTO notaAtual)
     {
         try
@@ -117,6 +143,10 @@ public class AvaliacaoRestRepo
         }
     }
 
+    /**
+     * Criar uma nova
+     * @param avaliacao informacao da nota
+     */
     public void criarNota(AvaliacaoNotaDTO avaliacao)
     {
         try

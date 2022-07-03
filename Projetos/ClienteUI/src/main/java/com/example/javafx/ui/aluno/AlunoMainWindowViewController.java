@@ -15,6 +15,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.WindowEvent;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Classe controller FXML para a janela do aluno.
+ */
 @Controller
 public class AlunoMainWindowViewController
 {
@@ -34,6 +37,10 @@ public class AlunoMainWindowViewController
     private AlunoController alunoController;
     private PropostaController propostaController;
 
+    /**
+     * Método que faz logout do Utilizador
+     * @param event
+     */
     @FXML
     public void logOut(ActionEvent event)
     {
@@ -41,6 +48,9 @@ public class AlunoMainWindowViewController
         closeWindow();
     }
 
+    /**
+     * Método que fecha Janela
+     */
     @FXML
     private void closeWindow()
     {
@@ -48,6 +58,12 @@ public class AlunoMainWindowViewController
                 new WindowEvent(logOutButton.getScene().getWindow(), javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
+
+    /**
+     * Atribui controllers aos atributos da clsse
+     * @param alunoController alunoController
+     * @param controller propostaController
+     */
     public void setController(AlunoController alunoController, PropostaController controller)
     {
         this.alunoController = alunoController;
@@ -124,6 +140,10 @@ public class AlunoMainWindowViewController
         }
     }
 
+    /**
+     * Método que cria convite
+     * @param actionEvent actionEvent
+     */
     public void createConvite(ActionEvent actionEvent)
     {
         try
@@ -144,6 +164,10 @@ public class AlunoMainWindowViewController
         }
     }
 
+    /**
+     * Método que cria Candidatura
+     * @param actionEvent actionEvent
+     */
     public void createCandidatura(ActionEvent actionEvent)
     {
         try
@@ -160,6 +184,10 @@ public class AlunoMainWindowViewController
         }
     }
 
+    /**
+     * Método que gere Tabs
+     * @param t1
+     */
     public void tabPaneChanged(Number t1)
     {
         System.out.println("Tab pane selecionado: "+t1);
@@ -173,6 +201,9 @@ public class AlunoMainWindowViewController
         }
     }
 
+    /**
+     * Método que popula choiceBox propostaChoiceBox
+     */
     private void iniciarTabAlunoCandidaturaProposta()
     {
         try
@@ -193,7 +224,9 @@ public class AlunoMainWindowViewController
         }
     }
 
-
+    /**
+     * Método que popula choiceBoxs docenteChoiceBox e campo txtPropostaInfo
+     */
     private void iniciarTabCriarConviteOrientacao()
     {
         try
@@ -217,11 +250,17 @@ public class AlunoMainWindowViewController
         }
     }
 
+    /**
+     * Método que inicia Tab Home
+     */
     private void iniciarTabHome()
     {
         alunoDTOText.setText(alunoController.getDTOInfo());
     }
 
+    /**
+     * Métodoq que popula choiceBoxs organizacaoChoice e edicaoChoice
+     */
     private void iniciarTabCriarProposta()
     {
         try
