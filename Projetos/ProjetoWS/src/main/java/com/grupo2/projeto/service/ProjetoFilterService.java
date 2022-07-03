@@ -41,7 +41,6 @@ public class ProjetoFilterService
         {
             throw new ErroGeralException("Filtros requerem mais parametros: "+paramCount+" - recebido: "+params.length);
         }
-
         return projetoJDBCRepository.findAllFilter(query, params).stream().map(mapper::toDTO).toList();
     }
 
