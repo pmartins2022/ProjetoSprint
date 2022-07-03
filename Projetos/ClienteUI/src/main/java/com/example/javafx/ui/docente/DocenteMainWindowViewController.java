@@ -19,11 +19,12 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+/**
+ * Classe controller FXML para a janela do docente.
+ */
 @Controller
 public class DocenteMainWindowViewController
 {
-
-
     public Button createPropostaButton;
     public TextField userIdText;
     public TextField tituloText;
@@ -70,6 +71,10 @@ public class DocenteMainWindowViewController
 
     private AvaliacaoNotaDTO notaAtual;
 
+    /**
+     * Faz Logout do Utilizador e fecha a Janela
+     * @param event event
+     */
     @FXML
     public void logOut(ActionEvent event)
     {
@@ -77,6 +82,13 @@ public class DocenteMainWindowViewController
         closeWindow(null);
     }
 
+    /**
+     * Atribui controllers aos atributos da clsse
+     * @param docenteController docenteController
+     * @param propostaController propostaController
+     * @param projetoController projetoController
+     * @param avaliacaoController avaliacaoController
+     */
     public void setController(DocenteController docenteController, PropostaController propostaController, ProjetoController projetoController, AvaliacaoController avaliacaoController)
     {
         this.docenteController = docenteController;
@@ -96,7 +108,10 @@ public class DocenteMainWindowViewController
         notaAtual = null;
     }
 
-
+    /**
+     * Método que cria Proposta
+     * @param actionEvent actionEvent
+     */
     public void createProposta(ActionEvent actionEvent)
     {
         try
@@ -114,6 +129,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que campo
+     * @param keyEvent keyEvent
+     */
     public void validateNumberField(KeyEvent keyEvent)
     {
         if (!keyEvent.getCharacter().matches("[0-9]"))
@@ -126,6 +145,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que aceita Convite
+     * @param actionEvent actionEvent
+     */
     public void aceitarConvite(ActionEvent actionEvent)
     {
         try
@@ -144,6 +167,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que rejeita Convite
+     * @param actionEvent actionEvent
+     */
     public void rejeitarConvite(ActionEvent actionEvent)
     {
         try
@@ -162,6 +189,9 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que popula choiceBoxs organizacaoChoice e edicaoChoice
+     */
     public void iniciarCriarProposta()
     {
         try
@@ -184,7 +214,9 @@ public class DocenteMainWindowViewController
         }
     }
 
-
+    /**
+     * Método que popula choiceBox candidaturaChoice
+     */
     private void iniciarGerirCandidaturaProposta()
     {
         try
@@ -205,6 +237,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que aceita Candidatura
+     * @param actionEvent actionEvent
+     */
     public void aceitarCandidatura(ActionEvent actionEvent)
     {
         try
@@ -222,6 +258,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que rejeita Candidatura
+     * @param actionEvent actionEvent
+     */
     public void rejeitarCandidatura(ActionEvent actionEvent)
     {
         try
@@ -239,6 +279,9 @@ public class DocenteMainWindowViewController
 
     }
 
+    /**
+     * Método que popula choiceBoxs propostaChoice e conviteAceiteChoice
+     */
     public void iniciarGerirProposta()
     {
         try
@@ -266,6 +309,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que aceita Proposta
+     * @param actionEvent actionEvent
+     */
     public void aceitarProposta(ActionEvent actionEvent)
     {
         try
@@ -283,6 +330,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que rejeita Proposta
+     * @param actionEvent actionEvent
+     */
     public void rejeitarProposta(ActionEvent actionEvent)
     {
         try
@@ -300,6 +351,9 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que popula choiceBox conteudoChoice
+     */
     public void iniciarGerirSubmissao()
     {
         try
@@ -321,6 +375,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que aceita Conteúdo
+     * @param actionEvent actionEvent
+     */
     public void aceitarConteudo(ActionEvent actionEvent)
     {
         try
@@ -337,6 +395,10 @@ public class DocenteMainWindowViewController
         }
     }
 
+    /**
+     * Método que rejeita Conteúdo
+     * @param actionEvent actionEvent
+     */
     public void rejeitarConteudo(ActionEvent actionEvent)
     {
         try
