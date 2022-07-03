@@ -2,6 +2,9 @@ package com.grupo2.edicaouc.model;
 
 import java.util.Objects;
 
+/**
+ * Classe dominio para edicao momento avaliacao.
+ */
 public class EdicaoMomentoAvaliacao
 {
     private Long idEdicao;

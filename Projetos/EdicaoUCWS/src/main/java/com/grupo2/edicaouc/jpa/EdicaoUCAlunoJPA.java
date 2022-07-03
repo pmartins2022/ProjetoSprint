@@ -4,6 +4,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Classe entidade para tabela EdicaoUCAluno
+ */
 @Entity
 @Table(name = "EdicaoUCAluno")
 public class EdicaoUCAlunoJPA

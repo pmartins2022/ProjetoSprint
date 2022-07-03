@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Classe entidade para Tabela AnoLetivo
+ */
 @Entity
 @Table(name = "AnoLetivo")
 public class AnoLetivoJPA

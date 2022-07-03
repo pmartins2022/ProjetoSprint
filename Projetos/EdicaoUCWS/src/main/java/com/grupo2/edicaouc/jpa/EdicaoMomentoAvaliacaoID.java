@@ -4,6 +4,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
+/**
+ * Classe que representa uma chave composta de EdicaoMomentoAvaliacao
+ */
 @Embeddable
 public class EdicaoMomentoAvaliacaoID implements Serializable
 {

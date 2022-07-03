@@ -5,7 +5,7 @@ import com.grupo2.edicaouc.model.UnidadeCurricular;
 import org.springframework.stereotype.Component;
 
 /**
- * Classe factory da UnidadeCurricular
+ * Classe factory para instanciacao de objetos do tipo UnidadeCurricular
  */
 @Component
 public class UnidadeCurricularFactory
@@ -15,8 +15,8 @@ public class UnidadeCurricularFactory
      *
      * @param sigla       sigla da UnidadeCurricular
      * @param denominacao denominacao da UnidadeCurricular
-     * @return UnidadeCurricular
-     * @throws ValidacaoInvalidaException
+     * @return UnidadeCurricular criado
+     * @throws ValidacaoInvalidaException problema de validacao
      */
     public UnidadeCurricular createUnidadeCurricular(String sigla, String denominacao) throws ValidacaoInvalidaException
     {

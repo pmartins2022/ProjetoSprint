@@ -89,7 +89,7 @@ public class UnidadeCurricular
     /**
      * Método que valida denominacao da UnidadeCurricular antes de esta ser instanciada
      *
-     * @param denominacao
+     * @param denominacao denominacao
      */
     private void validateDenominacao(String denominacao)
     {
@@ -103,7 +103,7 @@ public class UnidadeCurricular
      * @param str      string a ser validada
      * @param minSize  tamanho mínimo que a string tem que respeitat
      * @param noSpaces boolean que determina se a string pode ter espaços
-     * @throws ValidacaoInvalidaException
+     * @throws ValidacaoInvalidaException problema de validacao
      */
     private void validateString(String str, int minSize, boolean noSpaces) throws ValidacaoInvalidaException
     {

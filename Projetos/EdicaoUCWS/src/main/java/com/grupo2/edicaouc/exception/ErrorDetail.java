@@ -1,6 +1,6 @@
 package com.grupo2.edicaouc.exception;
 /**
- * Classe ErrorDetail
+ * Classe ErrorDetail usada para construir mensagens detalhadas sobre uma excecao
  */
 public class ErrorDetail extends RuntimeException
 {

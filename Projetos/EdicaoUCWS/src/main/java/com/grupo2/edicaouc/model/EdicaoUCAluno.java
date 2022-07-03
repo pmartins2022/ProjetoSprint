@@ -1,5 +1,8 @@
 package com.grupo2.edicaouc.model;
 
+/**
+ * Classe dominio para edicao uc aluno
+ */
 public class EdicaoUCAluno
 {
     private Long edicaoUCID;
