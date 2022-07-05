@@ -13,10 +13,8 @@ public class AvaliacaoDTO
     private Long id;
 
     private Long idMomentoAvaliacao;
-
-    private Long presidenteId;
-
     private Long orientadorId;
+    private Long presidenteId;
 
     private Long arguenteId;
 
@@ -29,7 +27,7 @@ public class AvaliacaoDTO
 
     public AvaliacaoDTO(){}
 
-    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo)
+    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long orientadorId, Long  presidenteId, Long arguenteId, Long idProjeto, Long idConteudo)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
@@ -42,7 +40,7 @@ public class AvaliacaoDTO
         this.dataAvaliacao = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
-    public AvaliacaoDTO(Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo)
+    public AvaliacaoDTO(Long idMomentoAvaliacao, Long orientadorId, Long  presidenteId, Long arguenteId, Long idProjeto, Long idConteudo)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
         this.presidenteId = presidenteId;

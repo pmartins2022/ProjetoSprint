@@ -41,14 +41,17 @@ public class EdicaoUCDTO extends JDBCTable
     {
     }
 
+
+
     /**
      * Inicializa o ucCode e anoLetivoCode da EdicaoUCDTO
      * com ucCode e anoLetivoCode recebidos por parâmetros
      * @param ucCode é o ucCode de Edição de Unidade Curricular
      * @param anoLetivoCode é o anoLetivoCode de Edição de Unidade Curricular
      */
-    public EdicaoUCDTO(String ucCode, String anoLetivoCode, Long rucID, String estadoEdicaoUC)
+    public EdicaoUCDTO(Long id, String ucCode, String anoLetivoCode, Long rucID, String estadoEdicaoUC)
     {
+        this.id = id;
         this.ucCode = ucCode;
         this.anoLetivoCode = anoLetivoCode;
         this.rucID = rucID;

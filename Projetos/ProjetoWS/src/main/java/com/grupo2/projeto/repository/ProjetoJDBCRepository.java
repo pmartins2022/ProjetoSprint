@@ -9,6 +9,7 @@ import com.grupo2.projeto.repository.jdbc.GenericRepository;
 import com.grupo2.projeto.repository.jdbc.reflection.ObjectMapper;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -38,7 +39,7 @@ public class ProjetoJDBCRepository implements GenericRepository<Projeto>
 
     public List<Projeto> findAllFilter(String query, Object[] params)
     {
-        return jdbcTemplate.queryForList(query,Projeto.class,params);
+        return jdbcTemplate.query(query,BeanPropertyRowMapper.newInstance(Projeto.class),params);
     }
 
     @Override

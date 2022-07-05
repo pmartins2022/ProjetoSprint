@@ -36,14 +36,12 @@ public class ProjetoController
      * @param idConteudo id do conteudo
      * @return a avaliacao criada
      */
-    public AvaliacaoDTO createAvaliacao(String idMomentoAvaliacao, String idOrientador, String idPresidente,
+    public void createAvaliacao(String idMomentoAvaliacao, String idOrientador, String idPresidente,
                                         String idArguente, String idProjeto, String idConteudo)
     {
-        AvaliacaoDTO avaliacaoDTO = avaliacaoDTOFactory.create(Long.parseLong(idMomentoAvaliacao), Long.parseLong(idOrientador),
+        service.createAvaliacao(avaliacaoDTOFactory.create(Long.parseLong(idMomentoAvaliacao), Long.parseLong(idOrientador),
                 Long.parseLong(idPresidente), Long.parseLong(idArguente), Long.parseLong(idProjeto),
-                Long.parseLong(idConteudo));
-
-        return service.createAvaliacao(avaliacaoDTO);
+                Long.parseLong(idConteudo)));
     }
 
     /**

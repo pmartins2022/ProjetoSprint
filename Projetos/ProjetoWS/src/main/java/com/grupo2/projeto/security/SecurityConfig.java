@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/conteudo/**").authenticated()
                 .antMatchers("/tabelas/**").authenticated()
                 .antMatchers("/projeto/**").authenticated()
+                .antMatchers("/avaliacao/**").authenticated()
                 .and()
                 .httpBasic()
                 .realmName("Projeto")

@@ -15,6 +15,7 @@ import com.grupo2.projeto.security.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -47,7 +48,7 @@ public class AvaliacaoService
         Conteudo cont = null;
         try
         {
-            cont = conteudoJDBCRepository.findById(avaliacaoDTO.getConteudo());
+            cont = conteudoJDBCRepository.findById(avaliacaoDTO.getIdConteudo());
         } catch (Exception e)
         {
             throw new OptionalVazioException("Nao existe conteudo com esse id");
@@ -111,7 +112,7 @@ public class AvaliacaoService
 
         Avaliacao avaliacao = mapper.toModel(avaliacaoDTO);
 
-        System.out.println(avaliacao);
+        System.out.println("CONVERTEU: "+avaliacao);
 
         avaliacaoJDBCRepository.insert(avaliacao);
     }
@@ -156,10 +157,9 @@ public class AvaliacaoService
     }
 
 
-    public List<AvaliacaoDTO> findAllEditableAvaliacao(Long idPresidente)
+    public List<AvaliacaoDTO> findAllEditableAvaliacao(Long idPresidente) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         List<Avaliacao> list = avaliacaoJDBCRepository.findAllEditableAvaliacao(idPresidente);
-
         return list.stream().map(mapper::toDTO).toList();
     }
 }

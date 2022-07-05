@@ -65,10 +65,13 @@ public class EdicaoUCJDBCRepository implements GenericRepository<EdicaoUCDTO>
 
     public EdicaoUCDTO findByRucIDAndEdicaoUCActive(Long rucID) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
+        System.out.println("repository");
         SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
                 .withFunctionName("FNC_FIND_EDICAOUC_RUCID_ATIVA")
-                .declareParameters(new SqlParameter("rucID", OracleTypes.NUMBER))
+                .declareParameters(new SqlParameter("idIn", OracleTypes.NUMBER))
                 .withReturnValue();
-        return objectMapper.mapToObject(jdbcCall.execute(rucID),EdicaoUCDTO.class);
+        EdicaoUCDTO edicaoUCDTO = objectMapper.mapToObject(jdbcCall.execute(rucID), EdicaoUCDTO.class);
+        System.out.println(edicaoUCDTO.toString());
+        return edicaoUCDTO;
     }
 }

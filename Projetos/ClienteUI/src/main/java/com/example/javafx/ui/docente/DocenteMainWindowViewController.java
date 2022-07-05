@@ -100,9 +100,6 @@ public class DocenteMainWindowViewController
         docentePaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> docenteTabPaneChanged(t1));
         rucPaneID.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> rucTabPaneChanged(t1));
 
-        avaliacaoChoice.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> atualizarNota(t1));
-
-
         iniciarTabHome();
 
         notaAtual = null;
@@ -448,11 +445,11 @@ public class DocenteMainWindowViewController
     {
         try
         {
-            AvaliacaoDTO avaliacaoDTO = projetoController.createAvaliacao(idMomentoAvaliacaoText.getText(), idOrientadorText.getText(),
+            projetoController.createAvaliacao(idMomentoAvaliacaoText.getText(), idOrientadorText.getText(),
                     idPresidenteText.getText(), idArguenteText.getText(),
                     idProjetoText.getText(), idConteudoText.getText());
 
-            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Definir Júri", "Avaliação Criada", avaliacaoDTO.toString());
+            AlertBuilder.showAlert(Alert.AlertType.ERROR, "Definir Júri", "Avaliação Criada", "SUCESSO");
         }catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());
@@ -546,6 +543,7 @@ public class DocenteMainWindowViewController
         {
             avaliacaoChoice.getItems().clear();
             avaliacaoChoice.getItems().addAll(avaliacaoController.findEditableAvaliacoes());
+            avaliacaoChoice.getSelectionModel().selectFirst();
         }
         catch (ErrorDetail e)
         {
@@ -573,6 +571,10 @@ public class DocenteMainWindowViewController
     {
         try
         {
+            notaAtual = avaliacaoController.findNotaByAvaliacaoID(avaliacaoChoice.getSelectionModel().getSelectedItem().getId());
+
+            System.out.println(notaAtual);
+
             if (notaAtual == null)
             {
                 notaAtual = new AvaliacaoNotaDTO(null,
@@ -582,16 +584,17 @@ public class DocenteMainWindowViewController
                         EstadoAvaliacao.PENDENTE);
 
                 avaliacaoController.criarNota(notaAtual);
-            }
-            else
+                AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "NOTA CRIADA COM SUCESSO", "Sucesso na alteração de Nota");
+
+            } else
             {
                 notaAtual.setNota(Long.parseLong(avaliacaoNotaText.getText()));
                 notaAtual.setJustificacao(justificacaoNotaText.getText());
                 notaAtual.setEstadoAvaliacao(EstadoAvaliacao.PENDENTE);
                 avaliacaoController.atualizarNota(notaAtual);
+                AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "NOTA ALTERADA COM SUCESSO", "Sucesso na alteração de Nota");
             }
 
-            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "SUCESSO", "NOTA ALTERADA COM SUCESSO", "Sucesso na alteração de Nota");
         }
         catch (ErrorDetail e)
         {
@@ -603,16 +606,4 @@ public class DocenteMainWindowViewController
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro geral", "Erro geral", e.getMessage());
         }
     }
-
-    public void atualizarNota(Number index)
-    {
-        notaAtual = avaliacaoController.findNotaByAvaliacaoID(avaliacaoChoice.getSelectionModel().getSelectedItem().getId());
-
-        if (notaAtual != null)
-        {
-            avaliacaoNotaText.setText(notaAtual.getNota().toString());
-            justificacaoNotaText.setText(notaAtual.getJustificacao().toString());
-        }
-    }
-
 }

@@ -55,7 +55,7 @@ public class AvaliacaoRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/ruc/"+ rucID +"?estado="+estado).get()
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/avaliacao/ruc/"+ rucID +"?estado="+estado).get()
                     .header("Authorization", LoginContext.getToken()).retrieve();
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
@@ -80,8 +80,8 @@ public class AvaliacaoRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/reverAvaliacaoNota"+ id
-                            +"?avaliacao="+avaliacao).put()
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/avaliacao/reverAvaliacaoNota/"+ id
+                            +"?avaliacao="+avaliacao).patch()
                     .header("Authorization", LoginContext.getToken()).retrieve();
 
             responseSpec.toBodilessEntity().block();
@@ -105,7 +105,7 @@ public class AvaliacaoRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/nota/"+index).get()
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/avaliacao/nota/"+index).get()
                     .header("Authorization", LoginContext.getToken()).retrieve();
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
@@ -127,7 +127,8 @@ public class AvaliacaoRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/nota").patch()
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/avaliacao/editarAvaliacao/" + notaAtual.getId()+"?nota="+notaAtual.getNota()+
+                            "&justificacao="+notaAtual.getJustificacao()).patch()
                     .header("Authorization", LoginContext.getToken())
                     .body(BodyInserters.fromValue(notaAtual)).retrieve();
 
@@ -151,7 +152,7 @@ public class AvaliacaoRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8084/avaliacao/avaliar").post()
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8083/avaliacao/avaliar").post()
                     .header("Authorization", LoginContext.getToken())
                     .body(BodyInserters.fromValue(avaliacao)).retrieve();
 

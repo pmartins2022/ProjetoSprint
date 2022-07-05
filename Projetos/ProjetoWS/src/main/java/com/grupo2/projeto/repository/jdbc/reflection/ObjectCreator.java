@@ -2,11 +2,15 @@ package com.grupo2.projeto.repository.jdbc.reflection;
 
 import com.grupo2.projeto.dto.OrganizacaoDTO;
 import com.grupo2.projeto.model.JDBCTable;
+import oracle.sql.TIMESTAMP;
 import org.springframework.expression.spel.support.ReflectionHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,12 +29,17 @@ public class ObjectCreator
                 Long val = Long.parseLong((values.get(i)).toString());
                 listValues.add(val);
             }
+
+            else if (values.get(i).getClass().isAssignableFrom(Timestamp.class))
+            {
+                String val = LocalDate.parse((values.get(i)).toString().substring(0,10), DateTimeFormatter.ofPattern("yyyy-MM-dd")).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                listValues.add(val);
+            }
             else
             {
                 listValues.add(values.get(i));
             }
         }
-
         //Array dos atributos
         Object[] atributesValues = new Object[listValues.size()];
 
