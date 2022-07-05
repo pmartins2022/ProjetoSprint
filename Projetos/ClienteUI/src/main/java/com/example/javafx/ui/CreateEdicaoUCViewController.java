@@ -1,11 +1,8 @@
 package com.example.javafx.ui;
 
-import com.example.javafx.controller.EdicaoUCController;
-import com.example.javafx.dto.AnoLetivoDTO;
+import com.example.javafx.controller.admin.EdicaoUCController;
 import com.example.javafx.dto.EdicaoUCDTO;
-import com.example.javafx.dto.UnidadeCurricularDTO;
 import com.example.javafx.exception.ErrorDetail;
-import com.example.javafx.exception.ListaVaziaException;
 import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,8 +66,8 @@ public class CreateEdicaoUCViewController
     {
         try
         {
-            EdicaoUCDTO edicaoUCDTO = controller.createEdicaoUC(txtChoiceBoxUC.getSelectionModel().getSelectedIndex(), txtChoiceBoxAnoLetivo.getSelectionModel().getSelectedIndex());
-            AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Edição de Unidade Curricular criada com sucesso. " + edicaoUCDTO.toString());
+            //EdicaoUCDTO edicaoUCDTO = controller.createEdicaoUC(txtChoiceBoxUC.getSelectionModel().getSelectedIndex(), txtChoiceBoxAnoLetivo.getSelectionModel().getSelectedIndex());
+            //AlertBuilder.showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Sucesso", "Edição de Unidade Curricular criada com sucesso. " + edicaoUCDTO.toString());
         } catch (ErrorDetail e)
         {
             AlertBuilder.showAlert(Alert.AlertType.ERROR, "Erro " + e.getStatus(), e.getTitle(), e.getDetail());

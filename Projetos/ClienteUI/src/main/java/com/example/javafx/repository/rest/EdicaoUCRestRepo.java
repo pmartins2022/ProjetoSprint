@@ -4,6 +4,7 @@ import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.dto.OrganizacaoDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
+import com.example.javafx.model.LoginContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -28,8 +29,9 @@ public class EdicaoUCRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8082/edicaoUC/criar").post().
-                    body(BodyInserters.fromValue(edicaoUCDTO)).retrieve();
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/edicaoUC/criar").post()
+                    .header("Authorization", LoginContext.getToken())
+                    .body(BodyInserters.fromValue(edicaoUCDTO)).retrieve();
 
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,
@@ -49,7 +51,7 @@ public class EdicaoUCRestRepo
      */
     public List<EdicaoUCDTO> findAll()
     {
-        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8082/edicaoUC/listar").get()
+        final WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/edicaoUC/listar").get()
                 .retrieve();
 
         responseSpec.onStatus(HttpStatus::is4xxClientError,

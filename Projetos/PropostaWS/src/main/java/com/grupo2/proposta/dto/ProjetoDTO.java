@@ -1,5 +1,7 @@
 package com.grupo2.proposta.dto;
 
+import java.util.Objects;
+
 /**
  * Classe DTO que contem informacao sobre um projeto.
  */
@@ -77,5 +79,20 @@ public class ProjetoDTO
                 ", estudanteId=" + estudanteId +
                 ", orientadorId=" + orientadorId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProjetoDTO that = (ProjetoDTO) o;
+        return propostaId.equals(that.propostaId) && estudanteId.equals(that.estudanteId) && orientadorId.equals(that.orientadorId);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, propostaId, estudanteId, orientadorId);
     }
 }

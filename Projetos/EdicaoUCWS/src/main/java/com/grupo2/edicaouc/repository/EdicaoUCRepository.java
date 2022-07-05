@@ -1,14 +1,11 @@
 package com.grupo2.edicaouc.repository;
 
-import com.grupo2.edicaouc.dto.AnoLetivoDTO;
-import com.grupo2.edicaouc.dto.UnidadeCurricularDTO;
 import com.grupo2.edicaouc.exception.BaseDadosException;
 import com.grupo2.edicaouc.jpa.EdicaoUCJPA;
 import com.grupo2.edicaouc.jpa.mapper.EdicaoUCJPAMapper;
 import com.grupo2.edicaouc.model.EdicaoUC;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
 import com.grupo2.edicaouc.repository.jpa.EdicaoUCJpaRepository;
-import com.grupo2.edicaouc.repository.rest.AnoLetivoUCRestRepository;
-import com.grupo2.edicaouc.repository.rest.UnidadeCurricularRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,16 +27,6 @@ public class EdicaoUCRepository
      * O restRepository a ser utilizado por este Repository.
      */
     @Autowired
-    private AnoLetivoUCRestRepository anoLetivoUCRestRepository;
-    /**
-     * O restRepository a ser utilizado por este Repository.
-     */
-    @Autowired
-    private UnidadeCurricularRestRepository unidadeCurricularRestRepository;
-    /**
-     * O repositoryJPAMapper a ser utilizado por este Repository.
-     */
-    @Autowired
     private EdicaoUCJPAMapper mapper;
 
     /**
@@ -50,19 +37,9 @@ public class EdicaoUCRepository
      */
     public EdicaoUC saveEdicaoUC(EdicaoUC edicaoUC) throws BaseDadosException
     {
-        Optional<AnoLetivoDTO> anoLetivoId = anoLetivoUCRestRepository.findById(edicaoUC.getAnoLetivoCode());
-
-        if (anoLetivoId.isEmpty()){
-            throw new BaseDadosException("ID de Ano Letivo " +edicaoUC.getAnoLetivoCode()+ " não existe");
-        }
-
-        Optional<UnidadeCurricularDTO> unidadeCurricular = unidadeCurricularRestRepository.findById(edicaoUC.getUCCode());
-
-        if (unidadeCurricular.isEmpty()){
-            throw new BaseDadosException("ID de Unidade Curricular "+edicaoUC.getUCCode()+" não existe");
-        }
-        EdicaoUCJPA jpa = mapper.toJpa(edicaoUC);
+        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
         EdicaoUCJPA saved = jpaRepository.save(jpa);
+
         return mapper.toModel(saved);
     }
 
@@ -106,5 +83,54 @@ public class EdicaoUCRepository
         List<EdicaoUCJPA> lista = jpaRepository.findAll();
 
         return lista.stream().map(mapper::toModel).toList();
+    }
+
+    public EdicaoUC ativarEdicao(EdicaoUC edicaoUC)
+    {
+        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
+
+        //jpaRepository.deleteById(edicaoUC.getId());
+
+        return mapper.toModel(jpaRepository.save(jpa));
+    }
+
+    public EdicaoUC desativarEdicao(EdicaoUC edicaoUC)
+    {
+        EdicaoUCJPA jpa = mapper.toJPA(edicaoUC);
+
+        //jpaRepository.deleteById(edicaoUC.getId());
+
+        return mapper.toModel(jpaRepository.save(jpa));
+    }
+
+    public List<EdicaoUC> findByRucID(Long rucID)
+    {
+        List<EdicaoUCJPA> jpa = jpaRepository.findByRucID(rucID);
+
+        return jpa.stream().map(mapper::toModel).toList();
+    }
+
+    public Optional<EdicaoUC> findByRucIDAndEstadoEdicaoUC(Long rucID, EstadoEdicaoUC estado)
+    {
+        Optional<EdicaoUCJPA> jpa = jpaRepository.findByRucIDAndEstadoEdicaoUC(rucID, estado);
+
+        if (jpa.isPresent())
+        {
+            return Optional.of(mapper.toModel(jpa.get()));
+        }
+
+        return Optional.empty();
+    }
+
+    public Optional<EdicaoUC> findByEstadoEdicaoUC(EstadoEdicaoUC ativa)
+    {
+        Optional<EdicaoUCJPA> edicaoAtiva = jpaRepository.findByEstadoEdicaoUC(ativa);
+
+        if (edicaoAtiva.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(mapper.toModel(edicaoAtiva.get()));
     }
 }

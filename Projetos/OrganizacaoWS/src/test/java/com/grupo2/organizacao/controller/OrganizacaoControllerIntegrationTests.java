@@ -1,70 +1,156 @@
 package com.grupo2.organizacao.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo2.organizacao.dto.OrganizacaoDTO;
 import com.grupo2.organizacao.exception.ListaVaziaException;
 import com.grupo2.organizacao.exception.OptionalVazioException;
 import com.grupo2.organizacao.jpa.OrganizacaoJPA;
+import com.grupo2.organizacao.model.Organizacao;
 import com.grupo2.organizacao.repository.jpa.OrganizacaoJPARepository;
+import com.grupo2.organizacao.service.OrganizacaoService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.security.auth.login.LoginContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
 class OrganizacaoControllerIntegrationTests
 {
+    @MockBean
+    private OrganizacaoService service;
+
+    @MockBean
+    private HttpServletRequest request;
 
     @Autowired
-    OrganizacaoController controller;
+    private MockMvc mockMvc;
+
     @Autowired
-    OrganizacaoJPARepository jpaRepository;
+    private ObjectMapper objectMapper;
 
-    @Test
-    public void shouldFindAllOrganizacao()
+    @BeforeEach
+    void setUp()
     {
-        OrganizacaoJPA org =  new OrganizacaoJPA("denominacao", 123456789);
-        OrganizacaoJPA org1 = new OrganizacaoJPA("denominacao1", 987654321);
-
-        jpaRepository.save(org);
-        jpaRepository.save(org1);
-
-        ResponseEntity<List<OrganizacaoDTO>> responseEntity = controller.findAll();
-
-        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        MockitoAnnotations.openMocks(this);
     }
 
 
     @Test
-    public void shouldFindEmptyListUnidadeCurricular()
+    public void shouldFindByID() throws Exception
     {
-        assertThrows(ListaVaziaException.class, ()-> controller.findAll());
+        OrganizacaoDTO dto = new OrganizacaoDTO(1L, "denominacao", 500000135);
+
+        when(service.findByID(1L)).thenReturn(Optional.of(dto));
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/organizacao/{id}", 1L)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        OrganizacaoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), OrganizacaoDTO.class);
+        assertEquals(dto, responseDto);
+    }
+
+
+    @Test
+    public void shouldFindByNIF() throws Exception
+    {
+        OrganizacaoDTO dto = new OrganizacaoDTO(1L, "denominacao", 500000135);
+
+        when(service.findByNIF(500000135)).thenReturn(Optional.of(dto));
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/organizacao/")
+                        .param("nif", String.valueOf(500000135))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        OrganizacaoDTO responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), OrganizacaoDTO.class);
+        assertEquals(dto, responseDto);
+    }
+
+
+    @Test
+    public void shouldNotFindByID_NotExists() throws Exception
+    {
+        when(service.findByID(1L)).thenReturn(Optional.empty());
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/organizacao/{id}", 1L)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
     }
 
     @Test
-    public void shouldFindByIDOrganizacao()
+    public void shouldNotFindByNIF_NotExists() throws Exception
     {
-        OrganizacaoJPA org =  new OrganizacaoJPA("denominacao", 123456789);
+        when(service.findByNIF(500000135)).thenReturn(Optional.empty());
 
-        jpaRepository.save(org);
-
-        ResponseEntity<Object> responseEntity = controller.findByID(org.getId());
-
-        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/organizacao/")
+                        .param("nif", String.valueOf(500000135))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
     }
-
 
     @Test
-    public void shouldNotFindByIdOrganizacao()
+    public void shouldFindAllOrganizacao() throws Exception
     {
-        assertThrows(OptionalVazioException.class, ()-> controller.findByID(123456789L));
+        OrganizacaoDTO dto = new OrganizacaoDTO(1L, "denominacao", 500000135);
+
+        when(service.findAll()).thenReturn(List.of(dto, dto, dto, dto));
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/organizacao/listar")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<OrganizacaoDTO> responseDto = objectMapper.readValue(response.getResponse().getContentAsString(), List.class);
+        assertEquals(4, responseDto.size());
     }
+
+    @Test
+    public void shouldNotFindAllOrganizacao_NotExists() throws Exception
+    {
+        when(service.findAll()).thenReturn(List.of());
+
+        MvcResult response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/organizacao/listar")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+    }
+
 }

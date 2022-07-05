@@ -27,7 +27,7 @@ class UtilizadorJPAMapperIntegrationTests
     @Test
     public void shouldConvertValidUtilizador()
     {
-       UtilizadorJPA jpa = new UtilizadorJPA(1L, "nome", "sobrenome", "email@gmail.com", TipoUtilizador.ALUNO);
+       UtilizadorJPA jpa = new UtilizadorJPA(1L, "nome", "sobrenome", "email@gmail.com","aabb","aabb", TipoUtilizador.ALUNO);
 
         Utilizador utilizador = mapper.toModel(jpa);
 
@@ -37,7 +37,7 @@ class UtilizadorJPAMapperIntegrationTests
     @Test
     public void shouldNotConvertValidUtilizador_InvalidAtributtes()
     {
-        UtilizadorJPA jpa = new UtilizadorJPA(1L, "nome", "sobrenome", "email.com", TipoUtilizador.ALUNO);
+        UtilizadorJPA jpa = new UtilizadorJPA(1L, "nome", "sobrenome", "email.com","aabb","aabb", TipoUtilizador.ALUNO);
 
         assertThrows(ValidacaoInvalidaException.class, ()-> mapper.toModel(jpa));
     }
@@ -45,7 +45,7 @@ class UtilizadorJPAMapperIntegrationTests
     @Test
     public void shouldConvertValidUtilizadorJPA_ValidAtributtes()
     {
-        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com", TipoUtilizador.ALUNO);
+        Utilizador utilizador = new Utilizador(1L, "nome", "sobrenome", "email@gmail.com","aabb","aabb", TipoUtilizador.ALUNO);
 
         UtilizadorJPA anoLetivoJPA = mapper.toJPA(utilizador);
 

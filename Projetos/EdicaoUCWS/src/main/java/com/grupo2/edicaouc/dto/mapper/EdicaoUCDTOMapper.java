@@ -24,7 +24,7 @@ public class EdicaoUCDTOMapper
      */
     public EdicaoUC toModel(EdicaoUCDTO dto)
     {
-        return edicaoUCFactory.createEdicaoUC(dto.getId(),dto.getUcCode(), dto.getAnoLetivoCode());
+        return edicaoUCFactory.createEdicaoUC(dto.getId(),dto.getUcCode(), dto.getAnoLetivoCode(), dto.getRucID());
     }
 
     /**
@@ -34,6 +34,6 @@ public class EdicaoUCDTOMapper
      */
     public EdicaoUCDTO toDTO(EdicaoUC edicao)
     {
-        return new EdicaoUCDTO(edicao.getId(), edicao.getUCCode(),edicao.getAnoLetivoCode());
+        return new EdicaoUCDTO(edicao.getId(), edicao.getUCCode(),edicao.getAnoLetivoCode(), edicao.getRucID());
     }
 }

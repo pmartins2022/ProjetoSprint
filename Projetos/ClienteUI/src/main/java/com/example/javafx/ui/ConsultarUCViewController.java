@@ -1,7 +1,6 @@
 package com.example.javafx.ui;
 
-import com.example.javafx.controller.UnidadeCurricularController;
-import com.example.javafx.dto.UnidadeCurricularDTO;
+import com.example.javafx.controller.admin.UnidadeCurricularController;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.ui.utils.AlertBuilder;
 import javafx.event.ActionEvent;

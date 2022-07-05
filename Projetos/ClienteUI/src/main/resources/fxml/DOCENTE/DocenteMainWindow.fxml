@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="496.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.ui.docente.DocenteMainWindowViewController">
+   <top>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="318.0" text="Docente">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#logOut" prefWidth="100.0" text="LogOut" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <TabPane fx:id="mainPaneID" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Home">
+               <content>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="613.0">
+                     <children>
+                        <Label contentDisplay="CENTER" text="As suas informacoes">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextArea fx:id="docenteDTOText" editable="false" prefHeight="203.0" prefWidth="660.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextArea>
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </VBox>
+               </content>
+          </Tab>
+          <Tab text="Docente">
+               <content>
+                  <TabPane fx:id="docentePaneID" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Criar Proposta">
+                           <content>
+                              <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="660.0">
+                                 <top>
+                                    <Label text="Criar Proposta" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets top="20.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="98.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="createPropostaButton" mnemonicParsing="false" onAction="#createProposta" prefWidth="150.0" text="Criar Proposta">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <center>
+                                    <GridPane BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="userIdText" editable="false" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <Label text="ID de Utilizador" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets right="20.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label layoutX="193.0" layoutY="43.0" text="Organizacao" textAlignment="CENTER" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label layoutX="176.0" layoutY="64.0" text="Edicao UC" textAlignment="CENTER" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label layoutX="190.0" layoutY="106.0" text="Título" textAlignment="CENTER" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label layoutX="255.0" layoutY="148.0" text="Problema" textAlignment="CENTER" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label layoutX="230.0" layoutY="190.0" text="Objetivo" textAlignment="CENTER" GridPane.rowIndex="5">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="tituloText" layoutX="330.0" layoutY="104.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <TextField fx:id="problemaText" layoutX="330.0" layoutY="146.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <TextField fx:id="objetivoText" layoutX="330.0" layoutY="188.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <ChoiceBox fx:id="organizacaoChoice" prefWidth="500.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </ChoiceBox>
+                                          <ChoiceBox fx:id="edicaoChoice" layoutX="330.0" layoutY="62.0" prefWidth="500.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </ChoiceBox>
+                                       </children>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </content>
+                      </Tab>
+                      <Tab text="Aceitar/Rejeitar Orientação">
+                           <content>
+                              <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="660.0">
+                                 <top>
+                                    <Label text="Aceitar / Rejeitar Orientacao" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets top="20.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="98.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="aceitarConviteButton" mnemonicParsing="false" onAction="#aceitarConvite" prefWidth="170.0" text="Aceitar Convite">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="rejeitarConviteButton" layoutX="265.0" layoutY="47.0" mnemonicParsing="false" onAction="#rejeitarConvite" prefWidth="170.0" text="Rejeitar Convite" />
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <center>
+                                    <GridPane BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label layoutX="193.0" layoutY="43.0" text="Convites Disponiveis:" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <ChoiceBox fx:id="conviteChoice" prefWidth="500.0" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </ChoiceBox>
+                                       </children>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </content>
+          </Tab>
+            <Tab text="RUC">
+               <content>
+                  <TabPane fx:id="rucPaneID" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Aceitar/Rejeitar Proposta">
+                           <content>
+                              <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="660.0">
+                                 <top>
+                                    <Label text="Aceitar / Rejeitar Proposta" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets top="20.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="98.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="aceitarProposta" mnemonicParsing="false" onAction="#aceitarProposta" prefWidth="170.0" text="Aceitar Proposta">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="rejeitarPropostaButton" layoutX="265.0" layoutY="47.0" mnemonicParsing="false" onAction="#rejeitarProposta" prefWidth="170.0" text="Rejeitar Proposta" />
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <center>
+                                    <GridPane BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label layoutX="193.0" layoutY="43.0" text="Propostas Disponiveis" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <ChoiceBox fx:id="propostaChoice" prefWidth="500.0" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </ChoiceBox>
+                                          <Label text="Aluno ID" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets right="20.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="alunoIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                       </children>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </content>
+                      </Tab>
+                      <Tab text="Aceitar/Rejeitar Candidatura">
+                           <content>
+                              <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="660.0">
+                                 <top>
+                                    <Label text="Aceitar / Rejeitar Candidatura a Proposta" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets top="20.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="98.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="aceitarCandidatura" mnemonicParsing="false" onAction="#aceitarCandidatura" prefWidth="170.0" text="Aceitar Candidatura">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="rejeitarCandidaturaButton" layoutX="265.0" layoutY="47.0" mnemonicParsing="false" onAction="#rejeitarCandidatura" prefWidth="170.0" text="Rejeitar Candidatura" />
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <center>
+                                    <GridPane BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label layoutX="193.0" layoutY="43.0" text="Candidaturas Disponiveis:" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <ChoiceBox fx:id="candidaturaChoice" prefWidth="500.0" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </ChoiceBox>
+                                       </children>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </content>
+                      </Tab>
+                        <Tab text="Definir Juri de uma Avaliacao">
+                           <content>
+                              <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="660.0">
+                                 <top>
+                                    <Label text="Definir Juri de uma Avaliacao" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets top="20.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="98.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#confirmarECriarAvaliacao" prefWidth="150.0" text="Confirmar e Criar">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <center>
+                                    <GridPane BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="idMomentoAvaliacaoText" onKeyTyped="#validateNumberField" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <Label text="ID de Momento de Avaliacao" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets right="20.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label layoutX="193.0" layoutY="43.0" text="ID do Orientador" textAlignment="CENTER" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label layoutX="176.0" layoutY="64.0" text="ID do Presidente" textAlignment="CENTER" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label layoutX="190.0" layoutY="106.0" text="ID do Arguente" textAlignment="CENTER" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label layoutX="255.0" layoutY="148.0" text="ID do Projeto" textAlignment="CENTER" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label layoutX="230.0" layoutY="190.0" text="ID do Conteudo" textAlignment="CENTER" GridPane.rowIndex="5">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="idArguenteText" layoutX="330.0" layoutY="104.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <TextField fx:id="idProjetoText" layoutX="330.0" layoutY="146.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <TextField fx:id="idConteudoText" layoutX="330.0" layoutY="188.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <TextField fx:id="idOrientadorText" onKeyTyped="#validateNumberField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <TextField fx:id="idPresidenteText" onKeyTyped="#validateNumberField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                       </children>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </content>
+            </Tab>
+            <Tab text="Orientador">
+               <content>
+                  <TabPane fx:id="orientadorPaneID" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Aceitar/Rejeitar Submissão">
+                           <content>
+                              <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="660.0">
+                                 <top>
+                                    <Label text="Aceitar / Rejeitar Submissao de Conteudo" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets top="20.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="98.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="aceitarConteudoButton" mnemonicParsing="false" onAction="#aceitarConteudo" prefWidth="170.0" text="Aceitar Conteudo">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="rejeitarConteudoButton" layoutX="265.0" layoutY="47.0" mnemonicParsing="false" onAction="#rejeitarConteudo" prefWidth="170.0" text="Rejeitar Conteudo" />
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <center>
+                                    <GridPane BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label layoutX="193.0" layoutY="43.0" text="Conteudo Disponivel" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="20.0" />
+                                             </padding>
+                                          </Label>
+                                          <ChoiceBox fx:id="conteudoChoice" prefWidth="500.0" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </GridPane.margin>
+                                          </ChoiceBox>
+                                       </children>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

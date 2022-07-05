@@ -3,6 +3,7 @@ package com.example.javafx.repository.rest;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.exception.ErrorDetail;
 import com.example.javafx.exception.RestPostException;
+import com.example.javafx.model.LoginContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -28,8 +29,9 @@ public class AnoLetivoRestRepo
     {
         try
         {
-            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/criar").post().
-                    body(BodyInserters.fromValue(anoLetivoDTO)).retrieve();
+            WebClient.ResponseSpec responseSpec = WebClient.create("http://localhost:8081/anoLetivo/criar").post()
+                            .header("Authorization", LoginContext.getToken())
+                    .body(BodyInserters.fromValue(anoLetivoDTO)).retrieve();
 
 
             responseSpec.onStatus(HttpStatus::is4xxClientError,

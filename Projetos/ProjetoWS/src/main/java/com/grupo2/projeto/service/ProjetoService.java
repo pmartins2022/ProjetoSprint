@@ -7,6 +7,7 @@ import com.grupo2.projeto.repository.ProjetoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,6 +21,7 @@ public class ProjetoService
      */
     @Autowired
     private ProjetoRepository repository;
+
 
     /**
      * O mapper a ser utilizado por este Service.
@@ -58,5 +60,12 @@ public class ProjetoService
         Projeto savedProjeto = repository.saveProjeto(projeto);
 
         return mapper.toDTO(savedProjeto);
+    }
+
+    public List<ProjetoDTO> findAllByOrientadorId(Long id)
+    {
+        List<Projeto> list = repository.findAllByOrientadorId(id);
+
+        return list.stream().map(mapper::toDTO).toList();
     }
 }

@@ -25,4 +25,44 @@ public class RestExceptionHandler
         errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(OptionalVazioException.class)
+    public ResponseEntity<?> handleOptionalVazioException(OptionalVazioException ex)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTitle("ESQUECE");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ValidacaoInvalidaException.class)
+    public ResponseEntity<?> handleValidacaoInvalidaException(ValidacaoInvalidaException ex)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTitle("Erro de validação");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IdInvalidoException.class)
+    public ResponseEntity<?> handleIdInvalidoException(IdInvalidoException ex)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTitle("Valor nao encontrado.");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AtualizacaoInvalidaException.class)
+    public ResponseEntity<?> handleAtualizacaoInvalidaException(AtualizacaoInvalidaException ex)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTitle("Atualizacao invalida.");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -21,12 +21,24 @@ class UtilizadorFactoryTest
     @Test
     public void shouldCreateValidUtilizador()
     {
-        assertDoesNotThrow(()-> factory.createUtilizador("nome", "sobrenome", "email@gmail.com", TipoUtilizador.ALUNO));
+        assertDoesNotThrow(()-> factory.createUtilizador("nome", "sobrenome", "email@gmail.com","aabb","aabb", TipoUtilizador.ALUNO));
     }
 
     @Test
     public void shouldNotCreateValidUtilizador()
     {
-        assertThrows(ValidacaoInvalidaException.class, ()-> factory.createUtilizador("nome", "sobrenome", "email", TipoUtilizador.ALUNO));
+        assertThrows(ValidacaoInvalidaException.class, ()-> factory.createUtilizador("nome", "sobrenome", "email","aabb","aabb", TipoUtilizador.ALUNO));
+    }
+
+    @Test
+    public void shouldCreateValidUtilizadorWithAllAtributtes()
+    {
+        assertDoesNotThrow(()-> factory.createUtilizador(1L, "nome", "sobrenome", "email@gmail.com","aabb","aabb", TipoUtilizador.ALUNO));
+    }
+
+    @Test
+    public void shouldNotCreateValidUtilizadorWithAllAtributtes()
+    {
+        assertThrows(ValidacaoInvalidaException.class, ()-> factory.createUtilizador("nome", "sobrenome", "email","aabb","aabb", TipoUtilizador.ALUNO));
     }
 }

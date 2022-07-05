@@ -18,8 +18,8 @@ public class EdicaoUCDTOFactory
      * @param anoLetivoSigla Sigla do ano letivo.
      * @return Edição de uma unidade curricular.
      */
-    public EdicaoUCDTO createEdicaoUCDTO(String ucSigla, String anoLetivoSigla)
+    public EdicaoUCDTO createEdicaoUCDTO(String ucSigla, String anoLetivoSigla, Long rucID)
     {
-        return new EdicaoUCDTO(ucSigla, anoLetivoSigla);
+        return new EdicaoUCDTO(ucSigla, anoLetivoSigla, rucID);
     }
 }

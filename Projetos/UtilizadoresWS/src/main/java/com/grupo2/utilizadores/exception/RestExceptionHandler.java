@@ -22,8 +22,8 @@ public class RestExceptionHandler
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setTitle("Problema");
         errorDetail.setDetail(ex.getMessage());
-        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ErroGeralException.class)

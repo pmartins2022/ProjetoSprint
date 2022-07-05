@@ -1,16 +1,19 @@
 package com.grupo2.edicaouc.controller;
 
+import com.grupo2.edicaouc.dto.EdicaoUCAlunoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
-import com.grupo2.edicaouc.exception.BaseDadosException;
-import com.grupo2.edicaouc.exception.OptionalVazioException;
-import com.grupo2.edicaouc.exception.ListaVaziaException;
-import com.grupo2.edicaouc.exception.ValidacaoInvalidaException;
+import com.grupo2.edicaouc.dto.UtilizadorDTO;
+import com.grupo2.edicaouc.exception.*;
+import com.grupo2.edicaouc.model.EstadoEdicaoUC;
+import com.grupo2.edicaouc.security.LoginContext;
 import com.grupo2.edicaouc.service.EdicaoUCService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +35,7 @@ public class EdicaoUCController
      * @param edicaoUCDTO objeto DTO com dados da Edicao de Unidade Curricular a criar.
      * @return Edicao de Unidade Curricular OU excecao da classe BaseDadosException e OptionalVazioException caso os dados não sejam válidos
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/criar")
     public ResponseEntity<Object> createEdicao(@RequestBody EdicaoUCDTO edicaoUCDTO)
     {
@@ -40,14 +44,15 @@ public class EdicaoUCController
             EdicaoUCDTO edicaoUC = service.createEdicaoUC(edicaoUCDTO);
             return new ResponseEntity<>(edicaoUC, HttpStatus.CREATED);
 
-        }
-        catch (BaseDadosException e)
+        } catch (BaseDadosException e)
         {
             throw new BaseDadosException(e.getMessage());
-        }
-        catch (OptionalVazioException e)
+        } catch (OptionalVazioException e)
         {
             throw new OptionalVazioException(e.getMessage());
+        } catch (ErroGeralException e)
+        {
+            throw new ErroGeralException(e.getMessage());
         }
     }
 
@@ -98,11 +103,98 @@ public class EdicaoUCController
 
         if (dto.isPresent())
         {
-            return new ResponseEntity<>(dto,HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
 
-        throw new OptionalVazioException("Nao encontrou edicao UC com id "+id);
+        throw new OptionalVazioException("Nao encontrou edicao UC com id " + id);
+    }
+
+    @GetMapping("/ruc/{rucID}")
+    public ResponseEntity<List<EdicaoUCDTO>> findByRucID(@PathVariable(name = "rucID") Long rucID)
+    {
+        List<EdicaoUCDTO> dtoList = service.findByRucID(rucID);
+
+        if (!dtoList.isEmpty())
+        {
+            return new ResponseEntity<>(dtoList, HttpStatus.OK);
+        }
+
+        throw new ListaVaziaException("Nao encontrou edicaoUC com RucID de " + rucID);
+    }
+
+    @GetMapping("/ruc/{rucID}/active")
+    public ResponseEntity<EdicaoUCDTO> findByRucIDAndEstadoEdicaoUC(@PathVariable(name = "rucID") Long rucID)
+    {
+        Optional<EdicaoUCDTO> dto = service.findByRucIDAndEstadoEdicaoUC(rucID, EstadoEdicaoUC.ATIVA);
+
+        if (dto.isPresent())
+        {
+            return new ResponseEntity<>(dto.get(), HttpStatus.OK);
+        }
+
+        throw new OptionalVazioException(rucID + " não tem nenhuma EdiçãoUC Ativa");
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PostMapping("/inscrever/{edicaoUCID}")
+    public ResponseEntity<?> addAlunoEdicaoUC(@PathVariable("edicaoUCID") Long edicaoUCID, @RequestParam("alunoID") Long alunoID)
+    {
+        UtilizadorDTO dto = LoginContext.getCurrent();
+        try
+        {
+            EdicaoUCAlunoDTO edicaoUCAlunoDTO = service.addAlunoEdicaoUC(dto, edicaoUCID, alunoID);
+            return new ResponseEntity<>(edicaoUCAlunoDTO, HttpStatus.OK);
+        } catch (ErrorDetail e)
+        {
+            throw e;
+        } catch (ErroGeralException e)
+        {
+            throw e;
+        }
+    }
+
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PatchMapping("/ativarEdicao/{edicaoUCID}")
+    public ResponseEntity<Object> ativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    {
+        UtilizadorDTO utilizador = LoginContext.getCurrent();
+
+        try
+        {
+            EdicaoUCDTO dto = service.activarEdicao(utilizador.getId(), edicaoUCID);
+
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        }
+        catch (ErroGeralException e)
+        {
+            throw new ErroGeralException(e.getMessage());
+        } catch (ValidationException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PatchMapping("/desativarEdicao/{edicaoUCID}")
+    public ResponseEntity<Object> desativarEdicao(@PathVariable("edicaoUCID") Long edicaoUCID)
+    {
+        try
+        {
+            EdicaoUCDTO dto = service.desativarEdicao(edicaoUCID);
+
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (OptionalVazioException e)
+        {
+            throw new OptionalVazioException(e.getMessage());
+        } catch (ErroGeralException e)
+        {
+            throw e;
+        }
     }
 }
-
-

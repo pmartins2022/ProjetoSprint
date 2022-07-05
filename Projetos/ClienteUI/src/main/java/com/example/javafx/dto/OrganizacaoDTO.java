@@ -53,4 +53,14 @@ public class OrganizacaoDTO
     {
         this.nif = nif;
     }
+
+    @Override
+    public String toString()
+    {
+        return "OrganizacaoDTO{" +
+                "id=" + id +
+                ", denominacao='" + denominacao + '\'' +
+                ", nif=" + nif +
+                '}';
+    }
 }

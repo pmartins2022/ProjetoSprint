@@ -1,6 +1,8 @@
 package com.grupo2.edicaouc.service;
 
+import com.grupo2.edicaouc.dto.AnoLetivoDTO;
 import com.grupo2.edicaouc.dto.EdicaoUCDTO;
+import com.grupo2.edicaouc.dto.UnidadeCurricularDTO;
 import com.grupo2.edicaouc.dto.mapper.EdicaoUCDTOMapper;
 import com.grupo2.edicaouc.exception.ErrorDetail;
 import com.grupo2.edicaouc.exception.ListaVaziaException;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -32,6 +35,12 @@ class EdicaoUCServiceUnitTest {
     @MockBean
     EdicaoUCDTOMapper mapper;
 
+
+    @MockBean
+    private UnidadeCurricularService ucService;
+
+    @MockBean
+    private AnoLetivoService anoLetivoService;
     @InjectMocks
     EdicaoUCService service;
 
@@ -49,6 +58,8 @@ class EdicaoUCServiceUnitTest {
         when(mapper.toModel(edicaoUCDTOMOCK)).thenReturn(edicaoUCMock);
         when(repository.saveEdicaoUC(edicaoUCMock)).thenReturn(edicaoUCMock);
         when(mapper.toDTO(edicaoUCMock)).thenReturn(edicaoUCDTOMOCK);
+        when(ucService.findBySigla(edicaoUCMock.getUCCode())).thenReturn(Optional.of(new UnidadeCurricularDTO()));
+        when(anoLetivoService.findByID(edicaoUCMock.getAnoLetivoCode())).thenReturn(Optional.of(new AnoLetivoDTO()));
 
         when(edicaoUCDTOMOCK.getUcCode()).thenReturn("1");
         when(edicaoUCDTOMOCK.getAnoLetivoCode()).thenReturn("2000-2001");

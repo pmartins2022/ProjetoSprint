@@ -29,6 +29,9 @@ public class UtilizadorDTO
     /**
      * tipoUtilizador do utilizador
      */
+    private String username;
+    private String password;
+
     private TipoUtilizador tipoUtilizador;
 
     /**
@@ -47,21 +50,25 @@ public class UtilizadorDTO
      * @param email é o email do utilizador
      * @param tipoUtilizador é o tipoUtilizador do utilizador
      */
-    public UtilizadorDTO(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
+    public UtilizadorDTO(Long id, String nome, String sobrenome, String email, String username, String password, TipoUtilizador tipoUtilizador)
     {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
         this.tipoUtilizador = tipoUtilizador;
+        this.username = username;
+        this.password = password;
     }
 
-    public UtilizadorDTO(String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
+    public UtilizadorDTO(String nome, String sobrenome, String email, String username, String password, TipoUtilizador tipoUtilizador)
     {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
         this.tipoUtilizador = tipoUtilizador;
+        this.username = username;
+        this.password = password;
     }
 
     /**
@@ -154,13 +161,33 @@ public class UtilizadorDTO
         this.tipoUtilizador = tipoUtilizador;
     }
 
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
     @Override
     public boolean equals(Object o)
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UtilizadorDTO that = (UtilizadorDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(sobrenome, that.sobrenome) && Objects.equals(email, that.email) && tipoUtilizador == that.tipoUtilizador;
+        return Objects.equals(nome, that.nome) && Objects.equals(sobrenome, that.sobrenome) && Objects.equals(email, that.email) && tipoUtilizador == that.tipoUtilizador;
     }
 
     @Override

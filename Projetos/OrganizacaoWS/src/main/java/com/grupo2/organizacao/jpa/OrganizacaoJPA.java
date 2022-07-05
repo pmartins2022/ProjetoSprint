@@ -9,19 +9,13 @@ import javax.persistence.*;
 @Table(name="Organizacao")
 public class OrganizacaoJPA
 {
-    /**
-     * O id do OrganizacaoJPA
-     */
+
     @Id
     @GeneratedValue
     private Long id;
-    /**
-     * O denominacao do OrganizacaoJPA
-     */
+
     private String denominacao;
-    /**
-     * O nif do OrganizacaoJPA
-     */
+
     @Column(unique = true)
     private Integer nif;
 

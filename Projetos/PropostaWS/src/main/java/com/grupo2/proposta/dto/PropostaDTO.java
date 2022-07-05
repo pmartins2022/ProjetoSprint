@@ -2,10 +2,13 @@ package com.grupo2.proposta.dto;
 
 import com.grupo2.proposta.model.PropostaEstado;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * Classe DTO que contem informacao sobre uma proposta.
  */
-public class PropostaDTO
+public class PropostaDTO implements Serializable
 {
     private Long id;
     private Long utilizadorId;
@@ -123,5 +126,33 @@ public class PropostaDTO
         this.estadoAtual = estadoAtual;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PropostaDTO that = (PropostaDTO) o;
+        return utilizadorId.equals(that.utilizadorId) && organizacaoId.equals(that.organizacaoId) && titulo.equals(that.titulo) && problema.equals(that.problema) && objetivo.equals(that.objetivo) && edicaoUCId.equals(that.edicaoUCId) && estadoAtual == that.estadoAtual;
+    }
 
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, utilizadorId, organizacaoId, titulo, problema, objetivo, edicaoUCId, estadoAtual);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "PropostaDTO{" +
+                "id=" + id +
+                ", utilizadorId=" + utilizadorId +
+                ", organizacaoId=" + organizacaoId +
+                ", titulo='" + titulo + '\'' +
+                ", problema='" + problema + '\'' +
+                ", objetivo='" + objetivo + '\'' +
+                ", edicaoUCId=" + edicaoUCId +
+                ", estadoAtual=" + estadoAtual +
+                '}';
+    }
 }

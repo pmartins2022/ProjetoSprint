@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizacaoDTOMapper
 {
-    /**
-     * O factory a ser utilizado por este DTO Mapper.
-     */
+
     @Autowired
     private OrganizacaoFactory factory;
 

@@ -7,6 +7,7 @@ import com.grupo2.projeto.repository.jpa.ProjetoJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -59,5 +60,12 @@ public class ProjetoRepository
         ProjetoJPA saved = repository.save(jpa);
 
         return mapper.toModel(saved);
+    }
+
+    public List<Projeto> findAllByOrientadorId(Long id)
+    {
+        List<ProjetoJPA> list = repository.findAllByOrientadorId(id);
+
+        return list.stream().map(mapper::toModel).toList();
     }
 }

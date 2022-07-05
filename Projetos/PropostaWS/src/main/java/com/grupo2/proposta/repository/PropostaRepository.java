@@ -1,16 +1,13 @@
 package com.grupo2.proposta.repository;
 
-import com.grupo2.proposta.dto.EdicaoUCDTO;
 import com.grupo2.proposta.dto.OrganizacaoDTO;
-import com.grupo2.proposta.dto.UtilizadorDTO;
 import com.grupo2.proposta.exception.BaseDadosException;
+import com.grupo2.proposta.jpa.PropostaCandidaturaJPA;
 import com.grupo2.proposta.jpa.PropostaJPA;
+import com.grupo2.proposta.jpa.mapper.PropostaCandidaturaJPAMapper;
 import com.grupo2.proposta.jpa.mapper.PropostaJPAMapper;
-import com.grupo2.proposta.model.Proposta;
+import com.grupo2.proposta.model.*;
 import com.grupo2.proposta.repository.jpa.PropostaJPARepository;
-import com.grupo2.proposta.repository.rest.EdicaoUCRestRepository;
-import com.grupo2.proposta.repository.rest.OrganizacaoRestRepository;
-import com.grupo2.proposta.repository.rest.UtilizadorRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,43 +28,16 @@ public class PropostaRepository
     private PropostaJPAMapper mapper;
 
     @Autowired
-    private UtilizadorRestRepository utilizadorRestRepository;
-
-    @Autowired
-    private EdicaoUCRestRepository edicaoUCRestRepository;
-
-    @Autowired
-    private OrganizacaoRestRepository organizacaoRestRepository;
+    private PropostaCandidaturaJPAMapper propostaCandidaturaJPAMapper;
 
     /**
-     * Criar uma nova proposta. Necessita de validar os dados de utilizador e edicaoUC externamente.
+     * Criar uma nova proposta.
      * @param proposta Proposta a ser criada
      * @return Proposta criada
      * @throws BaseDadosException Se ocorrerem erros relativos a base de dados
      */
-    public Proposta createProposta(Proposta proposta) throws BaseDadosException
+    public Proposta save(Proposta proposta)
     {
-        Optional<UtilizadorDTO> utilizadorId = utilizadorRestRepository.findById(proposta.getUtilizadorId());
-
-        if (utilizadorId.isEmpty())
-        {
-            throw new BaseDadosException("Id de utilizador "+proposta.getUtilizadorId()+" nao existe.");
-        }
-
-        Optional<OrganizacaoDTO> organizacaoId = organizacaoRestRepository.findById(proposta.getOrganizacaoId());
-
-        if (organizacaoId.isEmpty())
-        {
-            throw new BaseDadosException("Id de organizacao "+proposta.getOrganizacaoId()+" nao existe.");
-        }
-
-        Optional<EdicaoUCDTO> edicaoId = edicaoUCRestRepository.findById(proposta.getEdicaoUCId());
-
-        if (edicaoId.isEmpty())
-        {
-            throw new BaseDadosException("Id de edicao unidade curricular "+proposta.getEdicaoUCId()+" nao existe.");
-        }
-
         PropostaJPA jpa = mapper.toJPA(proposta);
 
         PropostaJPA saved = jpaRepository.save(jpa);
@@ -98,8 +68,6 @@ public class PropostaRepository
     {
         if (jpaRepository.findById(proposta.getId()).isPresent())
         {
-            jpaRepository.deleteById(proposta.getId());
-
             PropostaJPA jpa = mapper.toJPA(proposta);
 
             PropostaJPA saved = jpaRepository.save(jpa);
@@ -141,23 +109,32 @@ public class PropostaRepository
     }
 
     /**
-     * Obter todas as propostas por id de organizacao.
-     * @param nif NIF da organizacao
+     * Obter todas as propostas por nif de organizacao.
+     * @param dto NIF da organizacao
      * @return Lista de propostas
      */
-    public List<Proposta> findByNif(Integer nif)
+    public List<Proposta> findByNif(OrganizacaoDTO dto)
     {
-        Optional<OrganizacaoDTO> dto = organizacaoRestRepository.findByNIF(nif);
-
-        if (dto.isEmpty())
-        {
-            return List.of();
-        }
-
-        List<PropostaJPA> lista = jpaRepository.findByorganizacaoId(dto.get().getId());
+        List<PropostaJPA> lista = jpaRepository.findByorganizacaoId(dto.getId());
 
         List<Proposta> listaModel = lista.stream().map(mapper::toModel).toList();
 
         return listaModel;
+    }
+
+    public List<Proposta> findByEdicaoUCId(Long id)
+    {
+        List<PropostaJPA> found = jpaRepository.findAllByedicaoUCId(id);
+
+        return found.stream().map(mapper::toModel).toList();
+    }
+
+    public List<Proposta> findAllByEstado(Integer estado)
+    {
+        PropostaEstado value = PropostaEstado.values()[estado];
+
+        List<PropostaJPA> list = jpaRepository.findAllByEstadoAtual(value);
+
+        return list.stream().map(mapper::toModel).toList();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.javafx.controller;
 
+import com.example.javafx.dto.OrganizacaoDTO;
 import com.example.javafx.dto.PropostaDTO;
 import com.example.javafx.dto.factory.PropostaDTOFactory;
 import com.example.javafx.service.PropostaService;
@@ -44,32 +45,11 @@ class PropostaControllerUnitTests
 
         when(service.saveProposta(dto)).thenReturn(dto);
 
-        PropostaDTO proposta = controller.createProposta(0L, 0, 0, "AAA","AAA","AAA");
+        PropostaDTO proposta = controller.createProposta(0L, 0L, 0L, "AAA","AAA","AAA");
 
         assertEquals(dto, proposta);
     }
 
-    @Test
-    public void shouldFindAllOrganizacao()
-    {
-        List<String> list = List.of("AAA", "BBB");
 
-        when(service.findAllOrganizacao()).thenReturn(list);
 
-        List<String> list1 = controller.findAllOrganizacao();
-
-        assertEquals(list, list1);
-    }
-
-    @Test
-    public void shouldFindAllEdicao()
-    {
-        List<String> list = List.of("AAA", "BBB");
-
-        when(service.findAllEdicao()).thenReturn(list);
-
-        List<String> list1 = controller.findAllEdicao();
-
-        assertEquals(list, list1);
-    }
 }

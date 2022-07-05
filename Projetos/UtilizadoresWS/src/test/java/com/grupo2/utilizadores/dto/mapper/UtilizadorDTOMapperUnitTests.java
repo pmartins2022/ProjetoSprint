@@ -1,5 +1,6 @@
 package com.grupo2.utilizadores.dto.mapper;
 
+import com.grupo2.utilizadores.dto.UtilizadorAuthDTO;
 import com.grupo2.utilizadores.dto.UtilizadorDTO;
 import com.grupo2.utilizadores.exception.ValidacaoInvalidaException;
 import com.grupo2.utilizadores.jpa.UtilizadorJPA;
@@ -13,8 +14,14 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.transaction.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -52,10 +59,12 @@ class UtilizadorDTOMapperUnitTests
         when(utilizadorMOCK.getNome()).thenReturn("nome");
         when(utilizadorMOCK.getSobrenome()).thenReturn("sobrenome");
         when(utilizadorMOCK.getEmail()).thenReturn("email");
+        when(utilizadorMOCK.getUsername()).thenReturn("username");
+        when(utilizadorMOCK.getPassword()).thenReturn("password");
         when(utilizadorMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
 
         when(factory.createUtilizador(1L, dtoMOCK.getNome(), dtoMOCK.getSobrenome(), dtoMOCK.getEmail(),
-                dtoMOCK.getTipoUtilizador())).thenReturn(utilizadorMOCK);
+                dtoMOCK.getUsername(),dtoMOCK.getPassword(),dtoMOCK.getTipoUtilizador())).thenReturn(utilizadorMOCK);
 
         Utilizador utilizador = mapper.toModel(dtoMOCK);
 
@@ -68,7 +77,7 @@ class UtilizadorDTOMapperUnitTests
         UtilizadorDTO dtoMOCK = mock(UtilizadorDTO.class);
 
         when(factory.createUtilizador(dtoMOCK.getId(), dtoMOCK.getNome(), dtoMOCK.getSobrenome(), dtoMOCK.getEmail(),
-                dtoMOCK.getTipoUtilizador())).thenThrow(ValidacaoInvalidaException.class);
+                dtoMOCK.getUsername(), dtoMOCK.getPassword(),dtoMOCK.getTipoUtilizador())).thenThrow(ValidacaoInvalidaException.class);
 
         assertThrows(ValidacaoInvalidaException.class, ()-> mapper.toModel(dtoMOCK));
     }
@@ -90,9 +99,29 @@ class UtilizadorDTOMapperUnitTests
         when(utilizadorMOCK.getEmail()).thenReturn("email");
         when(utilizadorMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
 
-        UtilizadorDTO anoLetivoDTO = mapper.toDTO(utilizadorMOCK);
+        UtilizadorDTO utilizadorDTO = mapper.toDTO(utilizadorMOCK);
 
-        assertEquals(anoLetivoDTO.getId(), utilizadorMOCK.getId());
+        assertEquals(utilizadorDTO.getId(), utilizadorMOCK.getId());
+    }
+
+    @Test
+    public void shouldConvertValidUtilizadorAuthDTO_ValidAtributtes()
+    {
+        UtilizadorAuthDTO dtoMOCK = mock(UtilizadorAuthDTO.class);
+        when(dtoMOCK.getId()).thenReturn(1L);
+        when(dtoMOCK.getUsername()).thenReturn("user");
+        when(dtoMOCK.getPassword()).thenReturn("pass");
+        when(dtoMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO.toString());
+
+        Utilizador utilizadorMOCK = mock(Utilizador.class);
+        when(utilizadorMOCK.getId()).thenReturn(1L);
+        when(utilizadorMOCK.getUsername()).thenReturn("user");
+        when(utilizadorMOCK.getPassword()).thenReturn("pass");
+        when(utilizadorMOCK.getTipoUtilizador()).thenReturn(TipoUtilizador.ALUNO);
+
+        UtilizadorAuthDTO authDTO = mapper.toAuthDTO(utilizadorMOCK);
+
+        assertEquals(authDTO.getId(), utilizadorMOCK.getId());
     }
 
 }

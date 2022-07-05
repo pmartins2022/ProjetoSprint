@@ -1,6 +1,5 @@
 package com.example.javafx.service;
 
-import com.example.javafx.controller.UnidadeCurricularController;
 import com.example.javafx.dto.AnoLetivoDTO;
 import com.example.javafx.dto.EdicaoUCDTO;
 import com.example.javafx.dto.UnidadeCurricularDTO;
@@ -93,10 +92,10 @@ class EdicaoUCServiceUnitTests
         UnidadeCurricularDTO ucMOCK = mock(UnidadeCurricularDTO.class);
         EdicaoUCDTO edicaoUCMOCK = mock(EdicaoUCDTO.class);
 
-        when(factory.createEdicaoUCDTO(ucMOCK.getSigla(), anoLetivoMOCK.getSigla())).thenReturn(edicaoUCMOCK);
+        when(factory.createEdicaoUCDTO(ucMOCK.getSigla(), anoLetivoMOCK.getSigla(),1L)).thenReturn(edicaoUCMOCK);
         when(restRepositoryEdicaoUC.createEdicaoUC(edicaoUCMOCK)).thenReturn(edicaoUCMOCK);
 
-        EdicaoUCDTO saved = service.createAndSave(ucMOCK, anoLetivoMOCK);
+        EdicaoUCDTO saved = service.createAndSave(ucMOCK, anoLetivoMOCK,1L);
 
         assertEquals(saved, edicaoUCMOCK);
     }
@@ -108,9 +107,9 @@ class EdicaoUCServiceUnitTests
         UnidadeCurricularDTO ucMOCK = mock(UnidadeCurricularDTO.class);
         EdicaoUCDTO edicaoUCMOCK = mock(EdicaoUCDTO.class);
 
-        when(factory.createEdicaoUCDTO(ucMOCK.getSigla(), anoLetivoMOCK.getSigla())).thenReturn(edicaoUCMOCK);
+        when(factory.createEdicaoUCDTO(ucMOCK.getSigla(), anoLetivoMOCK.getSigla(),1L)).thenReturn(edicaoUCMOCK);
         when(restRepositoryEdicaoUC.createEdicaoUC(edicaoUCMOCK)).thenThrow(RestPostException.class);
 
-        assertThrows(RestPostException.class, () -> service.createAndSave(ucMOCK, anoLetivoMOCK));
+        assertThrows(RestPostException.class, () -> service.createAndSave(ucMOCK, anoLetivoMOCK,1L));
     }
 }

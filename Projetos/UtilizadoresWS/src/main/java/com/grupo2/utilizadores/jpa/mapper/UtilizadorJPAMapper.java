@@ -29,7 +29,7 @@ public class UtilizadorJPAMapper
     public Utilizador toModel(UtilizadorJPA jpa) throws ValidacaoInvalidaException
     {
         return factory.createUtilizador(jpa.getId(), jpa.getNome(), jpa.getSobrenome(), jpa.getEmail(),
-                jpa.getTipoUtilizador());
+                jpa.getUsername(), jpa.getPassword(), jpa.getTipoUtilizador());
     }
 
     /**
@@ -41,7 +41,7 @@ public class UtilizadorJPAMapper
     {
 
         return new UtilizadorJPA(utilizador.getId(), utilizador.getNome(), utilizador.getSobrenome(),
-                utilizador.getEmail(), utilizador.getTipoUtilizador());
+                utilizador.getEmail(), utilizador.getUsername(), utilizador.getPassword(), utilizador.getTipoUtilizador());
     }
 
 }

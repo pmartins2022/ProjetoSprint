@@ -2,12 +2,15 @@ package com.grupo2.projeto.controller;
 
 import com.grupo2.projeto.dto.ProjetoDTO;
 import com.grupo2.projeto.exception.ErroGeralException;
+import com.grupo2.projeto.security.LoginContext;
 import com.grupo2.projeto.service.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 /**
  * Classe REST Controller de projeto. Possui endpoints para createProjeto e findById.
@@ -27,6 +30,7 @@ public class ProjetoController
      * @param id um objeto com os dados do projeto
      * @return um projeto, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_DOCENTE','ROLE_ALUNO')")
     @GetMapping("/{id}")
     public ResponseEntity<ProjetoDTO> findById(@PathVariable Long id)
     {
@@ -47,11 +51,28 @@ public class ProjetoController
      * @param projetoDTO um objeto com os dados do projeto
      * @return um projeto, ou um erro se os dados estiverem invalidos.
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_DOCENTE')")
     @PostMapping("/criar")
     public ResponseEntity<ProjetoDTO> createProjeto(@RequestBody ProjetoDTO projetoDTO)
     {
+
         ProjetoDTO projetoDTOSaved = service.createAndSave(projetoDTO);
 
         return new ResponseEntity<>(projetoDTOSaved, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_DOCENTE')")
+    @GetMapping("/orientadorID/{id}")
+    public ResponseEntity<List<ProjetoDTO>> findAllByOrientadorID(@PathVariable Long id)
+    {
+        List<ProjetoDTO> list = service.findAllByOrientadorId(id);
+
+        if (!list.isEmpty())
+        {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } else
+        {
+            throw new ErroGeralException("Nao existe nenhum projeto com esse orientadorID");
+        }
     }
 }

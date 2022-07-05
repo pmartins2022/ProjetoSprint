@@ -26,6 +26,9 @@ public class Utilizador
     /**
      * email do utilizador
      */
+    private String username;
+    private String password;
+
     private String email;
     /**
      * tipoUtilizador do utilizador
@@ -61,7 +64,7 @@ public class Utilizador
      * @param email é o email do utilizador
      * @param tipoUtilizador é o tipoUtilizador do utilizador
      */
-    public Utilizador(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador) throws  ValidacaoInvalidaException
+    public Utilizador(Long id, String nome, String sobrenome, String email, String username, String password, TipoUtilizador tipoUtilizador) throws  ValidacaoInvalidaException
     {
         validateNome(nome);
         validateSobrenome(sobrenome);
@@ -72,9 +75,11 @@ public class Utilizador
         this.sobrenome = sobrenome;
         this.email = email;
         this.tipoUtilizador = tipoUtilizador;
+        this.username = username;
+        this.password = password;
     }
 
-    public Utilizador(String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
+    public Utilizador(String nome, String sobrenome, String email, String username, String password, TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
     {
         validateNome(nome);
         validateSobrenome(sobrenome);
@@ -84,6 +89,8 @@ public class Utilizador
         this.sobrenome = sobrenome;
         this.email = email;
         this.tipoUtilizador = tipoUtilizador;
+        this.password = password;
+        this.username = username;
     }
 
     /**
@@ -249,6 +256,26 @@ public class Utilizador
     public void setTipoUtilizador(TipoUtilizador tipoUtilizador)
     {
         this.tipoUtilizador = tipoUtilizador;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
     }
 
     /**

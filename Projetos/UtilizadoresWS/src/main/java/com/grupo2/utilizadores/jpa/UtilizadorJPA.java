@@ -1,7 +1,9 @@
 package com.grupo2.utilizadores.jpa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.grupo2.utilizadores.model.TipoUtilizador;
 import com.grupo2.utilizadores.model.Utilizador;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 
@@ -34,6 +36,15 @@ public class UtilizadorJPA
     /**
      * o tipoUtilizador do utilizador
      */
+    @Column(unique = true)
+    private String username;
+    @NotNull
+    @JsonIgnore
+    @Column(name = "PASSWORD")
+    private String password;
+
+
+
     private TipoUtilizador tipoUtilizador;
 
     /**
@@ -52,13 +63,15 @@ public class UtilizadorJPA
      * @param email e o email do UtilizadorJPA
      * @param tipoUtilizador e o tipoUtilizador do UtilizadorJPA
      */
-    public UtilizadorJPA(Long id, String nome, String sobrenome, String email, TipoUtilizador tipoUtilizador)
+    public UtilizadorJPA(Long id, String nome, String sobrenome, String email,String username, String password, TipoUtilizador tipoUtilizador)
     {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
         this.tipoUtilizador = tipoUtilizador;
+        this.password = password;
+        this.username = username;
     }
 
     /**
@@ -106,4 +119,13 @@ public class UtilizadorJPA
         return tipoUtilizador;
     }
 
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
 }

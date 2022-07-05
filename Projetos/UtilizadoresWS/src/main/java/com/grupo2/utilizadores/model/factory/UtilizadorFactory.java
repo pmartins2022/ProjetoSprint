@@ -25,15 +25,15 @@ public class UtilizadorFactory
      */
 
     public Utilizador createUtilizador(Long id, String nome, String sobrenome, String email,
-                                       TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
+                                       String username, String password, TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
     {
-        return new Utilizador(id, nome, sobrenome, email, tipoUtilizador);
+        return new Utilizador(id, nome, sobrenome, email, username, password, tipoUtilizador);
     }
 
     public Utilizador createUtilizador(String nome, String sobrenome, String email,
-                                       TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
+                                        String username, String password, TipoUtilizador tipoUtilizador) throws ValidacaoInvalidaException
     {
 
-        return new Utilizador(nome, sobrenome, email, tipoUtilizador);
+        return new Utilizador(nome, sobrenome, email, username, password, tipoUtilizador);
     }
 }
