@@ -1,8 +1,10 @@
 package com.grupo2.projeto.controller;
 
 import com.grupo2.projeto.dto.AvaliacaoDTO;
+import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.exception.ListaVaziaException;
 import com.grupo2.projeto.exception.OptionalVazioException;
+import com.grupo2.projeto.service.AvaliacaoNotaService;
 import com.grupo2.projeto.service.AvaliacaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,9 @@ class AvaliacaoControllerUnitTests
 {
     @MockBean
     AvaliacaoService service;
+
+    @MockBean
+    AvaliacaoNotaService avaliacaoNotaService;
 
     @InjectMocks
     AvaliacaoController controller;
@@ -92,5 +97,17 @@ class AvaliacaoControllerUnitTests
         when(service.findAll()).thenThrow(ListaVaziaException.class);
 
         assertThrows(ListaVaziaException.class, ()->  controller.listAllAvaliacao());
+    }
+
+    @Test
+    public void shouldCreateAvaliacaoNota() throws IllegalAccessException
+    {
+        AvaliacaoNotaDTO mock = mock(AvaliacaoNotaDTO.class);
+
+        doNothing().when(avaliacaoNotaService).createAvaliacaoNota(mock);
+
+        ResponseEntity<Object> avaliacaoDTO = controller.createAvaliacaoNota(mock);
+
+        assertEquals(avaliacaoDTO.getStatusCode(), HttpStatus.CREATED);
     }
 }
