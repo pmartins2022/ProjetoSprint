@@ -73,9 +73,9 @@ public class ProjetoService
      * @param avaliacaoDTO avaliacao a criar
      * @return a avaliacao criada
      */
-    public AvaliacaoDTO createAvaliacao(AvaliacaoDTO avaliacaoDTO)
+    public void createAvaliacao(AvaliacaoDTO avaliacaoDTO)
     {
-        return repository.createAvaliacao(avaliacaoDTO);
+        repository.createAvaliacao(avaliacaoDTO);
     }
 
 

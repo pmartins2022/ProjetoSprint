@@ -62,12 +62,24 @@ public class AvaliacaoNotaJDBCRepository implements GenericRepository<AvaliacaoN
     public void update(AvaliacaoNota model)
     {
         SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
-                .withProcedureName("PROC_UPDATE_NOTA")
+                .withProcedureName("PROC_UPDATE_AVALIACAONOTA")
                 .declareParameters(
-                        new SqlParameter("idAvaliacao",OracleTypes.NUMBER),
-                        new SqlParameter("nota",OracleTypes.NUMBER),
-                        new SqlParameter("justificacao",OracleTypes.VARCHAR));
-        jdbcCall.execute(model.getIdAvaliacao(),model.getNota(),model.getJustificacao());
+                        new SqlParameter("idIn",OracleTypes.NUMBER),
+                        new SqlParameter("estado",OracleTypes.VARCHAR));
+        jdbcCall.execute(model.getId(),model.getEstadoAvaliacao().name());
+
+    }
+
+    public void updateNota(AvaliacaoNota model)
+    {
+        SimpleJdbcCall jdbcCall = factory.create(jdbcTemplate)
+                .withProcedureName("PROC_UPDATE_AVALIACAONOTA_NOTA_JUSTIFICACAO")
+                .declareParameters(
+                        new SqlParameter("idIn",OracleTypes.NUMBER),
+                        new SqlParameter("p_nota",OracleTypes.NUMBER),
+                        new SqlParameter("p_justificacao",OracleTypes.VARCHAR),
+                        new SqlParameter("estado",OracleTypes.VARCHAR));
+        jdbcCall.execute(model.getId(),model.getNota(), model.getJustificacao(), model.getEstadoAvaliacao());
 
     }
 

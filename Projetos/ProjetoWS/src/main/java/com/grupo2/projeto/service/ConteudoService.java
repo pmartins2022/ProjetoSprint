@@ -124,7 +124,6 @@ public class ConteudoService
         }
 
         Projeto projeto = null;
-
         try
         {
             projeto = projetoJDBCRepository.findById(conteudo.getIdProjeto());

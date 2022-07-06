@@ -87,6 +87,7 @@ public class AvaliacaoController
     @PostMapping("/avaliar")
     public ResponseEntity<Object> createAvaliacaoNota(@RequestBody AvaliacaoNotaDTO dto)
     {
+        System.out.println(dto);
         try
         {
             avaliacaoNotaService.createAvaliacaoNota(dto);
@@ -102,6 +103,7 @@ public class AvaliacaoController
     @GetMapping("/ruc/{rucID}")
     public ResponseEntity<List<AvaliacaoNotaDTO>> findAllByEstadoAndRucID(@PathVariable("rucID") Long rucID,  @RequestParam("estado") String estado)
     {
+        System.out.println("ENTREI");
         try
         {
             List<AvaliacaoNotaDTO> list = avaliacaoNotaService.findAllByEstadoAndRucID(LoginContext.getCurrent().getId(), estado);
@@ -114,7 +116,7 @@ public class AvaliacaoController
     }
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PutMapping("/reverAvaliacaoNota/{id}")
+    @PatchMapping("/reverAvaliacaoNota/{id}")
     public ResponseEntity<Object> reviewAvaliacaoNota(@PathVariable("id") Long id, @RequestParam("avaliacao") String avaliacao)
     {
         try
@@ -132,7 +134,7 @@ public class AvaliacaoController
         }
     }
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
-    @PostMapping("/editarAvaliacao/{id}")
+    @PatchMapping("/editarAvaliacao/{id}")
     public ResponseEntity<Object> editarAvaliacaoNota(@PathVariable("id") Long id, @RequestParam("nota") Long nota,@RequestParam("justificacao") String justificacao)
     {
         try{
@@ -166,11 +168,11 @@ public class AvaliacaoController
 
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     @GetMapping("/listEditable")
-    public ResponseEntity<List<AvaliacaoDTO>> findAllEditableAvaliacao(@PathVariable("id") Long idPresidente)
+    public ResponseEntity<List<AvaliacaoDTO>> findAllEditableAvaliacao()
     {
         try
         {
-            List<AvaliacaoDTO> list = service.findAllEditableAvaliacao(idPresidente);
+            List<AvaliacaoDTO> list = service.findAllEditableAvaliacao(LoginContext.getCurrent().getId());
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
         catch (Exception e)

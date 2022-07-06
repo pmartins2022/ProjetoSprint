@@ -4,6 +4,10 @@ import com.grupo2.projeto.dto.AvaliacaoDTO;
 import com.grupo2.projeto.dto.AvaliacaoNotaDTO;
 import com.grupo2.projeto.exception.ListaVaziaException;
 import com.grupo2.projeto.exception.OptionalVazioException;
+<<<<<<< HEAD
+=======
+import com.grupo2.projeto.exception.ValidacaoInvalidaException;
+>>>>>>> 51f4cc85551b2ef49d96214ed2f27bb63e69fc6a
 import com.grupo2.projeto.service.AvaliacaoNotaService;
 import com.grupo2.projeto.service.AvaliacaoService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,12 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -30,6 +31,8 @@ class AvaliacaoControllerUnitTests
 {
     @MockBean
     AvaliacaoService service;
+    @MockBean
+    AvaliacaoNotaService notaService;
 
     @MockBean
     AvaliacaoNotaService avaliacaoNotaService;
@@ -96,10 +99,11 @@ class AvaliacaoControllerUnitTests
     {
         when(service.findAll()).thenThrow(ListaVaziaException.class);
 
-        assertThrows(ListaVaziaException.class, ()->  controller.listAllAvaliacao());
+        assertThrows(ListaVaziaException.class, () -> controller.listAllAvaliacao());
     }
 
     @Test
+<<<<<<< HEAD
     public void shouldCreateAvaliacaoNota() throws IllegalAccessException
     {
         AvaliacaoNotaDTO mock = mock(AvaliacaoNotaDTO.class);
@@ -110,4 +114,20 @@ class AvaliacaoControllerUnitTests
 
         assertEquals(avaliacaoDTO.getStatusCode(), HttpStatus.CREATED);
     }
+=======
+    public void shouldReviewAvalicao()
+    {
+        doNothing().when(notaService).reviewAvaliacaoNota(1L, "REVISAO");
+        assertDoesNotThrow(() -> controller.reviewAvaliacaoNota(1L, "REVISAO"));
+    }
+
+
+    @Test
+    public void shouldNotReviewAvalicao_EnumInvalido()
+    {
+        doThrow(ValidacaoInvalidaException.class).when(notaService).reviewAvaliacaoNota(1L, "ss");
+        assertThrows(ValidacaoInvalidaException.class,() -> controller.reviewAvaliacaoNota(1L, "ss"));
+    }
+
+>>>>>>> 51f4cc85551b2ef49d96214ed2f27bb63e69fc6a
 }

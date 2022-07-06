@@ -5,6 +5,8 @@ import com.grupo2.projeto.model.annotations.IgnoreField;
 import com.grupo2.projeto.model.annotations.PrimaryKey;
 import com.grupo2.projeto.model.annotations.Table;
 
+import java.util.Objects;
+
 @Table(tableName = "AVALIACAONOTA")
 public class AvaliacaoNota extends JDBCTable
 {
@@ -91,5 +93,32 @@ public class AvaliacaoNota extends JDBCTable
     public void updateEstado(EstadoAvaliacao estado)
     {
         this.estadoAvaliacao = estado;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AvaliacaoNota that = (AvaliacaoNota) o;
+        return Objects.equals(id, that.id) && Objects.equals(idAvaliacao, that.idAvaliacao) && Objects.equals(nota, that.nota) && Objects.equals(justificacao, that.justificacao) && estadoAvaliacao == that.estadoAvaliacao;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, idAvaliacao, nota, justificacao, estadoAvaliacao);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "AvaliacaoNota{" +
+                "id=" + id +
+                ", idAvaliacao=" + idAvaliacao +
+                ", nota=" + nota +
+                ", justificacao='" + justificacao + '\'' +
+                ", estadoAvaliacao=" + estadoAvaliacao +
+                '}';
     }
 }

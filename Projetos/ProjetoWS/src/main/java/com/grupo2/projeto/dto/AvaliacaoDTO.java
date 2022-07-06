@@ -1,7 +1,7 @@
 package com.grupo2.projeto.dto;
 
-import com.grupo2.projeto.model.Conteudo;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class AvaliacaoDTO
@@ -10,9 +10,8 @@ public class AvaliacaoDTO
 
     private Long idMomentoAvaliacao;
 
-    private Long presidenteId;
-
     private Long orientadorId;
+    private Long presidenteId;
 
     private Long arguenteId;
 
@@ -25,7 +24,7 @@ public class AvaliacaoDTO
 
     public AvaliacaoDTO(){}
 
-    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, String estadoAvaliacao, String date)
+    public AvaliacaoDTO(Long id, Long idMomentoAvaliacao, Long orientadorId, Long presidenteId, Long arguenteId, Long idProjeto, Long idConteudo, String estadoAvaliacao, String date)
     {
         this.id = id;
         this.idMomentoAvaliacao = idMomentoAvaliacao;
@@ -35,10 +34,10 @@ public class AvaliacaoDTO
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
         this.estadoAvaliacao = estadoAvaliacao;
-        this.dataAvaliacao = date;
+        this.dataAvaliacao = LocalDate.parse(date, formatter()).format(formatter());
     }
 
-    public AvaliacaoDTO(Long idMomentoAvaliacao,Long presidenteId, Long orientadorId, Long arguenteId, Long idProjeto, Long idConteudo, String estadoAvaliacao, String date)
+    public AvaliacaoDTO(Long idMomentoAvaliacao, Long orientadorId, Long presidenteId, Long arguenteId, Long idProjeto, Long idConteudo, String estadoAvaliacao, String date)
     {
         this.idMomentoAvaliacao = idMomentoAvaliacao;
         this.presidenteId = presidenteId;
@@ -47,7 +46,12 @@ public class AvaliacaoDTO
         this.idProjeto = idProjeto;
         this.idConteudo = idConteudo;
         this.estadoAvaliacao = estadoAvaliacao;
-        this.dataAvaliacao = date;
+        this.dataAvaliacao = LocalDate.parse(date, formatter()).format(formatter());
+    }
+
+    public DateTimeFormatter formatter()
+    {
+        return DateTimeFormatter.ofPattern("dd-MM-yyyy");
     }
 
     public Long getId()
@@ -70,36 +74,34 @@ public class AvaliacaoDTO
         this.idMomentoAvaliacao = idMomentoAvaliacao;
     }
 
-    public Long getPresidenteId() {
-        return presidenteId;
-    }
-
-    public void setPresidenteId(Long presidenteId) {
-        this.presidenteId = presidenteId;
-    }
-
-    public Long getOrientadorId() {
+    public Long getOrientadorId()
+    {
         return orientadorId;
     }
 
-    public void setOrientadorId(Long orientadorId) {
+    public void setOrientadorId(Long orientadorId)
+    {
         this.orientadorId = orientadorId;
     }
 
-    public Long getArguenteId() {
+    public Long getPresidenteId()
+    {
+        return presidenteId;
+    }
+
+    public void setPresidenteId(Long presidenteId)
+    {
+        this.presidenteId = presidenteId;
+    }
+
+    public Long getArguenteId()
+    {
         return arguenteId;
     }
 
-    public void setArguenteId(Long arguenteId) {
+    public void setArguenteId(Long arguenteId)
+    {
         this.arguenteId = arguenteId;
-    }
-
-    public Long getIdConteudo() {
-        return idConteudo;
-    }
-
-    public void setIdConteudo(Long idConteudo) {
-        this.idConteudo = idConteudo;
     }
 
     public Long getIdProjeto()
@@ -112,24 +114,14 @@ public class AvaliacaoDTO
         this.idProjeto = idProjeto;
     }
 
-    public Long getConteudo()
+    public Long getIdConteudo()
     {
         return idConteudo;
     }
 
-    public void setConteudo(Long idConteudo)
+    public void setIdConteudo(Long idConteudo)
     {
         this.idConteudo = idConteudo;
-    }
-
-    public String getDataAvaliacao()
-    {
-        return dataAvaliacao;
-    }
-
-    public void setDataAvaliacao(String dataAvaliacao)
-    {
-        this.dataAvaliacao = dataAvaliacao;
     }
 
     public String getEstadoAvaliacao()
@@ -142,13 +134,19 @@ public class AvaliacaoDTO
         this.estadoAvaliacao = estadoAvaliacao;
     }
 
-    @Override
-    public boolean equals(Object o)
+    public String getDataAvaliacao()
     {
-        if (this == o) return true;
-        if (!(o instanceof AvaliacaoDTO)) return false;
-        AvaliacaoDTO that = (AvaliacaoDTO) o;
-        return getIdMomentoAvaliacao().equals(that.getIdMomentoAvaliacao()) && getPresidenteId().equals(that.getPresidenteId()) && getOrientadorId().equals(that.getOrientadorId()) && getArguenteId().equals(that.getArguenteId()) && getIdProjeto().equals(that.getIdProjeto()) && getIdConteudo().equals(that.getIdConteudo()) && getEstadoAvaliacao().equals(that.getEstadoAvaliacao()) && getDataAvaliacao().equals(that.getDataAvaliacao());
+        return dataAvaliacao;
+    }
+
+    public void setDataAvaliacao(String dataAvaliacao)
+    {
+        this.dataAvaliacao = dataAvaliacao;
+    }
+
+    public String getDateString()
+    {
+        return LocalDate.parse(dataAvaliacao, formatter()).format(formatter());
     }
 
     @Override
@@ -157,13 +155,28 @@ public class AvaliacaoDTO
         return "AvaliacaoDTO{" +
                 "id=" + id +
                 ", idMomentoAvaliacao=" + idMomentoAvaliacao +
-                ", presidenteId=" + presidenteId +
                 ", orientadorId=" + orientadorId +
+                ", presidenteId=" + presidenteId +
                 ", arguenteId=" + arguenteId +
                 ", idProjeto=" + idProjeto +
                 ", idConteudo=" + idConteudo +
                 ", estadoAvaliacao='" + estadoAvaliacao + '\'' +
                 ", dataAvaliacao='" + dataAvaliacao + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AvaliacaoDTO that = (AvaliacaoDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(idMomentoAvaliacao, that.idMomentoAvaliacao) && Objects.equals(orientadorId, that.orientadorId) && Objects.equals(presidenteId, that.presidenteId) && Objects.equals(arguenteId, that.arguenteId) && Objects.equals(idProjeto, that.idProjeto) && Objects.equals(idConteudo, that.idConteudo) && Objects.equals(estadoAvaliacao, that.estadoAvaliacao) && Objects.equals(dataAvaliacao, that.dataAvaliacao);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, idMomentoAvaliacao, orientadorId, presidenteId, arguenteId, idProjeto, idConteudo, estadoAvaliacao, dataAvaliacao);
     }
 }

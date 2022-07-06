@@ -87,13 +87,14 @@ public class AvaliacaoNotaService
             avaliacaoNota = avaliacaoNotaJDBCRepository.findById(idMomentoAvaliacao);
         } catch (Exception e)
         {
-            throw new OptionalVazioException("Não existe Momento de Avaliação");
+            throw new OptionalVazioException("Não existe AvaliaçãoNota");
         }
         avaliacaoNota.setNota(nota);
         avaliacaoNota.setJustificacao(justificacao);
+        avaliacaoNota.setEstadoAvaliacao(EstadoAvaliacao.PENDENTE);
         try
         {
-            avaliacaoNotaJDBCRepository.update(avaliacaoNota);
+            avaliacaoNotaJDBCRepository.updateNota(avaliacaoNota);
         } catch (Exception e)
         {
             throw new RuntimeException(e);
@@ -149,7 +150,7 @@ public class AvaliacaoNotaService
             edicaoUC = edicaoUCJDBCRepository.findById(proposta.getEdicaoUCId());
         } catch (Exception e)
         {
-            throw new OptionalVazioException("Não EdiçãoUC com este ID: " + proposta.getEdicaoUCId());
+            throw new OptionalVazioException("Não existe EdiçãoUC com este ID: " + proposta.getEdicaoUCId());
         }
 
         //EDICAO ENCONTRADA APARTIR DO LOGIN CONTEXT
@@ -185,9 +186,11 @@ public class AvaliacaoNotaService
 
         avaliacaoNota.updateEstado(value);
 
+        System.out.println(avaliacaoNota);
+
         try
         {
-            avaliacaoNotaJDBCRepository.insert(avaliacaoNota);
+            avaliacaoNotaJDBCRepository.update(avaliacaoNota);
         } catch (Exception e)
         {
             throw new RuntimeException(e);
@@ -208,15 +211,18 @@ public class AvaliacaoNotaService
 
     public List<AvaliacaoNotaDTO> findAllByEstadoAndRucID(Long rucID, String estado)
     {
-        //VER SE RUC TEM UMA EDICAO ATVA
-        EdicaoUCDTO edicaoUCActive = null;
+        System.out.println("service");
+        //VER SE RUC TEM UMA EDICAO ATIVA
+        EdicaoUCDTO edicaoUCActive = new EdicaoUCDTO();
         try
         {
             edicaoUCActive = edicaoUCJDBCRepository.findByRucIDAndEdicaoUCActive(rucID);
         } catch (Exception e)
         {
-            throw new OptionalVazioException("RUC não tem nenhuma ediçãoUC ativa.");
+            throw new OptionalVazioException("RUC não tem nenhuma ediçãoUC ativa." +e.getMessage());
         }
+
+        System.out.println(edicaoUCActive.toString());
 
         //LISTA DE PROPOSTAS DESSA EDICAO
         List<PropostaDTO> listProposta = new ArrayList<>();
@@ -227,6 +233,8 @@ public class AvaliacaoNotaService
         {
             throw new OptionalVazioException("Não há propostas nessa Edição: "+ edicaoUCActive.getId());
         }
+
+        System.out.println("Lista proposta");
 
         //LISTA DE PROJETOS DESSA EDICAO
         List<Projeto> listProjeto = new ArrayList<>();
@@ -242,6 +250,8 @@ public class AvaliacaoNotaService
             throw new OptionalVazioException("Ocorreu um erro ao tentar encontar projeto ligado a um ID de proposta");
         }
 
+        System.out.println("Lista projeto");
+
         //LISTA DE AVALIACOES DE CADA UMA DAS PROPOSTAS
         List<Avaliacao> avaliacaoList =new ArrayList<>();
         try
@@ -255,6 +265,8 @@ public class AvaliacaoNotaService
         {
             throw new RuntimeException(e);
         }
+
+        System.out.println("Avaliacao");
 
         //PARA CADA AVALIACAO PEGAR NA SUA RESPETIVA MOMENTOAVALIACAONOTA
         List<AvaliacaoNota> avaliacaoNotaRawList = new ArrayList<>();
@@ -270,6 +282,8 @@ public class AvaliacaoNotaService
             throw new RuntimeException(e);
         }
 
+        System.out.println("RAW");
+
         EstadoAvaliacao value;
         try
         {
@@ -278,6 +292,8 @@ public class AvaliacaoNotaService
         {
             throw e;
         }
+
+        System.out.println("enum");
 
         //TODAS COM ESTADO
         List<AvaliacaoNota> avaliacaoNotasList = null;
@@ -289,8 +305,21 @@ public class AvaliacaoNotaService
             throw new ListaVaziaException("Não existem AvaliacaoNotas nesse estado");
         }
 
+
+        //AVNOTAS   DE UM ID DE AVALIACAO
+        //AVNOTAS   PENDENTES
+
+        System.out.println("Notas RAW");
+        avaliacaoNotaRawList.forEach(System.out::println);
+        System.out.println("Notas PENDETES");
+        avaliacaoNotasList.forEach(System.out::println);
+
         //FILTRAGEM DE LISTA RAWAVALIACOESNOTA ENCONTRADA COM TODAS AVALIACOESNOTALISTA
         avaliacaoNotasList.removeIf(nota -> !(avaliacaoNotaRawList.contains(nota)));
+
+        System.out.println("removeIF");
+
+        avaliacaoNotasList.forEach(System.out::println);
 
         return avaliacaoNotasList.stream().map(mapper::toDTO).toList();
     }
@@ -302,9 +331,9 @@ public class AvaliacaoNotaService
         try
         {
             avaliacaoNota = avaliacaoNotaJDBCRepository.findByIdAvaliacao(idAvaliacao);
-        } catch (Exception e)
+        } catch (Exception ignored)
         {
-            throw new OptionalVazioException("Não existe AvaliacaoNota com esse ID de avaliacao: " + idAvaliacao);
+            return null;
         }
 
         if (avaliacaoNota.getEstadoAvaliacao() != EstadoAvaliacao.REVISAO)

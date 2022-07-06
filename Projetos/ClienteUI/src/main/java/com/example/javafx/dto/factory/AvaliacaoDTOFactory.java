@@ -23,6 +23,8 @@ public class AvaliacaoDTOFactory
     public AvaliacaoDTO create(Long idMomentoAvaliacao, Long idOrientador, Long idPresidente,
                                Long idArguente, Long idProjeto, Long idConteudo)
     {
-        return new AvaliacaoDTO(idMomentoAvaliacao, idPresidente, idOrientador, idArguente, idProjeto, idConteudo);
+        AvaliacaoDTO avaliacaoDTO = new AvaliacaoDTO(idMomentoAvaliacao, idOrientador, idPresidente, idArguente, idProjeto, idConteudo);
+        System.out.println(avaliacaoDTO);
+        return avaliacaoDTO;
     }
 }

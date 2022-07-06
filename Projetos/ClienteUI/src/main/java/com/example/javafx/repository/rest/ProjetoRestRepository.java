@@ -27,7 +27,7 @@ public class ProjetoRestRepository
      * @return objeto criado
      * @throws RestPostException problema no servidor
      */
-    public AvaliacaoDTO createAvaliacao(AvaliacaoDTO avaliacaoDTO) throws RestPostException
+    public void createAvaliacao(AvaliacaoDTO avaliacaoDTO) throws RestPostException
     {
         try
         {
@@ -39,7 +39,7 @@ public class ProjetoRestRepository
             responseSpec.onStatus(HttpStatus::is4xxClientError,
                     clientResponse -> clientResponse.bodyToMono(ErrorDetail.class));
 
-            return responseSpec.bodyToMono(AvaliacaoDTO.class).block();
+            responseSpec.toBodilessEntity().block();
         }
         catch (RestPostException e)
         {
